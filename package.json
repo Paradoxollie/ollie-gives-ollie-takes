@@ -1,0 +1,41 @@
+{
+  "name": "ollie-gives-ollie-takes",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser-playable V1 prototype for Ollie Gives, Ollie Takes.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "dev:playtest": "node scripts/playtest-dev.mjs",
+    "build": "next build",
+    "build:playtest": "node scripts/playtest-build.mjs",
+    "start": "next start",
+    "test": "vitest run",
+    "sim": "tsx scripts/simulate.ts",
+    "train:bot": "tsx scripts/train-bot.ts",
+    "train:bot:promote": "tsx scripts/train-bot.ts --apply --promote"
+  },
+  "dependencies": {
+    "@react-spring/web": "^10.0.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.0.4",
+    "@types/three": "^0.183.1",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "playwright": "^1.58.2",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}

@@ -1,0 +1,69 @@
+<svg width="420" height="180" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="eye-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(210 92) rotate(90) scale(72 148)">
+      <stop stop-color="#9AD7FF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#9AD7FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sclera-dark" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(104 84) rotate(90) scale(56 56)">
+      <stop offset="0.1" stop-color="#23313D"/>
+      <stop offset="0.55" stop-color="#121A22"/>
+      <stop offset="1" stop-color="#06090E"/>
+    </radialGradient>
+    <radialGradient id="sclera-dark-right" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(316 84) rotate(90) scale(56 56)">
+      <stop offset="0.1" stop-color="#23313D"/>
+      <stop offset="0.55" stop-color="#121A22"/>
+      <stop offset="1" stop-color="#06090E"/>
+    </radialGradient>
+    <radialGradient id="iris-left" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(104 88) rotate(90) scale(36 36)">
+      <stop offset="0.05" stop-color="#556D83"/>
+      <stop offset="0.32" stop-color="#243448"/>
+      <stop offset="0.68" stop-color="#111A25"/>
+      <stop offset="1" stop-color="#030507"/>
+    </radialGradient>
+    <radialGradient id="iris-right" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(316 88) rotate(90) scale(36 36)">
+      <stop offset="0.05" stop-color="#556D83"/>
+      <stop offset="0.32" stop-color="#243448"/>
+      <stop offset="0.68" stop-color="#111A25"/>
+      <stop offset="1" stop-color="#030507"/>
+    </radialGradient>
+    <linearGradient id="lid-shadow" x1="0" y1="46" x2="0" y2="102" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#020305"/>
+      <stop offset="1" stop-color="#020305" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-blur" x="0" y="0" width="420" height="180" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="eye-shadow" x="26" y="21" width="150" height="126" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.42"/>
+    </filter>
+    <filter id="eye-shadow-right" x="238" y="21" width="150" height="126" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+
+  <g opacity="0.72" filter="url(#soft-blur)">
+    <ellipse cx="210" cy="92" rx="148" ry="70" fill="url(#eye-glow)"/>
+  </g>
+
+  <g filter="url(#eye-shadow)">
+    <ellipse cx="104" cy="86" rx="52" ry="46" fill="url(#sclera-dark)"/>
+    <ellipse cx="104" cy="80" rx="54" ry="28" fill="url(#lid-shadow)" opacity="0.9"/>
+    <ellipse cx="104" cy="91" rx="34" ry="34" fill="url(#iris-left)"/>
+    <circle cx="104" cy="91" r="18" fill="#020305"/>
+    <ellipse cx="91" cy="74" rx="10" ry="10" fill="white" fill-opacity="0.96"/>
+    <circle cx="116" cy="84" r="4.5" fill="#E7F8FF" fill-opacity="0.92"/>
+    <ellipse cx="105" cy="104" rx="18" ry="9" fill="#7DD6FF" fill-opacity="0.18"/>
+    <ellipse cx="104" cy="86" rx="52" ry="46" stroke="#B5E6FF" stroke-opacity="0.08" stroke-width="2"/>
+  </g>
+
+  <g filter="url(#eye-shadow-right)">
+    <ellipse cx="316" cy="86" rx="52" ry="46" fill="url(#sclera-dark-right)"/>
+    <ellipse cx="316" cy="80" rx="54" ry="28" fill="url(#lid-shadow)" opacity="0.9"/>
+    <ellipse cx="316" cy="91" rx="34" ry="34" fill="url(#iris-right)"/>
+    <circle cx="316" cy="91" r="18" fill="#020305"/>
+    <ellipse cx="303" cy="74" rx="10" ry="10" fill="white" fill-opacity="0.96"/>
+    <circle cx="328" cy="84" r="4.5" fill="#E7F8FF" fill-opacity="0.92"/>
+    <ellipse cx="317" cy="104" rx="18" ry="9" fill="#7DD6FF" fill-opacity="0.18"/>
+    <ellipse cx="316" cy="86" rx="52" ry="46" stroke="#B5E6FF" stroke-opacity="0.08" stroke-width="2"/>
+  </g>
+</svg>

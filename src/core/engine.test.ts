@@ -1,0 +1,1007 @@
+import { describe, expect, it } from "vitest";
+
+import { createCardInstance, getCardArchetype } from "@/core/cards";
+import { getEnemyProfile } from "@/core/config/enemyProfiles";
+import { applyMove, canPlaceCard, createMatch, getControlTotals, passTurn } from "@/core/engine";
+import { useFireflyReroll, useReflectionCopy } from "@/core/player-charms";
+import { countBoardFamilies } from "@/core/traits";
+import { shuffleWithSeed } from "@/core/utils/rng";
+import type { BoardCard, CardInstance, CardSides, MatchState, PlayerId } from "@/core/types";
+
+function makeCard(owner: PlayerId, archetypeId: string, suffix: string): CardInstance {
+  return {
+    ...createCardInstance(owner, getCardArchetype(archetypeId), 0),
+    instanceId: `${owner}-${archetypeId}-${suffix}`,
+  };
+}
+
+function makeBoardCard(owner: PlayerId, archetypeId: string, suffix: string, row: number, col: number): BoardCard {
+  return {
+    ...makeCard(owner, archetypeId, suffix),
+    row,
+    col,
+  };
+}
+
+function makeBoard(size = 3): Array<Array<BoardCard | null>> {
+  return Array.from({ length: size }, () => Array.from({ length: size }, () => null));
+}
+
+function withSides<T extends { sides: CardSides }>(card: T, sides: CardSides): T {
+  return {
+    ...card,
+    sides: { ...sides },
+  };
+}
+
+interface MatchStateOverrides extends Partial<Omit<MatchState, "round" | "turn">> {
+  round?: Partial<MatchState["round"]>;
+  turn?: Partial<MatchState["turn"]>;
+}
+
+function makeState(overrides: MatchStateOverrides = {}): MatchState {
+  const state = createMatch({ deckPresetId: "starter10", seed: 7 });
+
+  return {
+    ...state,
+    config: overrides.config ?? state.config,
+    board: overrides.board ?? state.board,
+    players: overrides.players ?? state.players,
+    champions: overrides.champions ?? state.champions,
+    round: {
+      ...state.round,
+      ...overrides.round,
+    },
+    turn: {
+      ...state.turn,
+      ...overrides.turn,
+    },
+    playerCharms: overrides.playerCharms ?? state.playerCharms,
+    playerCharmState: overrides.playerCharmState ?? state.playerCharmState,
+    result: overrides.result ?? state.result,
+    metrics: overrides.metrics ?? state.metrics,
+    lastMove: overrides.lastMove ?? state.lastMove,
+    emptyTurnStreak: overrides.emptyTurnStreak ?? state.emptyTurnStreak,
+    enemyProfile: overrides.enemyProfile ?? state.enemyProfile,
+    enemyPowerState: overrides.enemyPowerState ?? state.enemyPowerState,
+    rngState: overrides.rngState ?? state.rngState,
+    seed: overrides.seed ?? state.seed,
+    deckPresetId: overrides.deckPresetId ?? state.deckPresetId,
+  };
+}
+
+describe("placement rules", () => {
+  it("deals unique cards from a shared 10-card pool and draws 4", () => {
+    const state = createMatch({ deckPresetId: "starter10", seed: 5 });
+    const playerVisibleCards =
+      state.turn.activePlayer === "player" ? [...state.turn.choices, ...state.players.player.drawPile] : state.players.player.drawPile;
+    const enemyVisibleCards =
+      state.turn.activePlayer === "enemy" ? [...state.turn.choices, ...state.players.enemy.drawPile] : state.players.enemy.drawPile;
+    const expectedPlayerDrawPile = state.turn.activePlayer === "player" ? 6 : 10;
+    const uniqueArchetypes = new Set(playerVisibleCards.map((card) => card.archetypeId));
+    const enemyArchetypes = new Set(enemyVisibleCards.map((card) => card.archetypeId));
+
+    expect(playerVisibleCards).toHaveLength(10);
+    expect(enemyVisibleCards).toHaveLength(10);
+    expect(uniqueArchetypes.size).toBe(10);
+    expect([...uniqueArchetypes].some((cardId) => enemyArchetypes.has(cardId))).toBe(false);
+    expect(state.turn.choices).toHaveLength(4);
+    expect(state.players.player.drawPile).toHaveLength(expectedPlayerDrawPile);
+  });
+
+  it("supports a custom player deck for adventure progression without changing the enemy deck", () => {
+    const playerCardIds = [
+      "sapling",
+      "sapling",
+      "badger",
+      "badger",
+      "reward-common-01",
+      "reward-common-02",
+      "reward-uncommon-01",
+      "reward-rare-01",
+    ];
+    const state = createMatch({
+      deckPresetId: "starter10",
+      seed: 12,
+      playerCardIds,
+    });
+    const playerVisibleCards =
+      state.turn.activePlayer === "player" ? [...state.turn.choices, ...state.players.player.drawPile] : state.players.player.drawPile;
+    const enemyVisibleCards =
+      state.turn.activePlayer === "enemy" ? [...state.turn.choices, ...state.players.enemy.drawPile] : state.players.enemy.drawPile;
+
+    expect(playerVisibleCards).toHaveLength(playerCardIds.length);
+    expect(playerVisibleCards.some((card) => card.archetypeId === "reward-rare-01")).toBe(true);
+    expect(enemyVisibleCards).toHaveLength(10);
+    expect(enemyVisibleCards.some((card) => card.archetypeId === "reward-rare-01")).toBe(false);
+  });
+
+  it("rolls a deterministic random starter for the opening round", () => {
+    const first = createMatch({ deckPresetId: "starter10", seed: 5 });
+    const second = createMatch({ deckPresetId: "starter10", seed: 5 });
+    const sample = Array.from({ length: 16 }, (_, index) => createMatch({ deckPresetId: "starter10", seed: index + 1 }));
+    const starters = new Set(sample.map((state) => state.round.startingPlayer));
+
+    expect(first.round).toEqual(second.round);
+    expect(first.turn.activePlayer).toBe(first.round.startingPlayer);
+    expect(first.round.coinFace).toBe(first.round.startingPlayer === "player" ? "sun" : "moon");
+    expect(starters).toEqual(new Set(["player", "enemy"]));
+  });
+
+  it("creates a 3x3 board and allows valid placements inside it", () => {
+    const state = createMatch({ deckPresetId: "starter10", seed: 5 });
+
+    expect(state.board).toHaveLength(3);
+    expect(state.board[0]).toHaveLength(3);
+    expect(canPlaceCard(state, { row: 2, col: 2 })).toBe(true);
+  });
+
+  it("rejects out-of-bounds and occupied cells", () => {
+    const board = makeBoard();
+    board[0][0] = makeBoardCard("player", "sapling", "board", 0, 0);
+
+    const state = makeState({ board });
+
+    expect(canPlaceCard(state, { row: -1, col: 0 })).toBe(false);
+    expect(canPlaceCard(state, { row: 0, col: 3 })).toBe(false);
+    expect(canPlaceCard(state, { row: 0, col: 0 })).toBe(false);
+  });
+});
+
+describe("player charms", () => {
+  it("applies the first-breath boost on the first card and the penalty on the second", () => {
+    const firstCard = withSides(makeCard("player", "sapling", "breath-1"), {
+      top: 2,
+      right: 3,
+      bottom: 2,
+      left: 1,
+    });
+    const firstState = makeState({
+      playerCharms: ["first-breath"],
+      playerCharmState: {
+        ...createMatch({ seed: 3 }).playerCharmState,
+        cardsPlayedThisRound: 0,
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [firstCard],
+      },
+    });
+
+    const afterFirst = applyMove(firstState, {
+      cardInstanceId: firstCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    expect(afterFirst.board[0][0]?.sides).toEqual({
+      top: 3,
+      right: 4,
+      bottom: 3,
+      left: 2,
+    });
+
+    const secondCard = withSides(makeCard("player", "sapling", "breath-2"), {
+      top: 2,
+      right: 5,
+      bottom: 2,
+      left: 3,
+    });
+    const secondState = makeState({
+      playerCharms: ["first-breath"],
+      playerCharmState: {
+        ...createMatch({ seed: 3 }).playerCharmState,
+        cardsPlayedThisRound: 1,
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [secondCard],
+      },
+    });
+
+    const afterSecond = applyMove(secondState, {
+      cardInstanceId: secondCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    expect(afterSecond.board[0][0]?.sides).toEqual({
+      top: 2,
+      right: 4,
+      bottom: 2,
+      left: 3,
+    });
+  });
+
+  it("adds the broken-bell rare and costs 1 hp at combat start", () => {
+    const state = createMatch({
+      deckPresetId: "starter10",
+      seed: 19,
+      startingPlayer: "player",
+      playerCharmIds: ["broken-bell"],
+    });
+    const visibleCards = [...state.turn.choices, ...state.players.player.drawPile];
+
+    expect(state.champions.player.health).toBe(23);
+    expect(visibleCards.some((card) => card.sourceType === "charm" && card.temporaryScope === "combat")).toBe(true);
+  });
+
+  it("rerolls the hand once per round with firefly-wing", () => {
+    const state = createMatch({
+      deckPresetId: "starter10",
+      seed: 27,
+      startingPlayer: "player",
+      playerCharmIds: ["firefly-wing"],
+    });
+    const before = state.turn.choices.map((card) => card.instanceId);
+    const rerolled = useFireflyReroll(state);
+    const after = rerolled.turn.choices.map((card) => card.instanceId);
+
+    expect(rerolled.playerCharmState.fireflyRerollUsedThisRound).toBe(true);
+    expect(after).not.toEqual(before);
+  });
+
+  it("copies the selected card once per combat with reflection-ring", () => {
+    const state = createMatch({
+      deckPresetId: "starter10",
+      seed: 29,
+      startingPlayer: "player",
+      playerCharmIds: ["reflection-ring"],
+    });
+    const sourceCard = state.turn.choices[0];
+    const copied = useReflectionCopy(state, sourceCard.instanceId);
+    const duplicate = copied.turn.choices.find((card) => card.instanceId.endsWith("-reflection"));
+
+    expect(copied.playerCharmState.reflectionCopyUsedThisCombat).toBe(true);
+    expect(duplicate).toBeTruthy();
+    expect(duplicate?.sourceType).toBe("charm");
+    expect(duplicate?.temporaryScope).toBe("round");
+  });
+});
+
+describe("flip combat resolution", () => {
+  it("applies the familiar 2-piece attack bonus from adjacent familiar support", () => {
+    const board = makeBoard();
+    board[1][0] = makeBoardCard("player", "sapling", "support", 1, 0);
+    board[1][2] = makeBoardCard("enemy", "owl", "target", 1, 2);
+    const playerCard = makeCard("player", "owl", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(nextState.lastMove?.impacts[0]).toMatchObject({
+      attackerValue: 5,
+      defenderValue: 3,
+      result: "flipped",
+    });
+    expect(nextState.board[1][2]?.owner).toBe("player");
+  });
+
+  it("marks cards flipped by an active demon pair as corrupted demon support", () => {
+    const board = makeBoard();
+    board[0][0] = makeBoardCard("player", "ember-imp", "support", 0, 0);
+    board[1][2] = withSides(makeBoardCard("enemy", "owl", "target", 1, 2), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 1,
+    });
+    const playerCard = makeCard("player", "pact-sprite", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(nextState.board[1][2]?.owner).toBe("player");
+    expect(nextState.board[1][2]?.corruptedBy).toBe("player");
+    expect(countBoardFamilies(nextState.board, "player").demon).toBe(3);
+  });
+
+  it("flips an adjacent enemy card immediately on strict superiority", () => {
+    const board = makeBoard();
+    board[1][1] = makeBoardCard("enemy", "sapling", "target", 1, 1);
+    const playerCard = makeCard("player", "badger", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("player");
+    expect(nextState.metrics.totalFlips).toBe(1);
+  });
+
+  it("does not flip when touching values are equal", () => {
+    const board = makeBoard();
+    board[1][1] = makeBoardCard("enemy", "badger", "target", 1, 1);
+    const playerCard = makeCard("player", "foxfire", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("enemy");
+    expect(nextState.metrics.totalFlips).toBe(0);
+  });
+
+  it("does not flip when the placed side is lower", () => {
+    const board = makeBoard();
+    board[1][1] = makeBoardCard("enemy", "mole", "target", 1, 1);
+    const playerCard = makeCard("player", "sapling", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 1 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("enemy");
+    expect(nextState.metrics.totalFlips).toBe(0);
+  });
+
+  it("can flip multiple adjacent enemy cards from one placement", () => {
+    const board = makeBoard();
+    board[0][1] = makeBoardCard("enemy", "badger", "top", 0, 1);
+    board[1][2] = makeBoardCard("enemy", "foxfire", "right", 1, 2);
+    board[2][1] = makeBoardCard("enemy", "stag", "bottom", 2, 1);
+    const playerCard = makeCard("player", "heron", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        index: 4,
+        roundTurn: 4,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(nextState.board[0][1]?.owner).toBe("player");
+    expect(nextState.board[1][2]?.owner).toBe("player");
+    expect(nextState.board[2][1]?.owner).toBe("player");
+    expect(nextState.metrics.totalFlips).toBe(3);
+  });
+
+  it("never fights allied cards", () => {
+    const board = makeBoard();
+    board[1][1] = makeBoardCard("player", "sapling", "ally", 1, 1);
+    const playerCard = makeCard("player", "badger", "hand");
+
+    const state = makeState({
+      board,
+      turn: {
+        index: 2,
+        roundTurn: 2,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("player");
+    expect(nextState.metrics.totalFlips).toBe(0);
+  });
+
+  it("does not deal champion damage during placement combat", () => {
+    const board = makeBoard();
+    board[1][1] = makeBoardCard("enemy", "sapling", "target", 1, 1);
+    const playerCard = makeCard("player", "badger", "hand");
+
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 20, maxHealth: 20 },
+        enemy: { health: 20, maxHealth: 20 },
+      },
+      turn: {
+        index: 5,
+        roundTurn: 5,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.champions.player.health).toBe(20);
+    expect(nextState.champions.enemy.health).toBe(20);
+  });
+});
+
+describe("round end on a full 3x3 board", () => {
+  it("counts control correctly and applies damage from each controlled card", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "sapling", "last");
+    const state = makeState({
+      board,
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.lastMove?.roundEnded).toBe(true);
+    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 7, enemy: 3 });
+    expect(nextState.lastMove?.roundEndSummary?.controlDifference).toBe(4);
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 3, enemy: 7 });
+    expect(nextState.champions.player.health).toBe(21);
+    expect(nextState.champions.enemy.health).toBe(17);
+  });
+
+  it("clears the board after round end and moves all board cards to discard by current owner", () => {
+    const board = [
+      [makeBoardCard("enemy", "owl", "e00", 0, 0), makeBoardCard("enemy", "owl", "e01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("enemy", "owl", "e10", 1, 0), null, makeBoardCard("enemy", "sapling", "target", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("player", "badger", "p21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "badger", "last");
+    const state = makeState({
+      board,
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const playerDiscardBefore = state.players.player.discardPile.length;
+    const enemyDiscardBefore = state.players.enemy.discardPile.length;
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(nextState.board.flat().every((cell) => cell === null)).toBe(true);
+    expect(nextState.players.player.discardPile.length + nextState.players.enemy.discardPile.length).toBe(
+      playerDiscardBefore + enemyDiscardBefore + 9,
+    );
+    expect(
+      nextState.players.player.discardPile.some(
+        (card) => card.instanceId === "enemy-sapling-target" && card.owner === "player",
+      ),
+    ).toBe(true);
+  });
+
+  it("ends the match immediately when a champion reaches zero at round end", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "sapling", "last");
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 10, maxHealth: 20 },
+        enemy: { health: 3, maxHealth: 20 },
+      },
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.result?.winner).toBe("player");
+    expect(nextState.result?.reason).toBe("champion-ko");
+  });
+
+  it("rerolls a fresh random starter at the beginning of the next round", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "sapling", "last");
+    const state = makeState({
+      seed: 19,
+      rngState: 19,
+      board,
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.result).toBeNull();
+    expect(nextState.round.number).toBe(2);
+    expect(nextState.turn.roundTurn).toBe(1);
+    expect(nextState.turn.activePlayer).toBe(nextState.round.startingPlayer);
+    expect(nextState.round.coinFace).toBe(nextState.round.startingPlayer === "player" ? "sun" : "moon");
+  });
+
+  it("breaks a simultaneous zero-zero knockout with board advantage instead of a draw", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "sapling", "last");
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 3, maxHealth: 20 },
+        enemy: { health: 6, maxHealth: 20 },
+      },
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.result?.winner).toBe("player");
+    expect(nextState.result?.reason).toBe("double-ko");
+    expect(nextState.champions.player.health).toBe(0);
+    expect(nextState.champions.enemy.health).toBe(-1);
+  });
+
+  it("makes the side with the lower final health lose on a simultaneous knockout", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = makeCard("player", "sapling", "last");
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 2, maxHealth: 20 },
+        enemy: { health: 4, maxHealth: 20 },
+      },
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.result?.winner).toBe("player");
+    expect(nextState.result?.reason).toBe("double-ko");
+    expect(nextState.champions.player.health).toBe(-1);
+    expect(nextState.champions.enemy.health).toBe(-3);
+  });
+});
+
+describe("control and persistence", () => {
+  it("reports current control on the live board", () => {
+    const board = makeBoard();
+    board[0][0] = makeBoardCard("player", "sapling", "p00", 0, 0);
+    board[0][1] = makeBoardCard("enemy", "sapling", "e01", 0, 1);
+    board[2][2] = makeBoardCard("player", "badger", "p22", 2, 2);
+
+    const state = makeState({ board });
+
+    expect(getControlTotals(state)).toEqual({ player: 2, enemy: 1 });
+  });
+
+  it("reshuffles discard back into draw on a later turn", () => {
+    const enemyCard = makeCard("enemy", "sapling", "hand");
+    const playerDiscard = [
+      makeCard("player", "sapling", "r1"),
+      makeCard("player", "badger", "r2"),
+      makeCard("player", "heron", "r3"),
+      makeCard("player", "foxfire", "r4"),
+    ];
+    const state = makeState({
+      round: { number: 3 },
+      players: {
+        player: {
+          id: "player",
+          drawPile: [],
+          discardPile: playerDiscard,
+          reshuffles: 0,
+        },
+        enemy: {
+          id: "enemy",
+          drawPile: [],
+          discardPile: [],
+          reshuffles: 0,
+        },
+      },
+      turn: {
+        index: 9,
+        roundTurn: 2,
+        activePlayer: "enemy",
+        choices: [enemyCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: enemyCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.turn.activePlayer).toBe("player");
+    expect(nextState.turn.choices).toHaveLength(4);
+    expect(nextState.players.player.reshuffles).toBe(1);
+  });
+
+  it("re-randomizes each new hand from the full available draw pile", () => {
+    const enemyCard = makeCard("enemy", "sapling", "hand");
+    const playerDrawPile = [
+      makeCard("player", "sapling", "d1"),
+      makeCard("player", "badger", "d2"),
+      makeCard("player", "heron", "d3"),
+      makeCard("player", "foxfire", "d4"),
+      makeCard("player", "mole", "d5"),
+    ];
+    const state = makeState({
+      rngState: 12345,
+      players: {
+        player: {
+          id: "player",
+          drawPile: playerDrawPile,
+          discardPile: [],
+          reshuffles: 0,
+        },
+        enemy: {
+          id: "enemy",
+          drawPile: [],
+          discardPile: [],
+          reshuffles: 0,
+        },
+      },
+      turn: {
+        index: 9,
+        roundTurn: 2,
+        activePlayer: "enemy",
+        choices: [enemyCard],
+      },
+    });
+
+    const expected = shuffleWithSeed(playerDrawPile, state.rngState);
+    const nextState = applyMove(state, {
+      cardInstanceId: enemyCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.turn.activePlayer).toBe("player");
+    expect(nextState.turn.choices.map((card) => card.instanceId)).toEqual(
+      expected.items.slice(0, 4).map((card) => card.instanceId),
+    );
+    expect(nextState.players.player.drawPile.map((card) => card.instanceId)).toEqual(
+      expected.items.slice(4).map((card) => card.instanceId),
+    );
+  });
+
+  it("puts unplayed hand cards back into the next random pool while used cards stay unavailable on the board", () => {
+    const playedCard = makeCard("player", "sapling", "hand-a");
+    const handB = makeCard("player", "badger", "hand-b");
+    const handC = makeCard("player", "heron", "hand-c");
+    const handD = makeCard("player", "foxfire", "hand-d");
+    const reserveCard = makeCard("player", "mole", "reserve");
+    const state = makeState({
+      rngState: 6789,
+      players: {
+        player: {
+          id: "player",
+          drawPile: [reserveCard],
+          discardPile: [],
+          reshuffles: 0,
+        },
+        enemy: {
+          id: "enemy",
+          drawPile: [],
+          discardPile: [],
+          reshuffles: 0,
+        },
+      },
+      turn: {
+        index: 1,
+        roundTurn: 1,
+        activePlayer: "player",
+        choices: [playedCard, handB, handC, handD],
+      },
+    });
+
+    const afterPlayerMove = applyMove(state, {
+      cardInstanceId: playedCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    const expectedPool = [reserveCard, handB, handC, handD];
+    const expected = shuffleWithSeed(expectedPool, afterPlayerMove.rngState);
+
+    expect(afterPlayerMove.turn.activePlayer).toBe("enemy");
+    expect(afterPlayerMove.turn.choices).toHaveLength(0);
+
+    const nextPlayerState = passTurn(afterPlayerMove);
+
+    expect(nextPlayerState.turn.activePlayer).toBe("player");
+    expect(nextPlayerState.turn.choices.map((card) => card.instanceId)).toEqual(
+      expected.items.map((card) => card.instanceId),
+    );
+    expect(nextPlayerState.turn.choices.some((card) => card.instanceId === playedCard.instanceId)).toBe(false);
+  });
+
+  it("resolves repeated dead turns with the no-draw tiebreakers", () => {
+    const state = makeState({
+      champions: {
+        player: { health: 12, maxHealth: 20 },
+        enemy: { health: 9, maxHealth: 20 },
+      },
+      players: {
+        player: { id: "player", drawPile: [], discardPile: [], reshuffles: 0 },
+        enemy: { id: "enemy", drawPile: [], discardPile: [], reshuffles: 0 },
+      },
+      turn: {
+        index: 1,
+        roundTurn: 1,
+        activePlayer: "player",
+        choices: [],
+      },
+      emptyTurnStreak: 0,
+    });
+
+    const afterFirstPass = passTurn(state);
+    const afterSecondPass = passTurn(afterFirstPass);
+
+    expect(afterSecondPass.result?.winner).toBe("player");
+    expect(afterSecondPass.result?.reason).toBe("stalemate");
+  });
+});
+
+describe("enemy profiles and powers", () => {
+  it("applies battle cry on the first aggro move of the round", () => {
+    const board = makeBoard();
+    board[1][1] = withSides(makeBoardCard("player", "sapling", "target", 1, 1), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 4,
+    });
+    const enemyCard = withSides(makeCard("enemy", "sapling", "hand"), {
+      top: 1,
+      right: 4,
+      bottom: 1,
+      left: 1,
+    });
+    const state = makeState({
+      board,
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "enemy",
+        choices: [enemyCard],
+      },
+      enemyProfile: getEnemyProfile("aggro"),
+      enemyPowerState: {
+        battleCryReady: true,
+        secondChanceReady: false,
+        roarReady: false,
+        refineReady: false,
+        relentlessControlBonus: 0,
+        lastRenewRound: null,
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: enemyCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("enemy");
+    expect(nextState.lastMove?.impacts[0]?.attackerValue).toBe(5);
+    expect(nextState.enemyPowerState?.battleCryReady).toBe(false);
+  });
+
+  it("lets the ravager flip on equality from the center thanks to roar and the center buff", () => {
+    const board = makeBoard();
+    board[1][2] = withSides(makeBoardCard("player", "sapling", "target", 1, 2), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 5,
+    });
+    const enemyCard = withSides(makeCard("enemy", "sapling", "hand"), {
+      top: 1,
+      right: 4,
+      bottom: 1,
+      left: 1,
+    });
+    const state = makeState({
+      board,
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "enemy",
+        choices: [enemyCard],
+      },
+      enemyProfile: getEnemyProfile("ravager"),
+      enemyPowerState: {
+        battleCryReady: false,
+        secondChanceReady: false,
+        roarReady: true,
+        refineReady: false,
+        relentlessControlBonus: 0,
+        lastRenewRound: null,
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: enemyCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(nextState.board[1][2]?.owner).toBe("enemy");
+    expect(nextState.lastMove?.impacts[0]?.attackerValue).toBe(5);
+    expect(nextState.lastMove?.impacts[0]?.defenderValue).toBe(5);
+    expect(nextState.enemyPowerState?.roarReady).toBe(false);
+  });
+
+  it("gives swarm an extra draw and trims the weakest option before the enemy acts", () => {
+    const weakEnemyCard = {
+      ...getCardArchetype("sapling"),
+      id: "swarm-weak",
+      name: "Swarm Weak",
+      sides: { top: 1, right: 1, bottom: 1, left: 1 },
+    };
+    const strongEnemyCards = Array.from({ length: 4 }, (_, index) => ({
+      ...getCardArchetype("badger"),
+      id: `swarm-strong-${index + 1}`,
+      name: `Swarm Strong ${index + 1}`,
+      sides: { top: 4, right: 4, bottom: 4, left: 4 },
+    }));
+
+    const state = createMatch({
+      deckPresetId: "starter10",
+      seed: 21,
+      startingPlayer: "enemy",
+      enemyProfile: getEnemyProfile("swarm"),
+      enemyCards: [weakEnemyCard, ...strongEnemyCards],
+    });
+
+    expect(state.turn.activePlayer).toBe("enemy");
+    expect(state.turn.choices).toHaveLength(4);
+    expect(state.players.enemy.discardPile).toHaveLength(1);
+    expect(state.players.enemy.discardPile[0]?.archetypeId).toBe("swarm-weak");
+    expect(state.turn.choices.some((card) => card.archetypeId === "swarm-weak")).toBe(false);
+  });
+
+  it("adds fortress control bonus from corners at round end", () => {
+    const board = [
+      [
+        withSides(makeBoardCard("enemy", "sapling", "e00", 0, 0), { top: 5, right: 5, bottom: 5, left: 5 }),
+        withSides(makeBoardCard("player", "sapling", "p01", 0, 1), { top: 5, right: 5, bottom: 5, left: 5 }),
+        withSides(makeBoardCard("enemy", "sapling", "e02", 0, 2), { top: 5, right: 5, bottom: 5, left: 5 }),
+      ],
+      [
+        withSides(makeBoardCard("player", "sapling", "p10", 1, 0), { top: 5, right: 5, bottom: 5, left: 5 }),
+        withSides(makeBoardCard("player", "sapling", "p11", 1, 1), { top: 5, right: 5, bottom: 5, left: 5 }),
+        withSides(makeBoardCard("enemy", "sapling", "e12", 1, 2), { top: 5, right: 5, bottom: 5, left: 5 }),
+      ],
+      [
+        withSides(makeBoardCard("enemy", "sapling", "e20", 2, 0), { top: 5, right: 5, bottom: 5, left: 5 }),
+        withSides(makeBoardCard("enemy", "sapling", "e21", 2, 1), { top: 5, right: 5, bottom: 5, left: 5 }),
+        null,
+      ],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = withSides(makeCard("player", "sapling", "last"), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 1,
+    });
+    const state = makeState({
+      board,
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+      enemyProfile: getEnemyProfile("fortress"),
+      enemyPowerState: {
+        battleCryReady: false,
+        secondChanceReady: false,
+        roarReady: false,
+        refineReady: false,
+        relentlessControlBonus: 0,
+        lastRenewRound: null,
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 2, col: 2 },
+    });
+
+    expect(nextState.lastMove?.roundEnded).toBe(true);
+    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 5, enemy: 9 });
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 9, enemy: 5 });
+  });
+});

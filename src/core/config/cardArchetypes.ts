@@ -1,0 +1,338 @@
+import type { CardArchetype, CardFamily, CardSides } from "@/core/types";
+import { ADVENTURE_REWARD_ARCHETYPES } from "@/core/config/adventureRewards";
+
+function draftCard(options: {
+  id: string;
+  name: string;
+  sides: CardSides;
+  family: CardFamily;
+  accent: string;
+  artSrc?: string;
+}): CardArchetype {
+  return {
+    id: options.id,
+    name: options.name,
+    sides: options.sides,
+    family: options.family,
+    accent: options.accent,
+    artSrc: options.artSrc ?? "/images/cards-hd/placeholder-card.png",
+    rarity: "common",
+    sourceType: "draft",
+    baseArchetypeId: null,
+  };
+}
+
+export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
+  draftCard({
+    id: "sapling",
+    name: "Floramie toxique",
+    sides: { top: 2, right: 5, bottom: 4, left: 1 },
+    family: "familiar",
+    accent: "sprout",
+    artSrc: "/images/cards-hd/plant-card.png",
+  }),
+  draftCard({
+    id: "badger",
+    name: "Poney runique",
+    sides: { top: 5, right: 3, bottom: 2, left: 2 },
+    family: "familiar",
+    accent: "earth",
+    artSrc: "/images/cards-hd/horse-card.png",
+  }),
+  draftCard({
+    id: "heron",
+    name: "Oiselle aubeplume",
+    sides: { top: 4, right: 3, bottom: 2, left: 3 },
+    family: "familiar",
+    accent: "mist",
+    artSrc: "/images/cards-hd/bird-card.png",
+  }),
+  draftCard({
+    id: "foxfire",
+    name: "Requin runefer",
+    sides: { top: 3, right: 2, bottom: 5, left: 2 },
+    family: "familiar",
+    accent: "ember",
+    artSrc: "/images/cards-hd/shark-card.png",
+  }),
+  draftCard({
+    id: "mole",
+    name: "Ecureuil mineur",
+    sides: { top: 5, right: 2, bottom: 2, left: 3 },
+    family: "familiar",
+    accent: "stone",
+    artSrc: "/images/cards-hd/squirrel-card.png",
+  }),
+  draftCard({
+    id: "stag",
+    name: "Herisson lumisylve",
+    sides: { top: 2, right: 2, bottom: 5, left: 3 },
+    family: "familiar",
+    accent: "grove",
+    artSrc: "/images/cards-hd/hedgehog-card.png",
+  }),
+  draftCard({
+    id: "owl",
+    name: "Chaton des ronces",
+    sides: { top: 3, right: 4, bottom: 2, left: 3 },
+    family: "familiar",
+    accent: "glow",
+    artSrc: "/images/cards-hd/cat-card.png",
+  }),
+
+  draftCard({
+    id: "ember-imp",
+    name: "Diablotin braise",
+    sides: { top: 2, right: 5, bottom: 2, left: 3 },
+    family: "demon",
+    accent: "ember",
+  }),
+  draftCard({
+    id: "hornling",
+    name: "Cornu farceur",
+    sides: { top: 4, right: 2, bottom: 4, left: 2 },
+    family: "demon",
+    accent: "demon",
+  }),
+  draftCard({
+    id: "ash-whisper",
+    name: "Murmure de cendre",
+    sides: { top: 2, right: 3, bottom: 5, left: 2 },
+    family: "demon",
+    accent: "ember",
+  }),
+  draftCard({
+    id: "pact-sprite",
+    name: "Lutin a pacte",
+    sides: { top: 3, right: 2, bottom: 2, left: 5 },
+    family: "demon",
+    accent: "demon",
+  }),
+  draftCard({
+    id: "little-abyss",
+    name: "Petit abysse",
+    sides: { top: 5, right: 2, bottom: 3, left: 2 },
+    family: "demon",
+    accent: "void",
+  }),
+  draftCard({
+    id: "cinder-grin",
+    name: "Sourire de suie",
+    sides: { top: 1, right: 5, bottom: 3, left: 3 },
+    family: "demon",
+    accent: "shadow",
+  }),
+  draftCard({
+    id: "brimstone-tot",
+    name: "Bambin soufre",
+    sides: { top: 4, right: 1, bottom: 3, left: 4 },
+    family: "demon",
+    accent: "ember",
+  }),
+
+  draftCard({
+    id: "field-knight",
+    name: "Chevaliere des champs",
+    sides: { top: 4, right: 2, bottom: 4, left: 2 },
+    family: "human",
+    accent: "steel",
+  }),
+  draftCard({
+    id: "rune-mage",
+    name: "Mage des runes",
+    sides: { top: 2, right: 5, bottom: 2, left: 3 },
+    family: "human",
+    accent: "mist",
+  }),
+  draftCard({
+    id: "path-ranger",
+    name: "Rodeuse du sentier",
+    sides: { top: 5, right: 2, bottom: 2, left: 3 },
+    family: "human",
+    accent: "grove",
+  }),
+  draftCard({
+    id: "quiet-monk",
+    name: "Moine du seuil",
+    sides: { top: 3, right: 3, bottom: 3, left: 3 },
+    family: "human",
+    accent: "sun",
+  }),
+  draftCard({
+    id: "gate-thief",
+    name: "Voleuse des portes",
+    sides: { top: 2, right: 4, bottom: 2, left: 4 },
+    family: "human",
+    accent: "shadow",
+  }),
+  draftCard({
+    id: "banner-squire",
+    name: "Ecuyere banniere",
+    sides: { top: 4, right: 3, bottom: 3, left: 2 },
+    family: "human",
+    accent: "steel",
+  }),
+  draftCard({
+    id: "hearth-archer",
+    name: "Archer du foyer",
+    sides: { top: 3, right: 4, bottom: 1, left: 4 },
+    family: "human",
+    accent: "sun",
+  }),
+
+  draftCard({
+    id: "clock-sentinel",
+    name: "Sentinelle d'horloge",
+    sides: { top: 5, right: 2, bottom: 3, left: 2 },
+    family: "automaton",
+    accent: "brass",
+  }),
+  draftCard({
+    id: "brass-rook",
+    name: "Tour de laiton",
+    sides: { top: 2, right: 4, bottom: 2, left: 4 },
+    family: "automaton",
+    accent: "brass",
+  }),
+  draftCard({
+    id: "gear-monk",
+    name: "Moine engrene",
+    sides: { top: 3, right: 3, bottom: 4, left: 2 },
+    family: "automaton",
+    accent: "steel",
+  }),
+  draftCard({
+    id: "tin-oracle",
+    name: "Oracle de fer-blanc",
+    sides: { top: 2, right: 5, bottom: 3, left: 2 },
+    family: "automaton",
+    accent: "arcane",
+  }),
+  draftCard({
+    id: "copper-beetle",
+    name: "Scarabee cuivre",
+    sides: { top: 4, right: 2, bottom: 2, left: 4 },
+    family: "automaton",
+    accent: "brass",
+  }),
+  draftCard({
+    id: "glass-warden",
+    name: "Gardien de verre",
+    sides: { top: 3, right: 4, bottom: 3, left: 2 },
+    family: "automaton",
+    accent: "mist",
+  }),
+  draftCard({
+    id: "spring-knave",
+    name: "Valet ressort",
+    sides: { top: 2, right: 3, bottom: 5, left: 2 },
+    family: "automaton",
+    accent: "steel",
+  }),
+
+  draftCard({
+    id: "grave-child",
+    name: "Enfant des tombes",
+    sides: { top: 2, right: 2, bottom: 5, left: 3 },
+    family: "revenant",
+    accent: "shadow",
+  }),
+  draftCard({
+    id: "lantern-shade",
+    name: "Ombre a lanterne",
+    sides: { top: 4, right: 2, bottom: 3, left: 3 },
+    family: "revenant",
+    accent: "glow",
+  }),
+  draftCard({
+    id: "bone-choir",
+    name: "Choeur d'os",
+    sides: { top: 3, right: 4, bottom: 2, left: 3 },
+    family: "revenant",
+    accent: "mist",
+  }),
+  draftCard({
+    id: "widow-knight",
+    name: "Chevalier veuf",
+    sides: { top: 2, right: 3, bottom: 4, left: 3 },
+    family: "revenant",
+    accent: "shadow",
+  }),
+  draftCard({
+    id: "moth-ghost",
+    name: "Fantome phalene",
+    sides: { top: 5, right: 1, bottom: 3, left: 3 },
+    family: "revenant",
+    accent: "glow",
+  }),
+  draftCard({
+    id: "hollow-page",
+    name: "Page creux",
+    sides: { top: 3, right: 3, bottom: 1, left: 5 },
+    family: "revenant",
+    accent: "shadow",
+  }),
+  draftCard({
+    id: "veil-duelist",
+    name: "Duelliste voile",
+    sides: { top: 4, right: 4, bottom: 2, left: 2 },
+    family: "revenant",
+    accent: "mist",
+  }),
+
+  draftCard({
+    id: "star-witch",
+    name: "Sorciere d'etoiles",
+    sides: { top: 2, right: 4, bottom: 4, left: 2 },
+    family: "arcane",
+    accent: "arcane",
+  }),
+  draftCard({
+    id: "rune-adept",
+    name: "Adepte sigillaire",
+    sides: { top: 4, right: 3, bottom: 2, left: 3 },
+    family: "arcane",
+    accent: "arcane",
+  }),
+  draftCard({
+    id: "mirror-novice",
+    name: "Novice miroir",
+    sides: { top: 3, right: 2, bottom: 5, left: 2 },
+    family: "arcane",
+    accent: "mist",
+  }),
+  draftCard({
+    id: "moon-scribe",
+    name: "Scribe lunaire",
+    sides: { top: 5, right: 1, bottom: 2, left: 4 },
+    family: "arcane",
+    accent: "arcane",
+  }),
+  draftCard({
+    id: "glass-oracle",
+    name: "Oracle de verre",
+    sides: { top: 1, right: 5, bottom: 4, left: 2 },
+    family: "arcane",
+    accent: "mist",
+  }),
+  draftCard({
+    id: "wandering-glyph",
+    name: "Glyphe errant",
+    sides: { top: 3, right: 3, bottom: 3, left: 3 },
+    family: "arcane",
+    accent: "glow",
+  }),
+  draftCard({
+    id: "blue-comet",
+    name: "Comete bleue",
+    sides: { top: 4, right: 2, bottom: 2, left: 4 },
+    family: "arcane",
+    accent: "arcane",
+  }),
+
+  ...ADVENTURE_REWARD_ARCHETYPES,
+];
+
+export const CARD_ARCHETYPE_LOOKUP = Object.fromEntries(
+  CARD_ARCHETYPES.map((card) => [card.id, card]),
+) as Record<string, CardArchetype>;

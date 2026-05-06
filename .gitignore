@@ -1,0 +1,34 @@
+# Build / deps
+.next/
+node_modules/
+coverage/
+dist/
+out/
+playwright-artifacts/
+*.log
+*.tsbuildinfo
+
+# Local work artifacts (not needed for deploy)
+tmp/
+output/
+work/
+reports/
+
+# Codex / Claude session traces
+.codex-*
+.codex-logs/
+
+# Loose script artifacts at repo root
+/lab-scroll-actions.json
+/playwright-actions.json
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

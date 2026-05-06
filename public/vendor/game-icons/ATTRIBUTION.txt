@@ -1,0 +1,18 @@
+Game icons used in Ollie Gives, Ollie Takes
+
+Source: https://game-icons.net
+License: CC BY 3.0
+Primary author for the icons used here: Lorc (https://lorcblog.blogspot.com)
+
+Downloaded transparent SVG variants used in this project:
+- crossed-swords.svg
+- swords-emblem.svg
+- sword-smithing.svg
+- locked-chest.svg
+- campfire.svg
+- crowned-skull.svg
+- sun.svg
+- moon.svg
+
+Attribution format recommended by Game-icons.net:
+"Icons made by Lorc and available on https://game-icons.net"

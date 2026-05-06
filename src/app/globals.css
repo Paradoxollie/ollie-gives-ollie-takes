@@ -1,0 +1,1146 @@
+@import "tailwindcss";
+
+/* ───────── Design tokens ───────── */
+:root {
+  /* Ori-inspired dark forest palette */
+  --night-void: #020a0e;
+  --night-canopy: #061418;
+  --spirit-blue: #4fc3f7;
+  --spirit-cyan: #7df7ff;
+  --spirit-green: #69f0ae;
+  --leaf-glow: #b9f6ca;
+  --mist-glow: #b7f4f2;
+  --fern-glow: #9cf7cf;
+  --violet-glow: #ce93d8;
+  --mystic-purple: #b388ff;
+  --ori-gold: #ffcc80;
+  --ember-gold: #f1cf85;
+  --text-primary: #e0f7fa;
+  --text-muted: #80cbc4;
+  --story-paper: rgba(8, 24, 28, 0.88);
+  --story-ink: #e0f2f1;
+  --forest-shadow: rgba(2, 10, 14, 0.82);
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
+
+  /* Radius scale */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  /* Transition */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+/* ───────── Base styles ───────── */
+html {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(79, 195, 247, 0.08), transparent 40%),
+    radial-gradient(ellipse at 80% 10%, rgba(179, 136, 255, 0.06), transparent 36%),
+    radial-gradient(ellipse at 50% 90%, rgba(105, 240, 174, 0.05), transparent 40%),
+    linear-gradient(180deg, #020a0e 0%, #04100e 48%, #030d12 100%);
+}
+
+body {
+  min-height: 100dvh;
+  color: var(--text-primary);
+  font-family: var(--font-ui), "Segoe UI", "Trebuchet MS", sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(79, 195, 247, 0.04), transparent 32%),
+    radial-gradient(circle at 15% 50%, rgba(105, 240, 174, 0.03), transparent 28%),
+    radial-gradient(circle at 85% 40%, rgba(179, 136, 255, 0.03), transparent 24%);
+  overflow: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  background:
+    radial-gradient(circle at 10% 70%, rgba(105, 240, 174, 0.04), transparent 22%),
+    radial-gradient(circle at 90% 60%, rgba(179, 136, 255, 0.05), transparent 20%);
+  filter: blur(40px);
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 50% 100%, rgba(79, 195, 247, 0.04), transparent 30%);
+  opacity: 0.8;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display), "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  letter-spacing: 0.02em;
+}
+
+.font-serif {
+  font-family: var(--font-display), "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif !important;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(79, 195, 247, 0.32);
+  color: #f8fafc;
+}
+
+/* ───────── Panel system (ethereal glass) ───────── */
+.ogot-panel {
+  border: 1px solid rgba(79, 195, 247, 0.12);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(6, 20, 28, 0.92), rgba(4, 12, 18, 0.90));
+  box-shadow:
+    0 26px 84px rgba(2, 8, 14, 0.5),
+    0 0 1px rgba(79, 195, 247, 0.2);
+  backdrop-filter: blur(20px);
+}
+
+.ogot-panel-soft {
+  border: 1px solid rgba(105, 240, 174, 0.12);
+  background:
+    radial-gradient(circle at top left, rgba(105, 240, 174, 0.06), transparent 36%),
+    linear-gradient(180deg, rgba(6, 22, 20, 0.88), rgba(4, 14, 16, 0.84));
+  box-shadow: inset 0 1px 0 rgba(105, 240, 174, 0.08);
+}
+
+.ogot-stage {
+  border: 1px solid rgba(79, 195, 247, 0.1);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(79, 195, 247, 0.1), transparent 30%),
+    linear-gradient(180deg, rgba(4, 16, 22, 0.94), rgba(3, 10, 16, 0.92));
+  box-shadow:
+    0 32px 110px rgba(2, 8, 14, 0.5),
+    0 0 60px rgba(79, 195, 247, 0.04);
+  backdrop-filter: blur(18px);
+}
+
+.ogot-mmo-frame {
+  position: relative;
+  border: 1px solid rgba(79, 195, 247, 0.16);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.1), transparent 32%),
+    linear-gradient(180deg, rgba(6, 18, 28, 0.96), rgba(3, 10, 18, 0.94));
+  box-shadow:
+    0 18px 56px rgba(2, 8, 14, 0.5),
+    inset 0 1px 0 rgba(125, 247, 255, 0.08),
+    inset 0 0 0 1px rgba(79, 195, 247, 0.06);
+  backdrop-filter: blur(24px);
+}
+
+.ogot-mmo-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0.4rem;
+  border: 1px solid rgba(79, 195, 247, 0.08);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.ogot-menu-button {
+  position: relative;
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  background:
+    radial-gradient(circle at top left, rgba(79, 195, 247, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(6, 18, 28, 0.92), rgba(4, 12, 20, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(125, 247, 255, 0.06),
+    0 16px 42px rgba(2, 8, 14, 0.4);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ogot-menu-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 195, 247, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(125, 247, 255, 0.1),
+    0 20px 52px rgba(2, 8, 14, 0.44),
+    0 0 24px rgba(79, 195, 247, 0.08);
+}
+
+.ogot-chip {
+  border: 1px solid rgba(79, 195, 247, 0.16);
+  background: rgba(79, 195, 247, 0.06);
+  color: rgba(224, 247, 250, 0.86);
+}
+
+.ogot-bubble {
+  position: relative;
+  border: 1px solid rgba(79, 195, 247, 0.18);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.06), transparent 40%),
+    linear-gradient(180deg, rgba(8, 24, 32, 0.95), rgba(4, 14, 20, 0.92));
+  color: var(--text-primary);
+  box-shadow:
+    0 20px 44px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(79, 195, 247, 0.04),
+    inset 0 1px 0 rgba(125, 247, 255, 0.06);
+}
+
+.ogot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -0.7rem;
+  left: 2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-right: 1px solid rgba(79, 195, 247, 0.18);
+  border-bottom: 1px solid rgba(79, 195, 247, 0.18);
+  background: rgba(6, 18, 24, 0.95);
+  transform: rotate(45deg);
+}
+
+/* ───────── Spirit speech bubble (was comic-bubble) ───────── */
+.ogot-comic-bubble {
+  position: relative;
+  border: 1px solid rgba(79, 195, 247, 0.22);
+  border-radius: 1.6rem;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(79, 195, 247, 0.08), transparent 50%),
+    linear-gradient(180deg, rgba(8, 26, 34, 0.96), rgba(4, 16, 22, 0.94));
+  color: var(--text-primary);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(79, 195, 247, 0.04),
+    inset 0 1px 0 rgba(125, 247, 255, 0.08);
+}
+
+.ogot-comic-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -0.72rem;
+  left: 2.1rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-right: 1px solid rgba(79, 195, 247, 0.22);
+  border-bottom: 1px solid rgba(79, 195, 247, 0.22);
+  background: rgba(5, 18, 24, 0.96);
+  transform: rotate(45deg);
+}
+
+/* ───────── Scroll ───────── */
+.ogot-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(79, 195, 247, 0.22) rgba(255, 255, 255, 0.03);
+}
+
+.ogot-scroll::-webkit-scrollbar {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.ogot-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+}
+
+.ogot-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background: rgba(79, 195, 247, 0.2);
+}
+
+/* ───────── Tooltip ───────── */
+.ogot-tooltip {
+  position: absolute;
+  display: block;
+  z-index: 160;
+  pointer-events: none;
+  max-width: min(20rem, calc(100vw - 2rem));
+  border-radius: 1.1rem;
+  border: 1px solid rgba(79, 195, 247, 0.22);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.06), transparent 40%),
+    linear-gradient(180deg, rgba(6, 20, 28, 0.98), rgba(3, 12, 18, 0.97));
+  padding: 0.9rem 1rem;
+  text-align: left;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(224, 247, 250, 0.96);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  box-shadow:
+    0 22px 64px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(79, 195, 247, 0.06),
+    inset 0 1px 0 rgba(125, 247, 255, 0.06);
+  transition:
+    opacity var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.ogot-comic-bubble,
+.ogot-book-panel,
+.ogot-book-page {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ogot-buff-slot {
+  position: relative;
+  display: grid;
+  height: 3rem;
+  width: 3rem;
+  place-items: center;
+  border-radius: 1rem;
+  border-width: 1px;
+  box-shadow:
+    inset 0 1px 0 rgba(125, 247, 255, 0.08),
+    0 0 12px rgba(79, 195, 247, 0.04);
+}
+
+@media (min-width: 640px) {
+  .ogot-buff-slot {
+    height: 3.25rem;
+    width: 3.25rem;
+  }
+}
+
+/* ───────── HUD bar ───────── */
+.ogot-hud {
+  border: 1px solid rgba(79, 195, 247, 0.12);
+  background: linear-gradient(180deg, rgba(6, 18, 28, 0.94), rgba(3, 12, 20, 0.90));
+  backdrop-filter: blur(24px);
+  box-shadow:
+    0 8px 32px rgba(2, 8, 14, 0.4),
+    0 0 1px rgba(79, 195, 247, 0.15);
+}
+
+/* ───────── Icon button ───────── */
+.ogot-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  background: rgba(79, 195, 247, 0.06);
+  color: rgba(224, 247, 250, 0.8);
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+.ogot-icon-btn:hover {
+  background: rgba(79, 195, 247, 0.12);
+  border-color: rgba(79, 195, 247, 0.24);
+  box-shadow: 0 0 16px rgba(79, 195, 247, 0.08);
+}
+
+/* ───────── Drawer ───────── */
+.ogot-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(2, 10, 14, 0.7);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.ogot-drawer-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ogot-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 91;
+  width: min(22rem, 88vw);
+  transform: translateX(100%);
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+  border-left: 1px solid rgba(79, 195, 247, 0.12);
+  background: linear-gradient(180deg, rgba(6, 18, 28, 0.98), rgba(3, 12, 18, 0.97));
+  backdrop-filter: blur(28px);
+  box-shadow: -20px 0 60px rgba(2, 8, 14, 0.6);
+  overflow-y: auto;
+}
+
+.ogot-drawer[data-open="true"] {
+  transform: translateX(0);
+}
+
+/* ───────── Coin toss animation ───────── */
+@keyframes coinFlipIn {
+  0% { transform: rotateY(0deg) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: rotateY(calc(1800deg + var(--final-rotation, 0deg))) scale(1); opacity: 1; }
+}
+
+@keyframes coinLand {
+  0% { transform: scale(1.08); }
+  50% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+.ogot-coin-container {
+  perspective: 1200px;
+  width: 10rem;
+  height: 10rem;
+}
+
+@media (min-width: 640px) {
+  .ogot-coin-container {
+    width: 14rem;
+    height: 14rem;
+  }
+}
+
+.ogot-coin {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: coinFlipIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.ogot-coin.landed {
+  animation: coinLand 0.4s ease forwards;
+}
+
+.ogot-coin-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  border: 2px solid rgba(125, 247, 255, 0.2);
+  box-shadow:
+    0 0 50px rgba(79, 195, 247, 0.2),
+    inset 0 2px 8px rgba(125, 247, 255, 0.1);
+}
+
+.ogot-coin-face--sun {
+  background: radial-gradient(circle at 40% 35%, rgba(255, 204, 128, 0.3), rgba(30, 20, 8, 0.95) 70%);
+}
+
+.ogot-coin-face--moon {
+  background: radial-gradient(circle at 40% 35%, rgba(125, 247, 255, 0.3), rgba(4, 20, 28, 0.95) 70%);
+  transform: rotateY(180deg);
+}
+
+.ogot-coin[data-result="sun"] {
+  --final-rotation: 0deg;
+}
+
+.ogot-coin[data-result="moon"] {
+  --final-rotation: 180deg;
+}
+
+/* ───────── Ollie floating bubble ───────── */
+.ogot-ollie-float {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: min(24rem, 76vw);
+  pointer-events: auto;
+}
+
+.ogot-ollie-float .ogot-bubble {
+  padding: 0.9rem 1.05rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.ogot-ollie-float .ogot-bubble::after {
+  bottom: 0.5rem;
+  left: -0.5rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid rgba(79, 195, 247, 0.18);
+  border-top: 1px solid rgba(79, 195, 247, 0.18);
+  transform: rotate(-45deg);
+}
+
+/* ───────── Story panels (ethereal) ───────── */
+.ogot-story-panel {
+  position: relative;
+  border: 1px solid rgba(79, 195, 247, 0.18);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.06), transparent 40%),
+    linear-gradient(180deg, rgba(6, 20, 28, 0.96), rgba(3, 12, 18, 0.94));
+  padding: 0.5rem;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(79, 195, 247, 0.04);
+}
+
+.ogot-story-panel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid rgba(79, 195, 247, 0.12);
+  border-radius: 0.75rem;
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.ogot-story-speech {
+  position: relative;
+  margin: 1.2rem 0.5rem 0.5rem 0.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(79, 195, 247, 0.18);
+  background:
+    radial-gradient(circle at top, rgba(105, 240, 174, 0.05), transparent 40%),
+    linear-gradient(180deg, rgba(8, 24, 30, 0.96), rgba(4, 14, 20, 0.94));
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.3),
+    0 0 16px rgba(79, 195, 247, 0.03);
+}
+
+.ogot-story-speech::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 32px;
+  width: 14px;
+  height: 14px;
+  background: rgba(8, 24, 30, 0.96);
+  border-left: 1px solid rgba(79, 195, 247, 0.18);
+  border-top: 1px solid rgba(79, 195, 247, 0.18);
+  transform: rotate(45deg);
+}
+
+.ogot-relic-card {
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.12), transparent 40%),
+    linear-gradient(145deg, rgba(105, 240, 174, 0.08), rgba(179, 136, 255, 0.06) 50%, rgba(79, 195, 247, 0.08));
+  box-shadow:
+    0 24px 74px rgba(2, 8, 14, 0.4),
+    0 0 30px rgba(79, 195, 247, 0.04);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) ease;
+}
+
+.ogot-relic-card:hover {
+  transform: translateY(-4px) rotate(-0.4deg);
+  box-shadow:
+    0 28px 86px rgba(2, 8, 14, 0.46),
+    0 0 40px rgba(79, 195, 247, 0.08);
+}
+
+.ogot-panel-alive {
+  animation: ogotPanelPulse 2.6s ease-in-out infinite;
+}
+
+.ogot-avatar-bob {
+  animation: ogotAvatarBob 3.1s ease-in-out infinite;
+}
+
+.ogot-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(79, 195, 247, 0.06), transparent 22%),
+    radial-gradient(circle at 50% 50%, transparent, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.7) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 22%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* ───────── Title banner ───────── */
+.ogot-title-banner {
+  position: relative;
+  display: inline-flex;
+  max-width: min(100%, 32rem);
+  min-height: 4rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2.4rem 1rem;
+  border: 1px solid rgba(79, 195, 247, 0.18);
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at center, rgba(79, 195, 247, 0.1), transparent 50%),
+    linear-gradient(180deg, rgba(6, 20, 28, 0.94), rgba(3, 12, 18, 0.92));
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow:
+    0 0 20px rgba(79, 195, 247, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.4));
+}
+
+.ogot-title-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0.42rem 0.8rem;
+  border: 1px solid rgba(79, 195, 247, 0.08);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ───────── Shell (main container - was book-shell) ───────── */
+.ogot-book-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  border-radius: 2rem;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(79, 195, 247, 0.06), transparent 40%),
+    radial-gradient(ellipse at 70% 100%, rgba(105, 240, 174, 0.04), transparent 36%),
+    linear-gradient(180deg, rgba(4, 16, 22, 0.96), rgba(2, 10, 16, 0.97));
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(79, 195, 247, 0.03),
+    inset 0 1px 0 rgba(125, 247, 255, 0.06);
+}
+
+.ogot-book-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0.8rem;
+  border: 1px solid rgba(79, 195, 247, 0.06);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.ogot-book-spread {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+}
+
+.ogot-book-spread::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  bottom: 1rem;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(79, 195, 247, 0.12), rgba(79, 195, 247, 0.02), rgba(79, 195, 247, 0.12));
+  pointer-events: none;
+}
+
+/* ───────── Page panels (was book-page, now spirit glass) ───────── */
+.ogot-book-page {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.12);
+  border-radius: 1.6rem;
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.06), transparent 36%),
+    linear-gradient(180deg, rgba(6, 22, 30, 0.94), rgba(4, 14, 22, 0.92));
+  color: var(--text-primary);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(79, 195, 247, 0.15),
+    inset 0 1px 0 rgba(125, 247, 255, 0.06);
+}
+
+.ogot-book-page::before {
+  content: "";
+  position: absolute;
+  inset: 0.75rem;
+  border: 1px solid rgba(79, 195, 247, 0.04);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ───────── Inner panels (was book-panel) ───────── */
+.ogot-book-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.1);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at top left, rgba(79, 195, 247, 0.04), transparent 40%),
+    rgba(6, 18, 26, 0.5);
+  box-shadow: inset 0 1px 0 rgba(125, 247, 255, 0.05);
+}
+
+.ogot-book-caption {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 195, 247, 0.16);
+  background: rgba(79, 195, 247, 0.06);
+  color: rgba(125, 247, 255, 0.7);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ───────── Map page (dark forest, was parchment) ───────── */
+.ogot-map-page {
+  position: relative;
+  overflow: auto;
+  border: 1px solid rgba(105, 240, 174, 0.14);
+  border-radius: 2rem;
+  background:
+    radial-gradient(ellipse at center, rgba(105, 240, 174, 0.04), transparent 50%),
+    linear-gradient(180deg, rgba(4, 18, 16, 0.98), rgba(2, 12, 14, 0.97));
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y;
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(105, 240, 174, 0.03),
+    inset 0 1px 0 rgba(105, 240, 174, 0.06);
+}
+
+.ogot-map-page::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid rgba(105, 240, 174, 0.06);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ───────── Ornate panels (enhanced glow) ───────── */
+.ogot-ornate-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.16);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(79, 195, 247, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(6, 18, 28, 0.98), rgba(3, 10, 18, 0.97));
+  box-shadow:
+    0 34px 110px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(79, 195, 247, 0.04),
+    inset 0 1px 0 rgba(125, 247, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.ogot-ornate-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid rgba(79, 195, 247, 0.06);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.ogot-ornate-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.06), transparent 36%),
+    linear-gradient(180deg, rgba(6, 18, 28, 0.96), rgba(3, 10, 18, 0.98));
+  box-shadow:
+    0 22px 64px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(79, 195, 247, 0.03),
+    inset 0 1px 0 rgba(125, 247, 255, 0.04);
+}
+
+.ogot-choice-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(6, 18, 28, 0.96), rgba(3, 10, 18, 0.98));
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(79, 195, 247, 0.03),
+    inset 0 1px 0 rgba(125, 247, 255, 0.05);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ogot-choice-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79, 195, 247, 0.28);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.46),
+    0 0 36px rgba(79, 195, 247, 0.08),
+    inset 0 1px 0 rgba(125, 247, 255, 0.08);
+}
+
+/* ───────── Spirit energy button (was red-button) ───────── */
+.ogot-red-button {
+  display: inline-flex;
+  min-height: 3.2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.8rem;
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at center, rgba(79, 195, 247, 0.2), rgba(79, 195, 247, 0.05) 60%),
+    linear-gradient(180deg, rgba(10, 30, 42, 0.96), rgba(4, 18, 28, 0.94));
+  color: var(--spirit-cyan);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 16px rgba(125, 247, 255, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+  box-shadow:
+    0 0 30px rgba(79, 195, 247, 0.12),
+    0 14px 30px rgba(0, 0, 0, 0.4);
+}
+
+.ogot-red-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 247, 255, 0.4);
+  box-shadow:
+    0 0 40px rgba(79, 195, 247, 0.18),
+    0 16px 36px rgba(0, 0, 0, 0.44);
+}
+
+.ogot-red-button:disabled {
+  opacity: 0.45;
+  transform: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ogot-secondary-button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.72rem 1.4rem;
+  border: 1px solid rgba(105, 240, 174, 0.16);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at center, rgba(105, 240, 174, 0.06), transparent 50%),
+    linear-gradient(180deg, rgba(6, 22, 20, 0.94), rgba(3, 14, 14, 0.92));
+  color: rgba(185, 246, 202, 0.92);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ogot-secondary-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(105, 240, 174, 0.28);
+  box-shadow: 0 0 24px rgba(105, 240, 174, 0.06);
+}
+
+.ogot-sheet-note {
+  border: 1px solid rgba(79, 195, 247, 0.14);
+  background:
+    radial-gradient(circle at top, rgba(79, 195, 247, 0.05), transparent 36%),
+    linear-gradient(180deg, rgba(6, 20, 28, 0.94), rgba(3, 12, 18, 0.96));
+  color: var(--text-primary);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(125, 247, 255, 0.04);
+}
+
+/* ───────── Utility ───────── */
+.ogot-fade-in {
+  animation: fadeIn var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ogotPanelPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.06);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(79, 195, 247, 0.14);
+  }
+}
+
+@keyframes ogotAvatarBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ogotOllieBlink {
+  0%, 42%, 100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  46%, 50% {
+    transform: scaleY(0.14);
+    opacity: 0.72;
+  }
+}
+
+@keyframes ogotOllieFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-0.35rem) scale(1.015);
+  }
+}
+
+@keyframes ogotOllieSpriteTranslate {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-95.4545454545%);
+  }
+}
+
+@keyframes ogotOllieEyesGlow {
+  0%, 100% {
+    opacity: 0.34;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes ogotOllieEyesShift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  35% {
+    transform: translate3d(-0.18rem, 0.06rem, 0);
+  }
+  65% {
+    transform: translate3d(0.14rem, -0.04rem, 0);
+  }
+}
+
+@keyframes ogotOllieGrin {
+  0%, 100% {
+    transform: translateX(-50%) scaleX(0.92);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translateX(-50%) scaleX(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes ogotFireflyFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.3;
+  }
+  20% {
+    opacity: 0.92;
+  }
+  50% {
+    transform: translate3d(8px, -14px, 0) scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.46;
+  }
+}
+
+@keyframes spiritPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.08), 0 0 40px rgba(79, 195, 247, 0.04);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(79, 195, 247, 0.16), 0 0 60px rgba(79, 195, 247, 0.08);
+  }
+}
+
+@keyframes spiritTrail {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes leafDrift {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-8px) rotate(5deg);
+    opacity: 1;
+  }
+}
+
+@keyframes ogotTorchFlicker {
+  0%, 100% {
+    transform: translateX(-50%) scale(0.96);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translateX(-50%) scale(1.04);
+    opacity: 1;
+  }
+  65% {
+    transform: translateX(-50%) scale(0.92);
+    opacity: 0.82;
+  }
+}
+
+/* ── HUD: low-HP pulse ── */
+@keyframes hp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.hp-low-pulse {
+  animation: hp-pulse 1.2s ease-in-out infinite;
+}
+
+/* ── HUD: player-turn pulse ── */
+@keyframes turn-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(103, 232, 249, 0.45); }
+  50% { box-shadow: 0 0 12px 4px rgba(103, 232, 249, 0.25); }
+}
+.turn-pulse {
+  animation: turn-pulse 1.8s ease-in-out infinite;
+}
+
+/* ── HUD: score orb glow ── */
+@keyframes orb-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+.score-orb {
+  animation: orb-glow 2.4s ease-in-out infinite;
+}
+
+.ogot-unit-command-image {
+  filter: drop-shadow(0 0.45rem 0.35rem rgba(0, 0, 0, 0.45));
+  animation: ogotUnitCommandBob 2.75s ease-in-out infinite;
+  transform-origin: 50% 78%;
+  image-rendering: auto;
+  user-select: none;
+}
+
+@keyframes ogotUnitCommandBob {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-0.08rem) scale(1.018); }
+}
+
+.ogot-unit-command-image--ready {
+  animation: ogotUnitCommandReady 1.25s ease-in-out infinite;
+}
+
+@keyframes ogotUnitCommandReady {
+  0%, 100% {
+    filter: drop-shadow(0 0.45rem 0.35rem rgba(0, 0, 0, 0.45));
+    transform: translateY(0) scale(1);
+  }
+  45% {
+    filter:
+      drop-shadow(0 0.52rem 0.38rem rgba(0, 0, 0, 0.46))
+      drop-shadow(0 0 0.45rem rgba(125, 247, 255, 0.35));
+    transform: translateY(-0.14rem) scale(1.035);
+  }
+}
+
+.ogot-board-unit {
+  filter: drop-shadow(0 0.85rem 0.75rem rgba(0, 0, 0, 0.55));
+  animation: ogotBoardUnitFloat 2.75s ease-in-out infinite;
+  transform-origin: 50% 78%;
+  image-rendering: auto;
+  user-select: none;
+}
+
+@keyframes ogotBoardUnitFloat {
+  0%, 100% {
+    transform: translate(-50%, -48%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -48%) translateY(-0.12rem) scale(1.018);
+  }
+}
+
+.ogot-board-unit--recent {
+  animation:
+    ogotBoardUnitEnter 0.7s cubic-bezier(0.2, 1, 0.25, 1) 1,
+    ogotBoardUnitFloat 2.75s ease-in-out infinite 0.7s;
+}
+
+.ogot-board-unit--impact {
+  animation:
+    ogotBoardUnitImpact 0.52s cubic-bezier(0.22, 1, 0.36, 1) 1,
+    ogotBoardUnitFloat 2.75s ease-in-out infinite 0.52s;
+}
+
+@keyframes ogotBoardUnitEnter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -58%) translateY(-0.8rem) scale(0.76);
+  }
+  55% {
+    opacity: 1;
+    transform: translate(-50%, -48%) translateY(0.08rem) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -48%) translateY(0) scale(1);
+  }
+}
+
+@keyframes ogotBoardUnitImpact {
+  0% {
+    transform: translate(-50%, -48%) translateX(0) scale(1);
+  }
+  30% {
+    transform: translate(-50%, -48%) translateX(-0.18rem) scale(0.96);
+  }
+  60% {
+    transform: translate(-50%, -48%) translateX(0.16rem) scale(1.03);
+  }
+  100% {
+    transform: translate(-50%, -48%) translateX(0) scale(1);
+  }
+}
+@media (orientation: landscape), (min-width: 901px) {
+  .ogot-playtest-orientation {
+    display: none;
+  }
+}

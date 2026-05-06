@@ -1,0 +1,192 @@
+import type { LuckyCharmDefinition, LuckyCharmId, LuckyCharmRarity } from "@/core/types";
+
+const LUCKY_CHARM_DEFINITIONS_ARRAY: LuckyCharmDefinition[] = [
+  {
+    id: "first-breath",
+    rarity: "common",
+    name: "Feuille du Premier Souffle",
+    shortLabel: "Premier souffle",
+    description: "La premiere carte posee a chaque manche gagne +1 sur tous ses cotes.",
+    drawback: "La deuxieme carte posee dans la manche perd 1 sur son cote le plus fort.",
+    starterEligible: true,
+    icon: "leaf",
+    biases: { aggression: 4, control: 1, tempo: 0, fusion: 0, trim: 0, precision: 1 },
+  },
+  {
+    id: "watcher-stone",
+    rarity: "common",
+    name: "Galet du Guetteur",
+    shortLabel: "Galet du guetteur",
+    description: "Tes cartes dans les coins comptent +1 controle a la fin de la manche.",
+    drawback: "Les cartes posees au centre perdent 1 sur leur plus petit cote.",
+    starterEligible: true,
+    icon: "corner",
+    biases: { aggression: 0, control: 4, tempo: 0, fusion: 0, trim: 0, precision: 2 },
+  },
+  {
+    id: "spring-tear",
+    rarity: "common",
+    name: "Larme de Source",
+    shortLabel: "Larme de source",
+    description: "Au debut de chaque manche, tu pioches +1 carte puis la plus faible est defaussee.",
+    drawback: "Au debut du combat, une carte de ta pioche est immediatement perdue pour cette rencontre.",
+    starterEligible: true,
+    icon: "drop",
+    biases: { aggression: 0, control: 1, tempo: 4, fusion: 1, trim: 1, precision: 2 },
+  },
+  {
+    id: "lantern-mushroom",
+    rarity: "common",
+    name: "Champignon-Lanterne",
+    shortLabel: "Champi-lanterne",
+    description: "Retourner au moins 2 cartes en un coup ajoute +1 degat de manche.",
+    drawback: "Si un de tes tours ne retourne rien, l'ennemi gagne +1 controle virtuel en fin de manche.",
+    starterEligible: true,
+    icon: "burst",
+    biases: { aggression: 4, control: 0, tempo: 0, fusion: 0, trim: 0, precision: 1 },
+  },
+  {
+    id: "refuge-bark",
+    rarity: "common",
+    name: "Ecorce du Refuge",
+    shortLabel: "Ecorce du refuge",
+    description: "Tes cartes sur les bords ne peuvent pas etre retournees sur une egalite.",
+    drawback: "Tes cartes au centre comptent -1 controle si elles survivent jusqu'a la fin de la manche.",
+    starterEligible: false,
+    icon: "bark",
+    biases: { aggression: 0, control: 4, tempo: 0, fusion: 0, trim: 0, precision: 2 },
+  },
+  {
+    id: "firefly-wing",
+    rarity: "rare",
+    name: "Aile de Luciole",
+    shortLabel: "Aile de luciole",
+    description: "Une fois par manche, tu peux remelanger ta main actuelle et repiocher.",
+    drawback: "Le premier vrai reshuffle du combat pioche 1 carte de moins.",
+    starterEligible: false,
+    icon: "wing",
+    biases: { aggression: 0, control: 1, tempo: 5, fusion: 1, trim: 1, precision: 2 },
+  },
+  {
+    id: "split-hazelnut",
+    rarity: "rare",
+    name: "Noisette Fendue",
+    shortLabel: "Noisette fendue",
+    description: "Tous les 2 combats normaux gagnes, tu peux retirer 1 carte de ton deck.",
+    drawback: "Ta run commence avec une carte faible supplementaire.",
+    starterEligible: false,
+    icon: "nut",
+    biases: { aggression: 0, control: 0, tempo: 1, fusion: 1, trim: 5, precision: 2 },
+  },
+  {
+    id: "double-knot-rune",
+    rarity: "rare",
+    name: "Rune du Double Noeud",
+    shortLabel: "Double noeud",
+    description: "Les fusions gagnent +1 supplementaire sur un cote choisi par le destin.",
+    drawback: "Les cartes non fusionnees avec au moins 2 cotes a 1 ou moins perdent 1 sur leur cote le plus fort quand tu les poses.",
+    starterEligible: false,
+    icon: "rune",
+    biases: { aggression: 1, control: 0, tempo: 0, fusion: 5, trim: 0, precision: 1 },
+  },
+  {
+    id: "moss-dust",
+    rarity: "common",
+    name: "Poussiere de Mousse",
+    shortLabel: "Poussiere de mousse",
+    description: "Si tu gagnes une manche d'un seul point de controle, tu infliges +2 degats supplementaires.",
+    drawback: "Si tu perds une manche de 3 controle ou plus, tu subis +1 degat supplementaire.",
+    starterEligible: true,
+    icon: "moss",
+    biases: { aggression: 1, control: 2, tempo: 0, fusion: 0, trim: 0, precision: 5 },
+  },
+  {
+    id: "old-bridge-stone",
+    rarity: "common",
+    name: "Pierre du Vieux Pont",
+    shortLabel: "Vieux pont",
+    description: "Tes cartes sur la ligne centrale comptent +1 controle a la fin de la manche.",
+    drawback: "Si tu n'as qu'une seule carte sur ta ligne du bas, elle compte -1 controle.",
+    starterEligible: true,
+    icon: "bridge",
+    biases: { aggression: 2, control: 3, tempo: 0, fusion: 0, trim: 0, precision: 3 },
+  },
+  {
+    id: "balance-feather",
+    rarity: "common",
+    name: "Plume d'Equilibre",
+    shortLabel: "Plume d'equilibre",
+    description: "Les cartes avec au moins deux cotes egaux gagnent +1 sur un cote aleatoire quand elles sont posees.",
+    drawback: "Les cartes tres polarisees n'obtiennent jamais ce bonus.",
+    starterEligible: false,
+    icon: "feather",
+    biases: { aggression: 1, control: 2, tempo: 1, fusion: 0, trim: 0, precision: 4 },
+  },
+  {
+    id: "ancient-sap",
+    rarity: "common",
+    name: "Seve des Anciens",
+    shortLabel: "Seve des anciens",
+    description: "Apres chaque manche gagnee, tu recuperes 1 PV.",
+    drawback: "Apres chaque manche perdue, tu perds 1 PV supplementaire.",
+    starterEligible: true,
+    icon: "sap",
+    biases: { aggression: 0, control: 4, tempo: 0, fusion: 0, trim: 0, precision: 2 },
+  },
+  {
+    id: "reflection-ring",
+    rarity: "legendary",
+    name: "Anneau des Reflets",
+    shortLabel: "Anneau des reflets",
+    description: "Une fois par combat, tu peux copier une carte de ta main pour cette manche.",
+    drawback: "La copie perd 1 sur son cote le plus fort.",
+    starterEligible: false,
+    icon: "ring",
+    biases: { aggression: 2, control: 1, tempo: 2, fusion: 2, trim: 0, precision: 3 },
+  },
+  {
+    id: "broken-bell",
+    rarity: "legendary",
+    name: "Clochette Brisee",
+    shortLabel: "Clochette brisee",
+    description: "Au debut de chaque combat, une carte rare temporaire rejoint ta pioche.",
+    drawback: "Tu commences chaque combat avec 1 PV de moins.",
+    starterEligible: false,
+    icon: "bell",
+    biases: { aggression: 4, control: 0, tempo: 1, fusion: 0, trim: 0, precision: 1 },
+  },
+  {
+    id: "clearing-eye",
+    rarity: "rare",
+    name: "Oeil de la Clairiere",
+    shortLabel: "Oeil de la clairiere",
+    description: "Pendant les 3 premieres manches, tu vois les 2 prochaines cartes de ta pioche.",
+    drawback: "Au debut de la 4e manche, tu pioches 1 carte de moins sur ton premier tour.",
+    starterEligible: false,
+    icon: "eye",
+    biases: { aggression: 0, control: 1, tempo: 3, fusion: 1, trim: 2, precision: 5 },
+  },
+];
+
+export const LUCKY_CHARM_DEFINITIONS = Object.fromEntries(
+  LUCKY_CHARM_DEFINITIONS_ARRAY.map((charm) => [charm.id, charm]),
+) as Record<LuckyCharmId, LuckyCharmDefinition>;
+
+export const STARTER_LUCKY_CHARM_POOL = LUCKY_CHARM_DEFINITIONS_ARRAY.filter((charm) => charm.starterEligible).map(
+  (charm) => charm.id,
+);
+
+export const LUCKY_CHARM_POOL_BY_RARITY = {
+  common: LUCKY_CHARM_DEFINITIONS_ARRAY.filter((charm) => charm.rarity === "common").map((charm) => charm.id),
+  rare: LUCKY_CHARM_DEFINITIONS_ARRAY.filter((charm) => charm.rarity === "rare").map((charm) => charm.id),
+  legendary: LUCKY_CHARM_DEFINITIONS_ARRAY.filter((charm) => charm.rarity === "legendary").map((charm) => charm.id),
+} satisfies Record<LuckyCharmRarity, LuckyCharmId[]>;
+
+export function getLuckyCharmDefinition(charmId: LuckyCharmId): LuckyCharmDefinition {
+  const definition = LUCKY_CHARM_DEFINITIONS[charmId];
+  if (!definition) {
+    throw new Error(`Unknown lucky charm: ${charmId}`);
+  }
+
+  return definition;
+}

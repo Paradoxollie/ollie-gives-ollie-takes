@@ -1,0 +1,226 @@
+import type { EnemyProfileId, EnemyTier, MatchEnemyProfile } from "@/core/types";
+
+const ENEMY_PROFILES: Record<EnemyProfileId, MatchEnemyProfile> = {
+  aggro: {
+    id: "aggro",
+    tier: "normal",
+    name: "Crocs-de-Braise",
+    playstyle: "Pression brutale",
+    passivePowerName: "Instinct predatoire",
+    passivePowerDescription: "Cherche les flips immediats et accepte de s'exposer pour gagner vite.",
+    activePowerName: "Cri de chasse",
+    activePowerDescription: "La premiere carte posee chaque manche gagne +1 sur tous ses cotes.",
+    biases: {
+      aggression: 1.7,
+      balance: 0.45,
+      corner: 0.4,
+      edge: 0.55,
+      trick: 0.95,
+      fusion: 0.4,
+      consistency: 0.55,
+      risk: 1.4,
+    },
+  },
+  fortress: {
+    id: "fortress",
+    tier: "normal",
+    name: "Matrone des Ronces",
+    playstyle: "Forteresse",
+    passivePowerName: "Coins fortifies",
+    passivePowerDescription: "Chaque carte ennemie dans un coin compte comme +1 controle en fin de manche.",
+    activePowerName: null,
+    activePowerDescription: null,
+    biases: {
+      aggression: 0.45,
+      balance: 1.45,
+      corner: 1.7,
+      edge: 1.15,
+      trick: 0.35,
+      fusion: 0.45,
+      consistency: 1.35,
+      risk: 0.45,
+    },
+  },
+  swarm: {
+    id: "swarm",
+    tier: "normal",
+    name: "Nuée Chantebraise",
+    playstyle: "Tempo",
+    passivePowerName: "Pioche vive",
+    passivePowerDescription: "Au debut de chaque manche, l'ennemi voit 1 carte de plus puis ecarte la plus faible.",
+    activePowerName: null,
+    activePowerDescription: null,
+    biases: {
+      aggression: 0.85,
+      balance: 1.3,
+      corner: 0.7,
+      edge: 0.8,
+      trick: 0.55,
+      fusion: 0.6,
+      consistency: 1.8,
+      risk: 0.7,
+    },
+  },
+  trickster: {
+    id: "trickster",
+    tier: "normal",
+    name: "Larron des Racines",
+    playstyle: "Opportuniste",
+    passivePowerName: "Angles pieges",
+    passivePowerDescription: "Le deck favorise les cartes polarisees et les coups de retournement surprises.",
+    activePowerName: "Seconde chance",
+    activePowerDescription: "Une fois par manche, l'ennemi peut echanger sa main si elle ne cree aucun flip immediat.",
+    biases: {
+      aggression: 1.1,
+      balance: 0.55,
+      corner: 0.65,
+      edge: 0.7,
+      trick: 1.75,
+      fusion: 0.6,
+      consistency: 0.9,
+      risk: 1.25,
+    },
+  },
+  builder: {
+    id: "builder",
+    tier: "normal",
+    name: "Tisseur de Noeuds",
+    playstyle: "Constructeur",
+    passivePowerName: "Fusion frugale",
+    passivePowerDescription: "Prepare une carte fusion signature en plus de son package de deck.",
+    activePowerName: null,
+    activePowerDescription: null,
+    biases: {
+      aggression: 0.7,
+      balance: 1.05,
+      corner: 0.8,
+      edge: 0.75,
+      trick: 0.6,
+      fusion: 1.9,
+      consistency: 1.05,
+      risk: 0.75,
+    },
+  },
+  executioner: {
+    id: "executioner",
+    tier: "elite",
+    name: "Bourreau des Tourbes",
+    playstyle: "Elite predatrice",
+    passivePowerName: "Implacable",
+    passivePowerDescription: "S'il retourne au moins 2 cartes en un coup, il gagne +1 controle bonus pour la manche.",
+    activePowerName: "Cri de chasse",
+    activePowerDescription: "La premiere carte posee chaque manche gagne aussi +1 sur tous ses cotes.",
+    biases: {
+      aggression: 1.95,
+      balance: 0.4,
+      corner: 0.45,
+      edge: 0.65,
+      trick: 1.1,
+      fusion: 0.45,
+      consistency: 0.7,
+      risk: 1.6,
+    },
+  },
+  bastion: {
+    id: "bastion",
+    tier: "elite",
+    name: "Bastion d'Ecorce",
+    playstyle: "Elite controle",
+    passivePowerName: "Tenir la ligne",
+    passivePowerDescription: "Ses cartes sur les bords comptent comme +1 controle en fin de manche.",
+    activePowerName: null,
+    activePowerDescription: null,
+    biases: {
+      aggression: 0.55,
+      balance: 1.55,
+      corner: 1.2,
+      edge: 1.8,
+      trick: 0.35,
+      fusion: 0.5,
+      consistency: 1.45,
+      risk: 0.4,
+    },
+  },
+  shaper: {
+    id: "shaper",
+    tier: "elite",
+    name: "Sculpteur de Seve",
+    playstyle: "Elite fusion",
+    passivePowerName: "Fusion frugale",
+    passivePowerDescription: "Construit un package de cartes coherentes et une fusion plus vite que les autres.",
+    activePowerName: "Affinage",
+    activePowerDescription: "Une fois par combat, il ameliore une carte de sa main avant de la jouer.",
+    biases: {
+      aggression: 0.9,
+      balance: 1.15,
+      corner: 0.8,
+      edge: 0.8,
+      trick: 0.9,
+      fusion: 2,
+      consistency: 1.1,
+      risk: 0.75,
+    },
+  },
+  ravager: {
+    id: "ravager",
+    tier: "boss",
+    name: "Le Ravageur primordial",
+    playstyle: "Boss pression",
+    passivePowerName: "Terrain predateur",
+    passivePowerDescription: "Une carte posee au centre gagne +1 sur son cote le plus fort.",
+    activePowerName: "Rugissement",
+    activePowerDescription: "La premiere carte posee chaque manche retourne aussi en cas d'egalite.",
+    biases: {
+      aggression: 2.2,
+      balance: 0.5,
+      corner: 0.5,
+      edge: 0.7,
+      trick: 1.2,
+      fusion: 0.7,
+      consistency: 0.95,
+      risk: 1.75,
+    },
+  },
+  warden: {
+    id: "warden",
+    tier: "boss",
+    name: "Le Gardien des clairieres",
+    playstyle: "Boss controle",
+    passivePowerName: "Sol sacre",
+    passivePowerDescription: "Les coins et le centre controles par le boss comptent comme +1 controle bonus.",
+    activePowerName: "Renouveau",
+    activePowerDescription: "Toutes les 2 manches, le boss recupere sa meilleure carte depuis la defausse.",
+    biases: {
+      aggression: 0.75,
+      balance: 1.65,
+      corner: 1.65,
+      edge: 1.05,
+      trick: 0.55,
+      fusion: 0.95,
+      consistency: 1.65,
+      risk: 0.45,
+    },
+  },
+};
+
+function cloneEnemyProfile(profile: MatchEnemyProfile): MatchEnemyProfile {
+  return {
+    ...profile,
+    biases: { ...profile.biases },
+  };
+}
+
+export function getEnemyProfile(profileId: EnemyProfileId): MatchEnemyProfile {
+  const profile = ENEMY_PROFILES[profileId];
+  if (!profile) {
+    throw new Error(`Unknown enemy profile: ${profileId}`);
+  }
+
+  return cloneEnemyProfile(profile);
+}
+
+export function listEnemyProfilesByTier(tier: EnemyTier): MatchEnemyProfile[] {
+  return Object.values(ENEMY_PROFILES)
+    .filter((profile) => profile.tier === tier)
+    .map((profile) => cloneEnemyProfile(profile));
+}

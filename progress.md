@@ -1,0 +1,1127 @@
+Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes with a deterministic TypeScript rules engine in `src/core`, a minimal Next.js App Router UI, seeded randomness, Vitest coverage for core battle rules, and one greedy AI opponent.
+
+## Progress
+- 2026-05-06: Added a player-safe playtest build path for non-technical testers:
+  - added a public `PlaytestExperience` menu with a single `Jouer` entry point, fullscreen support, and a portrait-phone hint
+  - added `/playtest` for local testing and a playtest build mode where `/` serves only the tester experience
+  - hid internal drawer controls in playtest mode: AI autorun, spectator pause, training/lab links, and seed controls
+  - pinned the live champion profile without calling the local API in playtest mode
+  - added middleware that blocks `/api/*` and redirects `/lab` and `/game` away from the player build
+  - added `npm run dev:playtest` and `npm run build:playtest`, plus `docs/playtest-release.md` explaining the simple link-based release flow and its source-protection limits
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`90/90`), `npm run build`, `npm run build:playtest`; production playtest server checked at `http://127.0.0.1:3107/`; `/api/live-champion` returns `404`, `/lab` and `/game` redirect; Playwright completed menu -> draft 7 cards -> charm -> map -> first encounter with no console errors
+- 2026-05-06: Fixed intermittent missing round-end health/damage recap:
+  - traced the race to `useBattleController`: after a board-filled move, the engine immediately starts the next round while keeping `lastMove.roundEndSummary`; during the recap reveal delay, automated enemy/player bot turns could overwrite `lastMove`, cancelling the pending health/damage overlay
+  - added `hasUndismissedBattleResolutionRecap()` in `src/lib/battle-resolution.ts` and made the controller treat an undisplayed recap as a blocking UI state, not only a visible overlay
+  - blocked pass-turn handling, bot timers, virtual `advanceTime()`, human interaction, charm actions, and direct `placeCard()` calls while a round/battle recap is pending
+  - kept the next-round coin-toss overlay behind the damage recap until the player dismisses the recap
+  - added `src/lib/battle-resolution.test.ts` covering the exact new-round-with-old-round-summary state
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`90/90`), `npm run build`; Playwright combat regression saved screenshots and trace in `output/web-game/round-recap-fix/`, confirming pending recap appears, no coin toss appears during it, and the overlay shows `Vie`, `Avant`, `Apres`, and `PV`
+- 2026-05-06: Made family/trait information visible during combat:
+  - added family name badges under visible bench cards and board units in `src/components/battle-stage.tsx`
+  - added two always-visible trait rails around the arena, one for the player and one for the enemy, showing board counts, active/next thresholds, and bonus explanations
+  - exposed `boardFamilies` in `serializeMatchState()` so browser QA can inspect board trait counts from `window.render_game_to_text()`
+  - added a bot regression test proving greedy/heuristic/trained/champion choose a flip that only works because of a Human family bonus
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`89/89`), `npm run build`; direct Playwright combat screenshots saved in `output/web-game/trait-ui-pass/`; standard `$develop-web-game` pass saved in `output/web-game/trait-ui-standard/`; no browser console errors
+- 2026-05-05: Reworked adventure progression away from starter/base decks:
+  - active runs now draft 7 cards from a seeded 14-card offer and then keep that deck fixed unless the run gains, steals, upgrades, removes, or fuses cards
+  - rebuilt the draft pool to 42 unique cards: 7 Familiers, 7 Demons, 7 Humains, 7 Automates, 7 Revenants, and 7 Arcanes; every draft card totals 12 side points with max side 5
+  - kept all existing animal cards in the opening draft offer and changed their source type to `draft`
+  - changed enemy adventure decks to use the same remaining shared draft pool, exclude player-owned base ids, match the player's deck size baseline, and removed early artificial weakening
+  - changed post-combat progression so victories only offer steal choices from enemy cards; chests now offer card picks; camps and forges keep upgrade/remove/fusion roles
+  - reward offers now exclude cards already owned by base id, preserving the one-card-per-type rule
+  - added targeted family trait tests for Human, Automaton, Revenant, Arcane, and capped end-of-round control bonuses
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`88/88`), `npm run build`; pool audit confirmed 42 unique / 7 per family / no side-total outliers; `$develop-web-game` draft screenshot saved in `output/web-game/draft-balanced-pass/`; direct Playwright selected 7 cards, chose opening charm, reached map with deck size 7 and no console errors
+- 2026-05-05: Replaced the hidden starter-deck adventure opening with a real visible draft:
+  - added a `draft` adventure phase in `src/core/types.ts` and `src/core/adventure.ts`; each run now offers 14 seeded cards and requires exactly 7 picks before starter charm selection
+  - kept the seven current animal cards in the draft offer while filling the remaining slots from the wider Set 0 pool, preserving one copy per card type
+  - changed enemy adventure starter loadouts so player-drafted starter cards are removed from the enemy starter pool
+  - added family definitions and threshold summaries in `src/core/config/families.ts`
+  - added `src/components/adventure-draft-overlay.tsx` with family counts, active/inactive bonus thresholds, selected order, and confirm gating
+  - strengthened `CardView` family color/aura treatment so placeholder non-animal families are visually distinguishable in draft and other card views
+  - compacted `AdventureCharmOverlay` so the post-draft charm choice fits at 1280x720
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`83/83`), `npm run build`; Playwright draft flow selected 7 cards, confirmed to charm with deck size 7 and no console errors
+- 2026-05-05: Resumed the final starter-card animal replacement after a power cut, using the user's cat reference `C:/Users/pierr/Downloads/ChatGPT Image 2 mai 2026, 17_24_49.png` for the `owl` / Chaton des ronces slot:
+  - used `hatch-pet` with subagents to generate real `idle`, `running-right`, `failed`, and `waving` rows in `work/runs/roncy-hatch-game`; recorded the approved row images into the manifest and kept `running-left` as the inspected mirrored right-run row
+  - added `scripts/build_cat_hatch_sprite.py` for deterministic magenta chroma cleanup, component-based frame isolation, `512x512` normalization, APNG previews, and contact-sheet QA
+  - generated cat character assets under `public/images/units/cat/` and mapped `owl` in `src/lib/unit-visuals.ts` to the new idle, movement, damage-taken, and damage-dealt sheets
+  - audit artifact: `output/playwright/cat-hatch-frame-audit/generated-animation-contact.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; targeted Playwright on `/lab` seed 2 confirmed cat idle/ready/board frame changes and loaded/stepped hit/action sheets; `$develop-web-game` standard pass saved in `output/web-game/cat-hatch-standard-confirmed/`; console/request probe had no errors
+- 2026-05-02: Added the final starter replacement for the plant/sapling slot using the user's `C:/Users/pierr/Downloads/ChatGPT Image 2 mai 2026, 16_20_59.png` reference:
+  - used `hatch-pet` with a magenta chroma key because Floramie is green, and generated a canonical plant-serpent base in `work/runs/floramie-hatch-game`
+  - delegated row generation to subagents for `idle`, `running-right`, `failed`, and `waving`; rejected one `waving` result that changed the serpent into a biped lizard and regenerated it with a strict coiled-serpent constraint
+  - recorded approved rows into the hatch-pet manifest, derived `running-left` by mirror after visual inspection, and added `scripts/build_plant_hatch_sprite.py` for deterministic chroma cleanup, slot grouping, 512x512 normalization, strips/APNG previews, and contact-sheet QA
+  - generated plant character assets under `public/images/units/plant/` and mapped `sapling` in `src/lib/unit-visuals.ts` to the new idle, movement, damage-taken, and damage-dealt sheets
+  - audit artifact: `output/playwright/plant-hatch-frame-audit/generated-animation-contact.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; targeted Playwright on `/lab` seed 7 confirmed Floramie idle/ready/board animation frame changes and loaded/stepped hit/action sheets; `$develop-web-game` standard pass saved in `output/web-game/plant-hatch-standard/`; console/request probe had no errors
+- 2026-05-02: Corrected the bird replacement after the user rejected the local rig/cutout approach:
+  - used `hatch-pet` with subagents to generate real visual rows from `C:/Users/pierr/Downloads/ChatGPT Image 28 avr. 2026, 15_16_10.png`
+  - recorded the generated `idle`, `running-right`, `waving`, and `failed` rows into `work/runs/plume-hatch-game`; derived `running-left` by mirror after visual inspection because the bird has no text or side-specific symbol
+  - added `scripts/build_bird_hatch_sprite.py` to process only generated rows: chroma-key cleanup, component-based frame isolation, 512x512 normalization, strips/APNG previews, and contact-sheet QA
+  - regenerated `public/images/units/bird/` from the hatch-pet rows and updated `heron` frame counts in `src/lib/unit-visuals.ts`
+  - audit artifact: `output/playwright/bird-hatch-frame-audit/generated-animation-contact.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; targeted Playwright confirmed hand idle, selected ready, board hit, and board action all change frames using the new hatch-pet sheets; `$develop-web-game` standard pass saved in `output/web-game/bird-hatch-standard/`; console/request probe had no errors
+- 2026-05-02: Rebuilt the in-game bird unit from the user's single reference image `C:/Users/pierr/Downloads/ChatGPT Image 28 avr. 2026, 15_16_10.png`:
+  - added `scripts/build_bird_reference_sprite.py` to isolate the main bird, remove detached reference feathers/sparkles, rig the character locally, and export smooth transparent strips from one canonical cutout
+  - regenerated bird assets under `public/images/units/bird/`, including `idle`, `ready`, `walk-right`, `walk-left`, `run-right`, `run-left`, `hit`, `happy`, `action`, and `action-left` sheets plus matching UI APNG previews
+  - mapped `heron` in `src/lib/unit-visuals.ts` to 12-frame idle/ready/action loops and an 8-frame hit reaction, with `action/actionLeft` now used for damage-dealt flip events
+  - generated review artifacts at `output/playwright/bird-reference-frame-audit/generated-animation-contact.png` and `output/playwright/bird-reference-frame-audit/build-report.json`
+  - added `tmp/verify-bird-reference-animation.mjs`; validation confirmed hand idle, selected ready, board hit, and board action all change frames, and the real combat path uses `hit-sheet.png` plus `action-left-sheet.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server restarted at `http://127.0.0.1:3011/game`
+  - browser validation: targeted Playwright screenshots in `output/playwright/bird-reference-animation-states/`; `$develop-web-game` standard pass in `output/web-game/bird-reference-standard/`; request/console probe had no errors
+- 2026-05-02: Rebuilt the in-game shark unit from the user's ordered sprite sheet `C:/Users/pierr/Downloads/ChatGPT Image 1 mai 2026, 14_54_38.png` after a PC power-loss interruption:
+  - added `scripts/build_shark_sheet_sprite.py` to extract the supplied walk-right, walk-left, hurt, and victory rows into transparent `512x512` horizontal strips
+  - regenerated `public/images/units/shark/idle-sheet.png`, `ready-sheet.png`, `walk-right-sheet.png`, `walk-left-sheet.png`, `run-right-sheet.png`, `run-left-sheet.png`, `hit-sheet.png`, `happy-sheet.png`, `action-sheet.png`, `action-left-sheet.png`, matching APNG UI previews, `idle-poster.png`, and `source-sheet.png`
+  - mapped `foxfire` in `src/lib/unit-visuals.ts` away from the old `video-idle-sheet.png` and onto the new sprite-sheet-derived base, damage-taken, and damage-dealt animations
+  - generated audit artifacts at `output/playwright/shark-frame-audit/generated-animation-contact.png` and `output/playwright/shark-frame-audit/build-report.json`
+  - added `tmp/verify-shark-animation.mjs`; validation confirmed hand idle, selected ready, board hit, and board action all change frames, and the real combat path uses `hit-sheet.png` plus `action-left-sheet.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server restarted at `http://127.0.0.1:3011/game`
+  - browser validation: targeted Playwright screenshots in `output/playwright/shark-sheet-animation-states/`; `$develop-web-game` standard pass in `output/web-game/shark-sheet-standard/`; focused request/console probe had no errors
+- 2026-05-02: Rebuilt the shark idle/ready animation from the user's Kling MP4 using the video-to-sprite workflow:
+  - added `tools/extract_video_frames_browser.mjs` as a local browser-based fallback extractor because `ffmpeg` was not available in PATH and the initial seek-only extraction returned duplicate frames
+  - added `tools/make_contact_sheet.py` and `tools/animation_pipeline.py` for contact-sheet review and preserve-canvas transparent sprite strip generation
+  - extracted 24 playback frames from `C:/Users/pierr/Downloads/Video/Kling AI- Next-Gen AI Video & AI Image Generator.mp4`
+  - removed the off-white background and cleared the fixed lower-right Kling watermark area before scaling into stable 512x512 cells
+  - promoted the result to `public/images/units/shark/video-idle-sheet.png`, `video-idle-ui.png`, and `video-idle-poster.png`
+  - wired `foxfire` idle/ready to the new 24-frame loop in `src/lib/unit-visuals.ts`, leaving hit/action sheets unchanged
+  - validated `npm run build`, `npm run test` (`79/79`), restarted `http://127.0.0.1:3011/game`, and confirmed in Playwright that the shark uses `/images/units/shark/video-idle-sheet.png`, frames advance, and browser errors are empty
+- 2026-04-28: Rebuilt the live squirrel unit from the user's new ordered sprite sheet `C:/Users/pierr/Downloads/ChatGPT Image 28 avr. 2026, 18_35_47.png`:
+  - replaced the squirrel generator with explicit row/column extraction for 6-frame walk-right, 6-frame walk-left, 4-frame hurt, and 6-frame victory sequences
+  - regenerated transparent clipped sheets and APNG previews under `public/images/units/squirrel/`
+  - mapped `idle` and `ready` to the right-walk loop so the selected bench unit keeps moving, mapped `hit` to hurt, and mapped `action`/`actionLeft`/`happy` to victory reactions for flip events
+  - added audit sheets at `output/playwright/squirrel-frame-audit/source-frame-index.png` and `output/playwright/squirrel-frame-audit/generated-animation-contact.png`
+  - re-ran `npm run build` and `npm run test` (`79/79` passing)
+  - restarted `next start` on `http://127.0.0.1:3011/game`
+  - validated with `$develop-web-game` and direct Playwright captures in `output/playwright/squirrel-new-sheet-final/`; bench and board both show clipped single-frame playback with changing transforms, no console errors
+- 2026-04-05: Further Ollie fluidity pass after user still saw smear / double-image moments:
+  - upgraded `scripts/build_ollie_sprite.py` again so the new `Ollie 2.mp4` loop is rebuilt from every frame in the chosen segment, then locally stabilized by translation search against a reference frame before export
+  - replaced the animated WebP / sprite-sheet-style playback approach with a native animated PNG asset at `public/images/ollie/ollie-idle-anim.png`, rendered directly by `src/components/ollie-sprite.tsx`
+  - this keeps many more in-between frames on screen and removes the old sheet-sliding class of artifact entirely
+  - re-ran `npm run build` -> success
+  - re-ran `npm run test` -> `79/79` passing
+  - validated on a fresh production server at `http://127.0.0.1:3010/lab`
+  - clean validation artifacts:
+    - `output/playwright/ollie-stabilized-pass/ollie-panel-a.png`
+    - `output/playwright/ollie-stabilized-pass/ollie-panel-b.png`
+    - `output/playwright/ollie-stabilized-pass/ollie-panel-c.png`
+    - no browser console errors and no failed responses
+- 2026-04-05: Rebuilt the Ollie 2 integration again for better fluidity and cleaner transparency after user feedback:
+  - replaced the old CSS sprite-sheet playback with a native transparent animation asset in `src/components/ollie-sprite.tsx`
+  - upgraded `scripts/build_ollie_sprite.py` to rebuild Ollie from all frames in the selected loop segment (`75..132`), keep only the largest alpha-connected subject per frame, and export `public/images/ollie/ollie-idle-anim.png` as an animated PNG plus the cleaned poster image
+  - this removed the sheet-sliding artifact class entirely and also strips the small disconnected alpha junk that used to survive near the lower edges
+  - re-ran `npm run build` -> success
+  - re-ran `npm run test` -> `79/79` passing
+  - validated on a fresh production server at `http://127.0.0.1:3009/lab`
+  - clean validation artifacts:
+    - `output/playwright/ollie-apng-pass/ollie-panel-a.png`
+    - `output/playwright/ollie-apng-pass/ollie-panel-b.png`
+    - `output/playwright/ollie-apng-pass/ollie-panel-c.png`
+    - no browser console errors and no failed responses
+- 2026-04-05: Swapped the in-game Ollie animation source from `C:/Users/pierr/Downloads/Video/Ollie.mp4` to `C:/Users/pierr/Downloads/Video/Ollie 2.mp4` for a test pass:
+  - updated `scripts/build_ollie_sprite.py` to use the new MP4 and rebuilt the loop around the cleaner blink cycle (`frames 75..132` sampled every `3` frames) instead of the older ping-pong sequence
+  - regenerated `public/images/ollie/ollie-idle-sprite.png` and `public/images/ollie/ollie-idle-poster.png` from the new source with transparent background preserved
+  - updated `src/components/ollie-sprite.tsx` for the new sprite geometry (`20` frames, `227x320`)
+  - re-ran `npm run build` -> success
+  - re-ran `npm run test` -> `79/79` passing
+  - validated on a fresh production server at `http://127.0.0.1:3007/lab`
+  - clean validation artifacts:
+    - `output/playwright/ollie2-pass/combat-section.png`
+    - `output/playwright/ollie2-pass/ollie-panel-a.png`
+    - `output/playwright/ollie2-pass/ollie-panel-b.png`
+    - `output/web-game/ollie2-pass/`
+  - browser console and failed responses were both empty on that pass
+- 2026-04-03: Final Ollie combat cleanup after the earlier fix still reproduced visually:
+  - identified that Ollie was still rendered twice: once in the dedicated rival panel and once again in `src/components/battle-ambience.tsx`
+  - removed the old ambience-layer Ollie sprite entirely so there is now only one in-combat Ollie location
+  - kept the dedicated `Presence` slot in `src/components/battle-stage.tsx` visible across desktop sizes instead of hiding it behind `lg`
+  - kept the corrected sprite-sheet stepping in `src/components/ollie-sprite.tsx` so the sheet advances pose-by-pose instead of reading like a scrolling strip
+  - validated on a fresh production server at `http://127.0.0.1:3006/lab`
+  - clean outputs:
+    - `output/playwright/ollie-final-check/combat-section.png`
+    - `output/playwright/ollie-final-check/ollie-panel-a.png`
+    - `output/playwright/ollie-final-check/ollie-panel-b.png`
+    - no browser console errors and no failed responses
+- 2026-04-03: Follow-up fix for the Ollie MP4 combat integration after user review:
+  - moved Ollie's combat presence out of the floating overlap zone and into a dedicated rival-side presence slot inside `src/components/battle-stage.tsx`, so it no longer hides under the enemy HP block
+  - fixed the sprite-sheet playback in `src/components/ollie-sprite.tsx` and `src/app/globals.css` by switching from percentage-based background scrolling to discrete sheet translation with the correct `21` step intervals for `22` frames
+  - revalidated on a fresh production server at `http://127.0.0.1:3005/lab`
+  - direct Playwright captures now show one clean Ollie pose per frame without the earlier "scrolling band / multiple dogs" artifact:
+    - `output/playwright/ollie-fix-pass-2/ollie-panel-a.png`
+    - `output/playwright/ollie-fix-pass-2/ollie-panel-b.png`
+    - `output/playwright/ollie-fix-pass-2/combat-section.png`
+  - browser console and failed responses were both clean on that pass
+- 2026-04-03: Integrated the user-provided `C:/Users/pierr/Downloads/Video/Ollie.mp4` into the combat presentation instead of relying only on static Ollie art:
+  - added `scripts/build_ollie_sprite.py` to extract selected frames from the local MP4, remove the background, and generate `public/images/ollie/ollie-idle-sprite.png` plus `public/images/ollie/ollie-idle-poster.png`
+  - added `src/components/ollie-sprite.tsx` as a reusable transparent sprite-sheet player for the extracted Ollie animation
+  - updated `src/components/battle-ambience.tsx`, `src/components/battle-stage.tsx`, and `src/app/globals.css` so the rival side of the board now uses the exact Ollie sprite as an animated standee plus a larger animated rival portrait instead of only the older eyes-in-the-dark treatment
+  - re-ran `npm run build` -> success
+  - re-ran `npm run test` -> `79/79` passing
+  - validated `/lab` on fresh production servers:
+    - `$develop-web-game` client artifacts: `output/web-game/ollie-video-pass-3003/`
+    - direct Playwright screenshots: `output/playwright/ollie-video-pass-3003/combat-section.png`, `output/playwright/ollie-video-pass-3003/battle-main.png`
+    - no browser console errors and no failed responses on the clean `http://127.0.0.1:3003/lab` validation pass
+- 2026-04-03: Reframed the local character studio around "character first" 2D output instead of generic card art:
+  - added structured per-card direction controls in `src/lib/character-lab-direction.ts` and `src/components/character-art-lab.tsx` for silhouette, pose, detail budget, and animation goal
+  - added the new `2D Toon Animable` SDXL preset in `src/lib/character-lab-presets.ts` plus quick workflow buttons so the lab can jump straight to a rig-friendly transparent cutout setup
+  - added animation-readiness diagnostics in the lab UI to flag cluttered briefs, scene leakage, and accessory overload before generation
+- 2026-04-03: Character-lab persistence cleanup and validation:
+  - `src/lib/character-lab-store.ts` now persists the user-facing negative prompt separately from composed generation negatives, so reloading the studio no longer re-pollutes prompts with duplicated preset constraints
+  - normalized stored card direction defaults during load, which also cleaned the existing `reports/character-lab/state.json` entries (for example `sapling` negative prompts are now reduced back to user constraints)
+  - added unit coverage in `src/lib/character-lab-direction.test.ts` and expanded `src/lib/character-lab-presets.test.ts` for direction prompts, diagnostics, dedupe, and negative extraction
+  - re-ran `npm run test` -> `78/78` passing
+  - re-ran `npm run build` -> success
+  - revalidated `/lab/characters` on the production server with the `$develop-web-game` Playwright client and direct Playwright captures:
+    - `output/web-game/character-lab-redesign/shot-0.png`
+    - `output/playwright/character-lab-redesign/full-page.png`
+    - `output/playwright/character-lab-redesign/quickflow-2d.png`
+  - direct interaction check confirmed the new `2D anime propre` quickflow applies cleanly with no browser console errors
+- 2026-04-03: Real runtime validation with ComfyUI online:
+  - started ComfyUI successfully with `scripts/start-comfyui.ps1 -Background`; `http://127.0.0.1:8188/system_stats` returned `200` and the studio now reports `ComfyUI ok`
+  - ran real local toon generations through `http://127.0.0.1:3000/api/character-lab/generate` for `stag`
+  - generated review samples:
+    - `public/images/cards-generated/stag/candidate-stag-20260403161342-01.png`
+    - `public/images/cards-generated/stag/candidate-stag-20260403161610-01.png`
+    - `public/images/cards-generated/stag/candidate-stag-20260403161831-01.png`
+  - used those real outputs to tighten the toon preset further:
+    - reduced knight/armor/monochrome bias in `src/lib/character-lab-presets.ts`
+    - moved subject anchoring ahead of style segments in prompt composition so creature identity survives more often
+    - strengthened the `clean` detail-budget wording in `src/lib/character-lab-direction.ts`
+  - final browser check on the rebuilt production server stayed clean with no console errors: `output/playwright/character-lab-redesign/final-home.png`
+  - current caveat after real generations: the new system is materially better at steering toward game-readable 2D cutouts, but SDXL still needs seed iteration for perfect species fidelity and pose cleanliness; the lab now makes those tradeoffs visible instead of hiding them
+- 2026-04-03: Added a true "image de base" path so the studio can stay close to an existing character instead of regenerating from text alone:
+  - added upload/delete + preview support for per-card reference images via `src/app/api/character-lab/reference/route.ts`, `src/app/api/character-lab/reference-image/route.ts`, and the new fields in `src/lib/character-lab-store.ts`
+  - added `referenceStrength` to studio settings and switched the ComfyUI SDXL workflow in `src/lib/comfyui-client.ts` to img2img when a reference image exists (`LoadImage` -> `ImageScale` -> `VAEEncode` -> `KSampler`)
+  - validated the end-to-end flow by uploading `public/images/cards-generated/stag/candidate-stag-20260403093645-01.png` as the base image for `stag`, then generating a new guided candidate `public/images/cards-generated/stag/candidate-stag-20260403165558-01.png`
+  - the guided result stayed materially closer to the source identity than the text-only toon runs, which is the intended direction for "exactement mon personnage"
+  - refreshed UI validation with no browser errors:
+    - `output/playwright/character-lab-reference-mode/top.png`
+    - `output/playwright/character-lab-reference-mode/lower.png`
+- 2026-04-03: Character-lab art-direction pass for the local studio:
+  - separated subject cleanup from render style with `src/lib/character-lab-subject.ts`, so old 3D / painterly prompt fragments are stripped before generation and the lab can recover cleaner subject-only briefs
+  - rebuilt the lab presets around the recommended `Pixel Art Jeu Video` flow and marked `FLUX Concept Cutout` as experimental in the UI instead of presenting it as the default path
+  - added local pixel-art postprocessing (`scripts/postprocess_pixel_art.py`, `src/lib/pixel-art-postprocess.ts`) after generation to quantize, pixelize, and recenter transparent character cutouts
+  - added `src/app/api/character-lab/image/route.ts` and switched lab candidate previews to that dynamic route because `next start` was returning `404` for newly generated files added under `public/` after the build
+- 2026-04-03: Validation for the character-lab art-direction pass:
+  - `npm run test` -> `74/74` passing
+  - `npm run build` -> success
+  - real local generations succeeded again through `http://127.0.0.1:3000/api/character-lab/generate` with ComfyUI reachable on `http://127.0.0.1:8188`
+  - reviewed the new transparent pixel candidates:
+    - `public/images/cards-generated/sapling/candidate-sapling-20260403093601-01.png`
+    - `public/images/cards-generated/stag/candidate-stag-20260403093645-01.png`
+  - reran the `$develop-web-game` client in `output/web-game/character-lab-pass-2/`
+  - direct Playwright validation in `output/playwright/character-lab-validation-3/` confirmed:
+    - `/lab/characters` loads on the recommended pixel preset
+    - no console errors
+    - no failed responses
+    - the new dynamic image route serves freshly generated candidates immediately
+- 2026-04-03: Current caveat after real runtime probes:
+  - `FLUX.1-schnell` is integrated in the lab code and assets, but on this exact Windows + AMD ROCm machine ComfyUI still crashes with a fatal access violation while loading the FLUX path
+  - the lab now surfaces FLUX as experimental and the API returns a clearer message when that path drops ComfyUI, but the stable production path remains `Pixel Art Jeu Video`
+- 2026-03-26: Updated `src/components/battle-ambience.tsx` so Ollie now appears in combat only as two large glossy chihuahua eyes inspired by the new reference image. Removed the visible smile/face silhouette and added a subtle float animation in `src/app/globals.css`.
+- 2026-03-26: Replaced the temporary stylized eyes with assets derived from the exact user image in `C:\Users\pierr\Downloads\2443c8c6-69c3-468b-b94c-c0b30d60afd5.jpg`. Generated `public/images/ollie/ollie-shadow-mist.png` and `public/images/ollie/ollie-eyes-from-source.png`, then composited them in `src/components/battle-ambience.tsx` so Ollie reads as a soft silhouette in fog with the real eyes preserved and brightened.
+- 2026-03-26: Cleaned the Ollie source pass further. Replaced the rough intermediate assets with aligned full-frame layers from the same source image: `public/images/ollie/ollie-shadow-mist-clean.png` for the body in mist and `public/images/ollie/ollie-eyes-glow-full.png` for the real eyes only. Updated `src/components/battle-ambience.tsx` and `src/app/globals.css` so the eyes now stay exactly in place on the silhouette with a small glow pulse and drift.
+- 2026-03-14: Read `AGENTS.md`, `README.md`, and the `$develop-web-game` skill instructions.
+- 2026-03-14: Confirmed the repo only contained project docs, then installed the Next.js, Tailwind, Vitest, TypeScript, and Playwright baseline dependencies.
+- 2026-03-14: Planned architecture: `src/core` for rules/config/bots/serialization, `src/components` for rendering and controller glue, `src/app` for routes, `docs/` for notes, and `reports/` for future simulation output.
+- 2026-03-14: Implemented the pure battle engine, seedable deck shuffling, starter deck presets, serialization helpers, and the greedy AI bot in `src/core`.
+- 2026-03-14: Added Vitest coverage for placement validation, adjacency/combat, multi-destruction, allied non-combat, reshuffle flow, dead turns, and majority win calculation.
+- 2026-03-14: Built the App Router UI, including the main match view, `/lab` debug route, and browser automation hooks via `window.render_game_to_text()` and `window.advanceTime(ms)`.
+- 2026-03-14: Verified with `npm run test`, `npm run build`, and the `$develop-web-game` Playwright client against `http://localhost:3000`; fixed a restart-loop bug and tightened the layout so the hand stays visible above the fold.
+- 2026-03-14: Extended the bot layer to a shared deterministic interface and added `random`, `greedy`, and `heuristic` self-play bots.
+- 2026-03-14: Added pure simulation orchestration, summary aggregation, Markdown/JSON report generation, and the `npm run sim` CLI entrypoint.
+- 2026-03-14: Rebuilt `/lab` into a local-only simulation dashboard that reads generated report files and still embeds the live battle sandbox for manual inspection.
+- 2026-03-14: Generated initial report files in `/reports` for `random:greedy`, `greedy:heuristic`, and `random:heuristic`, then validated `/lab` with the Playwright client.
+- 2026-03-14: Read the new refactor prompt and kept the existing architecture shape: `src/core` still owns all combat rules, while `src/components` and `/lab` only consume engine state and report data.
+- 2026-03-14: Refactored the engine for champion health, cracked card states, overflow champion damage, persistent multi-round matches, and board-full round clearing without duplicating any combat logic.
+- 2026-03-14: Updated serialization, bots, simulator match flow, aggregation, and report generation to understand rounds, cracked cards, champion damage, and lethal-source breakdowns.
+- 2026-03-14: Rebuilt the playable UI to show champions, health bars, round and turn info, cracked visuals, combat result badges, hover previews, and richer last-action feedback.
+- 2026-03-14: Expanded test coverage for healthy-to-cracked, cracked-to-destroyed, immediate destroy thresholds, stacked champion damage, round resets, multi-round reshuffles, bot legality, and deterministic replay.
+- 2026-03-14: Ran `npm run test`, `npm run build`, and three real simulation batches for `random:greedy`, `greedy:heuristic`, and `random:heuristic` under the new combat model.
+- 2026-03-14: Validated `http://localhost:3000` and `http://localhost:3000/lab` with the `$develop-web-game` Playwright client, fixed a `/lab` crash on legacy report data, and corrected `window.advanceTime(ms)` so AI turns advance under frame-stepped automation.
+- 2026-03-14: Read the new polish prompt, kept the existing architecture shape, and identified the minimum change set: `src/core` rules/config/types first, then tests, bots, UI, `/lab`, reports, and docs.
+- 2026-03-14: Refactored combat again to remove direct champion damage from placement resolution, move champion damage entirely to simultaneous round-end survivor scoring, and support explicit draw results on double KO.
+- 2026-03-14: Updated simulation aggregation and report generation to track draw rate, round-end damage, survivor counts, and ending sources under the new pressure model.
+- 2026-03-14: Redesigned the browser UI and `/lab` around a darker bioluminescent prototype look with clearer champion panels, board readability, hover previews, and round-end feedback while still consuming only engine state.
+- 2026-03-14: Added defensive report loading so legacy JSON files in `/reports` no longer break `/lab`, then reran `npm run test`, `npm run build`, three fresh `npm run sim` batches, and a Playwright interaction pass with no remaining browser errors.
+- 2026-03-14: Began the attack/block cleanup pass requested next: removed cracked-state types from the engine, rewrote round-end pressure summaries, translated the main combat UI to French, and tightened the layout toward a one-screen presentation.
+- 2026-03-14: Updated tests, `/lab`, global metadata, and README/docs to match immediate destruction plus row-based attack/block round resolution; next step is compile/runtime validation and final layout tuning.
+- 2026-03-14: Re-ran `npm run test` and `npm run build`, then regenerated three real self-play reports for `random:greedy`, `greedy:heuristic`, and `random:heuristic` on the no-cracked attack/block ruleset.
+- 2026-03-14: Restarted `next start` on port 3000, validated `/` and `/lab` with Playwright plus the `$develop-web-game` client, confirmed no console errors, and tightened the French main screen until `scrollHeight === innerHeight` at 1440x900.
+- 2026-03-14: Replaced the attack/block loop with the 4x4 flip-control system: cards now flip ownership on strict superiority, the full board ends the round, control difference becomes round-end champion damage, and all obsolete cracked/destruction/overflow logic was removed from engine, bots, sim, reports, and docs.
+- 2026-03-14: Updated the browser UI and `/lab` to the new French control-game presentation, added hand-card test ids for browser automation, fixed panel copy glitches, and tightened the 4x4 layout so the main screen stays visible in one viewport without title overlap.
+- 2026-03-14: Ran `npm run test`, `npm run build`, and three real simulation batches on the flip-control ruleset:
+  - `random:greedy` (`sim-20260314-174920-random-vs-greedy-starter12`): greedy 100.0%, 56.08 tours, 3.22 rounds, 29.18 flips/match, 8.22 degats de round.
+  - `greedy:heuristic` (`sim-20260314-174931-greedy-vs-heuristic-starter12`): heuristic 96.7%, 90.46 tours, 5.36 rounds, 50.08 flips/match, 5.01 degats de round.
+  - `random:heuristic` (`sim-20260314-175120-random-vs-heuristic-starter12`): heuristic 100.0%, 49.63 tours, 2.82 rounds, 19.38 flips/match, 9.40 degats de round.
+- 2026-03-14: Validated the final production build with both the `$develop-web-game` client and direct Playwright automation against `http://localhost:3000` and `http://localhost:3000/lab`; no console errors, `render_game_to_text()` stayed coherent after a real player move + AI response, and the main page stayed at `scrollHeight === innerHeight === 900`.
+- 2026-03-14: Reworked the main combat screen after a visibility regression report: the board now scales from viewport height, occupied board cells are square, hand cards and champion panels are denser, and the header/sidebar copy was shortened to stop text and board overlap on laptop-sized screens.
+- 2026-03-14: Revalidated the UI on `1440x900`, `1366x768`, and `1280x800` with direct Playwright captures plus the `$develop-web-game` client. No console errors, `scrollHeight === innerHeight` on the main page, and the previous board/hand overlap no longer reproduced.
+- 2026-03-15: Installed the frontend-oriented `playwright-interactive` and `figma-implement-design` skills from `openai/skills` for later UI iteration. Codex needs a restart before those newly installed skills can be invoked.
+- 2026-03-15: Refactored the prototype back to a `3x3` board and a single `starter10` deck preset across the engine defaults, tests, CLI defaults, and the main gameplay UI.
+- 2026-03-15: Rebuilt the main combat screen for laptop-sized viewports: fixed a dedicated bottom hand lane, restored portrait card proportions, tightened champion/info panels, and kept plateau, HP, and hand visible together without vertical page scroll.
+- 2026-03-15: Updated the main card rendering to a stronger portrait layout with readable directional values, clearer ownership chips, and cleaner selection feedback for both hand and board cards.
+- 2026-03-15: Updated `/lab` and `README.md` to reflect the `3x3` + `starter10` baseline, and added safe fallback deck labels so old `starter12` reports no longer break the lab page.
+- 2026-03-15: Re-ran `npm run test` and `npm run build`, then validated `/` and `/lab` again with both the `$develop-web-game` client and direct Playwright captures on the production server. Main screen stayed at `scrollHeight === clientHeight` on `1366x768`, interaction state matched `window.render_game_to_text()`, and `/lab` no longer returned 500 with legacy reports.
+- 2026-03-15: User requested a much stronger frontend pass with 3D depth, stricter readability, and zero overlap. Checked installable skills again: no dedicated curated or experimental Three.js skill was available, so the 3D layer was implemented directly in the app.
+- 2026-03-15: Installed the curated `figma` skill in addition to the earlier frontend skills. Codex still needs a restart before newly installed skills are available in-session.
+- 2026-03-15: Added a lightweight free Three.js atmosphere layer with `three`, `@react-three/fiber`, and `@react-three/drei`, then rebuilt the main combat layout around three clean lanes: left battle brief, centered board stage, right command panel.
+- 2026-03-15: Simplified card readability again: French card names, cleaner portrait hand cards, compact board cards with emblem codes, and reduced text noise so values stay legible during play.
+- 2026-03-15: Revalidated the latest pass with `npm run test`, `npm run build`, the `$develop-web-game` client, and direct Playwright runs on `/` and `/lab`. At `1366x768`, the main page still fit without vertical scroll, browser console stayed clean, and the game state remained coherent after player move + AI response.
+- 2026-03-15: User asked for a stronger Slay-the-Spire-like readability pass. Updated typography with `next/font`, widened the central board stage, converted empty board cells to calmer plus-sign slots, and rebuilt board-card faces so the directional values stay large and readable after placement.
+- 2026-03-15: Compacted the left and right side panels, removed redundant clutter from the command column, and kept the main screen on one `1366x768` viewport without page scroll while preserving the Three.js atmosphere backdrop.
+- 2026-03-15: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` Playwright client, and direct Playwright placement checks on the production server. Final capture: `output/playwright/sts-clarity-live-7/after-place.png`; no console errors, and `scrollHeight === clientHeight === innerHeight`.
+- 2026-03-15: Updated the round-end damage rule in the core engine: once the 3x3 board is full, each champion now takes damage equal to the number of cards controlled by the opponent, simultaneously. Updated config naming, engine tests, README, `/lab`, and on-screen rule text to match.
+- 2026-03-15: Re-ran `npm run test`, `npm run build`, restarted `next start`, and confirmed in-browser that the new rule text is visible on `/` with no console errors.
+- 2026-03-15: Integrated the user-provided arena image as the board background. Copied the asset to `public/images/board-arena.png`, applied it behind the 3x3 grid in `src/components/board-grid.tsx`, and kept translucent slot overlays so the cards remain readable.
+- 2026-03-15: Re-ran `npm run test`, `npm run build`, restarted `next start`, and captured `output/playwright/board-bg/home.png` to confirm the new board background renders cleanly with no console errors.
+- 2026-03-15: User wanted the arena to span the whole central board panel while keeping card placement on the inner square of the illustration. Refactored `src/components/board-grid.tsx` so the arena image now fills the full scene, the 3x3 grid is centered on the inner stone square, and the placement layer scales independently of the outer illustration.
+- 2026-03-15: Revalidated with `npm run test`, `npm run build`, `next start`, the `$develop-web-game` client, and direct Playwright captures. Final alignment screenshots: `output/playwright/arena-align/home.png` and `output/playwright/arena-align-play/after-place.png`; no console errors.
+- 2026-03-15: User provided a custom SVG card mockup. Rendered it locally to `output/playwright/card-design-ref/reference.png`, then refactored the card presentation around that reference instead of guessing from the raw SVG source.
+- 2026-03-15: Added `src/components/card-illustration.tsx` for richer archetype-specific placeholder art, and rebuilt `src/components/card-view.tsx` with an ornate wood-and-gem frame, clearer side values, better ownership chips, and denser board-card formatting.
+- 2026-03-15: Recalibrated `src/components/board-grid.tsx` so the new board cards occupy more of each slot without reintroducing overlap, then revalidated the card pass with the `$develop-web-game` client and direct Playwright screenshots (`output/web-game/card-pass-2/shot-0.png`, `output/playwright/card-redesign-2/after-place.png`).
+- 2026-03-15: Re-ran `npm run test` and `npm run build`, restarted `next start`, and confirmed `http://localhost:3000` still serves the updated build with no browser console errors during a real player move + AI response.
+- 2026-03-15: User wanted the exact card mockup image used directly, not a recreated frame. Copied the rendered reference to `public/images/cards/card-template.png` and simplified `src/components/card-view.tsx` so cards now use that image as-is with only the four values and the card name overlaid.
+- 2026-03-15: Removed the synthetic placeholder illustration system entirely, kept ownership readable through external aura/highlight only, and revalidated the live board with `output/web-game/card-template-pass/shot-0.png` plus `output/playwright/card-template-live/after-place.png`.
+- 2026-03-15: Follow-up polish pass on the exact-card template: removed opaque name bands in favor of transparent text overlays, strengthened the combat-value badge above impacted board cards, and switched ownership tinting to subtle blue for the player and red for the rival directly on the card image.
+- 2026-03-15: Adjusted the bottom hand lane spacing and card lift so the hand no longer crowds the section title, then revalidated with fresh captures in `output/playwright/card-filter-live-5/` and a clean browser console.
+- 2026-03-15: Readability pass on the exact-card template: replaced raw edge numbers with higher-contrast stone badges, increased number size/stroke, moved the name overlay slightly upward, and rebuilt the lower hand section with a cleaner header separator, slightly more height, and denser card sizing so the entire bottom lane remains visible.
+- 2026-03-15: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` client, and direct Playwright captures in `output/playwright/hand-readability-check-2/`. Final checks: no console errors, `scrollHeight === clientHeight === innerHeight === 768`, and the updated number badges plus bottom hand text stayed readable after a real player move + AI response.
+- 2026-03-15: Ownership clarity pass on the board: strengthened blue/red owner tinting specifically for plateau cards, added colored inner frames and glow rails on board cards, and tinted occupied board cells themselves so control remains readable even at a glance.
+- 2026-03-15: Revalidated owner readability with fresh captures in `output/playwright/owner-player-check/player-just-placed.png` and `output/playwright/owner-clarity-check-2/after-place.png`, covering both a freshly placed blue player card and red enemy-controlled cards after the AI response.
+- 2026-03-15: Tightened the directional value badges again in `src/components/card-view.tsx`: smaller circles, thinner rims, and owner-colored blue/red badge tones so the values read as part of each side’s identity instead of neutral stone tokens.
+- 2026-03-15: Revalidated the refined number badges with fresh captures in `output/playwright/owner-badges-check/home.png` and `output/playwright/owner-badges-check/after-place.png`; the new blue player badges and red rival badges stayed readable in both hand and board states.
+- 2026-03-15: Moved hand-card names out of the card art entirely and disabled printed card names on board cards, so the bottom directional value never competes with the card title. Hand cards now render a dedicated label plaque below the card in `src/components/battle-client.tsx`.
+- 2026-03-15: Tightened the directional value bubbles again in `src/components/card-view.tsx` with even smaller owner-colored capsules around each number. Revalidated with `output/playwright/name-badges-check/home.png` and `output/playwright/name-badges-check/after-place.png`; no console errors and the page still fits `1366x768` without vertical scroll.
+- 2026-03-15: User dropped card names entirely. Removed card-name rendering from the card component, removed the hand-name plaques, and switched the left panel to a generic selection state so no visible card names remain on the main play screen.
+- 2026-03-15: Tightened the value bubbles once more by making the colored support shapes smaller than the numerals themselves, while keeping the number size unchanged. Also centered the whole hand row inside its frame with overflow clipped so the playable cards no longer drift outside the bottom panel.
+- 2026-04-03: Fixed the local PowerShell profile so it no longer errors on startup when `fnm` is missing. The profile now guards the `fnm env` call.
+- 2026-04-03: Reworked the character-art experiment into a dedicated local studio at `/lab/characters`. The studio now persists prompts/settings in `reports/character-lab/state.json`, stores generated candidates under `public/images/cards-generated/<card-id>/`, and explicitly keeps all generated art out of the live game cards for now.
+- 2026-04-03: Added local character-lab APIs in `src/app/api/character-lab*` plus `src/lib/comfyui-client.ts` and `src/lib/character-lab-store.ts` so the UI can save prompts, select/delete candidates, and attempt local ComfyUI generation through a simple checkpoint-based workflow.
+- 2026-04-03: Simplified `/lab` by moving the character tooling behind a dedicated entry card. Added the separate `src/app/lab/characters/page.tsx` route to keep the art workflow focused and easier to validate.
+- 2026-04-03: Removed the earlier automatic card-art fallback from `src/components/card-view.tsx`; generated character images are no longer shown in live gameplay.
+- 2026-04-03: Fixed a `/lab` navigation bug where the embedded battle sandbox's round coin toss portal overlay blocked clicks on the page. Embedded battle views now suppress that fullscreen overlay and auto-dismiss the recap when it becomes confirmable.
+- 2026-04-03: Revalidated the feature with `npm run test`, `npm run build`, the `$develop-web-game` Playwright client on `/lab/characters`, and direct Playwright checks covering `/lab` -> `/lab/characters`, prompt saving, and browser console errors. Final captures: `output/web-game/character-lab-studio/shot-0.png` and `output/playwright/character-lab-final/lab-characters.png`.
+- 2026-04-03: Current limitation: no local ComfyUI server is running yet, so generation requests currently fail fast with the expected message `Impossible de joindre ComfyUI via http://127.0.0.1:8188/prompt.`
+- 2026-03-15: Confirmed the cards still use the direct user image template in `public/images/cards/card-template.png` and removed extra bright overlay layers so the card face is now basically the user image plus ownership tinting and number badges only. Revalidated with `output/playwright/no-name-check/home.png` and `output/playwright/no-name-check/after-place.png`; no console errors and still no vertical scroll at `1366x768`.
+- 2026-03-15: Final bubble-centering pass in `src/components/card-view.tsx`: removed the large bottom owner pill from board cards, rebuilt each directional badge as a centered wrapper with a smaller colored support shape behind the numeral, and nudged the numeral baseline so it stays visually centered inside the bubble.
+- 2026-03-15: Revalidated the cleaned card overlays in `output/playwright/bubble-centering-check/home.png` and `output/playwright/bubble-centering-check/after-place.png`; the board no longer shows the oversized bottom bubble after placement, card names remain hidden, and the value bubbles stay centered with no console errors.
+- 2026-03-15: Follow-up adjustment after user feedback: the new bubbles were too small for the unchanged numerals. Increased the bubble size back above the glyph bounds while keeping the centered wrapper structure, so each number is now actually enclosed by its bubble again.
+- 2026-03-15: Revalidated the corrected number-to-bubble ratio with `output/playwright/bubble-size-fix-check/home.png` and `output/playwright/bubble-size-fix-check/after-place.png`; the oversized board-bottom owner bubble remains gone and the numerals now sit inside their bubbles.
+- 2026-03-15: Began the per-card art pass requested by the user. Added `artSrc` to `CardArchetype`, exposed `getCardArtSrc()` from the core engine, and switched `src/components/card-view.tsx` to read the art source from the deterministic card config rather than a hard-coded template path.
+- 2026-03-15: Replaced the seven starter-card statlines with the new base set provided by the user and assigned two specific archetypes to the new visuals: `mole` is now the squirrel (`6 / 2 / 1 / 1`) and `stag` is now the hedgehog (`1 / 1 / 5 / 4`).
+- 2026-03-15: Normalized the user-supplied hedgehog and squirrel images to shared transparent `234x333` canvases in `public/images/cards/hedgehog-card.png` and `public/images/cards/squirrel-card.png`, then added a third transparent placeholder card from another local user asset as `public/images/cards/placeholder-card.png` for the remaining unillustrated archetypes.
+- 2026-03-15: Fixed a transparency regression in the old generic template: plateau and hand cards now render with `object-contain` and owner tint masked to the card alpha only, so nothing leaks outside the card frame. Also aligned hand and board card wrappers to the real `234/333` asset ratio.
+- 2026-03-15: Updated `src/core/engine.test.ts` to the new side values, reran `npm run test` and `npm run build`, restarted `next start`, then validated the live browser with the `$develop-web-game` client and direct Playwright captures in `output/web-game/card-art-pass/` and `output/playwright/per-card-art-live/`. No console errors; `home.png` and `after-place.png` confirm transparent cards, consistent card sizing, and stable live placement rendering.
+- 2026-03-15: Integrated three more user-supplied card arts after locating the local source files: horse from `Design sans titre (23).png`, cat from `Design sans titre (24).png`, and bird from `Sans titre (62 x 88 cm).png`.
+- 2026-03-15: Normalized those three sources to the shared transparent `234x333` card canvas as `public/images/cards/horse-card.png`, `public/images/cards/cat-card.png`, and `public/images/cards/bird-card.png`, then verified the pack visually with `output/playwright/new-card-pack-sheet.png`.
+- 2026-03-15: Assigned the new arts to three remaining archetypes in `src/core/config/cardArchetypes.ts`: `badger` -> `Poney runique` (`horse-card.png`), `heron` -> `Oiselle aubeplume` (`bird-card.png`), and `owl` -> `Chaton des ronces` (`cat-card.png`).
+- 2026-03-15: Re-ran `npm run test`, `npm run build`, restarted `next start`, then validated the live game with the `$develop-web-game` client and direct Playwright on `seed 13`, which shows the three new cards together in hand. Final captures: `output/playwright/new-card-pack-seed13/home-seed13.png` and `output/playwright/new-card-pack-seed13/after-place-seed13.png`; no console errors.
+- 2026-03-15: User requested a fully random hand refresh each turn as long as a card has not been committed to the board. Refactored `drawCardsForTurn()` in `src/core/engine.ts` so each new hand is drawn from a freshly shuffled pool of all currently available cards outside the board, while still only counting a reshuffle when discard has to be merged back because the draw pile is insufficient.
+- 2026-03-15: Added deterministic tests for the new draw behavior in `src/core/engine.test.ts`: one confirms every turn re-randomizes the available pile, and another confirms unplayed cards from the previous hand return to the next random pool while the played board card stays unavailable.
+- 2026-03-15: Updated the README rules text to document the new hand behavior, reran `npm run test` and `npm run build`, restarted `next start`, then validated in-browser with the `$develop-web-game` client plus direct Playwright. Final live check in `output/playwright/random-hand-live/` showed no console errors and confirmed that the next player hand changed after a player move + enemy response while excluding the card still on the board.
+- 2026-03-15: Integrated the last two user-supplied card arts from `Design sans titre (25).png` and `Design sans titre (26).png`, normalized them to the shared transparent `234x333` format as `public/images/cards/shark-card.png` and `public/images/cards/plant-card.png`.
+- 2026-03-15: Replaced the last two placeholder archetypes in `src/core/config/cardArchetypes.ts`: `sapling` is now `Floramie toxique` with `plant-card.png`, and `foxfire` is now `Requin runefer` with `shark-card.png`. All 7 gameplay archetypes now have dedicated final art; no placeholder art remains referenced by the code.
+- 2026-03-15: Updated the base deck to exactly `7` unique cards in `2` copies each, for a total of `14` cards, in `src/core/config/decks.ts`. Added a coverage check in `src/core/engine.test.ts` to assert the opening pool is `14` cards with `7` unique archetypes and a `4`-card opening hand.
+- 2026-03-15: Updated the visible deck label in `src/components/game-panel.tsx` and the rules/setup text in `README.md` to reflect the new `14`-card base deck. Revalidated with `npm run test`, `npm run build`, the `$develop-web-game` client, and direct Playwright captures. Final proof set: `output/playwright/final-seven-cards-sheet.png` and `output/playwright/final-seven-live/home.png`; no console errors.
+- 2026-03-15: User requested a Slay-the-Spire-like progression map before combat with branching choices, 12 locations before a fixed final boss, and placeholder shop/chest/rest nodes whose mechanics are not implemented yet.
+- 2026-03-15: Added a new deterministic adventure layer in `src/core`: `ADVENTURE_CONFIG`, typed adventure run/node state in `src/core/types.ts`, map generation plus progression helpers in `src/core/adventure.ts`, and serialization support for map mode in `src/core/serialization.ts`.
+- 2026-03-15: Added `src/core/adventure.test.ts` to cover deterministic generation, forward connectivity, branch unlocking, defeat on lost combat, and boss availability only after 12 cleared locations. Verified with `npm run test -- src/core/adventure.test.ts`.
+- 2026-03-15: Refactored the browser combat client into reusable pieces: `src/components/use-battle-controller.ts` now owns the deterministic match flow, `src/components/battle-stage.tsx` owns the shared combat presentation, `src/components/battle-client.tsx` stays as the `/lab` sandbox wrapper, and `/` now mounts the new `src/components/adventure-client.tsx`.
+- 2026-03-15: Added `src/components/adventure-map.tsx` plus the full map/run UI on `/`: branching nodes, fixed boss after 12 locations, map -> encounter -> map flow, placeholder non-combat encounter screens, and browser automation payloads via `serializeAdventureState()`.
+- 2026-03-15: Fixed a regression where the reusable battle hook could reset too often in adventure combat, which made placements appear to do nothing. Also made map recentering immediate on return so the newly unlocked branch is visible right away.
+- 2026-03-15: Revalidated the adventure flow with `npm run test`, `npm run build`, the `$develop-web-game` Playwright client on the fresh production server, and a mirrored browser+core end-to-end script on `seed 1`. Verified screenshots:
+  - `output/web-game/adventure-map-home/shot-0.png`
+  - `output/web-game/adventure-map-combat/shot-0.png`
+  - `output/playwright/adventure-e2e-final-3003/combat-finished.png`
+  - `output/playwright/adventure-e2e-final-3003/placeholder-node.png`
+  - `output/playwright/adventure-e2e-final-3003/map-after-placeholder.png`
+  Final browser checks: no console errors, combat win returned to the map, a `rest` placeholder node opened, and the run advanced to `2` cleared locations with the next branch unlocked.
+- 2026-03-16: User resumed after a PC shutdown, requested localhost restart plus a stronger free 3D combat presentation with clear card animations on placement and on flips. Restarted `next dev` on port `3000`.
+- 2026-03-16: Kept the engine untouched and added a hybrid frontend pass instead of a risky full mesh rewrite: installed `@react-spring/web`, added `src/components/card-motion-shell.tsx` for spring-driven card motion, wired placement/flip/impact animations into `src/components/board-grid.tsx`, and wrapped hand cards in `src/components/battle-stage.tsx` for a stronger selected-card lift.
+- 2026-03-16: Reworked `src/components/forest-atmosphere.tsx` into a more volumetric Three.js scene with camera drift, moon halo, mist planes, forest silhouettes, and a floating pedestal mood pass. Also simplified `src/components/card-view.tsx` so selection motion now comes from the spring wrapper instead of stacking multiple transforms.
+- 2026-03-16: Re-ran `npm run test` and `npm run build`; both pass after the animation integration. Next step is live browser validation with the `$develop-web-game` Playwright client plus screenshot inspection.
+- 2026-03-16: Ran the `$develop-web-game` client against `http://localhost:3000/lab` with a hand-card click pre-step and screenshot inspection in `output/web-game/3d-spring-hand/`. The sandbox rendered correctly with the new volumetric background and selected-card lift, and `state-0.json` stayed coherent with the visible board/hand state.
+- 2026-03-16: Added direct Playwright validation for the requested animation chain on `/lab` using seed `101`: selected `player-stag-11`, placed it at `(0,0)`, then deterministically advanced time to trigger the enemy response that flips it from `(0,1)`. Final reviewed captures:
+  - `output/playwright/3d-animation-clean/board-after-player-only.png`
+  - `output/playwright/3d-animation-clean/board-after-ai-flip-mid.png`
+  - `output/playwright/3d-animation-clean/board-after-ai-flip-settled.png`
+- 2026-03-22: Added a full deterministic lucky-charm system for adventure runs. New core data lives in `src/core/config/luckyCharms.ts`, `src/core/adventure-charms.ts`, and `src/core/player-charms.ts`, with type/config support extended across `src/core/types.ts`, `src/core/config/gameConfig.ts`, and `src/core/cards.ts`.
+- 2026-03-22: Adventure runs now begin with a mandatory starter charm choice, chests now grant charm offers instead of cards, and elite wins can queue an additional charm offer after the normal card reward. This flow is wired through `src/core/adventure.ts`, `src/core/adventure-bot.ts`, `src/core/training/adventure-benchmark.ts`, `src/core/serialization.ts`, and `src/components/adventure-client.tsx`.
+- 2026-03-22: Added player charm combat effects and active abilities: opening/second-play modifiers, corner/center control bonuses, round-damage modifiers, healing/risk charms, combat-start temporary rare cards, draw filtering, round hand reroll, and reflection copies. These are consumed by the shared match engine and exposed in combat UI through `src/components/battle-brief.tsx`, `src/components/battle-stage.tsx`, `src/components/use-battle-controller.ts`, and `src/components/card-view.tsx`.
+- 2026-03-22: Added the new `AdventureCharmOverlay` in `src/components/adventure-charm-overlay.tsx`, surfaced owned charms on the map and in combat, and kept spectator/training flows autonomous so the AI can choose charms and continue full campaign runs.
+- 2026-03-22: Revalidated the pass with `npm test`, `npm run build`, the `$develop-web-game` client, and real Playwright checks on the live server after restarting `next start`. Verified the start-of-run charm selection and live flow on `http://127.0.0.1:3000` with artifacts in `output/playwright/charms-flow-check/` and `output/playwright/charms-flow-check-2/`.
+  - `output/playwright/3d-animation-focused/hand-selected.png`
+  Browser checks: no console errors, placement animation visible before AI resolution, mid-flip state visible, and the flipped card settles back face-on under enemy ownership.
+- 2026-03-16: Rechecked the public root route `/` after the 3D pass. `output/playwright/adventure-home-3d-check/home.png` shows the adventure map still loading correctly with no console errors.
+- 2026-03-16: User requested less useless motion and much better fluidity. Tightened the animation scope: removed motion on non-flip impacts, removed hover transforms from `CardView`, and moved hand emphasis to the spring shell only so only hovered/selected hand cards enlarge slightly.
+- 2026-03-16: Reworked `src/components/card-motion-shell.tsx` for smoother timing: now uses `useLayoutEffect`, smaller travel distances, faster settle configs, and only two gameplay motions (`placed`, `flipped`). `src/components/battle-stage.tsx` now tracks hovered hand cards explicitly, and `src/components/board-grid.tsx` no longer animates blocked impacts.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` Playwright client (`output/web-game/animation-tuning-check-v2/`), and a direct Playwright motion audit in `output/playwright/animation-fluidity-pass-v2/`. Verified no console errors, no plateau-card movement on hover (`transform-check.json` shows identical transforms before/after hover), subtle hand hover/selection, and a shorter placement/flip sequence. Extra early-flip proof: `output/playwright/animation-fluidity-pass-v3/board-flip-early.png`.
+- 2026-03-16: User then reported two remaining issues: AI-driven flips still needed to feel fully correct, and newly placed board cards still showed motion remnants when hovering the plateau. Updated `src/components/card-motion-shell.tsx` so flip motion now follows the real combat direction (`top/right/bottom/left`) and tightened the settle tail again. Updated `src/components/board-grid.tsx` so board-card motion no longer gets nulled out by preview hover state, and the last placed cell remains stable while the player previews future moves.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` client (`output/web-game/animation-tail-check/`), and a targeted AI-flip regression script in `output/playwright/flip-direction-hover-fix-v2/`. Result: no console errors, and `transform-check.json` now shows the same matrix before/after hovering an empty plateau cell after the AI flip, so the recently placed/flipped card no longer shifts under mouseover.
+- 2026-03-16: Added one more timing probe in `output/playwright/flip-visibility-check/`. Even though the screenshot timing is subtle, `transforms.json` confirms a real mid-flip transform at `30ms` after the AI response (`matrix3d(0.763236, ... 0.627607 ...)`) and a near-rest transform by `70ms`, which matches the new short, directional flip.
+- 2026-03-16: User requested the current motions to be only slightly slower but even smoother. Softened the spring tuning in `src/components/card-motion-shell.tsx`: lowered the main placement/flip tensions a bit, added a slightly softer rest config, and reduced the aggressiveness of the final settle clamp so the motion breathes a little more without reintroducing plateau drift.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` client (`output/web-game/animation-smoothing-check/`), and a focused timing pass in `output/playwright/animation-smoothing-targeted/`. Browser checks stayed clean with no console errors and no behavioural regressions on `/lab`.
+- 2026-03-16: User then reported that enemy-driven flips were still hard to read compared with player placements. Added a more explicit enemy-flip sequence in `src/components/board-grid.tsx` and `src/components/card-view.tsx`: when the AI flips one of the player's cards, the card keeps its pre-flip owner tint briefly, then swaps appearance during the flip window instead of jumping straight to the final owner.
+- 2026-03-16: Added two presentation guards for enemy turns: `src/components/card-motion-shell.tsx` now accepts per-motion delays so enemy flips can start slightly after the enemy card lands, and `src/components/use-battle-controller.ts` now applies a short post-AI interaction lock (`220ms`) so player hover previews do not immediately cover the enemy flip animation.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` client (`output/web-game/enemy-flip-readability-v3/` and `output/web-game/enemy-flip-lock-check-clean/`), plus targeted enemy-flip scripts in `output/playwright/enemy-flip-sequenced-v3/`. No console errors. One earlier skill-client pass with `--click-selector` started failing because the animated hand card was considered unstable by Playwright, so the clean rerun dropped the forced selector click.
+- 2026-03-16: User then reported a severe regression: hand-card selection was toggling on/off in a loop and blocking play entirely. Root cause was in `src/components/use-battle-controller.ts`: `clearInteractionLockTimer` had been converted to `useEffectEvent` earlier, then incorrectly used inside effect dependency arrays, which caused reset effects to rerun and clear `selectedCardId` repeatedly even though the match state was unchanged.
+- 2026-03-16: Fixed that regression in `src/components/use-battle-controller.ts` by reverting the timer helpers to plain ref-based local functions, removing the unstable helper from effect dependencies, and keeping the unmount cleanup effect dependency-free. The battle controller now only clears selection on real state transitions again.
+- 2026-03-16: Re-ran `npm run test` and `npm run build`, then validated the fix with the `$develop-web-game` client in `output/web-game/selection-loop-fix-check/`. Reviewed `shot-0.png` and `state-0.json`; render stayed coherent and there were no console errors.
+- 2026-03-16: Added direct Playwright interaction checks after the fix:
+  - `/lab` in `output/playwright/selection-loop-fix-live/`: clicked `hand-card-player-stag-11`, sampled `aria-pressed` six times (`true` throughout), placed it on `board-cell-0-0`, then confirmed the AI response and zero console errors.
+  - `/` in `output/playwright/selection-loop-adventure-check/`: entered combat from the adventure map, sampled selected-card stability (`true` throughout), placed a card successfully, and confirmed the shared adventure encounter flow still advances with no console errors.
+- 2026-03-16: User then requested a real end-of-round / end-of-battle recap instead of instantly chaining into the next phase, with a stronger 3D-feeling payoff animation and explicit damage/cause messaging.
+- 2026-03-16: Added `src/lib/battle-resolution.ts` to build a pure UI recap payload from existing deterministic engine state (`lastMove.roundEndSummary`, current champions, result reason) without moving any rules out of `src/core`.
+- 2026-03-16: Updated `src/components/use-battle-controller.ts` so new round/battle recaps become blocking UI states: enemy autoplay, empty-turn auto-pass, hover/selection, and manual interaction all pause until the player explicitly validates the recap. The hook now exposes `resolutionRecap` plus `dismissResolutionRecap()`.
+- 2026-03-16: Added `src/components/battle-resolution-overlay.tsx`, a new animated resolution screen with perspective panels, rotating shock rings, damage callouts, before/after HP bars, and explicit text for who lost HP and why. Wired it into both `src/components/battle-client.tsx` and `src/components/adventure-client.tsx`, replacing the old simple combat-finished popup on the adventure route.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, and the `$develop-web-game` client in `output/web-game/round-recap-check/`. Reviewed `shot-0.png` and `state-0.json`; root route still renders the adventure map cleanly with no console errors after the recap feature landed.
+- 2026-03-16: Added a targeted deterministic Playwright pass for `/lab` in `output/playwright/battle-recap-flow/`:
+  - `round-overlay.png` + `result.json` confirm a round-end recap appears when the board hits 9 cards, and `blockedStateStable: true` proves the match does not advance while the recap is visible.
+  - After validating the recap, the script resumed the fight and reached a real battle-end recap at round 4 / turn 36 (`winner: enemy`, `reason: champion-ko`) with zero console errors.
+- 2026-03-16: Captured focused recap visuals in `output/playwright/battle-recap-focus/`, including `round-overlay-only.png` and `battle-overlay-only.png`, to inspect the final composition of the new animated resolution panel.
+- 2026-03-16: Added an adventure-route regression pass in `output/playwright/adventure-recap-return/`. The script entered the first combat from `/`, played through the full fight, validated the final combat recap, clicked continue, and confirmed the run returned to the adventure layer in `finished` defeat state with no console errors. Final return screenshot: `after-return.png`.
+- 2026-03-16: User asked to simplify the new recap drastically: no more control/damage paragraphs, just a beautiful hit animation with both health bars dropping, a clear lost-HP cue, and one final action button whose label matches the outcome.
+- 2026-03-16: Rebuilt `src/components/battle-resolution-overlay.tsx` around that spec. The recap now focuses on two large 3D-leaning health panels only, with impact sweeps, glow pulses, shrinking health bars, before/after markers, and a single CTA button. Removed the extra restart button and the dense explanatory center panel.
+- 2026-03-16: Updated button labels to match the requested flow:
+  - standalone `/lab`: `Continuer le combat` for round recap, `Fin de match` for battle recap.
+  - adventure `/`: `Etape suivante` on a normal combat win, `Fin de match` on defeat, `Fin du run` on boss victory.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, and the `$develop-web-game` client again (`output/web-game/round-recap-check-v2/`). Root route stayed clean and no console errors appeared.
+- 2026-03-16: Added fresh focused browser validation for the simplified recap in `output/playwright/battle-recap-v2/`. `result.json` confirms the round recap still blocks progression (`blockedStateStable: true`) and the battle recap still appears correctly on a real KO with no console errors. Reviewed captures:
+  - `round-overlay.png`
+  - `battle-overlay.png`
+- 2026-03-16: Verified the adventure defeat branch again in `output/playwright/adventure-recap-v2/`. Final button label was `Fin de match`, clicking it returned from combat to the finished run state, and the adventure screen rendered with no console errors.
+- 2026-03-16: Verified the adventure victory branch end-to-end on `run seed 6` in `output/playwright/adventure-victory-step/`. The combat recap shows `Victoire`, the CTA label is `Etape suivante`, and clicking it returns to map mode (not finished) with the next branch unlocked. Final proof files:
+  - `victory-overlay.png`
+  - `after-return.png`
+  - `result.json`
+- 2026-03-16: User then asked for the simplified recap to become even smoother, clearer, and more precise. Focused the next pass only on the resolution overlay rather than changing combat flow again.
+- 2026-03-16: Refined `src/components/battle-resolution-overlay.tsx` for readability and motion quality:
+  - moved the recap overlay from absolute-in-container to fixed-on-viewport so it stays visually centered even inside the long `/lab` page;
+  - softened the intro and damage springs, reduced the harshness of the shockwave, and added a gentler panel recoil/settle instead of a sharp snap;
+  - made the lost-HP badge persist visibly (`-X PV`) instead of disappearing too quickly;
+  - increased panel/header sizing and tightened the bar labels (`Avant -> Apres`) so the final health change reads faster.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, and the `$develop-web-game` client again (`output/web-game/round-recap-check-v3/`). No console errors or build regressions.
+- 2026-03-16: Revalidated the refreshed recap on `/lab` in `output/playwright/battle-recap-v3/`. `result.json` confirms the round recap still blocks the game while visible and the CTA labels remain correct: `Continuer le combat` for round recap, `Fin de match` for battle recap. Reviewed captures:
+  - `round-overlay.png`
+  - `battle-overlay.png`
+- 2026-03-16: Rechecked the adventure victory path after the overlay-centering change in `output/playwright/adventure-victory-step-v2/`. The final recap still shows `Etape suivante`, clicking it returns to map mode, and the browser console stays clean. Updated proof capture: `victory-overlay.png`.
+- 2026-03-16: User requested a much simpler Slay-the-Spire-style adventure map with far fewer crossings and truly different runs each time. Refactored `src/core/adventure.ts` so adjacent rows now use compact monotone partitions plus at most one rare local extra branch, instead of the old dense multi-pass connection builder.
+- 2026-03-16: Simplified adventure density in `src/core/config/gameConfig.ts` by moving the map to `2-3` nodes per row, `2-3` starting nodes, and a tighter lane drift. Also fixed the config shape to use `minStartingNodes` / `maxStartingNodes` consistently with `src/core/types.ts`.
+- 2026-03-16: Improved path readability in `src/components/adventure-map.tsx` by switching straight SVG lines to smoother cubic curves. Updated `src/components/adventure-client.tsx` so the root route no longer keeps recycling seed `101`: initial load now rerolls to a fresh random seed on mount, and every "new map / new run" button now generates a new seed instead of recreating the same layout.
+- 2026-03-16: Added stronger coverage in `src/core/adventure.test.ts` for the new map goals. The test suite now checks both low crossing counts and high structural variety across a seed sample, in addition to the existing connectivity/progression checks.
+- 2026-03-16: Revalidated the map refactor with:
+  - `npm run test -- src/core/adventure.test.ts`
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client on `http://localhost:3000` (latest screenshot/state landed in `output/web-game/shot-0.png` and `output/web-game/state-0.json`)
+  - direct Playwright reroll validation in `output/playwright/adventure-map-randomness-v1/`
+    - `result.json` confirms `seedChangedOnFirstReroll`, `seedChangedOnSecondReroll`, `structureChangedOnFirstReroll`, and `structureChangedOnSecondReroll` are all `true`
+    - reviewed screenshots: `before.png`, `after-first-reroll.png`
+- 2026-03-16: Sampled seeds `1..20` after the refactor with an inline TSX probe. Result: `20/20` unique structural layouts, only `0` to `1` crossing per sampled map, and roughly `28` to `38` total edges per map versus the old much denser topology.
+- 2026-03-16: User requested a random first player at the start of every round, with a strong 3D coin-toss intro. Refactored `src/core/engine.ts` so each round now rolls a deterministic seeded starter from match RNG instead of always alternating or always opening with the same side. The active turn on round start now comes from that toss, and the round state stores both `startingPlayer` and a symbolic coin face (`sun` / `moon`).
+- 2026-03-16: Updated `src/core/types.ts` and `src/core/serialization.ts` so automation/debug payloads now expose `roundStarter` and `roundCoinFace`. Added engine coverage in `src/core/engine.test.ts` for deterministic opening tosses, both starter sides appearing across a seed sample, and new-round rerolls after a full board.
+- 2026-03-16: Added `src/lib/round-coin-toss.ts` plus a new blocking intro layer in `src/components/round-coin-toss-overlay.tsx`. The intro uses a Three.js coin scene rendered with R3F: procedural metallic coin faces, sparkles, rings, soft fog, and a portal-mounted fullscreen overlay so it behaves correctly even inside the embedded `/lab` sandbox.
+- 2026-03-16: Wired the round-start intro into `src/components/use-battle-controller.ts`, `src/components/battle-client.tsx`, and `src/components/adventure-client.tsx`. The controller now pauses both human interaction and AI autoplay while the toss runs, supports manual skip, exposes the intro in `render_game_to_text()` under `ui.roundCoinToss`, and correctly sequences `round recap first -> coin toss second` by tracking dismissed recap ids.
+- 2026-03-16: Added small clarity hooks in the combat UI: `src/components/battle-stage.tsx` and `src/components/game-panel.tsx` now show who opened the current round and which coin face won.
+- 2026-03-16: Validation for the round-start system:
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client rerun on `http://localhost:3000/lab`
+  - direct browser flow in `output/playwright/round-coin-toss-flow-v3/`
+    - `result.json` confirms `round1OverlayDetected: true`, `round1ResolutionSeen: true`, and `round2OverlayDetected: true`
+    - reviewed captures: `round-1-overlay.png`, `round-2-overlay.png`
+- 2026-03-16: User requested a clearer pause after the coin toss verdict plus a more themed adventure map. Extended the toss pacing in `src/components/use-battle-controller.ts` so the verdict stays readable before the round starts, and guarded the recap/toss chain with a dismissed-recap id so the next round intro never races ahead of the resolution overlay.
+- 2026-03-16: Rebuilt `src/components/adventure-map.tsx` around a parchment / forest-route presentation with free local assets in `public/images/map/` (parchment texture, campfire, chest, anvil, sword), pirate-style path strokes, a compass rose, and cleaner medallion nodes so the map reads more like a traversal screen than a debug graph.
+- 2026-03-16: Re-ran `npm run test`, `npm run build`, the `$develop-web-game` client on `/`, and two focused browser validations:
+  - `output/playwright/coin-toss-delay-check/result.json` confirms the toss verdict is still visible mid-sequence (`visibleAt1400: true`) before combat begins.
+  - `output/playwright/adventure-map-live-check-2/result.json` confirms the illustrated root map still exposes 3 clickable starting nodes, clicking one transitions to `mode: "encounter"`, and the browser console stays clean.
+- 2026-03-16: Final sanity rerun after documenting the pass: `npm run test` (31/31) and `npm run build` both still pass on the current workspace state.
+- 2026-03-16: User asked for a stronger asset pass: the earlier tiny bitmap props on the map were not readable enough, and the pre-combat coin toss needed both a better 3D asset and an explicit user validation before the round could begin.
+- 2026-03-16: Integrated a local CC0 3D coin model in `public/models/coin-quaternius.glb` sourced from Quaternius via Poly Pizza, then rebuilt `src/components/round-coin-toss-overlay.tsx` around that model with a darker altar scene, better lighting, a clearer result panel, and a real CTA button. Updated `src/components/use-battle-controller.ts` so the toss no longer auto-dismisses: `ui.roundCoinToss.canConfirm` only becomes `true` after a short readable delay, and the round starts only after explicit confirmation.
+- 2026-03-16: Reworked the map readability pass again. Downloaded Kenney's CC0 `UI Pack - Adventure`, extracted SVG UI primitives into `public/images/map-ui/`, and used them only where they help clarity (paper overlay, node rings). Replaced the weak node raster icons with clean custom vector glyphs in `src/components/map-node-glyph.tsx`, then simplified `src/components/adventure-map.tsx` so the paper texture stays readable and node labels remain high-contrast.
+- 2026-03-16: Validation for the revised asset pass:
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client rerun on `http://localhost:3000/lab`
+  - `output/playwright/map-clarity-pass-v2/result.json` confirms the new map still exposes 3 clickable starting nodes, transitions to `mode: "encounter"` on click, and stays console-clean.
+  - `output/playwright/coin-confirmation-pass-v2/confirm-enabled.png` shows the upgraded coin overlay with the validation CTA visible.
+- 2026-03-23: Follow-up frontend correction pass after user feedback about map tooltip depth, combat framing, Ollie alignment, and board flicker while the AI plays.
+- 2026-03-23: Raised map node hover tooltips above the route/logo layer in `src/components/adventure-map.tsx` and increased the shared tooltip stacking level in `src/app/globals.css`.
+- 2026-03-23: Reframed the Three.js combat stage in `src/components/battle-stage.tsx`, `src/components/3d/hand-mesh.tsx`, and `src/components/3d/board-mesh.tsx` so the full player hand is visible at round start, the enemy back-of-card pile reads as a real hand, and the board occupies more width while staying shorter vertically.
+- 2026-03-23: Simplified Ollie's combat presence in `src/components/battle-ambience.tsx` to one larger chihuahua face made mostly of eyes + grin, aligned on the rival side rather than multiple drifting manifestations.
+- 2026-03-23: Hardened the WebGL scene against transient full-scene disappearance in `src/components/3d/scene.tsx` and `src/components/3d/card-mesh.tsx` by preloading all card/board textures and disabling frustum culling on key scene meshes.
+- 2026-03-23: Validation for this pass:
+  - `npm run build`
+  - `npm run test`
+  - focused browser captures in `output/playwright/ui-pass-final-fixes-2/` and `output/playwright/ui-pass-final-fixes-3/`
+    - `map-hover.png` confirms the tooltip now renders in front of the map node art
+    - `battle-start.png` confirms the player hand and enemy pile are visible together at battle open
+    - `battle-stable.png` confirms the plateau remains visible a moment later with the enemy opener resolved and no console errors (`errors.json` is empty)
+- 2026-03-23: Tightened the combat layout again after user feedback about hand/board overlap. Reworked `src/components/battle-stage.tsx`, `src/components/3d/hand-mesh.tsx`, `src/components/3d/board-mesh.tsx`, and `src/components/3d/card-mesh.tsx` so the scene now uses three explicit vertical bands: enemy hand lane, board lane, player hand lane.
+- 2026-03-23: Player and enemy hands are now flat rows instead of curved fans, both sized against the same card-height constant. The old diamond-like owner ring around hand cards was removed to avoid the “arrows around cards” regression.
+- 2026-03-23: Validation for the lane-layout pass:
+  - `npm run build`
+  - `npm run test`
+  - fresh browser capture in `output/playwright/ui-pass-hand-lanes-2/battle-open.png`, showing the separated top hand, centered 3x3 board, and bottom player hand without overlap
+- 2026-03-23: Card-clarity rendering pass after user feedback that cards became blurry and overexposed when zooming out.
+- 2026-03-23: Generated derived HD textures for all card assets in `public/images/cards-hd/` by upscaling the original `234x333` sources to `936x1332`, then rerouted starter/reward/charm/fallback paths through the HD folder.
+- 2026-03-23: Updated `src/components/3d/card-mesh.tsx` so front card faces use a neutral, non-tone-mapped material with explicit SRGB color space, mipmaps, and max anisotropy instead of the old fully lit standard material that washed card art out under the combat lights.
+- 2026-03-23: Validation for the clarity pass:
+  - `npm run build`
+  - `npm run test`
+  - browser capture in `output/playwright/ui-pass-card-clarity/battle-open.png`
+- 2026-03-23: User requested a deeper frontend reset focused on the shell around the board/cards, narrative framing, mobile readability, and a much cleaner round-start toss presentation. Audited the existing UI on real desktop/mobile captures before editing and confirmed the main issues: intrusive training widget on the root route, overly tall side rails on small screens, charm/map screens reading like dashboards instead of adventure scenes, and the combat shell hiding the board on phone viewports.
+- 2026-03-23: Installed targeted external skills from `Donchitos/Claude-Code-Game-Studios` via the `$skill-installer` workflow: `design-system`, `design-review`, `asset-audit`, `team-ui`, `team-polish`, and `team-narrative`. Codex needs a restart before those newly installed skills can be invoked in-session.
+- 2026-03-23: Added shared shell styling tokens in `src/app/globals.css` (`.ogot-panel`, `.ogot-panel-soft`, `.ogot-stage`, `.ogot-bubble`, `.ogot-scroll`) to unify the new story-first presentation instead of continuing to pile ad hoc utility stacks on each screen.
+- 2026-03-23: Reworked the adventure shell in `src/components/adventure-client.tsx` around a stronger chapter header, an Ollie speech bubble, compact mobile-first control cards, and a cleaner two-zone layout (`main stage + route rail`) instead of the previous three-column dashboard. Also removed `TrainingStatusWidget` from the public root/adventure flow so training controls stay in `/lab` where they belong.
+- 2026-03-23: Rebuilt `src/components/adventure-charm-overlay.tsx` into a true opening scene with narrative framing, clearer charm cards, and more coherent responsive layout; updated `src/components/adventure-map.tsx` to allow both-axis scrolling so the map stays inspectable on narrow screens.
+- 2026-03-23: Reworked the combat shell in `src/components/battle-stage.tsx`, `src/components/battle-overlay-hud.tsx`, and `src/components/champion-panel.tsx`: side panels now collapse behind mobile disclosures, compact champion panels take less height, hand cards scroll horizontally on small screens, and the board remains visible in mobile combat instead of collapsing under surrounding UI.
+- 2026-03-23: Refined `src/components/round-coin-toss-overlay.tsx` so the toss overlay stays within the viewport on phones, with smaller scene height, scrollable container bounds, and clearer result/CTA readability.
+- 2026-03-23: Validation after the refactor:
+  - `npm run build`
+  - `npm run test`
+  - `$develop-web-game` client reruns against production builds on ports `3101` and `3102`
+  - direct Playwright captures reviewed in `output/playwright/ui-refactor-final/` and `output/playwright/ui-refactor-final-2/`
+  - mobile viewport checks (`393x852`) now keep `document.scrollingElement.scrollHeight === innerHeight === 852`, while showing the adventure shell, map stage, and combat board without the old page-breaking overflow.
+  - A focused timing probe on `/lab` confirms `ui.roundCoinToss.canConfirm` is `false` at load, still `false` at `700ms`, then `true` by `1600ms`; there were no failing network responses in that probe.
+- 2026-03-16: User then asked for the adventure map to feel much more like a forest. Added extra free CC0 Quaternius props via Poly Pizza into `public/models/map/` (`pine-trees.glb`, `bush-with-berries.glb`, `tree-stump-moss.glb`) and built `src/components/adventure-map-forest-backdrop.tsx`, a dedicated forest-clairiere backdrop layer for the map.
+- 2026-03-16: The first 3D forest pass was too subtle in the final composed screenshot because the full-height map viewport hid most edge props and the central parchment layer still dominated. Follow-up pass strengthened the visual language in `src/components/adventure-map.tsx`: greener clearing tones, more forest-like trail colors, and a clearly visible silhouette border layer (pine/canopy/undergrowth shapes) so the map reads immediately as a route through the woods even before the GLB props finish loading.
+- 2026-03-16: Validation for the forest-style pass:
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client rerun on `http://localhost:3000`
+  - `output/playwright/forest-map-pass-v3/map-home.png` reviewed manually; the map now shows a visible forest lisiere around the parchment clearing.
+  - `output/playwright/forest-map-click-check/result.json` confirms the post-polish map still exposes clickable starting nodes, transitions to `mode: "encounter"` on click, and stays console-clean.
+- 2026-03-19: User asked to push the adventure assets toward a much stronger spirit-forest theme while keeping the visuals original rather than directly copying Ori. Kept the implementation local instead of relying on external generation so the art pipeline stays reproducible in-repo.
+- 2026-03-19: Added `src/components/pixel-node-emblem.tsx` and rebuilt `src/components/map-node-glyph.tsx` around bespoke pixel-art / semi-3D emblems for `combat`, `elite`, `shop`, `chest`, `rest`, and `boss`. The new node art uses dark spirit-stone shells, bioluminescent glows, and higher-contrast silhouettes so the node kind reads faster on the map.
+- 2026-03-19: Retuned `src/components/adventure-map.tsx` to match those new emblems: removed the old brown UI-ring overlay, shifted medallions and labels to darker forest-glass tones, replaced the parchment-heavy center treatment with a forest-clearing palette, and made the route strokes calmer and cleaner so the node art remains the primary focus.
+- 2026-03-19: Rebuilt `src/components/round-coin-toss-overlay.tsx` around the existing pixel-sigil system in `src/components/pixel-coin-sigil.tsx`. Removed the imported GLB coin from the toss scene and replaced it with a custom spirit coin rendered directly in R3F: metallic rim, front/back pixel faces, altar pedestal, softer bioluminescent lighting, and the same forest-fable language as the map.
+- 2026-03-19: Validation for the pixel-art spirit pass:
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client rerun on `http://localhost:3000` and `http://localhost:3000/lab` (latest generic artifacts landed again in `output/web-game/shot-0.png` and `output/web-game/state-0.json`)
+  - focused Playwright flow in `output/playwright/forest-pixel-map-coin-check/`
+    - `map-home.png`
+    - `coin-overlay.png`
+    - `result.json` confirms there are clickable start nodes, the toss confirm button starts disabled then becomes enabled after the readable delay, the overlay copy shows `PIECE-ESPRIT`, and there are no console or page errors.
+- 2026-03-19: User wanted the new spirit-forest assets to feel less coarse and more precise. Added a shared pixel rendering utility in `src/lib/pixel-art.ts` so both the map emblems and the coin sigils now render with normalized pixel grids, auto-generated outline pixels, and subtle shadow pixels instead of flat chunky blocks.
+- 2026-03-19: Rebuilt `src/components/pixel-node-emblem.tsx` around that helper with finer, more layered emblem sprites and a more polished medallion shell. Each node emblem now has more internal shades, cleaner silhouette separation, and less toy-like chunkiness while staying readable at map size.
+- 2026-03-19: Rebuilt `src/components/pixel-coin-sigil.tsx` around the same helper and upgraded the coin face language: engraved circular plate, ring marks, finer sun/moon sprites, and a circular preview medallion instead of the earlier square block. `src/components/round-coin-toss-overlay.tsx` automatically benefits through the shared sigil component and coin texture hook.
+- 2026-03-19: Re-ran `npm run test` and `npm run build`, then restarted `next start` because the earlier long-lived process was still serving an older build in memory. Final browser validation lives in `output/playwright/forest-finer-pass/`:
+  - `map-home.png`
+  - `coin-overlay.png`
+  - `result.json` confirms `availableNodes: 3`, the toss confirm button still starts disabled then becomes enabled after the delay, and there are no console or page errors on the refreshed build.
+- 2026-03-19: User then rejected the finer pixel pass because the icons had become less recognizable. Pivoted away from the heavier pixel-art direction and rebuilt both the node emblems and the coin sigils as cleaner illustrated medallions: more readable silhouettes, softer gradients, and still inside the same spirit-forest theme.
+- 2026-03-19: Replaced the sprite-driven emblem system in `src/components/pixel-node-emblem.tsx` with hand-drawn SVG medallions for each node kind (`combat`, `elite`, `shop`, `chest`, `rest`, `boss`). The icons are now intentionally more identifiable first, then pretty/cute second, instead of trying to maximize pixel detail.
+- 2026-03-19: Replaced the sprite-based coin face implementation in `src/components/pixel-coin-sigil.tsx` with a vector/canvas hybrid medallion: engraved ring, softer sun/moon symbols, and filtered texture generation for the 3D toss coin. Also slightly enlarged the on-screen previews in `src/components/round-coin-toss-overlay.tsx` and gave the map glyph wrapper in `src/components/map-node-glyph.tsx` a little more room.
+- 2026-03-19: Validation for the illustrated readability pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start` again so the browser served the new illustrated build
+  - `$develop-web-game` client rerun on `/` and `/lab`
+  - focused browser artifacts in `output/playwright/forest-illustrated-pass/`
+    - `map-home.png`
+    - `coin-overlay.png`
+    - `result.json` confirms `availableNodes: 3`, toss confirm still blocks then unlocks, and there are no console or page errors.
+- 2026-03-19: User explicitly asked for real free asset research instead of more hand-drawn approximations. Investigated free asset sources; itch-based packs were less reliable to automate because of Cloudflare on the direct download path, so the implementation moved to official Game-icons.net assets under CC BY 3.0, which were easier to verify, download, and attribute cleanly.
+- 2026-03-19: Downloaded the transparent SVG variants from Game-icons.net into `public/vendor/game-icons/` for the exact symbols needed:
+  - `crossed-swords.svg`
+  - `swords-emblem.svg`
+  - `sword-smithing.svg`
+- 2026-03-21: User requested a broader systemic pass: remove map hover affordances, implement the real non-combat map sites (camp / forge / treasure), hide the enemy hand, surface clearly which cards are no longer base starter cards, strengthen elite/boss enemy deck scaling, and make the AI/training pipeline cover the full adventure rather than only isolated combats.
+- 2026-03-21: Refactored the card and adventure deck model so deck mutations are no longer limited to static card IDs. `src/core/types.ts`, `src/core/cards.ts`, `src/core/adventure-rewards.ts`, and `src/core/adventure.ts` now support generated upgraded/fused/treasure cards, explicit deck-card identities, and a real `site` phase in the adventure flow.
+- 2026-03-21: Implemented the three missing adventure sites for real in the core and UI:
+  - `camp`: choose remove a card or upgrade one chosen card by granting `+1` to a random side.
+  - `forge`: choose two deck cards, keep two random sides from each, and create a fusion card.
+  - `treasure`: immediately grant a random card using rarity-weighted treasure drops.
+  The adventure screen in `src/components/adventure-client.tsx` now exposes those flows and the spectator AI can resolve them too.
+- 2026-03-21: Removed map hover behavior from `src/components/adventure-map.tsx`. Available nodes no longer scale or react on mouseover; focus information is now driven by the active node / next selectable node only.
+- 2026-03-21: Hid the enemy hand completely in combat. `src/components/use-battle-controller.ts` and `src/core/serialization.ts` now return an empty visible hand whenever it is the enemy turn, so the player only sees enemy cards once they are actually played to the board.
+- 2026-03-21: Added visual differentiation for non-starter cards in `src/components/card-view.tsx` through rarity/source glows and small source badges (`Tresor`, `Fusion`, `+1`, `Elite`, etc.), for both the player and the enemy once those cards are on the board.
+- 2026-03-21: Strengthened deterministic enemy deck scaling in `src/core/adventure-enemy.ts` and `src/core/config/gameConfig.ts`. Early normal fights stay close to starter-only, elites upgrade faster and unlock uncommon/rare cards sooner, and the boss now uses a full reward-built deck with no starter cards left.
+- 2026-03-21: Reworked `src/core/adventure-bot.ts` so adventure decisions can consume the trained bot weights. Path choice, reward pick, camp mode/card selection, and forge pair selection are no longer purely hard-coded heuristics; they now use the live profile weights when available and fall back to tuned defaults otherwise.
+- 2026-03-21: Extended `TrainedBotWeights` with adventure-specific dimensions (`specialCardValue`, `deckTrimValue`, route biases, risk tolerance) and added a new deterministic full-run benchmark in `src/core/training/adventure-benchmark.ts`. Training now scores candidates on both tactical combat and complete adventure runs.
+- 2026-03-21: Updated the training pipeline end-to-end:
+  - `src/core/training/bot-training.ts` now mixes combat score with full-adventure score during candidate evaluation.
+  - `src/core/training/promotion.ts` now requires both duel benchmarks and campaign benchmarks before approval.
+  - `scripts/train-bot.ts` now emits campaign metrics into the structured logs and promotion JSON.
+  - `src/lib/training-status.ts`, `src/lib/live-champion.ts`, and `src/components/training-status-widget.tsx` now expose those campaign metrics in localhost.
+- 2026-03-21: Added new test coverage in `src/core/training/benchmark.test.ts` for deterministic campaign benchmarking. Full suite still passes.
+- 2026-03-21: Validation:
+  - `npm test` => 49/49 tests passed.
+  - `npm run build` passed.
+  - Ran a real short training batch: `npm run train:bot -- --seed 321 --iterations 2 --population 4 --elite-count 2 --matches-per-opponent 2 --promotion-matches-per-opponent 2 --search-depth 2 --beam-width 8`.
+  - Confirmed new API payloads from a live temporary dev server in `output/playwright/training-status-api.json`; latest run now includes campaign metrics (`campaignScoreVsHeuristic`, `campaignScoreVsChampion`, `campaignBossReachVsHeuristic`, `campaignBossReachVsChampion`).
+  - Re-ran the `$develop-web-game` client during a temporary `next dev` session; latest screenshot reviewed manually: `output/web-game/shot-1.png`.
+- 2026-03-21: Calibrated the new campaign promotion thresholds against the real heuristic baseline. Quick probe:
+  - heuristic candidate vs heuristic enemy => `averageScore ~ 28.33`, `bossReachRate 0`, `victoryRate 0`
+  - heuristic candidate vs stronger champion-style enemy => `averageScore ~ 12.67`, `bossReachRate 0`, `victoryRate 0`
+  Updated `BOT_TRAINING_CONFIG` accordingly so campaign gating is informative but not impossible (`24` vs heuristic, `12` vs champion, boss reach thresholds temporarily `0` while the current meta still rarely reaches the boss).
+- 2026-03-21: Re-ran a second short post-calibration training batch: `npm run train:bot -- --seed 654 --iterations 2 --population 4 --elite-count 2 --matches-per-opponent 2 --promotion-matches-per-opponent 2 --search-depth 2 --beam-width 8`. Latest report is now `trained-bot-20260321-115208`, and its promotion reasons are much more legible: duel weakness vs heuristic/champion plus campaign score too low vs heuristic, instead of impossible boss-gating.
+- 2026-03-21: End-of-turn environment state for the next agent:
+  - the code, tests, build, and temporary browser validation are good;
+  - the short latest training report is `trained-bot-20260321-115208`;
+  - I cleaned the stale detached `next dev` processes at the end rather than leaving a flaky localhost behind;
+  - there is no reliable detached server or detached training process left running right now.
+- 2026-03-21: Runtime localhost recovery pass after user reported `localhost` was inaccessible:
+  - confirmed the earlier detached Windows launches were the issue, not the build itself;
+  - created `tmp/run-localhost.cmd` as a stable launcher for `next start --port 3000`;
+  - launched it through `cmd /c start "" /b ...` so Windows keeps the server process alive outside the shell call;
+  - verified `http://127.0.0.1:3000` returns `200`;
+  - verified `http://127.0.0.1:3000/api/training-status` and `http://127.0.0.1:3000/api/live-champion` both return valid JSON;
+  - reran the `$develop-web-game` client and confirmed `render_game_to_text()` responds on the map route.
+- 2026-03-21: Localhost note for the next agent: the code and build are good, and temporary `next dev` sessions were reachable for validation, but keeping a detached long-lived `localhost:3000` process pinned through this Windows shell was flaky. If the user needs the server relaunched again, prefer starting it interactively from a normal shell window instead of relying on detached background startup from tool calls.
+- 2026-03-20: Added localhost training controls and live-model visibility. New server helpers:
+  - `src/lib/training-control.ts` starts/stops/restarts local `train-bot.ts` detached processes and writes logs to `reports/training/current-train.log` / `.err`.
+  - `src/lib/live-champion.ts` resolves the best approved training profile at request time by scanning local promotion reports, instead of relying only on the baked-in generated module.
+  - new routes `src/app/api/training-control/route.ts` and `src/app/api/live-champion/route.ts`.
+- 2026-03-20: Extended `src/lib/training-status.ts` / `src/lib/training-status-types.ts` so the dashboard payload now includes the currently selected live champion profile in addition to active training progress and recent runs.
+- 2026-03-20: Rebuilt `src/components/training-status-widget.tsx` into a real control center:
+  - button actions for `Lancer un apprentissage`, `Relancer l'apprentissage`, and `Stopper`
+  - success/error feedback after actions
+  - explicit “modele live utilise” section showing whether gameplay currently uses a trained profile or the heuristic fallback.
+- 2026-03-20: Wired runtime live-champion selection into gameplay:
+  - `src/app/page.tsx` and `src/app/lab/page.tsx` now load the current live profile server-side
+  - `src/components/use-live-champion.ts` polls `/api/live-champion` and pins the latest known model per combat/session
+  - `src/components/adventure-client.tsx` and `src/components/battle-client.tsx` now use that pinned runtime champion instead of a purely static import
+  - `src/components/use-battle-controller.ts` keys resets on bot label as well as bot id, so a changed live profile is detectable.
+- 2026-03-20: Validation for the training-control pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start` on port 3000
+  - API checks on `http://localhost:3000/api/training-control` validated `stop`, `start`, and `restart`
+  - `http://localhost:3000/api/live-champion` returns the runtime-selected profile cleanly
+  - `$develop-web-game` client rerun into `output/web-game/training-controls-widget/`
+  - focused Playwright check in `output/playwright/training-controls-widget-check/`
+    - `panel.png` shows the widget open with both control buttons and the live-model section
+    - `result.json` confirms no console/page errors and visibility of the key controls.
+- 2026-03-21: User wanted deeper control over training volume plus a way to watch the AI play full adventure runs like a real player.
+- 2026-03-21: Added pure adventure-decision helpers in `src/core/adventure-bot.ts`:
+  - `chooseAdventureNodeForBot()` now picks a route deterministically from the currently reachable nodes
+  - `chooseAdventureRewardForBot()` now picks a reward card deterministically from the offered choices
+  - exported via `src/core/index.ts` and covered in `src/core/adventure-bot.test.ts`
+- 2026-03-21: Extended the training panel to configure launch volume directly from localhost:
+  - `src/lib/training-control.ts` and `src/app/api/training-control/route.ts` now accept `iterations`, `matchesPerOpponent`, and `promotionMatchesPerOpponent`
+  - `src/components/training-status-widget.tsx` now exposes those three numeric inputs before launching or relaunching training
+  - validated by a real API call using `iterations=18`, `matchesPerOpponent=6`, `promotionMatchesPerOpponent=14`; the returned live command line reflected those exact values.
+- 2026-03-21: Added a true spectator adventure mode on the main page:
+  - `src/components/use-battle-controller.ts` can now automate the player side as well via an optional `playerBot`
+  - `src/components/adventure-client.tsx` gained `Observer un run IA` plus `Pause spectateur`
+  - when enabled, the current live champion now chooses paths, auto-claims rewards, auto-plays combats, auto-confirms round tosses, and keeps trying to progress through the same adventure screen the player uses
+  - `window.render_game_to_text()` now includes `ui.spectatorMode` / `ui.spectatorPaused` for automation checks.
+- 2026-03-21: Validation for the configurable-training + spectator pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start`
+  - `$develop-web-game` client rerun into `output/web-game/training-spectator-pass/`
+  - focused Playwright check in `output/playwright/training-spectator-check/`
+    - `training-panel.png` confirms the three training-volume inputs are visible in the widget
+    - `spectator-run.png` shows a live AI-controlled adventure run inside the existing UI
+    - `result.json` confirms `spectatorModeEarly: true`, `modeEarly: "encounter"`, `locationsClearedLate: 1`, and no console/page errors.
+  - `locked-chest.svg`
+  - `campfire.svg`
+  - `crowned-skull.svg`
+  - `sun.svg`
+  - `moon.svg`
+- 2026-03-19: Added `public/vendor/game-icons/ATTRIBUTION.txt` with the required CC BY 3.0 credit line for Lorc / Game-icons.net.
+- 2026-03-19: Rebuilt `src/components/pixel-node-emblem.tsx` again around those official SVGs using CSS masks and themed medallion shells, so each node symbol is now based on a real recognizable free asset instead of a custom pseudo-icon.
+- 2026-03-19: Rebuilt `src/components/pixel-coin-sigil.tsx` around the official `sun.svg` and `moon.svg`, then updated `src/components/round-coin-toss-overlay.tsx` so the 3D toss coin uses the same downloaded symbols directly via texture loading. This keeps the map markers, preview medallions, and the actual coin prop aligned visually.
+- 2026-03-19: Validation for the Game-icons pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start`
+  - `$develop-web-game` client rerun on `/` and `/lab`
+  - focused browser artifacts in `output/playwright/game-icons-pass/`
+    - `map-home.png`
+    - `coin-overlay.png`
+    - `result.json` confirms `availableNodes: 3`, toss confirm still blocks then unlocks, and there are no console or page errors.
+- 2026-03-20: User asked for post-combat card rewards like Slay the Spire: after a won combat, offer 3 cards to add to the run deck or allow skipping, with explicit common / uncommon / rare pools and hard per-run rarity limits.
+- 2026-03-20: Added a dedicated deterministic reward layer in `src/core/adventure-rewards.ts` plus the new reward card pool config in `src/core/config/adventureRewards.ts`. The 30 requested stat lines are now registered as real archetypes with placeholder art only, no user-facing names required in the main flow.
+- 2026-03-20: Extended the adventure run state in `src/core/types.ts`, `src/core/adventure.ts`, and `src/core/serialization.ts` with:
+  - a persistent run deck (`run.deck.cardIds`)
+  - reward-offer state (`run.rewardOffer`)
+  - rarity tracking for offered and claimed cards
+  - a new `reward` phase between combat victory and map continuation
+- 2026-03-20: Reward gauge chosen in `src/core/config/gameConfig.ts`:
+  - normal combat slot weights: `84% common / 15% uncommon / 1% rare`
+  - elite slot weights: `70% common / 25% uncommon / 5% rare`
+  - `3` cards offered each time
+  - rare cards unlocked only from reward offer `3` onward
+  - hard caps: `1` rare max offered per run, `3` uncommon max offered per run
+  - soft floor: if luck is cold, force uncommon appearance by reward offers `4` and `7`
+- 2026-03-20: Updated `src/core/engine.ts` and `src/components/use-battle-controller.ts` so adventure combats now consume the live run deck for the player while the enemy keeps the baseline starter deck. Added engine coverage for custom player decks in `src/core/engine.test.ts`.
+- 2026-03-20: Added the victory-choice UI in `src/components/adventure-reward-overlay.tsx` and wired it into `src/components/adventure-client.tsx`. After a won normal or elite combat, the combat recap now leads to `Voir la recompense`; the player can add one of the three offered cards or skip and return to the map. The reward screen intentionally shows stats + rarity only, with no proper card names or finished art yet.
+- 2026-03-20: Added core coverage in `src/core/adventure.test.ts` and `src/core/adventure-rewards.test.ts` for:
+  - reward presentation after a won combat
+  - skip vs add behavior
+  - deterministic reward generation
+  - per-run rarity caps
+  - guaranteed uncommon fallback on cold runs
+- 2026-03-20: Validation for the reward system:
+  - `npm run test`
+  - `npm run build`
+  - `$develop-web-game` client rerun on `http://localhost:3000`
+  - focused Playwright flow in `output/playwright/adventure-reward-flow-v1/`
+    - `result.json` confirms `rewardDeckSizeBefore: 14`, `rewardDeckSizeAfter: 15`, reward rarities `[common, common, uncommon]`, and no console errors
+    - reviewed screenshots: `reward-overlay.png`, `after-reward-return.png`
+- 2026-03-20: User then asked for enemy deck progression and a real training path. Added `src/core/adventure-enemy.ts` plus config/types wiring so each encounter now builds a deterministic enemy loadout from run progression:
+  - first combat uses the pure `starter10` baseline only
+  - normal fights add replacements/additions gradually
+  - elites get extra budget and higher rarity pressure
+  - the boss gets the maximum replacement/add budget and the highest rarity pressure
+  - enemy search profile (`searchDepth`, `beamWidth`, `threatLabel`) is now derived alongside the deck
+- 2026-03-20: Wired enemy progression into the adventure route in `src/components/adventure-client.tsx` and `src/components/use-battle-controller.ts`. Live encounters now pass both the scaled enemy deck and the scaled AI search depth/beam width into the battle controller, and the side panel exposes that threat profile for debugging.
+- 2026-03-20: Upgraded `src/core/bots/heuristicBot.ts` so it no longer ignores `searchDepth`. The heuristic bot now uses beam-limited alpha-beta style lookahead on top of its existing tactical move scoring, which lets later encounters, elites, and the boss actually think further ahead instead of only receiving better cards.
+- 2026-03-20: Added self-play training infrastructure for a stronger future bot:
+  - `src/core/bots/trainedBot.ts` provides a deterministic search bot with trainable evaluation weights
+  - `src/core/training/bot-training.ts` runs evolutionary self-play tuning against `greedy`, `heuristic`, and the current champion profile
+  - `scripts/train-bot.ts` plus `npm run train:bot` write JSON reports into `reports/training/` and can optionally apply the best checkpoint to `src/core/bots/generated/trainedWeights.ts`
+- 2026-03-20: Added coverage in `src/core/adventure-enemy.test.ts` for:
+  - first combat staying on pure starter cards
+  - later normal fights gaining upgrades
+  - elites scaling above normals
+  - boss encounters hitting the max upgrade budget and deeper search
+- 2026-03-20: Validation for the enemy-scaling / training pass:
+  - `npm run test`
+  - `npm run build`
+  - quick depth benchmark via inline TSX probe: `heuristic depth 2` vs `heuristic depth 1` over `60` mirrored matches ended `21W / 37D / 2L` for the deeper search profile, which is enough evidence that the search-depth scaling matters in practice
+  - focused browser validation after restarting `next start` on the fresh build:
+    - `$develop-web-game` client output in `output/web-game/adventure-enemy-live-check-2/`
+    - `state-0.json` / `state-1.json` confirm first-combat enemy plan `{ deckSize: 14, replacements: 0, additions: 0, searchDepth: 1 }`
+    - no console-error artifact was emitted on the clean rerun
+- 2026-03-20: Current training status is intentionally documented honestly:
+  - a short applied training run exists in `reports/training/latest-trained-bot.json`
+  - the live adventure AI still uses the stronger depth-scaled `heuristic` brain, because the first trained checkpoint has not yet been proven better than `heuristic` in head-to-head evaluation
+  - the self-play pipeline is ready for longer local runs if the user wants to leave the PC training for hours
+- 2026-03-20: User then asked for the strongest possible long-term bot, explicit auto-evaluation, and background training. Added a full live-champion layer:
+  - `src/core/bots/generated/liveChampion.ts` stores the currently promoted live profile
+  - `src/core/bots/championBot.ts` is now the runtime production bot and falls back cleanly to `heuristic` if no trained profile has passed promotion
+  - `src/core/bots/index.ts`, `src/core/bots/types.ts`, and tests now expose `champion` as a first-class bot id
+- 2026-03-20: Added a richer training curriculum instead of plain starter-vs-starter:
+  - `src/core/training/scenarios.ts` defines deterministic early/mid/elite/boss-like deck scenarios using the adventure reward pools
+  - `src/core/training/benchmark.ts` plays mirrored head-to-head suites across those scenarios and reports win/draw/loss plus HP edge per opponent and per scenario
+  - `src/core/training/promotion.ts` benchmarks a candidate against `greedy`, `heuristic`, and the current live `champion`, then only approves promotion if configured thresholds are met
+- 2026-03-20: Upgraded `scripts/train-bot.ts` into a full pipeline command:
+  - writes the usual training report
+  - writes a dedicated promotion benchmark report
+  - supports `--promotion-matches-per-opponent`
+  - supports `--promote`
+  - updates `src/core/bots/generated/liveChampion.ts` only if the benchmark passes
+- 2026-03-20: Added `npm run train:bot:promote` and documented the new training / promotion flow in `README.md`, including the output files in `reports/training/`.
+- 2026-03-20: Added extra safety and determinism coverage:
+  - `src/core/training/benchmark.test.ts` checks deterministic benchmark output and the curriculum shape
+  - `src/core/bots/bots.test.ts` now covers `championBot` determinism and legality
+- 2026-03-20: Strengthened the trained bot baseline in `src/core/bots/trainedBot.ts` by blending a small amount of heuristic state evaluation at search leaves, so self-play learns on top of a sane tactical prior instead of relearning fundamentals from zero.
+- 2026-03-20: Validation for the champion / promotion pass:
+  - `npm run test`
+  - `npm run build`
+  - quick end-to-end pipeline probe: `npm run train:bot -- --seed 733 --iterations 2 --population 4 --elite-count 2 --matches-per-opponent 3 --promotion-matches-per-opponent 4 --search-depth 2 --beam-width 8 --apply --promote`
+  - longer measured run: `trained-bot-20260320-173702`
+    - report: `reports/training/trained-bot-20260320-173702.json`
+    - promotion report: `reports/training/trained-bot-20260320-173702-promotion.json`
+    - result was still rejected honestly because it dominated `greedy` but failed the `heuristic` / live-champion thresholds
+  - browser validation after the champion runtime swap:
+    - restarted `next start`
+    - `$develop-web-game` client output in `output/web-game/champion-live-check-2/`
+    - `state-0.json` / `state-1.json` confirm the adventure route still enters combat cleanly, first-combat enemy plan remains `{ deckSize: 14, replacements: 0, additions: 0, searchDepth: 1 }`, and there were no console-error artifacts on the clean rerun
+- 2026-03-20: Started a heavier background training run for the user to keep cooking after this handoff:
+  - command: `npm run train:bot -- --seed 2701 --iterations 18 --population 12 --elite-count 4 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8 --apply --promote`
+  - stdout log: `reports/training/long-train.log`
+  - stderr log: `reports/training/long-train.err`
+  - as of handoff, the process was still alive and had not yet produced its final benchmark outcome
+- 2026-03-20: User then asked for total live visibility from localhost over the trainer state: whether it is running, latest run, progress, elapsed time, and ETA.
+- 2026-03-20: Added a dedicated local status pipeline:
+  - `src/lib/training-status-types.ts` defines the shared payload used by server and client
+  - `src/lib/training-status.ts` reads recent training reports, promotion reports, structured trainer logs, and active Windows node processes (`train-bot.ts`)
+  - `src/app/api/training-status/route.ts` exposes that data as a no-cache local JSON endpoint
+- 2026-03-20: Upgraded `scripts/train-bot.ts` and `src/core/training/bot-training.ts` so the trainer now emits structured progress lines:
+  - `TRAINING_META`
+  - `TRAINING_PROGRESS`
+  - `TRAINING_FINISHED`
+  This is what enables the localhost UI to show real progress and ETA instead of only the last finished report.
+- 2026-03-20: Added `src/components/training-status-widget.tsx`, a floating in-game control center visible on both `/` and `/lab`:
+  - compact fixed button in the top-right corner
+  - expanded panel with active/inactive state
+  - current report id
+  - iterations completed / total
+  - elapsed time
+  - ETA and estimated finish time
+  - current best score and record
+  - progress since start
+  - last finished run and recent history
+- 2026-03-20: Wired that widget into the playable root route via `src/components/adventure-client.tsx` and into the local lab via `src/app/lab/page.tsx`.
+- 2026-03-20: Fixed a small localhost detail while touching the UI: deduplicated `tsx` wrapper + child node processes in `src/lib/training-status.ts`, so one training run no longer appears as two concurrent runs.
+- 2026-03-20: Validation for the localhost training visibility pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start`
+  - `$develop-web-game` smoke check in `output/web-game/training-widget-smoke/`
+  - direct browser verification in `output/playwright/training-status-widget-check/`
+    - `result.json` confirms no console/page errors and the opened panel contains the active-training state, the training center heading, the ETA label, and the current report id
+- 2026-03-20: Started one more structured background run specifically for the visibility panel:
+  - command: `npm run train:bot -- --seed 3901 --iterations 12 --population 10 --elite-count 3 --matches-per-opponent 4 --promotion-matches-per-opponent 8 --search-depth 3 --beam-width 8 --apply --promote`
+  - stdout log: `reports/training/current-train.log`
+  - stderr log: `reports/training/current-train.err`
+  - direct API check on `http://localhost:3000/api/training-status` confirmed the run was active with `reportId: trained-bot-20260320-200934`, `completedIterations: 1/12`, and a computed ETA based on the first completed iteration
+- 2026-03-21: User requested two battle-flow corrections:
+  - in adventure mode, a finished combat must always stop on an explicit choice: restart a fresh run on defeat, continue the adventure on victory
+  - ties should disappear from the game; simultaneous lethal outcomes must resolve to a real loser based on final HP instead of `draw`
+- 2026-03-21: Updated `src/core/engine.ts` so round summaries also use deterministic no-draw tiebreaking. The engine now resolves all previously tied outcomes through final HP first, then control, then controlled board strength, with the round starter as the last fallback.
+- 2026-03-21: Updated `src/components/adventure-client.tsx` so spectator mode only auto-dismisses round recaps, never final battle recaps. Final adventure battle CTAs now behave as requested:
+  - victory -> `Continuer l'aventure`
+  - defeat -> `Relancer une partie`
+  The defeat button reseeds a fresh run directly, including while spectating.
+- 2026-03-21: Updated `src/core/engine.test.ts` to cover the no-draw behavior:
+  - simultaneous `0 / 0` KO now resolves to a real winner instead of `draw`
+  - simultaneous sub-zero KO gives the loss to the side with the lower final HP
+  - repeated dead turns resolve to a real stalemate winner instead of `draw`
+- 2026-03-21: Validation for the adventure end-flow / no-draw pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start`
+  - reran the `$develop-web-game` client; fresh artifacts landed in `output/web-game/shot-0.png`, `output/web-game/shot-1.png`, `output/web-game/state-0.json`, and `output/web-game/state-1.json`
+  - direct Playwright verification in `output/playwright/adventure-final-flow-no-draw/`
+    - `manual-result.json` confirms:
+      - defeat on seed `93` shows `Relancer une partie` and returns to a fresh map (`afterMode: "map"`, `afterLocationsCleared: 0`)
+      - victory on seed `22` shows `Continuer l'aventure` and advances to the reward step (`afterMode: "reward"`, `afterLocationsCleared: 1`)
+      - the seed `22` win is a no-draw double KO: player `-2 PV`, enemy `-3 PV`
+    - `spectator-result.json` confirms spectator defeat on seed `1` keeps the final overlay visible until clicked (`overlayStayedVisible: true`) and restarts the run while keeping spectator mode active
+    - reviewed screenshots:
+      - `manual-win-seed-22-final-overlay.png`
+      - `manual-loss-seed-93-final-overlay.png`
+      - `spectator-loss-seed-1-final-overlay.png`
+- 2026-03-21: Follow-up spectator automation pass in `src/components/adventure-client.tsx`:
+  - spectator mode still leaves the final battle recap visible briefly
+  - after that delay, the IA now auto-clicks the final CTA too
+  - on victory it auto-continues into the reward flow, then auto-picks a reward card
+  - on defeat it auto-restarts a fresh run and resumes pathing immediately
+- 2026-03-21: Validation for the spectator auto-continue pass:
+  - `npm run test`
+  - `npm run build`
+  - restarted `next start`
+  - reran the `$develop-web-game` client on `http://localhost:3000`
+  - focused Playwright verification in `output/playwright/spectator-auto-continue-check/`
+    - `result.json` confirms:
+      - forced spectator seed `1` ends in defeat, shows `Relancer une partie`, then auto-restarts on a new seed while staying in spectator mode
+      - forced spectator seed `2` ends in victory, shows `Continuer l'aventure`, then auto-continues far enough to reach `deckSize: 15` and `claimedCount: 1`
+    - reviewed screenshots:
+      - `loss-final-overlay.png`
+      - `win-final-overlay.png`
+
+## TODO
+- Rebalance `heuristic` for the flip-control ruleset; it still dominates `greedy` too hard.
+- Keep monitoring `reports/training/long-train.log`; if the long run still fails promotion, the next high-value step is to expand the trained evaluation features or move to a stronger search family (for example explicit MCTS / policy-value self-play) instead of merely increasing iterations.
+- Keep monitoring `reports/training/current-train.log`; once the structured run finishes, verify whether the promotion report finally clears `heuristic` / `champion`. If not, the visibility tooling is in place and the next step is algorithmic, not cosmetic.
+- Regenerate fresh simulation reports on the new `starter10`-only baseline so `/lab` no longer foregrounds legacy `starter12` data.
+- Decide whether round-end damage should stay at pure control difference or be softened for longer comeback windows.
+- Consider exposing bot selectors in the playable sandbox once the balance direction is clearer.
+- If the user wants a heavier 3D pass later, move from ambient background depth to card tilt/board pedestal interactions, but keep that optional so readability never regresses.
+- Next frontend step if requested: replace the placeholder spirit glyphs with user-supplied painted assets while preserving the new ornate frame and current side-value readability.
+- Next art step if requested: keep replacing `placeholder-card.png` archetypes one by one with user-supplied transparent renders, without changing the shared `234x333` canvas or the masked owner-tint pipeline.
+- Next step on the adventure layer if requested: persist run rewards/effects between nodes (shop inventory, chest loot, rest heal/upgrade) without moving any of that logic into React.
+- Next reward-layer step if requested: add proper names, card art, and reward-text flavor to the 30 new reward cards without changing the deterministic offer pipeline or the per-run rarity caps.
+- 2026-03-21: User reported that training appeared stuck at `0%` even though launching worked.
+- 2026-03-21: Diagnosed the issue as coarse training telemetry, not a dead process:
+  - the trainer really was running, but `TRAINING_PROGRESS` only emitted after a whole iteration
+  - with current settings, even `1` iteration / `2` candidates / depth `3` takes about `80s`, so the UI could sit at `0%` for a long time
+- 2026-03-21: Added fine-grained progress emission in `src/core/training/bot-training.ts` and `scripts/train-bot.ts`:
+  - candidate-start progress is emitted immediately
+  - candidate-complete progress updates best score/record as soon as a candidate finishes
+  - the final promotion benchmark is now surfaced as an explicit phase
+- 2026-03-21: Extended the localhost status pipeline in `src/lib/training-status.ts` and `src/lib/training-status-types.ts`:
+  - active phase (`candidate` / `promotion`)
+  - current iteration
+  - current candidate index
+  - population size
+  - progress ratio based on fine-grained work units instead of completed iterations only
+- 2026-03-21: Updated the localhost widget in `src/components/training-status-widget.tsx`:
+  - refresh interval reduced from `15s` to `5s`
+  - clearer phase label shown under the progress bar
+  - progress bar no longer fakes a visible minimum width at `0%`
+- 2026-03-21: Validation for the training progress fix:
+  - `npm run test`
+  - `npm run build`
+  - restarted localhost on `http://127.0.0.1:3000`
+  - started a short verification run via `/api/training-control`
+  - `/api/training-status` now moves off `0%` within a few seconds:
+    - `reportId: trained-bot-20260321-124007`
+    - `progressRatio: 0.047619...`
+    - `phaseLabel: "Iteration 1/2 - candidat 1/10"`
+  - verified log contents in `reports/training/current-train.log`
+  - reran the `$develop-web-game` client with artifacts in `output/web-game/training-progress-fix/`
+    - `state-0.json` captured successfully
+    - `shot-0.png` captured successfully
+- 2026-03-22: User wanted deeper enemy identity, better adventure decisions from the bot, and proof that the AI/training layer is actually evolving with the full campaign rather than just isolated combats.
+- 2026-03-22: Added the full enemy profile roster in `src/core/config/enemyProfiles.ts` and threaded it through the deterministic engine via `src/core/types.ts`, `src/core/engine.ts`, `src/core/serialization.ts`, and `src/components/battle-brief.tsx`:
+  - `5` normal archetypes: `aggro`, `fortress`, `swarm`, `trickster`, `builder`
+  - `3` elite archetypes: `executioner`, `bastion`, `shaper`
+  - `2` bosses: `ravager`, `warden`
+  - powers now materially affect battle flow: `Battle Cry`, `Quick Draw`, `Second Chance`, `Refine`, `Roar`, `Renew`, plus round-end control bonuses for `fortress`, `bastion`, `warden`, and `executioner`
+- 2026-03-22: Rebuilt enemy encounter generation in `src/core/adventure-enemy.ts`:
+  - deck upgrades now scale with map depth, player deck pressure, and node tier
+  - enemies get style-biased upgrade cards and signature packages
+  - `builder` / `shaper` can generate real fusion signature cards
+  - encounter plans now also choose an AI tier (`greedy`, `heuristic`, `champion`) instead of using the same opponent strength everywhere
+- 2026-03-22: Strengthened the adventure bot in `src/core/adventure-bot.ts` with deck-analysis-driven decisions:
+  - reward picks now factor coverage, balance, spike value, corner/edge fit, and fusion potential
+  - camp remove/upgrade decisions are tied to deck bloat and weak-direction coverage
+  - forge picks now target the best pair for deck-level impact rather than local stat sum only
+  - route selection now estimates the actual deterministic threat behind each combat node by previewing its enemy loadout before choosing the path
+- 2026-03-22: Aligned the campaign benchmark with live gameplay in `src/core/training/adventure-benchmark.ts`:
+  - benchmark runs now use the real encounter AI tier per node (`greedy` early normals, stronger bots later, champion-level bosses)
+  - enemy search depth / beam width from `buildAdventureEnemyLoadout()` are now honored instead of flattened to one generic opponent setting
+- 2026-03-22: Added focused regression coverage:
+  - `src/core/engine.test.ts` now checks aggro `Battle Cry`, ravager center/tie flips, swarm hand trim, and fortress round-end bonus
+  - `src/core/adventure-enemy.test.ts` now checks roster coverage across seeds, boss/champion encounter plans, and builder/shaper fusion signatures
+  - `src/core/adventure-bot.test.ts` now checks camp removal and forge-pair selection
+- 2026-03-22: Validation for the enemy-style + campaign-AI pass:
+  - `npm run test` -> `57/57` passing
+  - `npm run build` -> success
+  - reran the `$develop-web-game` client with artifacts in `output/web-game/enemy-style-pass/`
+  - restarted localhost on `http://127.0.0.1:3000`
+  - direct Playwright checks in:
+    - `output/playwright/enemy-style-live-check/`
+    - `output/playwright/enemy-style-battle-check/`
+  - verified `render_game_to_text()` now surfaces `enemyPlan.profile`, `enemyPlan.botId`, and live battle profile state with no console errors
+- 2026-03-22: Sampled campaign benchmark after the route-threat + encounter-tier pass with a short local probe (`16` runs vs heuristic):
+  - before the pass: `averageLocationsCleared = 2.0625`, `averageScore = 25.125`
+  - after the pass: `averageLocationsCleared = 3.0625`, `averageScore = 38.5`
+  - still `0` boss reaches on this short sample, so the bot is improving on campaign survival, but it is not yet strong enough to call the problem solved
+- 2026-03-22: User then asked for the AI to understand the newer roguelite systems from the player side too, for clearer rival identity in combat, and for a less text-heavy in-game presentation of enemy powers and lucky charms.
+- 2026-03-22: Extended learned evaluation features in `src/core/training/bot-training.ts`, `src/core/training/benchmark.ts`, `src/core/training/adventure-benchmark.ts`, `src/core/training/promotion.ts`, `src/core/deck-analysis.ts`, and `src/core/player-charms.ts`:
+  - new trained weights now model build plans (`aggression`, `control`, `tempo`, `fusion`, `precision`)
+  - reward, charm, camp, forge, and route decisions can now be evaluated against a target build profile instead of only raw stat gain
+  - combat training scenarios now include charm/profile situations so self-play does not only learn flat starter-deck tactics
+  - automated player-side charm decisions are now weight-aware during training and spectator play
+- 2026-03-22: Strengthened the adventure decision bot in `src/core/adventure-bot.ts` so it reasons about deck identity more coherently:
+  - charm picks now line up with the learned build plan
+  - card rewards consider rarity, charm synergy, duplicate punishment, and fusion potential
+  - camp remove/upgrade and forge pairing score for deck-shape impact instead of local stat totals only
+  - route choice now factors enemy profile pressure and learned matchup preferences
+- 2026-03-22: Added clearer, learnable rival identity in `src/core/config/enemyProfiles.ts`:
+  - named rivals such as `Crocs-de-Braise`, `Matrone des Ronces`, `Nuée Chantebraise`, `Larron des Racines`, `Tisseur de Noeuds`
+  - named elites and bosses such as `Bourreau des Tourbes`, `Bastion d'Ecorce`, `Sculpteur de Seve`, `Le Ravageur primordial`, `Le Gardien des clairieres`
+  - active/passive labels were localized so the player can recognize the pattern of each rival over repeated runs
+- 2026-03-22: Rebuilt the battle presentation around in-board HUD elements instead of long side-text blocks:
+  - added `src/components/game-sigil-icon.tsx` for reusable enemy/charm sigils
+  - added `src/components/battle-overlay-hud.tsx` for the top-left rival dossier, power chips with hover tooltips, compact selected-card/last-event panel, and bottom-left lucky-charm ribbon
+  - updated `src/components/battle-stage.tsx` and `src/components/adventure-client.tsx` to remove the older verbose left-side battle brief from active adventure fights
+  - reduced the adventure combat side panel to compact run/progression/deck information instead of generic placeholder prose
+- 2026-03-22: Validation for the AI-learning + HUD readability pass:
+  - `npm test`
+  - `npm run build`
+  - reran the `$develop-web-game` client with artifacts in `output/web-game/ai-hud-client-check/`
+    - `state-0.json` confirms the localhost root still exposes the deterministic adventure/charm state cleanly
+  - direct Playwright validation in:
+    - `output/playwright/ai-hud-validation-3/`
+    - `output/playwright/ai-hud-tooltips-3/`
+  - reviewed screenshots:
+    - `battle.png` confirms the rival dossier and charm ribbon are integrated onto the board
+    - `enemy-passive-tooltip.png` confirms passive-power hover tooltip readability in battle
+    - `charm-tooltip.png` confirms lucky-charm tooltip readability in battle
+  - console/network remained clean on the focused browser checks (`console-errors.json` and `failed-responses.json` were empty in `output/playwright/ai-hud-validation-3/`)
+
+## Next suggestions
+- If the user keeps pushing for a truly top-tier bot, the next meaningful step is algorithmic: add a stronger search/evaluation family (likely MCTS or a policy-value hybrid) instead of only reweighting the current evaluator.
+- The current campaign benchmark now measures more honestly, but the live champion still does not reach the boss on short samples. The next tuning pass should likely focus on:
+  - skip logic for mediocre post-combat card rewards
+  - better valuation of upcoming enemy powers during battle-state evaluation
+  - stronger tradeoff logic between safe routes and elites once the deck is already good enough
+- Next AI step if requested: save full adventure replays for promoted and rejected candidates, so local inspection can compare route, reward, camp, forge, and charm decisions instead of only reading numeric benchmark summaries.
+- Next frontend step if requested: add subtle idle/ready states to the new power/charm chips, but keep the tooltip-and-sigil language stable so rival readability does not regress into animation noise.
+- 2026-03-23: User pushed again on the ingame shell quality. Rebuilt the combat information rail around a compact MMO-style dock in `src/components/combat-info-dock.tsx`, moved enemy powers behind hover tooltips instead of persistent text blocks, converted the charm bar to icon slots with tooltip-only descriptions, enlarged and softened the Ollie portrait/bubble treatment, and reduced the board tilt in `src/components/3d/board-mesh.tsx`.
+- 2026-03-23: Reworked `src/components/adventure-charm-overlay.tsx` into a more theatrical ritual screen with the existing 3D portal scene, a larger Ollie presentation, stronger relic-card framing, and cleaner player-facing menu copy in `src/components/home-experience.tsx`.
+- 2026-03-23: Follow-up mobile pass after real screenshots: hid the global floating Ollie bubble during immersive overlays, reduced duplicate/mobile title blocks, and compacted the charm-choice composition so the phone layout no longer stacks multiple speech bubbles over the cards.
+- 2026-03-23: Validation for this pass:
+  - `npm run build`
+  - `npm run test`
+  - reran the `$develop-web-game` client on `http://localhost:3000` with artifacts in `output/web-game/ui-hud-pass-1/` and `output/web-game/ui-hud-pass-2/`
+  - direct Playwright captures in `output/playwright/ui-hud-pass4-headed/`, `output/playwright/ui-hud-pass5/`, `output/playwright/ui-hud-pass6/`, and `output/playwright/ui-hud-pass7/`
+  - reviewed screenshots:
+    - `output/playwright/ui-hud-pass4-headed/combat-page.png` confirms the compact combat dock, the slimmer buff frame, and the lowered board angle in a headed browser run
+    - `output/playwright/ui-hud-pass7/charm-mobile.png` confirms the charm-choice screen is no longer covered by the old duplicate Ollie bubbles on phone view
+  - note: headless WebGL combat captures were intermittently black after the round-start flow, but the same flow rendered correctly in the headed validation run; the headed capture is the reliable reference for this pass.
+- 2026-03-23: Combat ambience + camera pass after another UX review:
+  - made `src/components/3d/scene.tsx` support transparent canvas backgrounds so DOM ambience can finally sit behind the WebGL board instead of being hidden by the canvas clear color
+  - rebuilt `src/components/battle-ambience.tsx` to push the requested night-forest mood harder, including a faint always-visible Ollie grin/eyes silhouette plus stronger random manifestations
+  - retuned `src/components/battle-stage.tsx`, `src/components/3d/hand-mesh.tsx`, and `src/components/3d/board-mesh.tsx` for a flatter tabletop framing, a slightly larger board, a more distant enemy hand, and a fully readable player hand without the old bottom clipping
+  - strengthened `src/components/3d/card-mesh.tsx` placed-card travel from the top/bottom so enemy and player placements read more clearly as coming from their hands
+  - added app icons in `src/app/layout.tsx` to eliminate the favicon 404 seen in the `$develop-web-game` console probe
+- 2026-03-23: Validation for the combat ambience + framing pass:
+  - `npm run build`
+  - `npm run test`
+  - reran the `$develop-web-game` client on `http://localhost:3000` with artifacts in `output/web-game/combat-ambience-pass2/` and `output/web-game/combat-ambience-pass3/`
+  - direct headed Playwright captures in:
+    - `output/playwright/combat-ambience-pass1/`
+    - `output/playwright/combat-ambience-pass2/`
+    - `output/playwright/combat-ambience-pass3/`
+  - reviewed screenshots:
+    - `output/playwright/combat-ambience-pass2/coin.png` confirms the sun sigil now reads on the top coin face rather than on the edge
+    - `output/playwright/combat-ambience-pass2/battle-start.png` confirms the forest backdrop is visible behind the board and Ollie's grin/eyes can appear in the scene
+    - `output/playwright/combat-ambience-pass3/battle-start.png` confirms the player hand is now fully readable in-frame instead of being clipped at the bottom
+  - the rerun `$develop-web-game` artifact folder `output/web-game/combat-ambience-pass3/` no longer emits the earlier 404 console error after wiring the icon metadata
+- 2026-03-23: Follow-up UX pass after more front-end feedback:
+  - replaced the combat backdrop implementation in `src/components/battle-ambience.tsx` with a comic-style DOM scene instead of the extra WebGL forest canvas; this adds stylized shadows, fireflies, mist bands, and a clearer Ollie face presence while also removing the likely source of the brief board flicker/disappearance
+  - moved player buffs and enemy powers out of the old top-right HUD and into profile-adjacent racks in `src/components/battle-stage.tsx`; both sides now use the same slot language through the generalized `src/components/charm-buff-bar.tsx`
+  - removed the duplicated enemy power section from `src/components/combat-info-dock.tsx`, leaving that right dock focused on run context and current tactical info
+  - retuned combat framing again in `src/components/battle-stage.tsx`, `src/components/3d/hand-mesh.tsx`, `src/components/3d/board-mesh.tsx`, and `src/components/3d/card-mesh.tsx` so the player hand is fully visible at battle start, the enemy hand sits further back, and the board height is slightly compressed for a cleaner tabletop balance
+  - slowed combat pacing in `src/components/use-battle-controller.ts` so the player can actually read the last AI card and the end-of-turn board before the next interaction or recap overlay appears
+  - hardened tooltip readability in `src/app/globals.css` and enabled true internal scrolling on the parchment map by fixing `.ogot-map-page` overflow/touch behavior
+- 2026-03-23: Validation for the follow-up UX pass:
+  - `npm run build`
+  - `npm run test`
+  - reran the `$develop-web-game` client on `http://localhost:3000` with artifacts in `output/web-game/ui-pass-final/`
+  - direct Playwright validation in:
+    - `output/playwright/ui-pass-combat-map-final/`
+    - `output/playwright/ui-pass-tooltips-final-4/`
+    - `output/playwright/ui-pass-ai-pace-final/`
+  - reviewed screenshots:
+    - `output/playwright/ui-pass-combat-map-final/laptop-battle-start.png` confirms the hand is still fully visible and readable on a tighter `1366x768` viewport
+    - `output/playwright/ui-pass-combat-map-final/desktop-map-hover.png` confirms the route tooltip is now much more opaque/readable
+    - `output/playwright/ui-pass-tooltips-final-4/enemy-tooltip.png` and `output/playwright/ui-pass-tooltips-final-4/player-tooltip.png` confirm both top and bottom effect racks now show readable multi-line hover cards without the old collapsed vertical text bug
+    - `output/playwright/ui-pass-ai-pace-final/after-ai-response.png` confirms the board remains visible and the player can see the enemy's response card on board before moving on
+  - focused DOM metrics on the map scroller now report a real scrollable range (`scrollHeight: 2068`, `clientHeight: 690`) so the adventure page can be browsed vertically instead of being trapped by the old overflow settings
+- 2026-03-28: Combat arena refactor toward a TFT-style full-screen battlefield:
+  - added `src/components/battle-arena-shell.tsx` to give combat a real arena shell with parapets, benches, corner torches, and a stronger video-game silhouette behind the 3x3 board
+  - rebuilt `src/components/battle-stage.tsx` around the arena-first layout: slimmer top round/control bar, profile anchors on the lower-left and upper-right edges, contextual bottom-center action prompt, and dev controls hidden from the public combat view unless lab/embedded mode is active
+  - upgraded `src/components/3d/board-mesh.tsx` from a flat board plane into a layered battlefield with a stone base, dedicated upper/lower benches, corner pillars, torches, and more tactile slot treatment while preserving the deterministic 3x3 rules surface
+  - retuned hand framing in `src/components/3d/hand-mesh.tsx` so player and enemy rows read more like bench lanes instead of free-floating cards
+  - fixed `src/components/3d/scene.tsx` camera targeting by introducing an explicit camera rig and lifting the canvas above the arena shell layer so the decorative frame sits behind the WebGL cards instead of washing over them
+  - added `ogotTorchFlicker` in `src/app/globals.css` to support the new arena torches
+- 2026-03-28: Validation for the combat arena refactor:
+  - `npm run build`
+  - `npm run test`
+  - direct Playwright captures in:
+    - `output/playwright/tft-arena-pass1/`
+    - `output/playwright/tft-arena-pass2/`
+    - `output/playwright/tft-arena-pass3/`
+  - reviewed `output/playwright/tft-arena-pass3/battle-open.png` to confirm the new arena shell, stronger board framing, and re-layered WebGL scene are rendering together in the browser
+- 2026-03-28: Combat arena framing follow-up after usability review:
+  - widened the 3D arena footprint in `src/components/3d/board-mesh.tsx` so the battlefield reads more like a full-screen stage instead of a narrow central strip
+  - expanded the decorative DOM shell in `src/components/battle-arena-shell.tsx` to hug the viewport more closely
+  - recalculated the battle camera and lane positions in `src/components/battle-stage.tsx` so the player hand sits higher and the full bottom of the cards is visible much earlier without sacrificing the dedicated top enemy lane
+- 2026-03-28: Validation for the framing follow-up:
+  - `npm run build`
+  - `npm run test`
+  - direct Playwright capture in `output/playwright/tft-arena-pass5/`
+  - reviewed `output/playwright/tft-arena-pass5/battle-open.png` to confirm the lower hand is significantly more visible and the battlefield footprint is wider
+- 2026-04-26: Started the TFT-like combat presentation pass requested after playtests:
+  - mounted `src/components/battle-arena-shell.tsx` back into `BattleStage` and rebuilt it around top/bottom bench lanes instead of unused side dressing
+  - moved the live 3D hand layouts from left/right shelves to player/enemy horizontal benches around the central arena
+  - removed Ollie visuals from the combat HUD for this pass and replaced them with a neutral rival sigil
+  - added the first character-mode unit visual for the base-pack `stag` archetype using `public/images/units/stag/idle.png`
+  - added `src/lib/unit-visuals.ts` and `src/components/3d/unit-piece-mesh.tsx` so future animal characters can be added without duplicating rule logic
+  - `npm run test` -> `79/79` passing
+  - `npm run build` -> success
+  - first Playwright visual pass showed the camera was too tight and default seed did not show the first unit quickly enough
+  - retuned combat camera farther back and changed `GAME_CONFIG.defaultSeed` to `2` so the opening player hand includes the new `stag` character unit for immediate playtest visibility
+  - next: rerun build/tests and visually validate `/lab`
+- 2026-04-26: Continued the combat visual reset away from the old card-front prototype:
+  - generated a new illustrated forest-ruin autobattler arena at `public/images/game/arena-autobattler-forest.png` and wired it into both the DOM arena shell and the 3D board floor
+  - generated the first non-pixel animal unit, `Herisson lumisylve`, with source/cutout/poster/sprite sheet assets under `public/images/units/lumisylve/`
+  - added `scripts/generate-game-art.ts` for local ComfyUI arena/unit generation and `scripts/build_unit_sprite.py` for deterministic 8-frame idle sheets capped at 4096px width for WebGL compatibility
+  - updated `src/lib/unit-visuals.ts`, `src/components/3d/unit-piece-mesh.tsx`, `src/components/3d/board-mesh.tsx`, and `src/components/3d/hand-mesh.tsx` so the `stag` archetype renders as an animated character piece in hand and on the board instead of a flat card
+  - added `src/app/game/page.tsx` as a direct combat-only route for playtesting without the lab/report UI
+  - changed `GAME_CONFIG.defaultSeed` to `14` so the first selectable player piece is the generated Lumisylve unit
+  - retuned player/enemy bench positioning in `src/components/battle-stage.tsx` after Playwright screenshots showed bench pieces overlapping the lower board row
+  - validation: `npm run test` -> `79/79` passing; `npm run build` -> success
+  - visual validation: production server on `http://127.0.0.1:3011/game`, screenshots in `output/playwright/tft-arena-refactor/`; reviewed `game-page.png` and `game-lumisylve-placed.png` to confirm the generated arena and animated unit render in-browser
+  - screenshot pixel validation on `game-canvas.png` reports `nonBlackRatio=0.9974` and `coloredRatio=0.4447`, confirming the captured game surface is not blank despite direct WebGL buffer reads returning black in headless mode
+- 2026-04-26: UI readability follow-up for the combat-only `/game` route after the user rejected the remaining card/CSV feel:
+  - removed the 3D player hand row from the arena and replaced it with a bottom action dock made of readable game buttons, so the player no longer sees dark card rectangles at the bottom of combat
+  - added animated Lumisylve sprite playback inside the selected hand button through `.ogot-unit-command-sprite`, while keeping the 3D animated unit piece on the board
+  - kept enemy hidden cards on the top bench but moved them slightly lower so they sit in the arena lane instead of fighting the HUD
+  - brightened and thinned the 3D arena frame, platform, bench trays, and pillars in `src/components/3d/board-mesh.tsx` so the battlefield reads as a wide arena instead of a dark picture frame
+  - shortened the in-combat prompt text and converted the prompt frame to a cleaner compact game HUD treatment
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing
+  - validation: restarted production server on `http://127.0.0.1:3011/game`, ran the `$develop-web-game` Playwright client with artifacts in `output/web-game/ui-readability-pass/`, then ran the focused visual verifier in `tmp/verify-game-visual.mjs`
+  - reviewed desktop screenshots `output/playwright/tft-arena-refactor/game-page.png` and `game-lumisylve-placed.png`; the arena fills the screen, the board is readable, the hand is now a polished action dock, and the Lumisylve piece is visible on the board
+  - reviewed responsive screenshots in `output/playwright/tft-arena-refactor-responsive/`; laptop framing is good, mobile is functional with a horizontally scrollable action dock but still not a final mobile-specific layout
+  - direct interaction probe clicked the `Poney runique` command button and then a board cell; `render_game_to_text()` confirmed the selected unit was played and the enemy response resolved with no browser errors
+- 2026-04-26: Pushed the `/game` combat presentation further after the user called out unclear stats, too-small placement area, poor enemy reserve, and broken Lumisylve sheet scrolling:
+  - enlarged the 3x3 placement grid substantially in `src/components/3d/board-mesh.tsx` (`TILE_W/TILE_H` from 3.2 to 4.05) and retuned the combat camera so the board now dominates the screen more like an autobattler arena
+  - removed the remaining 3D enemy-hand row and replaced it with a cleaner top-center `EnemyReserveDock`, separating the rival reserve from the actual placement grid
+  - moved hand stats from an unreadable inline row to compass-style N/E/S/O badges around each unit portrait, and added N/E/S/O labels to the badges rendered around board units in `src/components/3d/unit-piece-mesh.tsx`
+  - generated `public/images/units/lumisylve/idle-ui.png`, a native animated PNG made from the 8 sprite frames, and switched the hand portrait to `<img>` playback so it no longer scrolls across the sprite sheet as a horizontal strip
+  - added optional mobile camera props to `src/components/3d/scene.tsx` and gave `/game` a mobile-specific camera/fov so the enlarged board remains visible on narrow screens
+  - widened the Three.js fog range after mobile validation showed the farther mobile camera could otherwise turn the center of the scene black
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing
+  - validation: restarted production server on `http://127.0.0.1:3011/game`, ran `$develop-web-game` artifacts in `output/web-game/tft-pro-pass-final2/`, ran `tmp/verify-game-visual.mjs`, reviewed desktop screenshots in `output/playwright/tft-arena-refactor/`, and reviewed responsive screenshots in `output/playwright/tft-pro-pass-final2-responsive/`
+  - interaction probe clicked `Poney runique` from the new command dock and then a board cell; `render_game_to_text()` confirmed the play and enemy response resolved with no browser errors
+- 2026-04-27: Focused pass on the user-provided hedgehog sprite sheet only:
+  - added `scripts/build_hedgehog_sprite.py` to derive transparent, reproducible character assets from `C:/Users/pierr/Downloads/ChatGPT Image 27 avr. 2026, 08_02_52.png`
+  - the script detects the actual sprite bands instead of assuming a perfect grid, because the provided sheet has rows/columns that do not line up to equal mathematical cells
+  - generated new exact-source hedgehog assets under `public/images/units/hedgehog/`: `source-sheet.png`, `idle-sheet.png`, `idle-ui.png`, `idle-poster.png`, `walk-right-sheet.png`, and `happy-sheet.png`
+  - replaced the old generated Lumisylve unit visual config with the supplied hedgehog sprite in `src/lib/unit-visuals.ts`
+  - retuned `src/components/3d/unit-piece-mesh.tsx` for the new squat hedgehog proportions and added placed/flipped motion support so character units now animate when entering the board instead of appearing only as idle sprites
+  - kept the N/E/S/O stat badges around the unit but pushed side badges farther from the sprite body so the values do not cover the hedgehog face or belly
+  - updated the hand portrait sizing in `src/components/battle-stage.tsx` so the APNG UI animation uses the full hedgehog silhouette rather than a narrow character frame
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing
+  - validation: restarted production server on `http://127.0.0.1:3011/game`, ran `$develop-web-game` artifacts in `output/web-game/hedgehog-sprite-pass/`, ran `tmp/verify-game-visual.mjs`, and reviewed `output/playwright/tft-arena-refactor/game-page.png` plus `game-lumisylve-placed.png`
+  - animation validation: compared timed screenshots in `output/playwright/hedgehog-animation-check/` and `output/playwright/hedgehog-board-animation-check/`; the hand portrait and board units both change over time, confirming the supplied hedgehog animates instead of sliding a sprite strip
+- 2026-04-27: Rebuilt the combat-only `/game` arena around the user's provided `C:/Users/pierr/Downloads/Image arene Ollie.png`:
+  - copied the arena to `public/images/game/arena-ollie.png` and replaced the old WebGL/HUD-heavy `BattleStage` with a clean DOM battlefield mapped directly onto that image
+  - removed the top/bottom CSV-like combat panels, HP blocks, round score chips, card totals, and old 3D card hand from the public combat route
+  - positioned the enemy reserve on the top bench, the player bench on the bottom tray, and the 3x3 interactive placement zones over the arena's built-in board cells
+  - moved combat stats into N/E/S/O circular badges beside each bench unit and around each placed board unit, so the numbers stay readable without covering the character body
+  - replaced non-sprited cards with neutral glowing unit tokens instead of showing old narrow card art; the supplied hedgehog remains the first real animated character example
+  - added stable `data-testid` hooks for bench cards and board cells, and updated `tmp/verify-game-visual.mjs` for the new DOM arena instead of the removed canvas path
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing
+  - validation: restarted production server at `http://127.0.0.1:3011/game`, ran the `$develop-web-game` client, then ran `tmp/verify-game-visual.mjs`
+  - reviewed screenshots:
+    - `output/playwright/arena-ollie-clean-pass/game-clean-arena.png` confirms the clean arena, top reserve, bottom bench, and readable combat stats
+    - `output/playwright/arena-ollie-clean-pass/game-hedgehog-placed.png` confirms the hedgehog can be placed and stats remain visible after the enemy response
+    - `output/playwright/arena-ollie-clean-pass-responsive/laptop-clean-arena.png` confirms the layout remains readable at `1366x768`
+  - browser validation reported no console errors; `render_game_to_text()` matched the visible board with two occupied cells after the interaction
+- 2026-04-27: Polished board-cell centering and combat-point anchoring after user feedback:
+  - changed `BOARD_CELLS` in `src/components/battle-stage.tsx` from plain rectangles to per-cell layouts with explicit unit centers and N/E/S/O point anchors, so the perspective in the painted arena is handled case by case
+  - moved board combat badges onto the correct sides while keeping them slightly inside shared borders to avoid overlapping when adjacent units are present
+  - switched the visible hedgehog UI asset from the multi-frame APNG to the stable `idle-poster.png` plus subtle CSS breathing/bob animation, removing the previous frame-to-frame sliding/jitter
+  - strengthened the bench UI with a clearer stat plate per unit so combat values remain readable without going back to card panels or text-heavy blocks
+  - added `tmp/verify-board-cell-layout.mjs` to capture all 9 possible target cells and generated `output/playwright/arena-ollie-cell-layout/contact-sheet.png` for visual QA
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; `$develop-web-game` client ran cleanly on `http://127.0.0.1:3011/game`
+  - reviewed `output/playwright/arena-ollie-clean-pass/game-hedgehog-placed.png`, `output/playwright/arena-ollie-cell-layout/contact-sheet.png`, and `output/playwright/arena-ollie-polish-responsive/laptop-polished-bench.png`; browser console stayed clean
+- 2026-04-28: Recalibrated the `/game` board cells from the actual arena image diamonds:
+  - replaced the hand-tuned percentage cell values with source-image pixel coordinates from `public/images/game/arena-ollie.png` (`1536x1024`), converted through `xPercent()` / `yPercent()` in `src/components/battle-stage.tsx`
+  - aligned each playable cell to the visible diamond/corner lattice: top row `(423,154)-(627,357)`, `(666,154)-(870,357)`, `(909,154)-(1113,357)`; middle row `(423,374)-(627,581)`, `(665,374)-(870,581)`, `(909,374)-(1114,581)`; bottom row `(421,604)-(627,814)`, `(663,604)-(870,814)`, `(909,604)-(1115,814)`
+  - produced `output/playwright/arena-ollie-alignment-debug/dom-cell-overlay.png` to verify the DOM click zones sit directly on the painted card frames
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; `$develop-web-game` client and focused Playwright visual checks stayed console-clean
+  - regenerated all 9 placement screenshots and `output/playwright/arena-ollie-cell-layout/contact-sheet.png`
+- 2026-04-28: Added a complete local hedgehog animation pass from the user's supplied sprite sheet:
+  - `@game-studio` was requested but no callable game-studio plugin/tool was available in this Codex session, so the pass used the local sprite pipeline instead
+  - expanded `scripts/build_hedgehog_sprite.py` to clean disconnected crop artifacts, normalize frame footing/scale, and export dedicated `idle`, `ready`, `happy`, `hit`, and `walk-right` sheets plus APNG UI loops under `public/images/units/hedgehog/`
+  - generated the audit contact sheet `output/playwright/hedgehog-frame-audit/generated-animation-contact.png` to review every derived animation state from the original source frames
+  - updated `src/lib/unit-visuals.ts` with per-state hedgehog animation sources and wired `src/components/battle-stage.tsx` so the bench uses `idle`/`ready`, placed units use short `happy`/`hit` event states, then return to permanent animated `idle`
+  - added CSS motion layers in `src/app/globals.css` for command readiness, board entry, impact feedback, and constant subtle board float without reintroducing sprite-strip scrolling
+  - added `tmp/verify-hedgehog-animation.mjs` and captured timed state screenshots in `output/playwright/hedgehog-animation-states/`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server on `http://127.0.0.1:3011/game` stayed console-clean
+  - animation validation: timed screenshot byte comparisons changed for hand idle, hand ready, and board unit captures, confirming the hedgehog is animated in-browser rather than static or horizontally sliding
+- 2026-04-28: Refined the hedgehog animation logic after user feedback:
+  - changed the always-on hedgehog loop to a strict 4-step walk cycle from the supplied sheet: right foot lifted, both feet down, left foot lifted, both feet down
+  - kept the selected bench card on the same walking sprite loop instead of swapping to the `ready` animation just because it is selected
+  - changed `src/components/battle-stage.tsx` so special sprite states are tied to combat events only: `happy` when the unit causes a flip, `hit` when the unit is flipped by another card
+  - shortened event sprite states back into the permanent walk loop and also removed transient event CSS classes after the event finishes
+  - regenerated `public/images/units/hedgehog/idle-ui.png` with 4 APNG frames and updated the audit sheet `output/playwright/hedgehog-frame-audit/generated-animation-contact.png`
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; `$develop-web-game` client ran cleanly on `http://127.0.0.1:3011/game`
+  - focused validation: `tmp/verify-hedgehog-animation.mjs` confirms hand idle, selected-hand walking, board walking, hit-on-flip, and return-to-walk all change over time with no console errors
+  - visual screenshots reviewed in `output/playwright/hedgehog-animation-states/`; `tmp/verify-game-visual.mjs` confirmed the visible board state matches `render_game_to_text()`
+- 2026-04-28: Added the second real animated character for `Ecureuil mineur` (`mole`):
+  - the user requested `@game-studio`, but tool discovery still only exposed `node_repl`; no callable game-studio plugin was available, so the work used the same local sprite pipeline as the hedgehog
+  - added `scripts/build_squirrel_sprite.py` for `C:/Users/pierr/Downloads/ChatGPT Image 28 avr. 2026, 10_37_10.png`, using detected row bands and 10 pose columns because the sheet is not a perfectly uniform crop grid
+  - generated transparent squirrel assets under `public/images/units/squirrel/`: `source-sheet.png`, `idle-sheet.png`, `ready-sheet.png`, `happy-sheet.png`, `hit-sheet.png`, `walk-right-sheet.png`, `idle-poster.png`, and matching APNG UI loops
+  - created visual audits in `output/playwright/squirrel-frame-audit/source-frame-index.png` and `output/playwright/squirrel-frame-audit/generated-animation-contact.png`
+  - designed the squirrel's always-on loop as a readable 4-frame walk, and mapped its event flip animation to a mining/digging sequence instead of a generic smile; `hit` uses a recoil/hide sequence
+  - added a `mole` entry to `src/lib/unit-visuals.ts` and corrected the hedgehog `frameCount` to match its newer 4-frame idle sheet
+  - changed `GAME_CONFIG.defaultSeed` from `14` to `12` so `/game` opens with both `Ecureuil mineur` and `Herisson lumisylve` visible in the first hand for immediate playtest review
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server stayed on `http://127.0.0.1:3011/game`
+  - browser validation: `$develop-web-game` client, `tmp/verify-game-visual.mjs`, `tmp/verify-squirrel-animation.mjs`, and `tmp/verify-hedgehog-animation.mjs` all ran console-clean
+  - focused squirrel validation confirmed hand walking, selected-hand walking, board walking, `hit` when flipped by the enemy, and return to normal walking; screenshots reviewed in `output/playwright/squirrel-animation-states/`
+- 2026-04-28: Added the third real animated character for `Oiselle aubeplume` (`heron`):
+  - the user again requested `@game-studio`; tool discovery still exposed no callable game-studio plugin, so the local sprite pipeline was used
+  - added `scripts/build_bird_sprite.py` for `C:/Users/pierr/Downloads/ChatGPT Image 28 avr. 2026, 11_01_27.png`, with detected row bands and 10 fixed pose columns
+  - added component cleanup for the bird's normal animations to remove detached wing fragments from neighboring poses while preserving the centered feather/magic event frames
+  - generated bird assets under `public/images/units/bird/`: source, idle, ready, happy, hit, walk-right sheets, `idle-poster.png`, and APNG UI loops
+  - generated review artifacts in `output/playwright/bird-frame-audit/source-frame-index.png` and `output/playwright/bird-frame-audit/generated-animation-contact.png`
+  - mapped `heron` in `src/lib/unit-visuals.ts` to the new assets; its always-on state is a 4-frame walking loop, `happy` is a feather/magic flip animation, and `hit` is a sleepy/recoil reaction
+  - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server stayed on `http://127.0.0.1:3011/game`
+  - browser validation: `$develop-web-game` client, `tmp/verify-bird-animation.mjs`, `tmp/verify-game-visual.mjs`, `tmp/verify-squirrel-animation.mjs`, and `tmp/verify-hedgehog-animation.mjs` all ran console-clean
+  - focused bird validation confirmed hand walking, selected-hand walking, board walking, `hit` when flipped by the enemy, enemy bird `happy` when it causes a flip, and return to normal walking; screenshots reviewed in `output/playwright/bird-animation-states/`
