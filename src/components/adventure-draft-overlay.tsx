@@ -128,7 +128,7 @@ export function AdventureDraftOverlay({
                       {selectionIndex + 1}
                     </span>
                   ) : null}
-                  <div className="mx-auto aspect-[234/333] w-full max-w-[8.4rem]">
+                  <div className="mx-auto aspect-[2/3] w-full max-w-[8.4rem]">
                     <CardView card={draftPreviewCard(card)} layout="hand" className="h-full w-full" selected={selected} />
                   </div>
                   <div className="mt-2 flex flex-wrap items-center justify-between gap-2">

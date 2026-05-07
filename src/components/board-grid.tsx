@@ -287,7 +287,7 @@ export function BoardGrid({
                         className={["pointer-events-none absolute inset-x-5 bottom-1.5 h-3 rounded-full blur-md", getOccupiedGlow(visualOwner)].join(" ")}
                       />
                       <div className="flex h-full items-center justify-center">
-                        <div className="aspect-[234/333] h-full max-h-full w-auto max-w-[96%]">
+                        <div className="aspect-[2/3] h-full max-h-full w-auto max-w-[96%]">
                           <CardMotionShell
                             owner={cell.owner}
                             layout="board"

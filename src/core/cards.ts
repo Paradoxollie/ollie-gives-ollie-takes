@@ -1,5 +1,6 @@
 import { CARD_ARCHETYPE_LOOKUP } from "@/core/config/cardArchetypes";
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
+import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 import { STARTER_DECK_PRESETS } from "@/core/config/decks";
 import { pickWithSeed } from "@/core/utils/rng";
 import type {
@@ -223,7 +224,7 @@ export function createLuckyCharmPenaltyCard(generatedCardId: string): CardArchet
     },
     family: "familiar",
     accent: "ember",
-    artSrc: "/images/cards-hd/plant-card.png",
+    artSrc: getNeutralCardArtSrc("familiar"),
     rarity: "common",
     sourceType: "charm",
     baseArchetypeId: null,

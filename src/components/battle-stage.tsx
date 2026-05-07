@@ -2,7 +2,9 @@
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
+import { CardView } from "@/components/card-view";
 import { CARD_FAMILY_DEFINITIONS, countBoardFamilies } from "@/core";
+import { getFamilyCrestArtSrc } from "@/core/config/cardArt";
 import type { BoardCard, CardFamily, CardInstance, ControlTotals, MatchState, PlayerId, Position, PreviewMove } from "@/core/types";
 import { getUnitVisual, type UnitAnimationKey, type UnitVisualConfig } from "@/lib/unit-visuals";
 
@@ -25,11 +27,6 @@ interface BattleStageProps {
   onFireflyReroll?: () => void;
   onReflectionCopy?: (cardInstanceId: string) => void;
 }
-
-const ARENA_FRAME_STYLE = {
-  width: "min(100vw, 150dvh)",
-  height: "min(100dvh, 66.6667vw)",
-} as const;
 
 type PointAnchor = {
   x: number;
@@ -133,38 +130,32 @@ function FamilyNameBadge({
   );
 }
 
-function TraitRail({
+function SideAssetRail({
   board,
   owner,
+  variant,
 }: {
   board: MatchState["board"];
   owner: PlayerId;
+  variant: "bonus" | "badges";
 }) {
   const counts = countBoardFamilies(board, owner);
   const totalControlled = board.flat().filter((card) => card?.owner === owner).length;
-  const sideClass = owner === "player" ? "left-[1.4%]" : "right-[1.4%]";
-  const title = owner === "player" ? "Tes familles" : "Adversaire";
+  const sideClass = variant === "bonus" ? "left-[1.15%]" : "right-[1.15%]";
+  const panelSrc = variant === "bonus" ? "/images/ui/panels/bonus-column.png" : "/images/ui/panels/badges-column.png";
+  const title = variant === "bonus" ? "Bonus du joueur" : "Badges adverses";
 
   return (
     <aside
       className={[
-        "pointer-events-none absolute top-[18.4%] z-30 flex max-h-[60%] w-[13.6%] flex-col gap-[1.1%] overflow-hidden rounded-xl border border-white/10 bg-[rgba(1,7,16,0.72)] p-[0.68%] text-white shadow-[0_18px_52px_rgba(0,0,0,0.42)] backdrop-blur-md",
+        "ogot-trait-rail pointer-events-none absolute top-[17.2%] z-30 h-[64.5%] w-[17.1%] overflow-hidden text-white drop-shadow-[0_20px_28px_rgba(0,0,0,0.46)]",
         sideClass,
       ].join(" ")}
       aria-label={title}
     >
-      <div className="flex items-center justify-between gap-2 border-b border-white/8 pb-[5%]">
-        <div className="min-w-0">
-          <p className="truncate text-[clamp(0.48rem,0.62vw,0.62rem)] font-black uppercase tracking-[0.18em] text-cyan-100/62">
-            {title}
-          </p>
-          <p className="mt-0.5 text-[clamp(0.46rem,0.56vw,0.56rem)] uppercase tracking-[0.12em] text-white/38">
-            Board {totalControlled}/9
-          </p>
-        </div>
-      </div>
+      <img src={panelSrc} alt="" className="absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
 
-      <div className="grid min-h-0 flex-1 gap-[1.25%]">
+      <div className="absolute left-[19%] right-[19%] top-[14.4%] bottom-[7.8%] flex flex-col justify-around gap-[0.8%]">
         {ACTIVE_FAMILIES.map((family) => {
           const definition = CARD_FAMILY_DEFINITIONS[family];
           const count = counts[family];
@@ -172,35 +163,76 @@ function TraitRail({
           const nextThreshold = definition.thresholds.find((threshold) => count < threshold.count);
           const displayedThreshold = activeThreshold ?? nextThreshold ?? definition.thresholds[definition.thresholds.length - 1];
           const isActive = Boolean(activeThreshold);
+          const badgeSrc = getFamilyCrestArtSrc(family);
 
           return (
             <section
               key={`${owner}-${family}`}
-              title={`${definition.label}: ${definition.identity} ${displayedThreshold.effect}`}
+              title={`${definition.label}: ${definition.identity}. ${displayedThreshold.effect}. Controle ${count}. Total ${totalControlled}/9.`}
               className={[
-                "min-h-0 rounded-lg border px-[5%] py-[4%]",
-                isActive ? FAMILY_BADGE_CLASS[family] : "border-white/8 bg-black/22 text-white/48",
+                "relative mx-auto grid h-[14.4%] w-full place-items-center transition-[filter,opacity,transform] duration-200",
+                isActive ? "opacity-100 saturate-125" : "opacity-48 grayscale-[35%]",
               ].join(" ")}
             >
-              <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-[clamp(0.48rem,0.62vw,0.62rem)] font-black uppercase tracking-[0.13em]">
-                  {definition.label}
-                </p>
-                <span className="grid h-[clamp(1rem,1.3vw,1.3rem)] min-w-[clamp(1rem,1.3vw,1.3rem)] place-items-center rounded-full border border-white/18 bg-black/28 px-1 text-[clamp(0.52rem,0.68vw,0.68rem)] font-black">
-                  {count}
-                </span>
-              </div>
-              <p className="mt-[3%] truncate text-[clamp(0.44rem,0.55vw,0.55rem)] font-black uppercase tracking-[0.12em] text-white/58">
-                {displayedThreshold.count} - {displayedThreshold.label} {isActive ? "actif" : `${count}/${displayedThreshold.count}`}
-              </p>
-              <p className="mt-[2%] line-clamp-2 text-[clamp(0.46rem,0.58vw,0.58rem)] leading-[1.35] text-white/64">
-                {displayedThreshold.effect}
-              </p>
+              <img
+                src={badgeSrc}
+                alt=""
+                className="h-[94%] w-[94%] select-none object-contain drop-shadow-[0_0.45rem_0.35rem_rgba(0,0,0,0.48)]"
+                draggable={false}
+              />
+              <span
+                className={[
+                  "absolute right-[7%] top-[8%] grid h-[clamp(1rem,1.35vw,1.45rem)] min-w-[clamp(1rem,1.35vw,1.45rem)] place-items-center rounded-full border px-[0.22rem] text-[clamp(0.52rem,0.72vw,0.8rem)] font-black leading-none tabular-nums shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.46)]",
+                  isActive ? FAMILY_BADGE_CLASS[family] : "border-white/18 bg-black/54 text-white/68",
+                ].join(" ")}
+              >
+                {count}
+              </span>
+              <span className="sr-only">
+                {displayedThreshold.label} {count}/{displayedThreshold.count}
+              </span>
             </section>
           );
         })}
       </div>
     </aside>
+  );
+}
+
+function ChampionHealthBar({
+  match,
+  owner,
+}: {
+  match: MatchState;
+  owner: PlayerId;
+}) {
+  const champion = match.champions[owner];
+  const maxHealth = Math.max(1, champion.maxHealth);
+  const currentHealth = Math.max(0, champion.health);
+  const healthPercent = Math.max(0, Math.min(100, (currentHealth / maxHealth) * 100));
+  const isPlayer = owner === "player";
+  const frameSrc = isPlayer ? "/images/ui/hud/player-health.png" : "/images/ui/hud/enemy-health.png";
+  const sideClass = isPlayer ? "left-[1.65%]" : "right-[1.65%]";
+  const fillClass = isPlayer
+    ? "bg-[linear-gradient(90deg,#52d728,#b8ff54_58%,#f8ffd3)] shadow-[0_0_0.55rem_rgba(132,255,62,0.42)]"
+    : "bg-[linear-gradient(90deg,#fa2727,#ff5858_58%,#ffd0b3)] shadow-[0_0_0.55rem_rgba(255,68,68,0.4)]";
+
+  return (
+    <div
+      className={["ogot-health-hud pointer-events-none absolute top-[8.15%] z-40 w-[23.5%] drop-shadow-[0_0.65rem_0.8rem_rgba(0,0,0,0.38)]", sideClass].join(" ")}
+      aria-label={`${isPlayer ? "Vie du joueur" : "Vie de l'ennemi"} ${currentHealth} sur ${maxHealth}`}
+    >
+      <img src={frameSrc} alt="" className="h-auto w-full select-none" draggable={false} />
+      <div className="absolute left-[24.2%] top-[49.5%] h-[14.2%] w-[49.6%] overflow-hidden rounded-full bg-black/66 shadow-[inset_0_0_0.55rem_rgba(0,0,0,0.75)]">
+        <div
+          className={["h-full rounded-full transition-[width] duration-300", fillClass, currentHealth / maxHealth <= 0.25 ? "hp-low-pulse" : ""].join(" ")}
+          style={{ width: `${healthPercent}%` }}
+        />
+      </div>
+      <div className="absolute left-[74.4%] top-[35.8%] flex h-[29%] w-[22.5%] items-center justify-center rounded-[0.2rem] bg-[#141212]/95 px-[2%] font-serif text-[clamp(0.42rem,0.74vw,0.78rem)] font-black leading-none text-[#fff2d6] shadow-[inset_0_0_0.42rem_rgba(0,0,0,0.86)] [text-shadow:0_2px_3px_rgba(0,0,0,0.9)]">
+        {currentHealth} / {maxHealth}
+      </div>
+    </div>
   );
 }
 
@@ -329,65 +361,47 @@ const BOARD_CELLS = [
   boardCellFromPixels(2, 2, 909, 604, 1115, 814, { x: 56, y: 48, size: 59 }, BOTTOM_CELL_POINTS),
 ] satisfies readonly BoardCellLayout[];
 
-function GenericUnitMark({ tone = "player" }: { tone?: "player" | "enemy" | "neutral" }) {
+function FamilyCrestMark({
+  family,
+  tone = "player",
+}: {
+  family: CardFamily;
+  tone?: "player" | "enemy" | "neutral";
+}) {
   const accentColor =
     tone === "enemy"
-      ? "linear-gradient(135deg, #ffe4e6, #fb7185 54%, #fed7aa)"
+      ? "linear-gradient(135deg, rgba(255,228,230,0.96), rgba(251,113,133,0.86) 54%, rgba(254,215,170,0.74))"
       : tone === "neutral"
-        ? "linear-gradient(135deg, #fef3c7, #bef264 54%, #a5f3fc)"
-        : "linear-gradient(135deg, #fef3c7, #5eead4 54%, #a7f3d0)";
+        ? "linear-gradient(135deg, rgba(254,243,199,0.96), rgba(190,242,100,0.7) 54%, rgba(165,243,252,0.72))"
+        : "linear-gradient(135deg, rgba(254,243,199,0.96), rgba(94,234,212,0.78) 54%, rgba(167,243,208,0.72))";
   const glowColor =
     tone === "enemy"
       ? "0 0 22px rgba(251,113,133,0.26)"
       : tone === "neutral"
         ? "0 0 22px rgba(251,191,36,0.22)"
         : "0 0 22px rgba(125,247,255,0.24)";
+  const crestSrc = getFamilyCrestArtSrc(family);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative grid h-full w-full place-items-center">
       <div
-        className="absolute inset-[3%] rounded-full border-2 border-white/54"
+        className="absolute inset-[6%] rounded-full border-2 border-white/42"
         style={{
-          background: `radial-gradient(circle at 35% 24%, rgba(255,255,255,0.95), transparent 24%), ${accentColor}`,
+          background: `radial-gradient(circle at 35% 24%, rgba(255,255,255,0.86), transparent 24%), ${accentColor}`,
           boxShadow: `${glowColor}, inset 0 1px 0 rgba(255,255,255,0.4)`,
         }}
       />
       <div
-        className="absolute left-1/2 top-[20%] h-[30%] w-[38%] -translate-x-1/2 rounded-full border border-white/42"
-        style={{ background: accentColor, boxShadow: glowColor }}
+        className="absolute inset-[14%] rounded-full border border-black/35 bg-[radial-gradient(circle_at_50%_40%,rgba(8,12,18,0.22),rgba(4,6,10,0.72)_76%)]"
+        style={{ boxShadow: "inset 0 0 18px rgba(0,0,0,0.5)" }}
       />
-      <div className="absolute left-[30%] top-[58%] h-[13%] w-[13%] rounded-full bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.22)]" />
-      <div className="absolute left-[44%] top-[49%] h-[13%] w-[13%] rounded-full bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.22)]" />
-      <div className="absolute right-[30%] top-[58%] h-[13%] w-[13%] rounded-full bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.22)]" />
-      <div className="absolute left-1/2 top-[68%] h-[16%] w-[32%] -translate-x-1/2 rounded-full bg-white/72 shadow-[0_0_8px_rgba(255,255,255,0.18)]" />
-      <div className="absolute left-1/2 top-[74%] h-[10%] w-[58%] -translate-x-1/2 rounded-full bg-black/30 blur-sm" />
-    </div>
-  );
-}
-
-function HandCommandArt({ card, selected }: { card: CardInstance; selected: boolean }) {
-  const visual = getUnitVisual(card.archetypeId);
-
-  if (visual) {
-    const animationState: UnitAnimationState = selected ? "ready" : "idle";
-
-    return (
-      <div className="relative grid h-full w-full place-items-center overflow-hidden rounded-md bg-[radial-gradient(circle_at_50%_72%,rgba(34,211,238,0.16),rgba(5,12,26,0.08)_68%)]">
-        <div className="absolute bottom-[8%] h-[16%] w-[58%] rounded-full bg-cyan-200/14 blur-sm" />
-        <div className={["ogot-unit-command-image relative h-full w-full", selected ? "ogot-unit-command-image--ready" : ""].join(" ")}>
-          <AnimatedUnitSprite visual={visual} state={animationState} />
-        </div>
-        {selected ? <div className="absolute inset-0 rounded-md ring-2 ring-amber-200/75" /> : null}
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative grid h-full w-full place-items-center overflow-hidden rounded-md bg-[radial-gradient(circle_at_50%_70%,rgba(34,211,238,0.16),rgba(3,10,24,0.18)_66%)]">
-      <div className="h-[84%] w-[84%]">
-        <GenericUnitMark />
-      </div>
-      {selected ? <div className="absolute inset-0 rounded-md ring-2 ring-amber-200/75" /> : null}
+      <img
+        src={crestSrc}
+        alt=""
+        className="relative z-10 h-[76%] w-[76%] select-none object-contain drop-shadow-[0_0.45rem_0.45rem_rgba(0,0,0,0.58)]"
+        draggable={false}
+      />
+      <div className="absolute left-1/2 top-[77%] h-[12%] w-[58%] -translate-x-1/2 rounded-full bg-black/34 blur-sm" />
     </div>
   );
 }
@@ -456,23 +470,6 @@ function BoardCombatPoint({
     >
       <CombatPoint direction={direction} value={value} tone={tone} size="board" />
     </span>
-  );
-}
-
-function CombatPointCross({
-  sides,
-  tone,
-}: {
-  sides: CardInstance["sides"];
-  tone: "player" | "enemy" | "neutral";
-}) {
-  return (
-    <div className="relative h-[clamp(4.65rem,5.7vw,5.9rem)] w-[clamp(4.65rem,5.7vw,5.9rem)] shrink-0">
-      <CombatPoint direction="N" value={sides.top} tone={tone} className="absolute left-1/2 top-0 -translate-x-1/2" />
-      <CombatPoint direction="E" value={sides.right} tone={tone} className="absolute right-0 top-1/2 -translate-y-1/2" />
-      <CombatPoint direction="S" value={sides.bottom} tone={tone} className="absolute bottom-0 left-1/2 -translate-x-1/2" />
-      <CombatPoint direction="O" value={sides.left} tone={tone} className="absolute left-0 top-1/2 -translate-y-1/2" />
-    </div>
   );
 }
 
@@ -552,7 +549,7 @@ function BoardUnitToken({
         </div>
       ) : (
         <div className="ogot-board-unit absolute" style={unitStyle}>
-          <GenericUnitMark tone={tone} />
+          <FamilyCrestMark family={card.family} tone={tone} />
         </div>
       )}
       <BoardCombatPoint anchor={cell.points.top} direction="N" value={card.sides.top} tone={tone} />
@@ -587,39 +584,28 @@ function HandBenchCard({
       onClick={onSelect}
       data-testid="player-bench-card"
       className={[
-        "relative flex h-full w-full min-w-0 flex-col items-center justify-center gap-[2%] overflow-hidden rounded-lg border px-[3%] py-[2%] transition duration-150",
+        "ogot-hand-card relative h-full aspect-[2/3] min-w-0 overflow-visible rounded-[0.72rem] border p-[1.5%] transition duration-150",
         selected
-          ? "border-amber-100/86 bg-[linear-gradient(180deg,rgba(9,35,50,0.58),rgba(2,9,18,0.36))] shadow-[0_0_30px_rgba(253,230,138,0.25),inset_0_1px_0_rgba(255,255,255,0.11)]"
-          : "border-cyan-100/24 bg-[linear-gradient(180deg,rgba(3,18,34,0.32),rgba(2,8,18,0.22))] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]",
-        canInteract ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/62 hover:bg-cyan-300/10" : "cursor-default opacity-62",
+          ? "ogot-hand-card--selected border-amber-100/88 bg-amber-200/10 shadow-[0_0_32px_rgba(253,230,138,0.28),0_12px_28px_rgba(0,0,0,0.42)]"
+          : "border-cyan-100/22 bg-black/18 shadow-[0_10px_24px_rgba(0,0,0,0.34)]",
+        canInteract ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64" : "cursor-default opacity-62",
       ].join(" ")}
       aria-label={`${card.name} ${card.sides.top}-${card.sides.right}-${card.sides.bottom}-${card.sides.left}`}
     >
-      <div className="flex h-[78%] w-full min-h-0 items-center justify-center gap-[5%]">
-        <div className="h-full w-[42%] shrink-0">
-          <HandCommandArt card={card} selected={selected} />
-        </div>
-        <div className="grid h-full w-[46%] shrink-0 place-items-center rounded-md border border-cyan-100/20 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.16),rgba(2,8,18,0.28)_70%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-          <CombatPointCross sides={card.sides} tone="player" />
-        </div>
-      </div>
-      <div className="flex h-[18%] w-full min-w-0 items-center justify-center">
-        <FamilyNameBadge family={card.family} />
-      </div>
+      <CardView card={card} layout="board" className="h-full w-full" selected={selected} />
     </button>
   );
 }
 
 function EnemyBench({ count }: { count: number }) {
   return (
-    <div className="absolute left-[25.4%] top-[2.5%] flex h-[8.7%] w-[49.2%] items-center justify-center gap-[2.1%]">
+    <div className="ogot-enemy-bench absolute left-[25.4%] top-[2.5%] flex h-[8.7%] w-[49.2%] items-center justify-center gap-[2.1%]">
       {Array.from({ length: count }, (_, index) => (
         <div
           key={`enemy-bench-${index}`}
-          className="relative h-[82%] w-[8.6%] overflow-hidden rounded-md border border-indigo-100/30 bg-[linear-gradient(135deg,rgba(57,39,132,0.72),rgba(5,12,45,0.82))] shadow-[0_8px_18px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.11)]"
+          className="relative h-[90%] aspect-[2/3] overflow-hidden rounded-md border border-amber-100/28 bg-black/30 shadow-[0_8px_18px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.1)]"
         >
-          <div className="absolute inset-[13%] rounded-full border border-cyan-100/20" />
-          <div className="absolute left-1/2 top-1/2 h-[24%] w-[24%] -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-[0.12rem] bg-cyan-100/64 shadow-[0_0_14px_rgba(125,247,255,0.36)]" />
+          <img src="/images/ui/bench-card-back.png" alt="" className="h-full w-full select-none object-cover" draggable={false} />
         </div>
       ))}
     </div>
@@ -638,9 +624,9 @@ function PlayerBench({
   onSelectCard: (cardInstanceId: string) => void;
 }) {
   return (
-    <div className="absolute left-[15.8%] top-[83.25%] flex h-[13.25%] w-[68.4%] items-center justify-center gap-[1.15%]">
+    <div className="ogot-player-bench absolute left-[15.8%] top-[82.65%] flex h-[14.15%] w-[68.4%] items-center justify-center gap-[1.25%]">
       {hand.map((card) => (
-        <div key={card.instanceId} className="h-full min-w-0 flex-1">
+        <div key={card.instanceId} className="flex h-full min-w-0 flex-1 justify-center">
           <HandBenchCard
             card={card}
             selected={selectedCardId === card.instanceId}
@@ -678,8 +664,8 @@ function ArenaBattlefield({
       : Math.max(2, match.config.cardsPerTurn);
 
   return (
-    <div className="absolute inset-0 grid place-items-center overflow-hidden bg-[#020418]">
-      <div className="relative" style={ARENA_FRAME_STYLE}>
+    <div className="ogot-arena-stage absolute inset-0 grid place-items-center overflow-hidden bg-[#020418]">
+      <div className="ogot-arena-frame relative">
         <img
           src="/images/game/arena-ollie.png"
           alt=""
@@ -687,9 +673,11 @@ function ArenaBattlefield({
           draggable={false}
         />
 
+        <ChampionHealthBar match={match} owner="player" />
+        <ChampionHealthBar match={match} owner="enemy" />
         <EnemyBench count={enemyHandCount} />
-        <TraitRail board={match.board} owner="player" />
-        <TraitRail board={match.board} owner="enemy" />
+        <SideAssetRail board={match.board} owner="player" variant="bonus" />
+        <SideAssetRail board={match.board} owner="enemy" variant="badges" />
 
         {BOARD_CELLS.map((cell) => {
           const boardCard = match.board[cell.row][cell.col];

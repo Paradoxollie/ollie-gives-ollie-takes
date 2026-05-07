@@ -1,4 +1,5 @@
 import type { CardArchetype, CardFamily, CardRarity, CardSides } from "@/core/types";
+import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
 export interface AdventureRewardArchetype extends CardArchetype {
   rarity: CardRarity;
@@ -10,8 +11,6 @@ interface RewardTemplate {
   sides: CardSides;
   family: CardFamily;
 }
-
-const REWARD_ART_SRC = "/images/cards-hd/placeholder-card.png";
 
 const COMMON_REWARD_TEMPLATES: CardSides[] = [
   { top: 2, right: 5, bottom: 3, left: 2 },
@@ -102,7 +101,7 @@ export const ADVENTURE_REWARD_ARCHETYPES: ReadonlyArray<AdventureRewardArchetype
     sides,
     family,
     accent: rewardAccent(rarity),
-    artSrc: REWARD_ART_SRC,
+    artSrc: getNeutralCardArtSrc(family),
     rarity,
     sourceType: "reward",
     baseArchetypeId: null,

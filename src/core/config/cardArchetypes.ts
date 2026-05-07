@@ -1,5 +1,6 @@
 import type { CardArchetype, CardFamily, CardSides } from "@/core/types";
 import { ADVENTURE_REWARD_ARCHETYPES } from "@/core/config/adventureRewards";
+import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
 function draftCard(options: {
   id: string;
@@ -15,7 +16,7 @@ function draftCard(options: {
     sides: options.sides,
     family: options.family,
     accent: options.accent,
-    artSrc: options.artSrc ?? "/images/cards-hd/placeholder-card.png",
+    artSrc: options.artSrc ?? getNeutralCardArtSrc(options.family),
     rarity: "common",
     sourceType: "draft",
     baseArchetypeId: null,
@@ -29,7 +30,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 5, bottom: 4, left: 1 },
     family: "familiar",
     accent: "sprout",
-    artSrc: "/images/cards-hd/plant-card.png",
   }),
   draftCard({
     id: "badger",
@@ -37,7 +37,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 3, bottom: 2, left: 2 },
     family: "familiar",
     accent: "earth",
-    artSrc: "/images/cards-hd/horse-card.png",
   }),
   draftCard({
     id: "heron",
@@ -45,7 +44,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 3, bottom: 2, left: 3 },
     family: "familiar",
     accent: "mist",
-    artSrc: "/images/cards-hd/bird-card.png",
   }),
   draftCard({
     id: "foxfire",
@@ -53,7 +51,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 2, bottom: 5, left: 2 },
     family: "familiar",
     accent: "ember",
-    artSrc: "/images/cards-hd/shark-card.png",
   }),
   draftCard({
     id: "mole",
@@ -61,7 +58,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 2, left: 3 },
     family: "familiar",
     accent: "stone",
-    artSrc: "/images/cards-hd/squirrel-card.png",
   }),
   draftCard({
     id: "stag",
@@ -69,7 +65,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 2, bottom: 5, left: 3 },
     family: "familiar",
     accent: "grove",
-    artSrc: "/images/cards-hd/hedgehog-card.png",
   }),
   draftCard({
     id: "owl",
@@ -77,7 +72,6 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 4, bottom: 2, left: 3 },
     family: "familiar",
     accent: "glow",
-    artSrc: "/images/cards-hd/cat-card.png",
   }),
 
   draftCard({

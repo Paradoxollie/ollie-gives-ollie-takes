@@ -7,6 +7,7 @@ export * from "@/core/cards";
 export * from "@/core/deck-analysis";
 export * from "@/core/bots";
 export * from "@/core/config/adventureRewards";
+export * from "@/core/config/cardArt";
 export * from "@/core/config/cardArchetypes";
 export * from "@/core/config/decks";
 export * from "@/core/config/enemyProfiles";

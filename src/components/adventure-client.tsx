@@ -920,7 +920,7 @@ export function AdventureClient({
                           onClick={() => setRun((current) => resolveAdventureCamp(current, deckCard.deckCardId))}
                           className="ogot-choice-card rounded-[1.35rem] p-3 text-left disabled:cursor-not-allowed disabled:opacity-55"
                         >
-                          <div className="mx-auto aspect-[234/333] w-full max-w-[8.4rem]">
+                          <div className="mx-auto aspect-[2/3] w-full max-w-[8.4rem]">
                             <CardView card={deckPreviewCard(deckCard)} layout="hand" className="h-full w-full" />
                           </div>
                           <div className="mt-3 flex items-center justify-between gap-3 text-[0.64rem] uppercase tracking-[0.18em] text-white/60">
@@ -954,7 +954,7 @@ export function AdventureClient({
                                 : "ogot-choice-card border-white/10 bg-black/16 hover:border-cyan-200/26 hover:bg-white/8",
                             ].join(" ")}
                           >
-                            <div className="mx-auto aspect-[234/333] w-full max-w-[8.4rem]">
+                            <div className="mx-auto aspect-[2/3] w-full max-w-[8.4rem]">
                               <CardView card={deckPreviewCard(deckCard)} layout="hand" className="h-full w-full" selected={selected} />
                             </div>
                             <div className="mt-3 flex items-center justify-between gap-3 text-[0.64rem] uppercase tracking-[0.18em] text-white/60">
@@ -969,7 +969,7 @@ export function AdventureClient({
                       <div className="ogot-choice-card mt-6 rounded-[1.5rem] p-4">
                         <p className="text-[0.54rem] uppercase tracking-[0.24em] text-[#f5ddb5]/56">Resultat de la forge</p>
                         <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
-                          <div className="aspect-[234/333] w-[8.4rem]">
+                          <div className="aspect-[2/3] w-[8.4rem]">
                             <CardView
                               card={{
                                 instanceId: "forge-preview",
@@ -1007,7 +1007,7 @@ export function AdventureClient({
                   <div className="ogot-choice-card mt-6 rounded-[1.5rem] p-5">
                     <p className="text-[0.54rem] uppercase tracking-[0.24em] text-[#f5ddb5]/56">Carte trouvee</p>
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-5">
-                      <div className="aspect-[234/333] w-[8.8rem]">
+                      <div className="aspect-[2/3] w-[8.8rem]">
                         <CardView card={deckPreviewCard(treasureState.grantedCard)} layout="hand" className="h-full w-full" />
                       </div>
                       <div className="max-w-[24rem]">

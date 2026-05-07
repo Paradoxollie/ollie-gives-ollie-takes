@@ -143,7 +143,7 @@ export function AdventureRewardOverlay({
                       </span>
                     </div>
 
-                    <div className="mx-auto mt-5 aspect-[234/333] w-full max-w-[12.4rem] sm:max-w-[13rem]">
+                    <div className="mx-auto mt-5 aspect-[2/3] w-full max-w-[12.4rem] sm:max-w-[13rem]">
                       <CardView card={rewardPreviewCard(option.archetypeId)} layout="hand" className="h-full w-full" />
                     </div>
 
