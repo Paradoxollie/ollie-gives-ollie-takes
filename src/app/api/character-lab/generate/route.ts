@@ -2,16 +2,7 @@ import { randomInt } from "node:crypto";
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { removeBackgroundFromImageBuffer } from "@/lib/background-removal";
-import { composeCharacterLabGenerationPrompts } from "@/lib/character-lab-presets";
-import { generateImagesWithComfyUi } from "@/lib/comfyui-client";
-import { postprocessPixelArtImageBuffer } from "@/lib/pixel-art-postprocess";
-import {
-  loadCharacterLabReferenceImage,
-  saveCharacterLabCard,
-  saveGeneratedCharacterCandidates,
-  saveCharacterLabSettings,
-} from "@/lib/character-lab-store";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 import type { CharacterLabDirection, CharacterLabSettings } from "@/lib/character-lab-types";
 
 export const dynamic = "force-dynamic";
@@ -39,6 +30,10 @@ function buildGenerationErrorMessage(error: unknown, settings: CharacterLabSetti
 }
 
 export async function POST(request: NextRequest) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const payload = (await request.json()) as {
     cardId?: string;
     subjectPrompt?: string;
@@ -67,6 +62,25 @@ export async function POST(request: NextRequest) {
       : randomInt(1, 2_147_483_647);
 
   try {
+    const [
+      { removeBackgroundFromImageBuffer },
+      { composeCharacterLabGenerationPrompts },
+      { generateImagesWithComfyUi },
+      { postprocessPixelArtImageBuffer },
+      {
+        loadCharacterLabReferenceImage,
+        saveCharacterLabCard,
+        saveGeneratedCharacterCandidates,
+        saveCharacterLabSettings,
+      },
+    ] = await Promise.all([
+      import("@/lib/background-removal"),
+      import("@/lib/character-lab-presets"),
+      import("@/lib/comfyui-client"),
+      import("@/lib/pixel-art-postprocess"),
+      import("@/lib/character-lab-store"),
+    ]);
+
     await saveCharacterLabSettings(payload.settings);
     await saveCharacterLabCard({
       cardId: payload.cardId,

@@ -54,6 +54,7 @@ import {
   heuristicBot,
 } from "@/core";
 import type { AdventureNode, AdventureRunState } from "@/core/types";
+import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
 
 function kindLabel(kind: AdventureNode["kind"]): string {
@@ -343,7 +344,7 @@ export function AdventureClient({
   const liveChampion = usePinnedLiveChampion(
     isCombatEncounter ? `adventure:${run.encounter?.battleSeed ?? seed}` : `map:${seed}`,
     initialLiveChampionProfile,
-    { refresh: !playtestMode },
+    { refresh: !playtestMode && isLabSurfaceEnabled() },
   );
   const resolvedEnemyBot = useMemo(() => {
     if (!enemyLoadout) {
@@ -747,7 +748,7 @@ export function AdventureClient({
         <section className="grid gap-3">
           <p className="text-[0.5rem] uppercase tracking-[0.3em] text-cyan-100/50">Controles</p>
           <button type="button" onClick={() => { startRandomRun(); setDrawerOpen(false); }} className="rounded-[1rem] bg-[linear-gradient(90deg,rgba(45,212,191,0.92),rgba(34,211,238,0.92))] px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:brightness-105">Nouvelle partie</button>
-          {!playtestMode ? (
+          {!playtestMode && isLabSurfaceEnabled() ? (
             <>
               <button type="button" onClick={() => { startSpectatorRun(); setDrawerOpen(false); }} className="rounded-[1rem] border border-cyan-200/22 bg-cyan-200/10 px-4 py-2.5 text-sm font-semibold text-cyan-50 transition hover:bg-cyan-200/16">Run IA auto</button>
               <button type="button" onClick={() => setSpectatorPaused((c) => !c)} disabled={!spectatorMode} className="rounded-[1rem] border border-white/12 bg-white/7 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/12 disabled:cursor-not-allowed disabled:opacity-50">{spectatorPaused ? "Reprendre l'IA" : "Pause spectateur"}</button>

@@ -1,4 +1,5 @@
 import { isPlaytestBuild } from "@/lib/playtest-mode";
+import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 
 export default async function HomePage() {
   if (isPlaytestBuild()) {
@@ -6,11 +7,10 @@ export default async function HomePage() {
     return <PlaytestExperience />;
   }
 
-  const [{ HomeExperience }, { loadResolvedLiveChampionProfile }] = await Promise.all([
-    import("@/components/home-experience"),
-    import("@/lib/live-champion"),
-  ]);
-  const liveChampionProfile = await loadResolvedLiveChampionProfile();
+  const { HomeExperience } = await import("@/components/home-experience");
+  const liveChampionProfile = isLabSurfaceEnabled()
+    ? await import("@/lib/live-champion").then(({ loadResolvedLiveChampionProfile }) => loadResolvedLiveChampionProfile())
+    : null;
 
   return <HomeExperience initialLiveChampionProfile={liveChampionProfile} />;
 }

@@ -1139,3 +1139,8 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - increased the central `GAME_CONFIG.aiDelayMs` to 1200 ms so the rival's revealed draw remains visible long enough to read
   - added `netlify.toml` with the standard Next build command and `.next` publish directory for Netlify detection
   - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`, `$develop-web-game` client at `output/web-game/final-ui-after-ai-delay/`, and focused Playwright screenshots for 360/390/430 portrait, phone landscape, desktop, and enemy draw reveal at `output/playwright/final-mobile-readable-targeted/`; browser console stayed clean
+- 2026-05-08: Prepared the public production branch after the user noticed Vercel was still serving a branch preview:
+  - added a production deployment gate so `/lab`, `/lab/characters`, `/api/training-*`, `/api/character-lab/*`, and `/api/live-champion` return 404 unless local/dev explicitly enables the lab
+  - removed the public home link to the IA lab and hid the in-game Run IA / Entrainement IA controls from production builds
+  - stopped the public home and `/game` routes from reading local training reports in production; they use the static champion fallback instead
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`; production server check on `http://127.0.0.1:3114` confirmed `/` and `/game` return 200 while `/lab`, `/lab/characters`, `/api/training-status`, `/api/live-champion`, and `/api/character-lab` return 404; Playwright confirmed no Laboratoire / Entrainement / Run IA text is visible in the public menu

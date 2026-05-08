@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { loadCharacterLabData, saveCharacterLabCard, saveCharacterLabSettings } from "@/lib/character-lab-store";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 import type { CharacterLabDirection, CharacterLabSettings } from "@/lib/character-lab-types";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +15,11 @@ function jsonError(message: string, status = 400) {
 }
 
 export async function GET() {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
+  const { loadCharacterLabData } = await import("@/lib/character-lab-store");
   const payload = await loadCharacterLabData();
 
   return NextResponse.json(payload, {
@@ -25,6 +30,10 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const payload = (await request.json()) as
     | {
         type?: "settings";
@@ -44,6 +53,7 @@ export async function PUT(request: NextRequest) {
       return jsonError("Les reglages du studio sont manquants.");
     }
 
+    const { saveCharacterLabSettings } = await import("@/lib/character-lab-store");
     const nextState = await saveCharacterLabSettings(payload.settings);
     return NextResponse.json(nextState);
   }
@@ -59,6 +69,7 @@ export async function PUT(request: NextRequest) {
       return jsonError("Les donnees de carte sont incompletes.");
     }
 
+    const { saveCharacterLabCard } = await import("@/lib/character-lab-store");
     const nextState = await saveCharacterLabCard({
       cardId: payload.cardId,
       subjectPrompt: payload.subjectPrompt,

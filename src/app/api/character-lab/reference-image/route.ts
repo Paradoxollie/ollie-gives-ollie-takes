@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { isSupportedGeneratedImage } from "@/lib/card-art";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
@@ -25,12 +25,17 @@ function contentTypeForFilename(filename: string) {
 }
 
 export async function GET(request: NextRequest) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const cardId = request.nextUrl.searchParams.get("cardId") ?? "";
 
   if (!cardId || path.basename(cardId) !== cardId) {
     return NextResponse.json({ error: "Reference de labo invalide." }, { status: 400 });
   }
 
+  const { isSupportedGeneratedImage } = await import("@/lib/card-art");
   try {
     const entries = await readdir(REFERENCE_IMAGE_ROOT, { withFileTypes: true });
     const filename =

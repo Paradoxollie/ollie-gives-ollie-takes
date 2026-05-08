@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 
-import { loadResolvedLiveChampionProfile } from "@/lib/live-champion";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
+  const { loadResolvedLiveChampionProfile } = await import("@/lib/live-champion");
   const payload = await loadResolvedLiveChampionProfile();
 
   return NextResponse.json(payload, {

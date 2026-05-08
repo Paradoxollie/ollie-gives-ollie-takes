@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { isSupportedGeneratedImage } from "@/lib/card-art";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +25,10 @@ function contentTypeForFilename(filename: string) {
 }
 
 export async function GET(request: NextRequest) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const cardId = request.nextUrl.searchParams.get("cardId") ?? "";
   const filename = request.nextUrl.searchParams.get("filename") ?? "";
 
@@ -32,6 +36,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Image de labo invalide." }, { status: 400 });
   }
 
+  const { isSupportedGeneratedImage } = await import("@/lib/card-art");
   if (!isSupportedGeneratedImage(filename)) {
     return NextResponse.json({ error: "Format d'image non supporte." }, { status: 400 });
   }

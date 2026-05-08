@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { deleteCharacterLabCandidate, selectCharacterLabCandidate } from "@/lib/character-lab-store";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +14,10 @@ function jsonError(message: string, status = 400) {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const payload = (await request.json()) as
     | {
         action?: "select";
@@ -31,6 +35,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (payload.action === "select") {
+    const { selectCharacterLabCandidate } = await import("@/lib/character-lab-store");
     const nextState = await selectCharacterLabCandidate(payload.cardId, payload.filename ?? null);
     return NextResponse.json(nextState);
   }
@@ -40,6 +45,7 @@ export async function POST(request: NextRequest) {
       return jsonError("Le fichier a supprimer est manquant.");
     }
 
+    const { deleteCharacterLabCandidate } = await import("@/lib/character-lab-store");
     const nextState = await deleteCharacterLabCandidate(payload.cardId, payload.filename);
     return NextResponse.json(nextState);
   }

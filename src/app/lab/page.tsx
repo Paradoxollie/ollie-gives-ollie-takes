@@ -1,12 +1,28 @@
-import { BattleClient } from "@/components/battle-client";
-import { LabReportDashboard } from "@/components/lab-report-dashboard";
-import { TrainingStatusWidget } from "@/components/training-status-widget";
-import { loadResolvedLiveChampionProfile } from "@/lib/live-champion";
-import { loadSimulationReports } from "@/lib/simulation-reports";
+import { notFound } from "next/navigation";
+
+import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
 export default async function LabPage() {
+  if (!isLabSurfaceEnabled()) {
+    notFound();
+  }
+
+  const [
+    { BattleClient },
+    { LabReportDashboard },
+    { TrainingStatusWidget },
+    { loadResolvedLiveChampionProfile },
+    { loadSimulationReports },
+  ] = await Promise.all([
+    import("@/components/battle-client"),
+    import("@/components/lab-report-dashboard"),
+    import("@/components/training-status-widget"),
+    import("@/lib/live-champion"),
+    import("@/lib/simulation-reports"),
+  ]);
+
   const [reports, liveChampionProfile] = await Promise.all([
     loadSimulationReports(),
     loadResolvedLiveChampionProfile(),

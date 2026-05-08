@@ -9,6 +9,7 @@ import { RoundCoinTossOverlay } from "@/components/round-coin-toss-overlay";
 import { usePinnedLiveChampion } from "@/components/use-live-champion";
 import { GAME_CONFIG } from "@/core";
 import { useBattleController } from "@/components/use-battle-controller";
+import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
 
 interface BattleClientProps {
@@ -24,7 +25,9 @@ export function BattleClient({
 }: BattleClientProps) {
   const [seed, setSeed] = useState(GAME_CONFIG.defaultSeed);
   const [restartVersion, setRestartVersion] = useState(0);
-  const liveChampion = usePinnedLiveChampion(`lab:${seed}:${restartVersion}`, initialLiveChampionProfile);
+  const liveChampion = usePinnedLiveChampion(`lab:${seed}:${restartVersion}`, initialLiveChampionProfile, {
+    refresh: isLabSurfaceEnabled(),
+  });
   const controller = useBattleController({
     seed,
     enemyBot: liveChampion.bot,

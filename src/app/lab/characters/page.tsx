@@ -1,9 +1,18 @@
-import { CharacterArtLab } from "@/components/character-art-lab";
-import { loadCharacterLabData } from "@/lib/character-lab-store";
+import { notFound } from "next/navigation";
+
+import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 
 export const dynamic = "force-dynamic";
 
 export default async function CharacterLabPage() {
+  if (!isLabSurfaceEnabled()) {
+    notFound();
+  }
+
+  const [{ CharacterArtLab }, { loadCharacterLabData }] = await Promise.all([
+    import("@/components/character-art-lab"),
+    import("@/lib/character-lab-store"),
+  ]);
   const characterLabData = await loadCharacterLabData();
 
   return (

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { controlTraining } from "@/lib/training-control";
-import { loadTrainingStatus } from "@/lib/training-status";
+import { isLabSurfaceEnabled, labUnavailableResponse } from "@/lib/deployment-mode";
 import type { TrainingControlAction, TrainingLaunchOptions } from "@/lib/training-control";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +13,10 @@ interface TrainingControlRequest {
 }
 
 export async function POST(request: Request) {
+  if (!isLabSurfaceEnabled()) {
+    return labUnavailableResponse();
+  }
+
   const body = (await request.json().catch(() => ({}))) as TrainingControlRequest;
   const action = body.action;
 
@@ -33,6 +36,10 @@ export async function POST(request: Request) {
     promotionMatchesPerOpponent: body.promotionMatchesPerOpponent,
   };
 
+  const [{ controlTraining }, { loadTrainingStatus }] = await Promise.all([
+    import("@/lib/training-control"),
+    import("@/lib/training-status"),
+  ]);
   const control = await controlTraining(action, launchOptions);
   const status = await loadTrainingStatus();
 

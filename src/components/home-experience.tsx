@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { startTransition, useCallback, useEffect, useState } from "react";
 
@@ -344,14 +343,6 @@ function MainMenu({
               <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 transition group-hover:opacity-100" />
               <span className="relative block font-serif text-[1.15rem] leading-none text-white/90">Regles du jeu</span>
             </button>
-
-            <Link
-              href="/lab"
-              className="group relative overflow-hidden rounded-[1rem] border border-white/10 bg-[rgba(6,14,22,0.6)] px-5 py-3 text-left transition hover:border-white/20 hover:bg-[rgba(6,14,22,0.8)]"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 transition group-hover:opacity-100" />
-              <span className="relative block text-[0.85rem] leading-none text-white/60">Laboratoire IA</span>
-            </Link>
           </div>
         </div>
       </div>
