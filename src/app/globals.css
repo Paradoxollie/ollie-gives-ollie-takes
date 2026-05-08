@@ -1151,6 +1151,102 @@ button, input, select {
   max-height: 100dvh;
 }
 
+.ogot-hand-column {
+  top: 15.1%;
+  height: 67.6%;
+  width: 24%;
+  filter: drop-shadow(0 1.05rem 1.05rem rgba(0, 0, 0, 0.44));
+}
+
+.ogot-hand-column--player {
+  left: 1.35%;
+}
+
+.ogot-hand-column--enemy {
+  right: 1.35%;
+}
+
+.ogot-hand-column-grid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: clamp(0.34rem, 0.82vw, 0.86rem);
+  padding: clamp(0.22rem, 0.55vw, 0.56rem);
+}
+
+.ogot-hand-column-grid--dense {
+  gap: clamp(0.24rem, 0.62vw, 0.62rem);
+}
+
+.ogot-side-card-frame {
+  aspect-ratio: 2 / 3;
+  width: min(100%, 100%);
+  max-height: 100%;
+  min-height: 0;
+}
+
+.ogot-badge-bench {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(0.15rem, 0.45vw, 0.46rem);
+  filter: drop-shadow(0 0.72rem 0.65rem rgba(0, 0, 0, 0.4));
+}
+
+.ogot-badge-bench--enemy {
+  left: 29%;
+  top: 2.25%;
+  width: 42%;
+  height: 10.2%;
+}
+
+.ogot-badge-bench--player {
+  left: 24.4%;
+  top: 83.15%;
+  width: 51.2%;
+  height: 12.8%;
+}
+
+.ogot-family-badge {
+  height: 100%;
+  width: 100%;
+}
+
+.ogot-badge-tooltip {
+  width: min(18rem, 44vw);
+  border-color: rgba(125, 247, 255, 0.34);
+  background:
+    radial-gradient(circle at top, rgba(125, 247, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(5, 17, 24, 0.985), rgba(2, 8, 14, 0.98));
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 24px 72px rgba(0, 0, 0, 0.72),
+    0 0 28px rgba(79, 195, 247, 0.12),
+    inset 0 1px 0 rgba(125, 247, 255, 0.1);
+}
+
+.ogot-badge-tooltip p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ogot-badge-tooltip p:first-child {
+  color: white;
+}
+
+.ogot-badge-bench .ogot-family-badge:first-child .ogot-badge-tooltip {
+  left: 0;
+  --tw-translate-x: 0;
+}
+
+.ogot-badge-bench .ogot-family-badge:last-child .ogot-badge-tooltip {
+  left: 100%;
+  --tw-translate-x: -100%;
+}
+
 .ogot-hand-card {
   transform-origin: 50% 78%;
 }
@@ -1175,31 +1271,52 @@ button, input, select {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: min(200vw, 150dvh);
+    width: min(235vw, 165dvh);
   }
 
-  .ogot-trait-rail {
+  .ogot-hand-column {
+    width: 42%;
+    left: 29%;
+    right: auto;
+  }
+
+  .ogot-hand-column--player {
+    top: 75.4%;
+    height: 22.7%;
+  }
+
+  .ogot-hand-column--enemy {
+    top: 1.4%;
+    height: 14.4%;
+  }
+
+  .ogot-hand-column-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 0.2rem;
+    padding: 0.12rem;
+  }
+
+  .ogot-badge-bench {
+    gap: 0.06rem;
+  }
+
+  .ogot-badge-bench--enemy {
+    left: 29.2%;
+    top: 16.1%;
+    width: 41.6%;
+    height: 5.4%;
+  }
+
+  .ogot-badge-bench--player {
+    left: 29%;
+    top: 69.4%;
+    width: 42%;
+    height: 5.9%;
+  }
+
+  .ogot-badge-tooltip {
     display: none;
-  }
-
-  .ogot-health-hud {
-    display: none;
-  }
-
-  .ogot-player-bench {
-    left: 25%;
-    top: 78.3%;
-    width: 50%;
-    height: 20.4%;
-    gap: 1.15%;
-  }
-
-  .ogot-enemy-bench {
-    left: 25.5%;
-    top: 1.6%;
-    width: 49%;
-    height: 9.4%;
-    gap: 2.35%;
   }
 
   .ogot-hand-card {
@@ -1208,22 +1325,91 @@ button, input, select {
   }
 }
 
+@media (orientation: portrait) and (max-width: 430px) {
+  .ogot-arena-frame {
+    width: min(242vw, 170dvh);
+  }
+
+  .ogot-hand-column {
+    left: 29.6%;
+    width: 40.8%;
+  }
+
+  .ogot-hand-column--player {
+    top: 74.85%;
+    height: 23.2%;
+  }
+
+  .ogot-hand-column--enemy {
+    top: -7%;
+    height: 23.2%;
+  }
+
+  .ogot-badge-bench--enemy {
+    left: 29.45%;
+    top: 16.35%;
+    width: 41%;
+    height: 5.55%;
+  }
+
+  .ogot-badge-bench--player {
+    left: 29.5%;
+    top: 68.95%;
+    width: 40.8%;
+    height: 6.05%;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 370px) {
+  .ogot-arena-frame {
+    width: min(248vw, 172dvh);
+  }
+
+  .ogot-hand-column {
+    left: 30.1%;
+    width: 39.8%;
+  }
+
+  .ogot-hand-column-grid {
+    gap: 0.16rem;
+    padding: 0.1rem;
+  }
+
+  .ogot-hand-column--player {
+    top: 74.55%;
+    height: 23.65%;
+  }
+
+  .ogot-hand-column--enemy {
+    top: -6.8%;
+    height: 23.65%;
+  }
+
+  .ogot-badge-bench--enemy {
+    left: 30.2%;
+    top: 17.2%;
+    width: 39.5%;
+  }
+
+  .ogot-badge-bench--player {
+    left: 30.2%;
+    width: 39.5%;
+  }
+}
+
 @media (orientation: landscape) and (max-height: 500px) {
-  .ogot-trait-rail {
-    display: none;
+  .ogot-hand-column {
+    top: 14.8%;
+    height: 68.8%;
   }
 
-  .ogot-health-hud {
-    display: none;
+  .ogot-badge-bench--enemy {
+    top: 1.4%;
+    height: 10.5%;
   }
 
-  .ogot-player-bench {
-    top: 79.25%;
-    height: 18%;
-  }
-
-  .ogot-enemy-bench {
-    top: 1.6%;
-    height: 10.4%;
+  .ogot-badge-bench--player {
+    top: 84.2%;
+    height: 12.4%;
   }
 }

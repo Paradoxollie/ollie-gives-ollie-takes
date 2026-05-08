@@ -16,21 +16,27 @@ const OWNER_STYLES = {
     name: "Joueur",
     panel:
       "border-cyan-200/18 bg-[linear-gradient(180deg,rgba(7,25,38,0.98),rgba(4,14,24,0.96))] shadow-[0_28px_88px_rgba(34,211,238,0.14)]",
-    bar: "from-cyan-300 via-sky-200 to-teal-100",
+    bar: "from-lime-500 via-lime-300 to-emerald-100",
     accent: "rgba(103,232,249,0.42)",
     slash: "from-transparent via-cyan-100/95 to-transparent",
     badge: "border-cyan-200/24 bg-cyan-200/12 text-cyan-50",
     badgeGlow: "0 0 24px rgba(103,232,249,0.32)",
+    healthAsset: "/images/ui/hud/player-health-empty.png",
+    healthAspect: "aspect-[1625/365]",
+    healthTrack: "left-[16.6%] top-[34.1%] h-[27.2%] w-[74.9%]",
   },
   enemy: {
     name: "Rival",
     panel:
       "border-rose-200/18 bg-[linear-gradient(180deg,rgba(43,16,28,0.98),rgba(18,9,18,0.96))] shadow-[0_28px_88px_rgba(251,113,133,0.14)]",
-    bar: "from-rose-300 via-fuchsia-200 to-violet-100",
+    bar: "from-red-600 via-red-400 to-orange-100",
     accent: "rgba(251,113,133,0.38)",
     slash: "from-transparent via-rose-100/95 to-transparent",
     badge: "border-rose-200/24 bg-rose-200/12 text-rose-50",
     badgeGlow: "0 0 24px rgba(251,113,133,0.28)",
+    healthAsset: "/images/ui/hud/enemy-health-empty.png",
+    healthAspect: "aspect-[1648/418]",
+    healthTrack: "left-[17.9%] top-[33.5%] h-[28.7%] w-[70.1%]",
   },
 } as const;
 
@@ -243,30 +249,51 @@ function ImpactBar({
           </div>
         </div>
 
-        <div className="relative mt-6">
-          <div className="relative overflow-hidden rounded-[1.55rem] border border-white/10 bg-black/24 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-            <div className="absolute inset-3 rounded-[1.05rem] bg-white/5" />
-            <div className="absolute inset-y-3 left-3 rounded-[1.05rem] bg-white/12" style={{ width: `${beforePercent}%` }} />
-            <animated.div
-              className={["absolute inset-y-3 left-3 rounded-[1.05rem] bg-gradient-to-r origin-left", style.bar].join(" ")}
-              style={{
-                right: "auto",
-                width: "calc(100% - 1.5rem)",
-                transform: motion.fill.to((value) => `scaleX(${value / 100})`),
-              }}
+        <div className="relative mt-5">
+          <div className={["relative w-full overflow-visible", style.healthAspect].join(" ")}>
+            <img
+              src={style.healthAsset}
+              alt=""
+              className="absolute inset-0 h-full w-full select-none object-contain drop-shadow-[0_1.1rem_1.2rem_rgba(0,0,0,0.34)]"
+              draggable={false}
             />
-            <animated.div
-              className="absolute inset-y-2 right-3 w-6 rounded-full bg-white/60 blur-md"
-              style={{
-                opacity: motion.capGlow.to((value) => value * 0.55),
-                transform: to([motion.fill], (value) => `translateX(calc(${value}% - 100%))`),
-              }}
-            />
-            <div className="relative flex h-10 items-center justify-between px-2.5 text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-white/58">
-              <span>Avant {clampHealth(before.health)}</span>
-              <span className="text-white/28">→</span>
-              <span>Apres {clampHealth(after.health)}</span>
+            <div
+              className={[
+                "absolute overflow-hidden rounded-[999px] bg-black/38 shadow-[inset_0_0_1rem_rgba(0,0,0,0.86)]",
+                style.healthTrack,
+              ].join(" ")}
+            >
+              <div
+                className="absolute inset-y-0 left-0 rounded-[999px] bg-white/12"
+                style={{ width: `${beforePercent}%` }}
+              />
+              <animated.div
+                className={["absolute inset-y-0 left-0 origin-left rounded-[999px] bg-gradient-to-r", style.bar].join(" ")}
+                style={{
+                  width: "100%",
+                  transform: motion.fill.to((value) => `scaleX(${value / 100})`),
+                  boxShadow: motion.capGlow.to(
+                    (value) => `0 0 ${12 + value * 14}px rgba(255,255,255,${0.18 + value * 0.22})`,
+                  ),
+                }}
+              />
+              <animated.div
+                className="absolute inset-y-[12%] w-[4.6%] rounded-full bg-white/80 blur-[3px]"
+                style={{
+                  opacity: motion.capGlow.to((value) => value * 0.7),
+                  left: motion.fill.to((value) => `calc(${value}% - 2.3%)`),
+                }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center px-[8%] font-serif text-[clamp(0.82rem,2vw,1.48rem)] font-black leading-none text-[#fff4cf] tabular-nums [text-shadow:0_2px_3px_rgba(0,0,0,0.92),0_0_10px_rgba(255,247,209,0.38)]">
+                {clampHealth(after.health)} / {after.maxHealth}
+              </div>
             </div>
+          </div>
+
+          <div className="mt-2 flex items-center justify-between px-4 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white/54">
+            <span>Avant {clampHealth(before.health)}</span>
+            <span className="text-white/26">-&gt;</span>
+            <span>Apres {clampHealth(after.health)}</span>
           </div>
 
           <animated.div

@@ -130,109 +130,104 @@ function FamilyNameBadge({
   );
 }
 
-function SideAssetRail({
+function getFamilyBonusCopy(family: CardFamily, count: number) {
+  const definition = CARD_FAMILY_DEFINITIONS[family];
+  const activeThreshold = [...definition.thresholds].reverse().find((threshold) => count >= threshold.count);
+  const nextThreshold = definition.thresholds.find((threshold) => count < threshold.count);
+
+  return {
+    definition,
+    activeThreshold,
+    nextThreshold,
+    activeCopy: activeThreshold
+      ? `${activeThreshold.label}: ${activeThreshold.effect}`
+      : "Aucun bonus actif.",
+    nextCopy: nextThreshold
+      ? `${nextThreshold.count} cartes - ${nextThreshold.label}: ${nextThreshold.effect}`
+      : "Bonus maximum atteint.",
+  };
+}
+
+function FamilyBadgeBench({
   board,
   owner,
-  variant,
 }: {
   board: MatchState["board"];
   owner: PlayerId;
-  variant: "bonus" | "badges";
 }) {
   const counts = countBoardFamilies(board, owner);
   const totalControlled = board.flat().filter((card) => card?.owner === owner).length;
-  const sideClass = variant === "bonus" ? "left-[1.15%]" : "right-[1.15%]";
-  const panelSrc = variant === "bonus" ? "/images/ui/panels/bonus-column.png" : "/images/ui/panels/badges-column.png";
-  const title = variant === "bonus" ? "Bonus du joueur" : "Badges adverses";
+  const ownerLabel = owner === "player" ? "joueur" : "rival";
 
   return (
     <aside
       className={[
-        "ogot-trait-rail pointer-events-none absolute top-[17.2%] z-30 h-[64.5%] w-[17.1%] overflow-hidden text-white drop-shadow-[0_20px_28px_rgba(0,0,0,0.46)]",
-        sideClass,
+        "ogot-badge-bench pointer-events-auto absolute z-50 text-white",
+        owner === "player" ? "ogot-badge-bench--player" : "ogot-badge-bench--enemy",
       ].join(" ")}
-      aria-label={title}
+      aria-label={`Badges ${ownerLabel}`}
     >
-      <img src={panelSrc} alt="" className="absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
+      {ACTIVE_FAMILIES.map((family) => {
+        const count = counts[family];
+        const { definition, activeThreshold, activeCopy, nextCopy } = getFamilyBonusCopy(family, count);
+        const isActive = Boolean(activeThreshold);
+        const badgeSrc = getFamilyCrestArtSrc(family);
+        const title = `${definition.label} (${ownerLabel}) - Controle ${count}, total ${totalControlled}/9. Actif: ${activeCopy} Prochain: ${nextCopy}`;
 
-      <div className="absolute left-[19%] right-[19%] top-[14.4%] bottom-[7.8%] flex flex-col justify-around gap-[0.8%]">
-        {ACTIVE_FAMILIES.map((family) => {
-          const definition = CARD_FAMILY_DEFINITIONS[family];
-          const count = counts[family];
-          const activeThreshold = [...definition.thresholds].reverse().find((threshold) => count >= threshold.count);
-          const nextThreshold = definition.thresholds.find((threshold) => count < threshold.count);
-          const displayedThreshold = activeThreshold ?? nextThreshold ?? definition.thresholds[definition.thresholds.length - 1];
-          const isActive = Boolean(activeThreshold);
-          const badgeSrc = getFamilyCrestArtSrc(family);
-
-          return (
-            <section
-              key={`${owner}-${family}`}
-              title={`${definition.label}: ${definition.identity}. ${displayedThreshold.effect}. Controle ${count}. Total ${totalControlled}/9.`}
+        return (
+          <section
+            key={`${owner}-${family}`}
+            title={title}
+            tabIndex={0}
+            className={[
+              "ogot-family-badge group relative grid min-w-0 place-items-center outline-none transition-[filter,opacity,transform] duration-200",
+              isActive ? "saturate-125" : "grayscale-[24%]",
+            ].join(" ")}
+          >
+            <img
+              src={badgeSrc}
+              alt=""
               className={[
-                "relative mx-auto grid h-[14.4%] w-full place-items-center transition-[filter,opacity,transform] duration-200",
-                isActive ? "opacity-100 saturate-125" : "opacity-48 grayscale-[35%]",
+                "h-full w-full select-none object-contain drop-shadow-[0_0.45rem_0.35rem_rgba(0,0,0,0.48)]",
+                isActive ? "opacity-100" : "opacity-52",
+              ].join(" ")}
+              draggable={false}
+            />
+            <span
+              className={[
+                "absolute right-[6%] top-[8%] grid place-items-center rounded-full border px-[0.22rem] font-black leading-none tabular-nums shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.5)]",
+                "h-[clamp(0.9rem,1.25vw,1.34rem)] min-w-[clamp(0.9rem,1.25vw,1.34rem)] text-[clamp(0.5rem,0.68vw,0.76rem)]",
+                isActive ? FAMILY_BADGE_CLASS[family] : "border-white/18 bg-black/62 text-white/72",
               ].join(" ")}
             >
-              <img
-                src={badgeSrc}
-                alt=""
-                className="h-[94%] w-[94%] select-none object-contain drop-shadow-[0_0.45rem_0.35rem_rgba(0,0,0,0.48)]"
-                draggable={false}
-              />
-              <span
-                className={[
-                  "absolute right-[7%] top-[8%] grid h-[clamp(1rem,1.35vw,1.45rem)] min-w-[clamp(1rem,1.35vw,1.45rem)] place-items-center rounded-full border px-[0.22rem] text-[clamp(0.52rem,0.72vw,0.8rem)] font-black leading-none tabular-nums shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.46)]",
-                  isActive ? FAMILY_BADGE_CLASS[family] : "border-white/18 bg-black/54 text-white/68",
-                ].join(" ")}
-              >
-                {count}
-              </span>
-              <span className="sr-only">
-                {displayedThreshold.label} {count}/{displayedThreshold.count}
-              </span>
-            </section>
-          );
-        })}
-      </div>
+              {count}
+            </span>
+            <div
+              className={[
+                "ogot-tooltip ogot-badge-tooltip left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus:opacity-100",
+                owner === "player"
+                  ? "bottom-[calc(100%+0.55rem)] translate-y-1 group-hover:translate-y-0 group-focus:translate-y-0"
+                  : "top-[calc(100%+0.55rem)] -translate-y-1 group-hover:translate-y-0 group-focus:translate-y-0",
+              ].join(" ")}
+            >
+              <p className="font-serif text-[1.05rem] font-bold leading-none text-white">{definition.label}</p>
+              <p className="mt-2 text-white/62">{definition.identity}</p>
+              <p className="mt-3">
+                <span className="font-semibold text-white/86">Actif: </span>
+                {activeCopy}
+              </p>
+              <p className="mt-1.5">
+                <span className="font-semibold text-white/86">Prochain: </span>
+                {nextCopy}
+              </p>
+              <p className="mt-2 text-white/48">
+                {count} {count > 1 ? "cartes controlees" : "carte controlee"} par le {ownerLabel}
+              </p>
+            </div>
+          </section>
+        );
+      })}
     </aside>
-  );
-}
-
-function ChampionHealthBar({
-  match,
-  owner,
-}: {
-  match: MatchState;
-  owner: PlayerId;
-}) {
-  const champion = match.champions[owner];
-  const maxHealth = Math.max(1, champion.maxHealth);
-  const currentHealth = Math.max(0, champion.health);
-  const healthPercent = Math.max(0, Math.min(100, (currentHealth / maxHealth) * 100));
-  const isPlayer = owner === "player";
-  const frameSrc = isPlayer ? "/images/ui/hud/player-health.png" : "/images/ui/hud/enemy-health.png";
-  const sideClass = isPlayer ? "left-[1.65%]" : "right-[1.65%]";
-  const fillClass = isPlayer
-    ? "bg-[linear-gradient(90deg,#52d728,#b8ff54_58%,#f8ffd3)] shadow-[0_0_0.55rem_rgba(132,255,62,0.42)]"
-    : "bg-[linear-gradient(90deg,#fa2727,#ff5858_58%,#ffd0b3)] shadow-[0_0_0.55rem_rgba(255,68,68,0.4)]";
-
-  return (
-    <div
-      className={["ogot-health-hud pointer-events-none absolute top-[8.15%] z-40 w-[23.5%] drop-shadow-[0_0.65rem_0.8rem_rgba(0,0,0,0.38)]", sideClass].join(" ")}
-      aria-label={`${isPlayer ? "Vie du joueur" : "Vie de l'ennemi"} ${currentHealth} sur ${maxHealth}`}
-    >
-      <img src={frameSrc} alt="" className="h-auto w-full select-none" draggable={false} />
-      <div className="absolute left-[24.2%] top-[49.5%] h-[14.2%] w-[49.6%] overflow-hidden rounded-full bg-black/66 shadow-[inset_0_0_0.55rem_rgba(0,0,0,0.75)]">
-        <div
-          className={["h-full rounded-full transition-[width] duration-300", fillClass, currentHealth / maxHealth <= 0.25 ? "hp-low-pulse" : ""].join(" ")}
-          style={{ width: `${healthPercent}%` }}
-        />
-      </div>
-      <div className="absolute left-[74.4%] top-[35.8%] flex h-[29%] w-[22.5%] items-center justify-center rounded-[0.2rem] bg-[#141212]/95 px-[2%] font-serif text-[clamp(0.42rem,0.74vw,0.78rem)] font-black leading-none text-[#fff2d6] shadow-[inset_0_0_0.42rem_rgba(0,0,0,0.86)] [text-shadow:0_2px_3px_rgba(0,0,0,0.9)]">
-        {currentHealth} / {maxHealth}
-      </div>
-    </div>
   );
 }
 
@@ -566,76 +561,176 @@ function BoardUnitToken({
   );
 }
 
-function HandBenchCard({
+function SideHandCard({
   card,
+  owner,
   selected,
   canInteract,
   onSelect,
 }: {
   card: CardInstance;
+  owner: PlayerId;
   selected: boolean;
   canInteract: boolean;
   onSelect: () => void;
 }) {
+  const isInteractive = owner === "player" && canInteract;
+  const wrapperClassName = [
+    "ogot-hand-card relative h-full w-full min-w-0 overflow-visible rounded-[0.82rem] border p-[1.35%] transition duration-150",
+    selected
+      ? "ogot-hand-card--selected border-amber-100/88 bg-amber-200/10 shadow-[0_0_32px_rgba(253,230,138,0.28),0_12px_28px_rgba(0,0,0,0.42)]"
+      : owner === "enemy"
+        ? "border-rose-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]"
+        : "border-cyan-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]",
+    isInteractive ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64" : "cursor-default opacity-92",
+  ].join(" ");
+
+  const content = <CardView card={card} layout="hand" className="h-full w-full" selected={selected} />;
+
+  if (!isInteractive) {
+    return (
+      <div
+        className={wrapperClassName}
+        aria-label={`${card.name} ${card.sides.top}-${card.sides.right}-${card.sides.bottom}-${card.sides.left}`}
+      >
+        {content}
+      </div>
+    );
+  }
+
   return (
     <button
       type="button"
-      disabled={!canInteract}
       onClick={onSelect}
       data-testid="player-bench-card"
-      className={[
-        "ogot-hand-card relative h-full aspect-[2/3] min-w-0 overflow-visible rounded-[0.72rem] border p-[1.5%] transition duration-150",
-        selected
-          ? "ogot-hand-card--selected border-amber-100/88 bg-amber-200/10 shadow-[0_0_32px_rgba(253,230,138,0.28),0_12px_28px_rgba(0,0,0,0.42)]"
-          : "border-cyan-100/22 bg-black/18 shadow-[0_10px_24px_rgba(0,0,0,0.34)]",
-        canInteract ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64" : "cursor-default opacity-62",
-      ].join(" ")}
+      className={wrapperClassName}
       aria-label={`${card.name} ${card.sides.top}-${card.sides.right}-${card.sides.bottom}-${card.sides.left}`}
     >
-      <CardView card={card} layout="board" className="h-full w-full" selected={selected} />
+      {content}
     </button>
   );
 }
 
-function EnemyBench({ count }: { count: number }) {
+function SideHandBack({ owner }: { owner: PlayerId }) {
   return (
-    <div className="ogot-enemy-bench absolute left-[25.4%] top-[2.5%] flex h-[8.7%] w-[49.2%] items-center justify-center gap-[2.1%]">
-      {Array.from({ length: count }, (_, index) => (
-        <div
-          key={`enemy-bench-${index}`}
-          className="relative h-[90%] aspect-[2/3] overflow-hidden rounded-md border border-amber-100/28 bg-black/30 shadow-[0_8px_18px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.1)]"
-        >
-          <img src="/images/ui/bench-card-back.png" alt="" className="h-full w-full select-none object-cover" draggable={false} />
-        </div>
-      ))}
+    <div
+      className={[
+        "ogot-side-card-frame relative overflow-hidden rounded-[0.78rem] border bg-black/26 shadow-[0_10px_24px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.1)]",
+        owner === "enemy" ? "border-rose-100/24" : "border-cyan-100/22",
+      ].join(" ")}
+    >
+      <img src="/images/ui/bench-card-back.png" alt="" className="h-full w-full select-none object-cover" draggable={false} />
     </div>
   );
 }
 
-function PlayerBench({
+function SideHandColumn({
+  owner,
+  cards,
+  hiddenCount,
+  selectedCardId,
+  canInteract,
+  onSelectCard,
+}: {
+  owner: PlayerId;
+  cards: CardInstance[];
+  hiddenCount: number;
+  selectedCardId: string | null;
+  canInteract: boolean;
+  onSelectCard: (cardInstanceId: string) => void;
+}) {
+  const placeholderCount = cards.length > 0 ? 0 : hiddenCount;
+
+  return (
+    <aside
+      className={[
+        "ogot-hand-column pointer-events-auto absolute z-[45]",
+        owner === "player" ? "ogot-hand-column--player" : "ogot-hand-column--enemy",
+      ].join(" ")}
+      aria-label={owner === "player" ? "Cartes piochees du joueur" : "Cartes piochees du rival"}
+    >
+      <div className={["ogot-hand-column-grid", cards.length > 4 ? "ogot-hand-column-grid--dense" : ""].join(" ")}>
+        {cards.map((card) => (
+          <div key={card.instanceId} className="ogot-side-card-frame">
+            <SideHandCard
+              card={card}
+              owner={owner}
+              selected={owner === "player" && selectedCardId === card.instanceId}
+              canInteract={canInteract}
+              onSelect={() => onSelectCard(card.instanceId)}
+            />
+          </div>
+        ))}
+        {Array.from({ length: placeholderCount }, (_, index) => (
+          <SideHandBack key={`${owner}-hidden-${index}`} owner={owner} />
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+function EnemyBench({
+  cards,
+  hiddenCount,
+}: {
+  cards: CardInstance[];
+  hiddenCount: number;
+}) {
+  return (
+    <SideHandColumn
+      owner="enemy"
+      cards={cards}
+      hiddenCount={hiddenCount}
+      selectedCardId={null}
+      canInteract={false}
+      onSelectCard={() => undefined}
+    />
+  );
+}
+
+function HiddenPlayerReserve({
+  hiddenCount,
+}: {
+  hiddenCount: number;
+}) {
+  return (
+    <SideHandColumn
+      owner="player"
+      cards={[]}
+      hiddenCount={hiddenCount}
+      selectedCardId={null}
+      canInteract={false}
+      onSelectCard={() => undefined}
+    />
+  );
+}
+
+function PlayerHandColumn({
   hand,
   selectedCardId,
   canInteract,
   onSelectCard,
+  hiddenCount,
 }: {
   hand: CardInstance[];
   selectedCardId: string | null;
   canInteract: boolean;
   onSelectCard: (cardInstanceId: string) => void;
+  hiddenCount: number;
 }) {
+  if (hand.length === 0) {
+    return <HiddenPlayerReserve hiddenCount={hiddenCount} />;
+  }
+
   return (
-    <div className="ogot-player-bench absolute left-[15.8%] top-[82.65%] flex h-[14.15%] w-[68.4%] items-center justify-center gap-[1.25%]">
-      {hand.map((card) => (
-        <div key={card.instanceId} className="flex h-full min-w-0 flex-1 justify-center">
-          <HandBenchCard
-            card={card}
-            selected={selectedCardId === card.instanceId}
-            canInteract={canInteract}
-            onSelect={() => onSelectCard(card.instanceId)}
-          />
-        </div>
-      ))}
-    </div>
+    <SideHandColumn
+      owner="player"
+      cards={hand}
+      hiddenCount={0}
+      selectedCardId={selectedCardId}
+      canInteract={canInteract}
+      onSelectCard={onSelectCard}
+    />
   );
 }
 
@@ -658,10 +753,9 @@ function ArenaBattlefield({
   onCellClick: (position: Position) => void;
   onSelectCard: (cardInstanceId: string) => void;
 }) {
-  const enemyHandCount =
-    match.turn.activePlayer === "enemy"
-      ? Math.max(1, match.turn.choices.length)
-      : Math.max(2, match.config.cardsPerTurn);
+  const enemyCards = match.turn.activePlayer === "enemy" ? match.turn.choices : [];
+  const enemyHiddenCount = enemyCards.length > 0 ? 0 : Math.max(2, match.config.cardsPerTurn);
+  const playerHiddenCount = hand.length > 0 ? 0 : Math.max(2, match.config.cardsPerTurn);
 
   return (
     <div className="ogot-arena-stage absolute inset-0 grid place-items-center overflow-hidden bg-[#020418]">
@@ -673,11 +767,16 @@ function ArenaBattlefield({
           draggable={false}
         />
 
-        <ChampionHealthBar match={match} owner="player" />
-        <ChampionHealthBar match={match} owner="enemy" />
-        <EnemyBench count={enemyHandCount} />
-        <SideAssetRail board={match.board} owner="player" variant="bonus" />
-        <SideAssetRail board={match.board} owner="enemy" variant="badges" />
+        <FamilyBadgeBench board={match.board} owner="enemy" />
+        <FamilyBadgeBench board={match.board} owner="player" />
+        <PlayerHandColumn
+          hand={hand}
+          hiddenCount={playerHiddenCount}
+          selectedCardId={selectedCardId}
+          canInteract={canHumanInteract}
+          onSelectCard={onSelectCard}
+        />
+        <EnemyBench cards={enemyCards} hiddenCount={enemyHiddenCount} />
 
         {BOARD_CELLS.map((cell) => {
           const boardCard = match.board[cell.row][cell.col];
@@ -739,7 +838,6 @@ function ArenaBattlefield({
           );
         })}
 
-        <PlayerBench hand={hand} selectedCardId={selectedCardId} canInteract={canHumanInteract} onSelectCard={onSelectCard} />
       </div>
     </div>
   );

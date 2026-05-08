@@ -1125,3 +1125,17 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - validation: `npm run build` -> success; `npm run test` -> `79/79` passing; production server stayed on `http://127.0.0.1:3011/game`
   - browser validation: `$develop-web-game` client, `tmp/verify-bird-animation.mjs`, `tmp/verify-game-visual.mjs`, `tmp/verify-squirrel-animation.mjs`, and `tmp/verify-hedgehog-animation.mjs` all ran console-clean
   - focused bird validation confirmed hand walking, selected-hand walking, board walking, `hit` when flipped by the enemy, enemy bird `happy` when it causes a flip, and return to normal walking; screenshots reviewed in `output/playwright/bird-animation-states/`
+- 2026-05-07: Reversed the final combat HUD layout after the user's online playtest feedback:
+  - moved player choices into a large left-side hand column and rival drawn cards into a right-side column; the rival column reveals `match.turn.choices` during the AI delay so the player can see what the opponent drew
+  - moved family badges onto the top and bottom bench strips, with per-family counts and hover/focus tooltips explaining active and next threshold bonuses
+  - removed the in-arena champion HP bars and wired the new empty green/red HP assets into the round/battle resolution overlay with animated fill and numeric health text
+  - added `public/images/ui/hud/player-health-empty.png` and `public/images/ui/hud/enemy-health-empty.png` from the user's `19_28` Downloads assets after background cleanup and cropping
+  - improved portrait-phone layout so cards stay fully visible and large enough to choose; badges remain compact around the board without covering the hand
+  - fixed the Vercel deployment size failure by excluding `public/`, `work/`, `output/`, and `playwright-artifacts/` from the `training-control` and `training-status` serverless traces, and changed `training-control` to import only the specific core config it needs
+  - validation: `npx tsc --noEmit --pretty false`, `npm run build`, `npm run test` (`95/95`), `$develop-web-game` Playwright pass at `output/web-game/final-ui-reversal-final/`, focused desktop/mobile/tooltip/round-resolution screenshots at `output/playwright/final-ui-reversal-final/` and `output/playwright/final-ui-reversal-polish/`; browser console stayed clean
+- 2026-05-08: Finalized the resumed HUD pass after the PC interruption:
+  - tightened portrait phone breakpoints for 360/390/430 px widths so both card columns and badge rows stay inside the viewport, with cards kept at a readable 2:3 ratio
+  - strengthened hand-card attack number strokes and shadows without changing their font size
+  - increased the central `GAME_CONFIG.aiDelayMs` to 1200 ms so the rival's revealed draw remains visible long enough to read
+  - added `netlify.toml` with the standard Next build command and `.next` publish directory for Netlify detection
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`, `$develop-web-game` client at `output/web-game/final-ui-after-ai-delay/`, and focused Playwright screenshots for 360/390/430 portrait, phone landscape, desktop, and enemy draw reveal at `output/playwright/final-mobile-readable-targeted/`; browser console stayed clean

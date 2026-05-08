@@ -65,10 +65,17 @@ function valuePosition(position: CardSidePosition): string {
 }
 
 function valueTextClass(layout: "hand" | "board"): string {
+  const isHand = layout === "hand";
+
   return [
     "font-serif font-black leading-none tabular-nums text-[#fff5c8]",
-    "[-webkit-text-stroke:1.25px_rgba(20,10,3,0.96)] [paint-order:stroke_fill]",
-    "[text-shadow:0_1px_0_rgba(93,45,8,0.95),0_0_7px_rgba(255,244,204,0.66),0_3px_8px_rgba(0,0,0,0.92)]",
+    isHand
+      ? "[-webkit-text-stroke:1.85px_rgba(10,5,2,0.99)]"
+      : "[-webkit-text-stroke:1.25px_rgba(20,10,3,0.96)]",
+    "[paint-order:stroke_fill]",
+    isHand
+      ? "[text-shadow:0_1px_0_rgba(93,45,8,0.98),0_0_3px_rgba(0,0,0,0.96),0_0_7px_rgba(255,244,204,0.72),0_3px_8px_rgba(0,0,0,0.94)]"
+      : "[text-shadow:0_1px_0_rgba(93,45,8,0.95),0_0_7px_rgba(255,244,204,0.66),0_3px_8px_rgba(0,0,0,0.92)]",
     layout === "board" ? "text-[clamp(0.72rem,1.15vw,1.08rem)]" : "text-[clamp(1.05rem,2.05vw,1.72rem)]",
   ].join(" ");
 }

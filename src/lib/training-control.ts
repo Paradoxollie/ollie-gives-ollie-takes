@@ -10,7 +10,8 @@ import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import { spawn } from "node:child_process";
 
-import { BOT_TRAINING_CONFIG, TRAINED_BOT_PROFILE } from "@/core";
+import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
+import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
 
 const execFileAsync = promisify(execFile);
 const TRAINING_REPORTS_DIRECTORY = path.join(process.cwd(), "reports", "training");
