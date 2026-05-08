@@ -1144,3 +1144,8 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - removed the public home link to the IA lab and hid the in-game Run IA / Entrainement IA controls from production builds
   - stopped the public home and `/game` routes from reading local training reports in production; they use the static champion fallback instead
   - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`; production server check on `http://127.0.0.1:3114` confirmed `/` and `/game` return 200 while `/lab`, `/lab/characters`, `/api/training-status`, `/api/live-champion`, and `/api/character-lab` return 404; Playwright confirmed no Laboratoire / Entrainement / Run IA text is visible in the public menu
+- 2026-05-08: Smoothed the playable card art after the user reported grain/pixelization:
+  - generated `public/images/cards-playable/` as 384x576 pre-filtered PNGs from the supplied HD card templates, avoiding browser-side downscaling from 1024x1536/936x1332 sources inside small hand cards
+  - pointed neutral family card art at the playable assets while preserving the HD source files for future larger presentations
+  - added an explicit card image rendering class so the browser keeps normal interpolation on card art
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`, `$develop-web-game` client, and focused desktop/phone Playwright screenshots; rendered card images now resolve to `/images/cards-playable/*` at 384x576 natural size

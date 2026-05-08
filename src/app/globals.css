@@ -1247,6 +1247,12 @@ button, input, select {
   --tw-translate-x: -100%;
 }
 
+.ogot-card-art-image {
+  image-rendering: auto;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
 .ogot-hand-card {
   transform-origin: 50% 78%;
 }

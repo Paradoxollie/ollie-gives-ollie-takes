@@ -1,14 +1,14 @@
 import type { CardFamily } from "@/core/types";
 
 export const NEUTRAL_CARD_ART_BY_FAMILY: Record<CardFamily, string> = {
-  familiar: "/images/cards-hd/family-card-familiar.png",
-  demon: "/images/cards-hd/family-card-demon.png",
-  human: "/images/cards-hd/family-card-human.png",
-  automaton: "/images/cards-hd/family-card-automaton.png",
-  revenant: "/images/cards-hd/family-card-revenant.png",
-  arcane: "/images/cards-hd/family-card-arcane.png",
-  dragon: "/images/cards-hd/neutral-card-dragon.png",
-  renegade: "/images/cards-hd/neutral-card-renegade.png",
+  familiar: "/images/cards-playable/family-card-familiar.png",
+  demon: "/images/cards-playable/family-card-demon.png",
+  human: "/images/cards-playable/family-card-human.png",
+  automaton: "/images/cards-playable/family-card-automaton.png",
+  revenant: "/images/cards-playable/family-card-revenant.png",
+  arcane: "/images/cards-playable/family-card-arcane.png",
+  dragon: "/images/cards-playable/neutral-card-dragon.png",
+  renegade: "/images/cards-playable/neutral-card-renegade.png",
 };
 
 export const FAMILY_CREST_ART_BY_FAMILY: Record<CardFamily, string> = {

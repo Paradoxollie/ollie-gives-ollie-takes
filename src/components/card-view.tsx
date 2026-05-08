@@ -119,7 +119,7 @@ export function CardView({
       <img
         src={artSrc}
         alt=""
-        className="h-full w-full select-none object-cover"
+        className="ogot-card-art-image h-full w-full select-none object-cover"
         draggable={false}
       />
 
