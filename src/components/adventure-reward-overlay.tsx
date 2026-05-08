@@ -60,6 +60,7 @@ function rewardPreviewCard(archetypeId: string) {
     sourceType: card.sourceType,
     baseArchetypeId: card.baseArchetypeId,
     corruptedBy: null,
+    effects: card.effects,
   };
 }
 

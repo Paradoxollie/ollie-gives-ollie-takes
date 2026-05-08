@@ -2,6 +2,7 @@ import { CARD_ARCHETYPE_LOOKUP } from "@/core/config/cardArchetypes";
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 import { STARTER_DECK_PRESETS } from "@/core/config/decks";
+import { cloneCardEffects } from "@/core/card-effects";
 import { pickWithSeed } from "@/core/utils/rng";
 import type {
   AdventureDeckCard,
@@ -51,6 +52,7 @@ export function getCardArchetype(cardId: string): CardArchetype {
     sides: cloneSides(card.sides),
     temporaryScope: card.temporaryScope ?? null,
     createdByCharmId: card.createdByCharmId ?? null,
+    effects: cloneCardEffects(card.effects),
   };
 }
 
@@ -70,6 +72,7 @@ export function createCardInstance(owner: PlayerId, archetype: CardArchetype, in
     temporaryScope: archetype.temporaryScope ?? null,
     createdByCharmId: archetype.createdByCharmId ?? null,
     corruptedBy: null,
+    effects: cloneCardEffects(archetype.effects),
   };
 }
 
@@ -81,6 +84,7 @@ export function createAdventureDeckCard(deckCardId: string, card: CardArchetype)
       sides: cloneSides(card.sides),
       temporaryScope: card.temporaryScope ?? null,
       createdByCharmId: card.createdByCharmId ?? null,
+      effects: cloneCardEffects(card.effects),
     },
   };
 }
@@ -117,6 +121,7 @@ export function listAdventureDeckArchetypes(deck: AdventureDeckState): CardArche
   return deck.cards.map((entry) => ({
     ...entry.card,
     sides: cloneSides(entry.card.sides),
+    effects: cloneCardEffects(entry.card.effects),
   }));
 }
 
@@ -179,6 +184,7 @@ export function createUpgradedAdventureCard(
     baseArchetypeId: card.baseArchetypeId ?? card.id,
     temporaryScope: null,
     createdByCharmId: null,
+    effects: cloneCardEffects(card.effects),
   };
 }
 
@@ -209,6 +215,7 @@ export function createFusionAdventureCard(options: {
     baseArchetypeId: left.baseArchetypeId ?? left.id,
     temporaryScope: null,
     createdByCharmId: null,
+    effects: [...cloneCardEffects(left.effects).slice(0, 1), ...cloneCardEffects(right.effects).slice(0, 1)],
   };
 }
 
@@ -230,6 +237,7 @@ export function createLuckyCharmPenaltyCard(generatedCardId: string): CardArchet
     baseArchetypeId: null,
     temporaryScope: null,
     createdByCharmId: "split-hazelnut",
+    effects: [],
   };
 }
 
@@ -246,6 +254,7 @@ export function createTemporaryLuckyCharmCard(
     baseArchetypeId: card.baseArchetypeId ?? card.id,
     temporaryScope: scope,
     createdByCharmId: charmId,
+    effects: cloneCardEffects(card.effects),
   };
 }
 

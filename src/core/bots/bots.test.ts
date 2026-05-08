@@ -15,6 +15,7 @@ function testArchetype(id: string, family: CardFamily, sides: CardSides): CardAr
     sourceType: "draft",
     rarity: "common",
     baseArchetypeId: null,
+    effects: [],
   };
 }
 

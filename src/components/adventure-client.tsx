@@ -53,7 +53,7 @@ import {
   greedyBot,
   heuristicBot,
 } from "@/core";
-import type { AdventureNode, AdventureRunState } from "@/core/types";
+import type { AdventureNode, AdventureRunState, CardEffectEvent } from "@/core/types";
 import { isLabSurfaceEnabled } from "@/lib/deployment-mode";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
 
@@ -72,6 +72,14 @@ function kindLabel(kind: AdventureNode["kind"]): string {
     case "boss":
       return "Boss";
   }
+}
+
+function combatEffectText(events: CardEffectEvent[]): string | null {
+  if (events.length === 0) {
+    return null;
+  }
+
+  return events.slice(0, 2).map((event) => event.description).join(" ");
 }
 
 function runStatusText(run: AdventureRunState): string {
@@ -252,6 +260,7 @@ function deckPreviewCard(
   sourceType: AdventureRunState["deck"]["cards"][number]["card"]["sourceType"];
   baseArchetypeId: string | null;
   corruptedBy: null;
+  effects: AdventureRunState["deck"]["cards"][number]["card"]["effects"];
 } {
   return {
     instanceId: deckCard.deckCardId,
@@ -266,6 +275,7 @@ function deckPreviewCard(
     sourceType: deckCard.card.sourceType,
     baseArchetypeId: deckCard.card.baseArchetypeId,
     corruptedBy: null,
+    effects: deckCard.card.effects,
   };
 }
 
@@ -609,18 +619,22 @@ export function AdventureClient({
 
   if (isCombatEncounter && activeNode && battle.match) {
     const combatResult = battle.match.result;
-    const battlePreviewText = !battle.hoverPreview
+    const battlePreviewBaseText = !battle.hoverPreview
       ? battle.selectedCard
         ? "Choisis maintenant une case vide du plateau."
         : "Choisis une carte dans ta main, puis une case vide."
       : battle.hoverPreview.roundEndSummary
         ? `${battle.hoverPreview.flippedCount} flips. Fin ${battle.hoverPreview.roundEndSummary.control.player}/${battle.hoverPreview.roundEndSummary.control.enemy}.`
         : `${battle.hoverPreview.flippedCount} flips attendus. Controle ${battle.hoverPreview.control.player}/${battle.hoverPreview.control.enemy}.`;
-    const lastBattleEvent = !battle.match.lastMove
+    const battlePreviewEffectText = battle.hoverPreview ? combatEffectText(battle.hoverPreview.effectEvents) : null;
+    const battlePreviewText = battlePreviewEffectText ? `${battlePreviewBaseText} ${battlePreviewEffectText}` : battlePreviewBaseText;
+    const lastBattleBaseEvent = !battle.match.lastMove
       ? "Ouverture de manche."
       : battle.match.lastMove.roundEndSummary
         ? `${battle.match.lastMove.playerId === "player" ? "Ollie" : "Le rival"} a cloture la manche.`
         : `${battle.match.lastMove.playerId === "player" ? "Ollie" : "Le rival"} vient de jouer en ${battle.match.lastMove.position.row},${battle.match.lastMove.position.col}.`;
+    const lastEffectText = battle.match.lastMove ? combatEffectText(battle.match.lastMove.effectEvents) : null;
+    const lastBattleEvent = lastEffectText ? `${lastBattleBaseEvent} ${lastEffectText}` : lastBattleBaseEvent;
     const handleAdventureBattleContinue = () => {
       battle.dismissResolutionRecap();
       if (!combatResult) {
@@ -660,6 +674,10 @@ export function AdventureClient({
                 spectatorMode={spectatorMode}
                 selectedCardName={battle.selectedCard ? battle.selectedCard.name : "Aucune carte"}
                 selectedCardHint={battlePreviewText}
+                playerShield={battle.match.combat.player.shield}
+                enemyShield={battle.match.combat.enemy.shield}
+                playerDrawBonus={battle.match.combat.player.nextTurnDrawBonus}
+                enemyDrawBonus={battle.match.combat.enemy.nextTurnDrawBonus}
                 lastEvent={lastBattleEvent}
                 onNewRun={startRandomRun}
               />
@@ -985,6 +1003,7 @@ export function AdventureClient({
                                 sourceType: forgeState.previewCard.sourceType,
                                 baseArchetypeId: forgeState.previewCard.baseArchetypeId,
                                 corruptedBy: null,
+                                effects: forgeState.previewCard.effects,
                               }}
                               layout="hand"
                               className="h-full w-full"

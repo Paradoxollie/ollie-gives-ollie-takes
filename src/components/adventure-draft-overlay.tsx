@@ -44,6 +44,7 @@ function draftPreviewCard(card: CardArchetype): CardInstance {
     temporaryScope: card.temporaryScope ?? null,
     createdByCharmId: card.createdByCharmId ?? null,
     corruptedBy: null,
+    effects: card.effects,
   };
 }
 

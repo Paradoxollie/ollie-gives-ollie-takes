@@ -1149,3 +1149,19 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - pointed neutral family card art at the playable assets while preserving the HD source files for future larger presentations
   - added an explicit card image rendering class so the browser keeps normal interpolation on card art
   - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`95/95`), `npm run build`, `$develop-web-game` client, and focused desktop/phone Playwright screenshots; rendered card images now resolve to `/images/cards-playable/*` at 384x576 natural size
+- 2026-05-08: Implemented the V3 Slay-the-Spire-style gameplay pass after the user's design concern:
+  - added real deterministic card effects to the core: shield, direct damage, next-turn draw, and pre-combat self-boosts, with caps in `GAME_CONFIG`
+  - added per-player combat resources to `MatchState`; shield blocks direct damage and round-end control damage, draw bonus is consumed on that player's next turn
+  - gave draft and reward cards actual family-flavored effects; upgrades preserve effects and fusions inherit one effect from each source card
+  - changed adventure bot draft scoring so it can build around a family instead of avoiding the third card of an archetype
+  - exposed effects through serialization, hand cards, combat preview text, last-move feedback, and the combat info dock
+  - added `docs/combat-system-v3.md` with the exact timing model, family archetypes, tuning caps, acceptance criteria, and next design steps
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`99/99`), `npm run build`; `$develop-web-game` client captured `output/web-game/v3-gameplay-effects-after-enter/shot-0.png`, and a focused Playwright interaction placed `Mage des runes` on the center cell with `combat.player.nextTurnDrawBonus = 1` and no console errors in `output/web-game/v3-gameplay-effects-play/`
+  - next tuning TODO: add simulation metrics for direct damage, shield consumed, draw bonus generated, and win rate by dominant family before locking numbers for a public balance pass
+- 2026-05-08: Added the V3.1 readability and combo pass requested after the first V3 review:
+  - replaced long effect text on hand cards with compact effect pictograms plus hover tooltips; combo thresholds show as `C2`/`C3`, flip thresholds show as `2+`
+  - added real family setup requirements to the core effect model: effects can require a family count and scale with the family count, symmetrically for player and enemy
+  - converted several draft payoffs into setup cards, including Demon multi-flip damage, Familiar flip tempo, Human shield, Automaton corner engines, Revenant comeback, and Arcane center engines
+  - reward cards now gain combo setup/scaling at uncommon and rare rarities, so run rewards push real archetypes instead of generic value
+  - added a combo unit test proving no trigger before setup and scaled shield after enough same-family cards are on board
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`100/100`), `npm run build`, `$develop-web-game` client at `output/web-game/v31-web-game-client/`, and focused tooltip screenshots at `output/web-game/v31-icons-tooltip/`; no browser console errors

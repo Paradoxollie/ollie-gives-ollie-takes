@@ -21,6 +21,10 @@ export const GAME_CONFIG: MatchConfig = {
   startingPlayer: "player",
   championStartingHealth: 24,
   roundDamagePerControlledCard: 1,
+  maxShieldPerPlayer: 6,
+  maxNextTurnDrawBonus: 2,
+  maxDirectDamagePerMove: 4,
+  maxCardSideValue: 8,
 };
 
 export const ADVENTURE_CONFIG: AdventureConfig = {

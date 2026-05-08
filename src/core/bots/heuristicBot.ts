@@ -7,6 +7,7 @@ import {
   countFriendlyAdjacency,
   getBoardCard,
   getControlDelta,
+  getEffectTempoValue,
   getEmptyAdjacentDirections,
   getOutcomePriority,
   getRoundEndControlAdvantage,
@@ -133,6 +134,7 @@ function scoreMove(state: MatchState, preview: PreviewMove): number {
   const opponentThreatPenalty = estimateOpponentThreat(nextState, activePlayer);
   const outcomeBonus = getOutcomePriority(preview.resultingWinner, activePlayer) * 4000;
   const roundClosingBonus = preview.roundEnds ? roundDamageAdvantage * 120 + roundControlAdvantage * 50 : 0;
+  const effectTempoValue = getEffectTempoValue(preview, activePlayer);
   const boardProgressBonus = (preview.boardOccupancyAfterCombat / (state.config.boardSize * state.config.boardSize)) * 22;
   const directFlipValue = preview.flippedCount * 125;
   const controlValue = controlDelta * 42;
@@ -142,6 +144,7 @@ function scoreMove(state: MatchState, preview: PreviewMove): number {
   return (
     outcomeBonus +
     directFlipValue +
+    effectTempoValue +
     controlValue +
     roundClosingBonus +
     stabilityScore * 5 +
@@ -170,6 +173,8 @@ export function evaluateHeuristicState(state: MatchState, perspective: PlayerId)
 
   const control = getControlTotals(state);
   const hpDiff = state.champions[perspective].health - state.champions[opponent].health;
+  const shieldDiff = state.combat[perspective].shield - state.combat[opponent].shield;
+  const drawBonusDiff = state.combat[perspective].nextTurnDrawBonus - state.combat[opponent].nextTurnDrawBonus;
   const controlDiff = control[perspective] - control[opponent];
   const boardStrengthDiff = sumBoardStrength(state.board, perspective) - sumBoardStrength(state.board, opponent);
   const reserveStrengthDiff = getReserveStrength(state, perspective) - getReserveStrength(state, opponent);
@@ -178,6 +183,8 @@ export function evaluateHeuristicState(state: MatchState, perspective: PlayerId)
 
   return (
     hpDiff * 520 +
+    shieldDiff * 55 +
+    drawBonusDiff * 120 +
     controlDiff * 210 +
     boardStrengthDiff * 18 +
     reserveStrengthDiff * 7 +

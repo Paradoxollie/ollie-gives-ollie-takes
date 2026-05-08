@@ -58,6 +58,25 @@ export function getControlDelta(preview: PreviewMove, activePlayer: PlayerId): n
   return preview.control[activePlayer] - preview.control[opponent];
 }
 
+export function getEffectTempoValue(preview: PreviewMove, activePlayer: PlayerId): number {
+  return preview.effectEvents.reduce((sum, event) => {
+    const sign = event.playerId === activePlayer ? 1 : -1;
+    if (event.kind === "deal-damage") {
+      return sum + sign * event.amount * 85;
+    }
+
+    if (event.kind === "draw-next-turn") {
+      return sum + sign * event.amount * 62;
+    }
+
+    if (event.kind === "gain-shield") {
+      return sum + sign * event.amount * 34;
+    }
+
+    return sum + sign * event.amount * 42;
+  }, 0);
+}
+
 export function comparePreviewMoves(left: PreviewMove, right: PreviewMove, state: MatchState): number {
   const activePlayer = state.turn.activePlayer;
   const leftOutcomePriority = getOutcomePriority(left.resultingWinner, activePlayer);
@@ -86,6 +105,12 @@ export function comparePreviewMoves(left: PreviewMove, right: PreviewMove, state
   const rightRoundControlAdvantage = getRoundEndControlAdvantage(right, activePlayer);
   if (leftRoundControlAdvantage !== rightRoundControlAdvantage) {
     return rightRoundControlAdvantage - leftRoundControlAdvantage;
+  }
+
+  const leftEffectTempo = getEffectTempoValue(left, activePlayer);
+  const rightEffectTempo = getEffectTempoValue(right, activePlayer);
+  if (leftEffectTempo !== rightEffectTempo) {
+    return rightEffectTempo - leftEffectTempo;
   }
 
   if (left.positionWeight !== right.positionWeight) {

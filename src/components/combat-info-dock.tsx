@@ -12,6 +12,10 @@ interface CombatInfoDockProps {
   spectatorMode: boolean;
   selectedCardName: string;
   selectedCardHint: string;
+  playerShield: number;
+  enemyShield: number;
+  playerDrawBonus: number;
+  enemyDrawBonus: number;
   lastEvent: string;
   onNewRun: () => void;
 }
@@ -28,6 +32,10 @@ export function CombatInfoDock({
   spectatorMode,
   selectedCardName,
   selectedCardHint,
+  playerShield,
+  enemyShield,
+  playerDrawBonus,
+  enemyDrawBonus,
   lastEvent,
   onNewRun,
 }: CombatInfoDockProps) {
@@ -71,6 +79,19 @@ export function CombatInfoDock({
           <p className="text-[0.38rem] uppercase tracking-[0.18em] text-white/40">Carte choisie</p>
           <p className="mt-0.5 text-[0.72rem] font-semibold text-white">{selectedCardName}</p>
           <p className="mt-0.5 text-[0.6rem] leading-4 text-white/55">{selectedCardHint}</p>
+        </section>
+
+        {/* Combat resources */}
+        <section className="rounded-[0.8rem] border border-white/8 bg-[rgba(4,8,14,0.88)] p-2.5 backdrop-blur-md">
+          <p className="text-[0.38rem] uppercase tracking-[0.18em] text-white/40">Ressources</p>
+          <div className="mt-1.5 grid grid-cols-2 gap-1.5 text-[0.56rem] font-semibold text-white/68">
+            <div className="rounded-[0.55rem] border border-cyan-100/10 bg-cyan-100/6 px-2 py-1">
+              Ollie Bcl {playerShield} - Pioche +{playerDrawBonus}
+            </div>
+            <div className="rounded-[0.55rem] border border-rose-100/10 bg-rose-100/6 px-2 py-1">
+              Rival Bcl {enemyShield} - Pioche +{enemyDrawBonus}
+            </div>
+          </div>
         </section>
 
         {/* Last event */}

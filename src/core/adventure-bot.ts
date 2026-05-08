@@ -120,14 +120,66 @@ function scoreIntentAlignment(
   );
 }
 
-function cardBuildIntent(card: AdventureDeckCard["card"]): BuildIntentProfile {
-  return {
-    aggression: getCardSpikeValue(card) * 0.9 + getCardStrength(card) * 0.18,
-    control: getCardCornerValue(card) * 0.48 + getCardEdgeValue(card) * 0.42 + getCardBalanceScore(card) * 0.12,
-    tempo: getCardBalanceScore(card) * 0.36 + Math.min(...Object.values(card.sides)) * 0.85,
-    fusion: getCardFusionValue(card) * 0.16,
-    precision: getCardBalanceScore(card) * 0.42 + Math.min(...Object.values(card.sides)) * 0.65,
+function getCardEffectIntent(card: AdventureDeckCard["card"]): BuildIntentProfile {
+  const profile: BuildIntentProfile = {
+    aggression: 0,
+    control: 0,
+    tempo: 0,
+    fusion: 0,
+    precision: 0,
   };
+
+  for (const effect of card.effects ?? []) {
+    if (effect.kind === "deal-damage") {
+      profile.aggression += effect.amount * (effect.trigger === "on-flip" ? 3.2 : 2.4);
+      profile.tempo += effect.amount * 0.8;
+    } else if (effect.kind === "gain-shield") {
+      profile.control += effect.amount * 2.2;
+      profile.precision += effect.condition ? 0.5 : 0;
+    } else if (effect.kind === "draw-next-turn") {
+      profile.tempo += effect.amount * 3.1;
+      profile.precision += effect.amount * 1.1;
+    } else if (effect.kind === "boost-self") {
+      profile.precision += effect.amount * 2.2;
+      profile.control += effect.directions === "all" ? effect.amount * 1.6 : effect.amount * 0.9;
+    }
+  }
+
+  return profile;
+}
+
+function cardBuildIntent(card: AdventureDeckCard["card"]): BuildIntentProfile {
+  const effectIntent = getCardEffectIntent(card);
+
+  return {
+    aggression: getCardSpikeValue(card) * 0.9 + getCardStrength(card) * 0.18 + effectIntent.aggression,
+    control: getCardCornerValue(card) * 0.48 + getCardEdgeValue(card) * 0.42 + getCardBalanceScore(card) * 0.12 + effectIntent.control,
+    tempo: getCardBalanceScore(card) * 0.36 + Math.min(...Object.values(card.sides)) * 0.85 + effectIntent.tempo,
+    fusion: getCardFusionValue(card) * 0.16 + effectIntent.fusion,
+    precision: getCardBalanceScore(card) * 0.42 + Math.min(...Object.values(card.sides)) * 0.65 + effectIntent.precision,
+  };
+}
+
+function getCardEffectDraftValue(card: AdventureDeckCard["card"]): number {
+  return (card.effects ?? []).reduce((sum, effect) => {
+    if (effect.kind === "deal-damage") {
+      return sum + effect.amount * (effect.trigger === "on-flip" ? 2.8 : 1.9);
+    }
+
+    if (effect.kind === "draw-next-turn") {
+      return sum + effect.amount * 2.5;
+    }
+
+    if (effect.kind === "gain-shield") {
+      return sum + effect.amount * 1.7;
+    }
+
+    if (effect.kind === "boost-self") {
+      return sum + effect.amount * (effect.directions === "all" ? 2.2 : 1.4);
+    }
+
+    return sum;
+  }, 0);
 }
 
 function countDuplicateBaseIds(run: AdventureRunState, baseArchetypeId: string | null): number {
@@ -417,7 +469,7 @@ function scoreDraftCard(cardId: string, pickedCardIds: string[], weights?: Train
   const card = getCardArchetype(cardId);
   const rarityScore = card.rarity === "rare" ? 8 : card.rarity === "uncommon" ? 4 : 0;
   const familyCount = familyDraftCount(pickedCardIds, card.family);
-  const familyScore = familyCount === 0 ? 2.8 : familyCount === 1 ? 1.2 : familyCount === 2 ? 0.25 : -1.4;
+  const familyScore = familyCount === 0 ? 2.8 : familyCount === 1 ? 3.2 : familyCount === 2 ? 3.4 : familyCount === 3 ? 1.3 : 0.2;
   const intent = {
     aggression: resolveAdventureWeight(weights, "aggressionPlanBias"),
     control: resolveAdventureWeight(weights, "controlPlanBias"),
@@ -427,7 +479,7 @@ function scoreDraftCard(cardId: string, pickedCardIds: string[], weights?: Train
   };
   const intentScore = scoreIntentAlignment(intent, cardBuildIntent(card)) * 0.02;
 
-  return getCardStrength(card) + rarityScore + familyScore + intentScore;
+  return getCardStrength(card) + getCardEffectDraftValue(card) + rarityScore + familyScore + intentScore;
 }
 
 export function chooseAdventureDraftCardsForBot(
@@ -470,7 +522,7 @@ function scoreReward(option: AdventureRewardOption, weights?: TrainedBotWeights 
       : option.rarity === "uncommon"
         ? resolveAdventureWeight(weights, "uncommonCardBias")
         : 0;
-  return getCardStrength(archetype) + rarityBonus(option, weights) + rarityBias;
+  return getCardStrength(archetype) + getCardEffectDraftValue(archetype) + rarityBonus(option, weights) + rarityBias;
 }
 
 function scoreOwnedCharmSynergy(run: AdventureRunState, charmId: AdventureCharmOfferOption["charmId"]): number {

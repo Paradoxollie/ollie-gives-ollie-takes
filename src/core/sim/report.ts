@@ -128,6 +128,7 @@ ${botLines}
 ### Sources de fin
 
 - Controle de fin de round: ${report.primarySummary.endingSources["round-end-control"]}
+- Degats directs: ${report.primarySummary.endingSources["direct-damage"]}
 - Blocages: ${report.primarySummary.endingSources.stalemate}
 
 ### Distribution des placements

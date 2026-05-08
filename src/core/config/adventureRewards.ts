@@ -1,4 +1,4 @@
-import type { CardArchetype, CardFamily, CardRarity, CardSides } from "@/core/types";
+import type { CardArchetype, CardEffect, CardFamily, CardRarity, CardSides } from "@/core/types";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
 export interface AdventureRewardArchetype extends CardArchetype {
@@ -88,6 +88,50 @@ function rewardAccent(rarity: CardRarity): string {
   }
 }
 
+function rewardComboSetup(rarity: CardRarity): Pick<CardEffect, "requiredFamilyCount" | "scaleWithFamilyCount" | "maxScale"> {
+  if (rarity === "common") {
+    return {};
+  }
+
+  return {
+    requiredFamilyCount: rarity === "rare" ? 3 : 2,
+    scaleWithFamilyCount: true,
+    maxScale: rarity === "rare" ? 3 : 2,
+  };
+}
+
+function rewardEffects(rarity: CardRarity, family: CardFamily, index: number): CardEffect[] {
+  const amount = rarity === "rare" ? 2 : 1;
+  const combo = rewardComboSetup(rarity);
+
+  switch (family) {
+    case "familiar":
+      return index % 2 === 0
+        ? [{ trigger: "on-play", kind: "gain-shield", amount, condition: "adjacent-ally", ...combo }]
+        : [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1, ...combo }];
+    case "demon":
+      return [{ trigger: "on-flip", kind: "deal-damage", amount, minFlips: 1, ...combo }];
+    case "human":
+      return index % 2 === 0
+        ? [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, ...combo }]
+        : [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, ...combo }];
+    case "automaton":
+      return index % 2 === 0
+        ? [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "corner", ...combo }]
+        : [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "corner", ...combo }];
+    case "revenant":
+      return index % 2 === 0
+        ? [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", ...combo }]
+        : [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "behind-on-board", ...combo }];
+    case "arcane":
+      return index % 2 === 0
+        ? [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "center", ...combo }]
+        : [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "center", ...combo }];
+    default:
+      return [];
+  }
+}
+
 const REWARD_TEMPLATES: RewardTemplate[] = [
   ...createRewardTemplates("common", COMMON_REWARD_TEMPLATES),
   ...createRewardTemplates("uncommon", UNCOMMON_REWARD_TEMPLATES),
@@ -105,6 +149,7 @@ export const ADVENTURE_REWARD_ARCHETYPES: ReadonlyArray<AdventureRewardArchetype
     rarity,
     sourceType: "reward",
     baseArchetypeId: null,
+    effects: rewardEffects(rarity, family, index),
   }),
 );
 

@@ -1,4 +1,4 @@
-import type { CardArchetype, CardFamily, CardSides } from "@/core/types";
+import type { CardArchetype, CardEffect, CardFamily, CardSides } from "@/core/types";
 import { ADVENTURE_REWARD_ARCHETYPES } from "@/core/config/adventureRewards";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
@@ -9,6 +9,7 @@ function draftCard(options: {
   family: CardFamily;
   accent: string;
   artSrc?: string;
+  effects?: CardEffect[];
 }): CardArchetype {
   return {
     id: options.id,
@@ -20,6 +21,7 @@ function draftCard(options: {
     rarity: "common",
     sourceType: "draft",
     baseArchetypeId: null,
+    effects: options.effects ?? [],
   };
 }
 
@@ -30,6 +32,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 5, bottom: 4, left: 1 },
     family: "familiar",
     accent: "sprout",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "adjacent-ally" }],
   }),
   draftCard({
     id: "badger",
@@ -37,6 +40,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 3, bottom: 2, left: 2 },
     family: "familiar",
     accent: "earth",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, condition: "corner" }],
   }),
   draftCard({
     id: "heron",
@@ -44,6 +48,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 3, bottom: 2, left: 3 },
     family: "familiar",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1, requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "foxfire",
@@ -51,6 +56,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 2, bottom: 5, left: 2 },
     family: "familiar",
     accent: "ember",
+    effects: [{ trigger: "on-flip", kind: "gain-shield", amount: 1, minFlips: 1, requiredFamilyCount: 3, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "mole",
@@ -58,6 +64,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 2, left: 3 },
     family: "familiar",
     accent: "stone",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "adjacent-ally" }],
   }),
   draftCard({
     id: "stag",
@@ -65,6 +72,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 2, bottom: 5, left: 3 },
     family: "familiar",
     accent: "grove",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "center" }],
   }),
   draftCard({
     id: "owl",
@@ -72,6 +80,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 4, bottom: 2, left: 3 },
     family: "familiar",
     accent: "glow",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "center" }],
   }),
 
   draftCard({
@@ -80,6 +89,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 5, bottom: 2, left: 3 },
     family: "demon",
     accent: "ember",
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "hornling",
@@ -87,6 +97,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 4, left: 2 },
     family: "demon",
     accent: "demon",
+    effects: [{ trigger: "on-play", kind: "deal-damage", amount: 1, condition: "adjacent-enemy" }],
   }),
   draftCard({
     id: "ash-whisper",
@@ -94,6 +105,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 3, bottom: 5, left: 2 },
     family: "demon",
     accent: "ember",
+    effects: [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "pact-sprite",
@@ -101,6 +113,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 2, bottom: 2, left: 5 },
     family: "demon",
     accent: "demon",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "adjacent-enemy" }],
   }),
   draftCard({
     id: "little-abyss",
@@ -108,6 +121,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 3, left: 2 },
     family: "demon",
     accent: "void",
+    effects: [{ trigger: "on-play", kind: "deal-damage", amount: 1, condition: "behind-on-board" }],
   }),
   draftCard({
     id: "cinder-grin",
@@ -115,6 +129,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 1, right: 5, bottom: 3, left: 3 },
     family: "demon",
     accent: "shadow",
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 2, minFlips: 2, requiredFamilyCount: 3, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "brimstone-tot",
@@ -122,6 +137,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 1, bottom: 3, left: 4 },
     family: "demon",
     accent: "ember",
+    effects: [{ trigger: "on-play", kind: "deal-damage", amount: 1, condition: "center" }],
   }),
 
   draftCard({
@@ -130,6 +146,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 4, left: 2 },
     family: "human",
     accent: "steel",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "rune-mage",
@@ -137,6 +154,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 5, bottom: 2, left: 3 },
     family: "human",
     accent: "mist",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1 }],
   }),
   draftCard({
     id: "path-ranger",
@@ -144,6 +162,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 2, left: 3 },
     family: "human",
     accent: "grove",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "adjacent-ally" }],
   }),
   draftCard({
     id: "quiet-monk",
@@ -151,6 +170,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 3, bottom: 3, left: 3 },
     family: "human",
     accent: "sun",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "center" }],
   }),
   draftCard({
     id: "gate-thief",
@@ -158,6 +178,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 4, bottom: 2, left: 4 },
     family: "human",
     accent: "shadow",
+    effects: [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "banner-squire",
@@ -165,6 +186,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 3, bottom: 3, left: 2 },
     family: "human",
     accent: "steel",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "adjacent-ally", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "hearth-archer",
@@ -172,6 +194,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 4, bottom: 1, left: 4 },
     family: "human",
     accent: "sun",
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1 }],
   }),
 
   draftCard({
@@ -180,6 +203,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 3, left: 2 },
     family: "automaton",
     accent: "brass",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, condition: "corner" }],
   }),
   draftCard({
     id: "brass-rook",
@@ -187,6 +211,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 4, bottom: 2, left: 4 },
     family: "automaton",
     accent: "brass",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "corner", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "gear-monk",
@@ -194,6 +219,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 3, bottom: 4, left: 2 },
     family: "automaton",
     accent: "steel",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "adjacent-ally" }],
   }),
   draftCard({
     id: "tin-oracle",
@@ -201,6 +227,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 5, bottom: 3, left: 2 },
     family: "automaton",
     accent: "arcane",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "corner", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "copper-beetle",
@@ -208,6 +235,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 2, left: 4 },
     family: "automaton",
     accent: "brass",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "center" }],
   }),
   draftCard({
     id: "glass-warden",
@@ -215,6 +243,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 4, bottom: 3, left: 2 },
     family: "automaton",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "gain-shield", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "spring-knave",
@@ -222,6 +251,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 3, bottom: 5, left: 2 },
     family: "automaton",
     accent: "steel",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "behind-on-board" }],
   }),
 
   draftCard({
@@ -230,6 +260,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 2, bottom: 5, left: 3 },
     family: "revenant",
     accent: "shadow",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "lantern-shade",
@@ -237,6 +268,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 3, left: 3 },
     family: "revenant",
     accent: "glow",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, condition: "behind-on-board" }],
   }),
   draftCard({
     id: "bone-choir",
@@ -244,6 +276,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 4, bottom: 2, left: 3 },
     family: "revenant",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "gain-shield", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "widow-knight",
@@ -251,6 +284,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 3, bottom: 4, left: 3 },
     family: "revenant",
     accent: "shadow",
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "moth-ghost",
@@ -258,6 +292,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 1, bottom: 3, left: 3 },
     family: "revenant",
     accent: "glow",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "behind-on-board" }],
   }),
   draftCard({
     id: "hollow-page",
@@ -265,6 +300,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 3, bottom: 1, left: 5 },
     family: "revenant",
     accent: "shadow",
+    effects: [{ trigger: "on-play", kind: "deal-damage", amount: 1, condition: "behind-on-board" }],
   }),
   draftCard({
     id: "veil-duelist",
@@ -272,6 +308,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 4, bottom: 2, left: 2 },
     family: "revenant",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1 }],
   }),
 
   draftCard({
@@ -280,6 +317,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 4, bottom: 4, left: 2 },
     family: "arcane",
     accent: "arcane",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "center", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "rune-adept",
@@ -287,6 +325,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 3, bottom: 2, left: 3 },
     family: "arcane",
     accent: "arcane",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "center" }],
   }),
   draftCard({
     id: "mirror-novice",
@@ -294,6 +333,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 2, bottom: 5, left: 2 },
     family: "arcane",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "moon-scribe",
@@ -301,6 +341,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 1, bottom: 2, left: 4 },
     family: "arcane",
     accent: "arcane",
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "center" }],
   }),
   draftCard({
     id: "glass-oracle",
@@ -308,6 +349,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 1, right: 5, bottom: 4, left: 2 },
     family: "arcane",
     accent: "mist",
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1 }],
   }),
   draftCard({
     id: "wandering-glyph",
@@ -315,6 +357,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 3, right: 3, bottom: 3, left: 3 },
     family: "arcane",
     accent: "glow",
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "center" }],
   }),
   draftCard({
     id: "blue-comet",
@@ -322,6 +365,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 2, left: 4 },
     family: "arcane",
     accent: "arcane",
+    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "adjacent-ally", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
 
   ...ADVENTURE_REWARD_ARCHETYPES,

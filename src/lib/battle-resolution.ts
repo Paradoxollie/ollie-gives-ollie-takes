@@ -3,6 +3,7 @@ import type {
   BattleResult,
   ChampionState,
   ControlTotals,
+  LastMoveSummary,
   MatchOutcome,
   MatchState,
   PlayerId,
@@ -60,6 +61,24 @@ function deriveChampionsBeforeDamage(
   };
 }
 
+function deriveDirectEffectDamage(lastMove: LastMoveSummary | null): Record<PlayerId, number> {
+  const damage = createDamageRecord();
+  if (!lastMove) {
+    return damage;
+  }
+
+  for (const event of lastMove.effectEvents) {
+    if (event.kind !== "deal-damage" || event.amount <= 0) {
+      continue;
+    }
+
+    const target = event.playerId === "player" ? "enemy" : "player";
+    damage[target] += event.amount;
+  }
+
+  return damage;
+}
+
 /**
  * Creates a UI recap payload whenever a round or a full battle resolves.
  */
@@ -86,7 +105,7 @@ export function createBattleResolutionRecap(match: MatchState): BattleResolution
     (control ? control.player + control.enemy : null);
   const damageApplied = summary
     ? createDamageRecord(summary.damageApplied.player, summary.damageApplied.enemy)
-    : createDamageRecord();
+    : deriveDirectEffectDamage(match.lastMove);
   const championsAfter = summary
     ? cloneChampions(summary.championsAfterDamage)
     : cloneChampions(match.result?.champions ?? match.champions);

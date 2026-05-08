@@ -53,7 +53,7 @@ export type PlayerId = (typeof PLAYER_IDS)[number];
 export type Direction = (typeof DIRECTIONS)[number];
 export type DeckPresetId = (typeof DECK_PRESET_IDS)[number];
 export type MatchOutcome = PlayerId | "draw";
-export type MatchEndSource = "round-end-control" | "stalemate";
+export type MatchEndSource = "round-end-control" | "direct-damage" | "stalemate";
 export type CombatImpactResult = "no-flip" | "flipped";
 export type AdventureNodeType = (typeof ADVENTURE_NODE_TYPES)[number];
 export type AdventurePhase = (typeof ADVENTURE_PHASES)[number];
@@ -85,6 +85,47 @@ export interface CardSides {
   left: number;
 }
 
+export type CardEffectTrigger = "on-play" | "on-flip";
+export type CardEffectCondition =
+  | "always"
+  | "adjacent-ally"
+  | "adjacent-enemy"
+  | "corner"
+  | "center"
+  | "behind-on-board";
+export type CardEffectKind = "gain-shield" | "deal-damage" | "draw-next-turn" | "boost-self";
+export type CardBoostDirectionMode = "all" | "strongest" | "weakest";
+
+export type CardEffect =
+  | {
+      trigger: "on-play" | "on-flip";
+      kind: "gain-shield" | "deal-damage" | "draw-next-turn";
+      amount: number;
+      condition?: CardEffectCondition;
+      minFlips?: number;
+      requiredFamilyCount?: number;
+      scaleWithFamilyCount?: boolean;
+      maxScale?: number;
+    }
+  | {
+      trigger: "on-play";
+      kind: "boost-self";
+      amount: number;
+      directions: CardBoostDirectionMode;
+      condition?: CardEffectCondition;
+      requiredFamilyCount?: number;
+      scaleWithFamilyCount?: boolean;
+      maxScale?: number;
+    };
+
+export interface CardEffectEvent {
+  playerId: PlayerId;
+  sourceCardInstanceId: string;
+  kind: CardEffectKind;
+  amount: number;
+  description: string;
+}
+
 export interface CardArchetype {
   id: string;
   name: string;
@@ -97,6 +138,7 @@ export interface CardArchetype {
   baseArchetypeId: string | null;
   temporaryScope?: TemporaryCardScope | null;
   createdByCharmId?: LuckyCharmId | null;
+  effects?: CardEffect[];
 }
 
 export interface CardInstance {
@@ -114,6 +156,7 @@ export interface CardInstance {
   temporaryScope?: TemporaryCardScope | null;
   createdByCharmId?: LuckyCharmId | null;
   corruptedBy?: PlayerId | null;
+  effects?: CardEffect[];
 }
 
 export interface BoardCard extends CardInstance {
@@ -131,6 +174,11 @@ export interface PlayerState {
   drawPile: CardInstance[];
   discardPile: CardInstance[];
   reshuffles: number;
+}
+
+export interface PlayerCombatState {
+  shield: number;
+  nextTurnDrawBonus: number;
 }
 
 export interface TurnState {
@@ -195,6 +243,7 @@ export interface LastMoveSummary {
   cardInstanceId: string;
   position: Position;
   impacts: CombatImpact[];
+  effectEvents: CardEffectEvent[];
   championsAfterMove: Record<PlayerId, ChampionState>;
   controlAfterCombat: ControlTotals;
   boardOccupancyAfterCombat: number;
@@ -211,6 +260,10 @@ export interface MatchConfig {
   startingPlayer: PlayerId;
   championStartingHealth: number;
   roundDamagePerControlledCard: number;
+  maxShieldPerPlayer: number;
+  maxNextTurnDrawBonus: number;
+  maxDirectDamagePerMove: number;
+  maxCardSideValue: number;
 }
 
 export interface AdventureConfig {
@@ -434,6 +487,7 @@ export interface MatchState {
   champions: Record<PlayerId, ChampionState>;
   round: RoundState;
   turn: TurnState;
+  combat: Record<PlayerId, PlayerCombatState>;
   playerCharms: LuckyCharmId[];
   playerCharmState: PlayerCharmState;
   enemyProfile: MatchEnemyProfile | null;
@@ -601,6 +655,7 @@ export interface PreviewMove {
   boardOccupancyAfterCombat: number;
   roundEnds: boolean;
   impacts: CombatImpact[];
+  effectEvents: CardEffectEvent[];
   roundEndSummary: RoundEndSummary | null;
   resultingWinner: MatchOutcome | null;
 }
@@ -636,6 +691,7 @@ export interface SerializedMatchState {
     drawback: string;
   }>;
   playerCharmState: PlayerCharmState;
+  combat: Record<PlayerId, PlayerCombatState>;
   playerCharmActions: PlayerCharmActionAvailability[];
   nextDrawPreview: Array<{
     name: string;
@@ -643,6 +699,7 @@ export interface SerializedMatchState {
     family: CardFamily;
     rarity: CardRarity;
     sourceType: CardSourceType;
+    effects: CardEffect[];
   }>;
   champions: Record<PlayerId, ChampionState>;
   boardControl: ControlTotals;
@@ -658,6 +715,7 @@ export interface SerializedMatchState {
           corruptedBy: PlayerId | null;
           rarity: CardRarity;
           sourceType: CardSourceType;
+          effects: CardEffect[];
         }
     >
   >;
@@ -668,6 +726,7 @@ export interface SerializedMatchState {
     family: CardFamily;
     rarity: CardRarity;
     sourceType: CardSourceType;
+    effects: CardEffect[];
   }>;
   piles: Record<
     PlayerId,
@@ -732,6 +791,7 @@ export interface SerializedAdventureRunState {
           family: CardFamily;
           rarity: CardRarity;
           sides: CardSides;
+          effects: CardEffect[];
         }>;
       }
     | null;
@@ -779,6 +839,7 @@ export interface SerializedAdventureRunState {
             rewardId: string;
             rarity: CardRarity;
             sides: CardSides;
+            effects: CardEffect[];
           }>;
       }
     | null;
@@ -809,6 +870,7 @@ export interface SerializedAdventureRunState {
           | {
               sides: CardSides;
               rarity: CardRarity;
+              effects: CardEffect[];
             }
           | null;
       }
@@ -819,6 +881,7 @@ export interface SerializedAdventureRunState {
           rarity: CardRarity;
           sides: CardSides;
           sourceType: CardSourceType;
+          effects: CardEffect[];
         };
       }
     | null;

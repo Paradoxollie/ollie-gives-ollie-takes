@@ -56,6 +56,7 @@ export function summarizeSeries(results: SimulatedMatchResult[]): SimulationSumm
   } as SimulationSummary["resultReasons"];
   const endingSources = {
     "round-end-control": 0,
+    "direct-damage": 0,
     stalemate: 0,
   } as SimulationSummary["endingSources"];
 

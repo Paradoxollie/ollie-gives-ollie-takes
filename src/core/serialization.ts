@@ -5,6 +5,7 @@ import {
   isCombatAdventureNode,
 } from "@/core/adventure";
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
+import { cloneCardEffects } from "@/core/card-effects";
 import { countAdventureDeckByRarity, countAdventureDeckBySource, getCardArchetype } from "@/core/cards";
 import { getCardName, getCardSides, summarizeBoardControl } from "@/core/engine";
 import { getLuckyCharmDefinition } from "@/core/config/luckyCharms";
@@ -62,10 +63,15 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
       family: card.family,
       rarity: card.rarity,
       sourceType: card.sourceType,
+      effects: cloneCardEffects(card.effects),
     })),
     champions: {
       player: { ...state.champions.player },
       enemy: { ...state.champions.enemy },
+    },
+    combat: {
+      player: { ...state.combat.player },
+      enemy: { ...state.combat.enemy },
     },
     boardControl: summarizeBoardControl(state.board),
     boardFamilies: {
@@ -83,6 +89,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
               corruptedBy: card.corruptedBy ?? null,
               rarity: card.rarity,
               sourceType: card.sourceType,
+              effects: cloneCardEffects(card.effects),
             }
           : null,
       ),
@@ -96,6 +103,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
             family: card.family,
             rarity: card.rarity,
             sourceType: card.sourceType,
+            effects: cloneCardEffects(card.effects),
           }))
         : [],
     piles: {
@@ -123,6 +131,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
       ? {
           ...state.lastMove,
           impacts: state.lastMove.impacts.map((impact) => ({ ...impact })),
+          effectEvents: state.lastMove.effectEvents.map((event) => ({ ...event })),
           controlAfterCombat: {
             player: state.lastMove.controlAfterCombat.player,
             enemy: state.lastMove.controlAfterCombat.enemy,
@@ -233,6 +242,7 @@ export function serializeAdventureState(
               family: card.family,
               rarity: card.rarity,
               sides: { ...card.sides },
+              effects: cloneCardEffects(card.effects),
             };
           }),
         }
@@ -284,13 +294,15 @@ export function serializeAdventureState(
       ? {
           sourceNodeId: run.rewardOffer.sourceNodeId,
           sourceNodeKind: run.rewardOffer.sourceNodeKind,
-          options: run.rewardOffer.options.map((option) => ({
-            rewardId: option.rewardId,
-            rarity: option.rarity,
-            sides: getCardSides({
-              archetypeId: option.archetypeId,
-            }),
-          })),
+          options: run.rewardOffer.options.map((option) => {
+            const card = getCardArchetype(option.archetypeId);
+            return {
+              rewardId: option.rewardId,
+              rarity: option.rarity,
+              sides: { ...card.sides },
+              effects: cloneCardEffects(card.effects),
+            };
+          }),
         }
       : null,
     charmOffer: run.charmOffer
@@ -322,6 +334,7 @@ export function serializeAdventureState(
                 ? {
                     sides: { ...run.siteState.previewCard.sides },
                     rarity: run.siteState.previewCard.rarity,
+                    effects: cloneCardEffects(run.siteState.previewCard.effects),
                   }
                 : null,
             }
@@ -332,6 +345,7 @@ export function serializeAdventureState(
                 rarity: run.siteState.grantedCard.card.rarity,
                 sides: { ...run.siteState.grantedCard.card.sides },
                 sourceType: run.siteState.grantedCard.card.sourceType,
+                effects: cloneCardEffects(run.siteState.grantedCard.card.effects),
               },
             }
       : null,

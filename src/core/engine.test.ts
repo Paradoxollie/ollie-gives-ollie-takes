@@ -12,6 +12,7 @@ function makeCard(owner: PlayerId, archetypeId: string, suffix: string): CardIns
   return {
     ...createCardInstance(owner, getCardArchetype(archetypeId), 0),
     instanceId: `${owner}-${archetypeId}-${suffix}`,
+    effects: [],
   };
 }
 
@@ -48,6 +49,7 @@ function makeState(overrides: MatchStateOverrides = {}): MatchState {
     board: overrides.board ?? state.board,
     players: overrides.players ?? state.players,
     champions: overrides.champions ?? state.champions,
+    combat: overrides.combat ?? state.combat,
     round: {
       ...state.round,
       ...overrides.round,
@@ -462,6 +464,243 @@ describe("flip combat resolution", () => {
 
     expect(nextState.champions.player.health).toBe(20);
     expect(nextState.champions.enemy.health).toBe(20);
+  });
+});
+
+describe("card effects", () => {
+  it("deals real direct champion damage after a flip effect", () => {
+    const board = makeBoard();
+    board[1][1] = withSides(makeBoardCard("enemy", "sapling", "target", 1, 1), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 2,
+    });
+    const playerCard = {
+      ...withSides(makeCard("player", "badger", "direct"), {
+        top: 1,
+        right: 4,
+        bottom: 1,
+        left: 1,
+      }),
+      effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1 } as const],
+    };
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 20, maxHealth: 20 },
+        enemy: { health: 20, maxHealth: 20 },
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][1]?.owner).toBe("player");
+    expect(nextState.champions.enemy.health).toBe(19);
+    expect(nextState.lastMove?.effectEvents).toContainEqual(
+      expect.objectContaining({
+        kind: "deal-damage",
+        amount: 1,
+      }),
+    );
+  });
+
+  it("uses shield as a real defensive resource against round-end damage", () => {
+    const board = [
+      [null, makeBoardCard("player", "sapling", "p01", 0, 1), makeBoardCard("enemy", "owl", "e02", 0, 2)],
+      [makeBoardCard("player", "sapling", "p10", 1, 0), makeBoardCard("player", "badger", "p11", 1, 1), makeBoardCard("enemy", "owl", "e12", 1, 2)],
+      [makeBoardCard("player", "sapling", "p20", 2, 0), makeBoardCard("enemy", "owl", "e21", 2, 1), makeBoardCard("player", "badger", "p22", 2, 2)],
+    ] satisfies Array<Array<BoardCard | null>>;
+    const playerCard = {
+      ...makeCard("player", "sapling", "shield"),
+      effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2 } as const],
+    };
+    const state = makeState({
+      board,
+      turn: {
+        index: 9,
+        roundTurn: 9,
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.lastMove?.roundEnded).toBe(true);
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 1, enemy: 7 });
+    expect(nextState.champions.player.health).toBe(23);
+    expect(nextState.lastMove?.effectEvents).toContainEqual(
+      expect.objectContaining({
+        kind: "gain-shield",
+        amount: 2,
+      }),
+    );
+  });
+
+  it("turns a draw effect into one extra card on the next owner turn", () => {
+    const playerCard = {
+      ...makeCard("player", "heron", "draw"),
+      effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1 } as const],
+    };
+    const playerReserve = [
+      makeCard("player", "sapling", "d1"),
+      makeCard("player", "badger", "d2"),
+      makeCard("player", "heron", "d3"),
+      makeCard("player", "foxfire", "d4"),
+      makeCard("player", "mole", "d5"),
+    ];
+    const state = makeState({
+      players: {
+        player: {
+          id: "player",
+          drawPile: playerReserve,
+          discardPile: [],
+          reshuffles: 0,
+        },
+        enemy: {
+          id: "enemy",
+          drawPile: [],
+          discardPile: [],
+          reshuffles: 0,
+        },
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const afterPlayerMove = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    const nextPlayerTurn = passTurn(afterPlayerMove);
+
+    expect(afterPlayerMove.combat.player.nextTurnDrawBonus).toBe(1);
+    expect(nextPlayerTurn.turn.activePlayer).toBe("player");
+    expect(nextPlayerTurn.turn.choices).toHaveLength(5);
+    expect(nextPlayerTurn.combat.player.nextTurnDrawBonus).toBe(0);
+  });
+
+  it("applies self-boost effects before flip comparison", () => {
+    const board = makeBoard();
+    board[1][1] = withSides(makeBoardCard("enemy", "sapling", "target", 1, 1), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 3,
+    });
+    const playerCard = {
+      ...withSides(makeCard("player", "sapling", "boost"), {
+        top: 1,
+        right: 3,
+        bottom: 1,
+        left: 1,
+      }),
+      effects: [
+        {
+          trigger: "on-play",
+          kind: "boost-self",
+          amount: 1,
+          directions: "strongest",
+          condition: "adjacent-enemy",
+        } as const,
+      ],
+    };
+    const state = makeState({
+      board,
+      turn: {
+        activePlayer: "player",
+        choices: [playerCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.board[1][0]?.sides.right).toBe(4);
+    expect(nextState.board[1][1]?.owner).toBe("player");
+    expect(nextState.lastMove?.effectEvents).toContainEqual(
+      expect.objectContaining({
+        kind: "boost-self",
+        amount: 1,
+      }),
+    );
+  });
+
+  it("requires family setup before combo effects scale", () => {
+    const comboEffect = {
+      trigger: "on-play",
+      kind: "gain-shield",
+      amount: 1,
+      requiredFamilyCount: 3,
+      scaleWithFamilyCount: true,
+      maxScale: 2,
+    } as const;
+    const underbuiltBoard = makeBoard();
+    underbuiltBoard[0][0] = makeBoardCard("player", "field-knight", "support", 0, 0);
+    const underbuiltCard = {
+      ...makeCard("player", "field-knight", "underbuilt"),
+      effects: [comboEffect],
+    };
+    const underbuiltState = makeState({
+      board: underbuiltBoard,
+      turn: {
+        activePlayer: "player",
+        choices: [underbuiltCard],
+      },
+    });
+
+    const afterUnderbuilt = applyMove(underbuiltState, {
+      cardInstanceId: underbuiltCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(afterUnderbuilt.combat.player.shield).toBe(0);
+    expect(afterUnderbuilt.lastMove?.effectEvents).toHaveLength(0);
+
+    const builtBoard = makeBoard();
+    builtBoard[0][0] = makeBoardCard("player", "field-knight", "support-a", 0, 0);
+    builtBoard[0][1] = makeBoardCard("player", "field-knight", "support-b", 0, 1);
+    builtBoard[2][2] = makeBoardCard("player", "field-knight", "support-c", 2, 2);
+    const builtCard = {
+      ...makeCard("player", "field-knight", "built"),
+      effects: [comboEffect],
+    };
+    const builtState = makeState({
+      board: builtBoard,
+      turn: {
+        activePlayer: "player",
+        choices: [builtCard],
+      },
+    });
+
+    const afterBuilt = applyMove(builtState, {
+      cardInstanceId: builtCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(afterBuilt.combat.player.shield).toBe(2);
+    expect(afterBuilt.lastMove?.effectEvents).toContainEqual(
+      expect.objectContaining({
+        kind: "gain-shield",
+        amount: 2,
+        description: expect.stringContaining("combo x2"),
+      }),
+    );
   });
 });
 
