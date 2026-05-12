@@ -37,7 +37,7 @@ describe("adventure reward generation", () => {
     expect(first).toEqual(second);
   });
 
-  it("offers non-owned enemy cards as post-victory steal rewards", () => {
+  it("offers enemy cards as post-victory steal rewards, including owned duplicates", () => {
     const deck = createInitialAdventureDeckState();
     const stealOffer = createAdventureStealRewardOffer({
       sourceNodeId: "combat-1",
@@ -53,7 +53,8 @@ describe("adventure reward generation", () => {
     });
 
     expect(stealOffer.rewardOffer?.options).toHaveLength(3);
-    expect(stealOffer.rewardOffer?.options.some((option) => option.archetypeId === "sapling")).toBe(false);
+    expect(stealOffer.rewardOffer?.options.some((option) => option.archetypeId === "sapling")).toBe(true);
+    expect(stealOffer.rewardOffer?.options.find((option) => option.archetypeId === "sapling")?.alreadyOwnedCount).toBeGreaterThan(0);
   });
 
   it("never offers more than one rare and more than three uncommon cards across a run sample", () => {

@@ -2,7 +2,11 @@ import { getAdventureLocationsCleared, isCombatAdventureNode } from "@/core/adve
 import { ADVENTURE_ENEMY_CONFIG } from "@/core/config/gameConfig";
 import { listEnemyProfilesByTier } from "@/core/config/enemyProfiles";
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
-import { DRAFT_POOL_CARD_IDS } from "@/core/config/decks";
+import {
+  STARTER_DECK_FAMILIES,
+  getFamilyStarterCardIds,
+  getFamilyStarterDeckConfig,
+} from "@/core/config/decks";
 import {
   createFusionAdventureCard,
   createRarityRecord,
@@ -23,6 +27,7 @@ import type {
   AdventureNode,
   AdventureRunState,
   CardArchetype,
+  CardFamily,
   CardRarity,
   EnemyTier,
   MatchEnemyProfile,
@@ -40,6 +45,12 @@ export interface AdventureEnemyLoadout {
   beamWidth: number;
   threatLabel: string;
   signatureCardIds: string[];
+  mainFamily: CardFamily;
+  splashFamilies: CardFamily[];
+  deckPlan: string;
+  preferredBoardShapes: string[];
+  keyPayoffCardIds: string[];
+  counterplayHint: string;
 }
 
 function pickWeightedRarity(
@@ -459,20 +470,154 @@ function buildBaseDeckWithReplacements(
   return nextDeck;
 }
 
-function getPlayerOwnedBaseIds(run: AdventureRunState): Set<string> {
-  return new Set(run.deck.cards.map((entry) => entry.card.baseArchetypeId ?? entry.card.id));
+interface EnemyFamilyDeckPlan {
+  cards: CardArchetype[];
+  mainFamily: CardFamily;
+  splashFamilies: CardFamily[];
+  deckPlan: string;
+  preferredBoardShapes: string[];
+  keyPayoffCardIds: string[];
+  counterplayHint: string;
 }
 
-function buildEnemyDraftDeck(run: AdventureRunState): CardArchetype[] {
-  const ownedBaseIds = getPlayerOwnedBaseIds(run);
-  const availableDraftIds = DRAFT_POOL_CARD_IDS.filter((cardId) => !ownedBaseIds.has(cardId));
-  const cardsToDraft = Math.max(run.config.draftPickCount, run.deck.cards.length);
+function familyIndex(family: CardFamily | null): number {
+  const index = STARTER_DECK_FAMILIES.findIndex((entry) => entry === family);
+  return index >= 0 ? index : 0;
+}
 
-  if (availableDraftIds.length < cardsToDraft) {
-    throw new Error("Not enough shared draft cards remain to build the enemy deck.");
+function rotateFamily(baseIndex: number, offset: number): CardFamily {
+  return STARTER_DECK_FAMILIES[(baseIndex + offset + STARTER_DECK_FAMILIES.length) % STARTER_DECK_FAMILIES.length];
+}
+
+function pickEnemyFamilies(run: AdventureRunState, node: AdventureNode): {
+  mainFamily: CardFamily;
+  splashFamilies: CardFamily[];
+} {
+  const clearedBeforeNode = getClearedLocationsBeforeNode(run, node);
+  const playerFamilyIndex = familyIndex(run.selectedFamily);
+  const mainFamily = rotateFamily(playerFamilyIndex, 1 + ((run.seed + node.depth + node.lane) % STARTER_DECK_FAMILIES.length));
+  const firstSplash = rotateFamily(familyIndex(mainFamily), 2 + (run.seed % 3));
+  const secondSplash = rotateFamily(familyIndex(mainFamily), 4 + (node.depth % 2));
+
+  if (node.kind === "boss") {
+    return {
+      mainFamily,
+      splashFamilies: firstSplash === secondSplash ? [firstSplash] : [firstSplash, secondSplash],
+    };
   }
 
-  return availableDraftIds.slice(0, cardsToDraft).map((cardId) => getCardArchetype(cardId));
+  if (clearedBeforeNode >= 8 || node.kind === "elite") {
+    return {
+      mainFamily,
+      splashFamilies: [firstSplash],
+    };
+  }
+
+  if (clearedBeforeNode >= 4) {
+    return {
+      mainFamily,
+      splashFamilies: [firstSplash],
+    };
+  }
+
+  return {
+    mainFamily,
+    splashFamilies: [],
+  };
+}
+
+function cardIdsForFamilySlice(family: CardFamily, count: number): string[] {
+  const fullDeck = getFamilyStarterCardIds(family);
+  return fullDeck.slice(0, Math.min(count, fullDeck.length));
+}
+
+function familyCounterplayHint(family: CardFamily): string {
+  switch (family) {
+    case "familiar":
+      return "Separe ses pieces et force les adjacences faibles.";
+    case "demon":
+      return "Protege les cibles exposees et limite les multi-flips.";
+    case "human":
+      return "Casse les lignes et conteste les colonnes utiles.";
+    case "automaton":
+      return "Nie les coins avant que le fortin ne s'installe.";
+    case "revenant":
+      return "Ne lui laisse pas un retard confortable a convertir.";
+    case "arcane":
+      return "Conteste le centre et force des placements imprecis.";
+    default:
+      return "Lis son plan avant de lui donner son setup.";
+  }
+}
+
+function familyBoardShapes(family: CardFamily): string[] {
+  switch (family) {
+    case "familiar":
+      return ["adjacence", "bloc compact"];
+    case "demon":
+      return ["cibles isolees", "multi-flips"];
+    case "human":
+      return ["ligne", "colonne"];
+    case "automaton":
+      return ["coins", "bords"];
+    case "revenant":
+      return ["retard controle", "retaliation"];
+    case "arcane":
+      return ["centre", "egalites"];
+    default:
+      return ["plateau stable"];
+  }
+}
+
+function buildEnemyFamilyDeck(run: AdventureRunState, node: AdventureNode): EnemyFamilyDeckPlan {
+  const clearedBeforeNode = getClearedLocationsBeforeNode(run, node);
+  const families = pickEnemyFamilies(run, node);
+  let cardIds: string[];
+
+  if (node.kind === "boss") {
+    const [firstSplash, secondSplash] = families.splashFamilies;
+    cardIds = [
+      ...cardIdsForFamilySlice(families.mainFamily, 6),
+      ...cardIdsForFamilySlice(firstSplash ?? families.mainFamily, 4),
+      ...cardIdsForFamilySlice(secondSplash ?? firstSplash ?? families.mainFamily, 4),
+    ];
+  } else if (clearedBeforeNode >= 8 || node.kind === "elite") {
+    cardIds = [
+      ...cardIdsForFamilySlice(families.mainFamily, 8),
+      ...cardIdsForFamilySlice(families.splashFamilies[0] ?? families.mainFamily, 4),
+    ];
+  } else if (clearedBeforeNode >= 4) {
+    cardIds = [
+      ...cardIdsForFamilySlice(families.mainFamily, 8),
+      ...cardIdsForFamilySlice(families.splashFamilies[0] ?? families.mainFamily, 2),
+    ];
+  } else {
+    cardIds = cardIdsForFamilySlice(families.mainFamily, 10);
+  }
+
+  const mainConfig = getFamilyStarterDeckConfig(families.mainFamily);
+  const keyPayoffCardIds = [
+    ...mainConfig.cards.filter((entry) => entry.role === "payoff").map((entry) => entry.cardId),
+    ...families.splashFamilies.flatMap((family) =>
+      getFamilyStarterDeckConfig(family).cards.filter((entry) => entry.role === "payoff").map((entry) => entry.cardId),
+    ),
+  ];
+
+  return {
+    cards: cardIds.map((cardId) => getCardArchetype(cardId)),
+    mainFamily: families.mainFamily,
+    splashFamilies: families.splashFamilies,
+    deckPlan:
+      families.splashFamilies.length === 0
+        ? `Mono-${families.mainFamily}: ${mainConfig.objective}`
+        : `Hybride ${[families.mainFamily, ...families.splashFamilies].join(" + ")}: ${mainConfig.objective}`,
+    preferredBoardShapes: [
+      ...familyBoardShapes(families.mainFamily),
+      ...families.splashFamilies.flatMap((family) => familyBoardShapes(family)),
+    ],
+    keyPayoffCardIds,
+    counterplayHint: familyCounterplayHint(families.mainFamily),
+  };
 }
 
 function getSearchDepth(run: AdventureRunState, node: AdventureNode, profile: MatchEnemyProfile): number {
@@ -551,17 +696,18 @@ function getEnemyBotId(run: AdventureRunState, node: AdventureNode, profile: Mat
  * Builds the deterministic enemy deck, search profile, and playstyle for one adventure encounter.
  */
 export function buildAdventureEnemyLoadout(run: AdventureRunState, node: AdventureNode): AdventureEnemyLoadout {
-  const draftDeck = buildEnemyDraftDeck(run);
+  const familyDeck = buildEnemyFamilyDeck(run, node);
   const budget = getUpgradeBudget(run, node);
-  const totalUpgradeCards = budget.replacements + budget.additions;
+  const effectiveReplacements = node.kind === "boss" ? Math.min(4, budget.replacements) : budget.replacements;
+  const totalUpgradeCards = effectiveReplacements + budget.additions;
   const profile = pickEnemyProfileForNode(run, node);
   const upgradeCards = pickUpgradeCards(totalUpgradeCards, run, node, profile);
-  const replacementCards = upgradeCards.cards.slice(0, budget.replacements);
-  const addedCards = upgradeCards.cards.slice(budget.replacements);
-  const rawCards =
-    node.kind === "boss"
-      ? upgradeCards.cards.slice(0, draftDeck.length)
-      : [...buildBaseDeckWithReplacements(draftDeck, budget.replacements, replacementCards), ...addedCards];
+  const replacementCards = upgradeCards.cards.slice(0, effectiveReplacements);
+  const addedCards = upgradeCards.cards.slice(effectiveReplacements);
+  const rawCards = [
+    ...buildBaseDeckWithReplacements(familyDeck.cards, effectiveReplacements, replacementCards),
+    ...addedCards,
+  ];
   const cards = rawCards;
   const searchDepth = getSearchDepth(run, node, profile);
   return {
@@ -569,12 +715,18 @@ export function buildAdventureEnemyLoadout(run: AdventureRunState, node: Adventu
     profile,
     cards,
     cardIds: cards.map((card) => card.id),
-    replacements: budget.replacements,
+    replacements: effectiveReplacements,
     additions: budget.additions,
     rarityCounts: upgradeCards.rarityCounts,
     searchDepth,
     beamWidth: getBeamWidth(run, node, profile, searchDepth),
     threatLabel: `${profile.name} - ${profile.playstyle}`,
     signatureCardIds: upgradeCards.signatureCardIds.filter((cardId) => cards.some((card) => card.id === cardId)),
+    mainFamily: familyDeck.mainFamily,
+    splashFamilies: familyDeck.splashFamilies,
+    deckPlan: familyDeck.deckPlan,
+    preferredBoardShapes: familyDeck.preferredBoardShapes,
+    keyPayoffCardIds: familyDeck.keyPayoffCardIds.filter((cardId) => cards.some((card) => card.id === cardId)),
+    counterplayHint: familyDeck.counterplayHint,
   };
 }

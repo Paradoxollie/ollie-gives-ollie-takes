@@ -25,6 +25,13 @@ import {
   getCardArchetype,
 } from "@/core/cards";
 import { DRAFT_POOL_CARD_IDS } from "@/core/config/decks";
+import {
+  FAMILY_STARTER_DECKS,
+  STARTER_DECK_FAMILIES,
+  getFamilyStarterCardIds,
+  getFamilyStarterDeckConfig,
+  type FamilyStarterDeckConfig,
+} from "@/core/config/decks";
 import { mixSeed, nextRandom, pickWithSeed, shuffleWithSeed } from "@/core/utils/rng";
 import type {
   AdventureCampMode,
@@ -39,6 +46,7 @@ import type {
   AdventureSettings,
   BattleResult,
   CardArchetype,
+  CardFamily,
   Direction,
 } from "@/core/types";
 import { DIRECTIONS } from "@/core/types";
@@ -556,6 +564,19 @@ function createDeckFromDraftSelection(selectedCardIds: string[]): AdventureRunSt
   };
 }
 
+function createDeckFromStarterFamily(family: CardFamily): AdventureRunState["deck"] {
+  const cardIds = getFamilyStarterCardIds(family);
+  const cards = cardIds.map((cardId, index) =>
+    createAdventureDeckCard(`deck-${index + 1}`, getCardArchetype(cardId)),
+  );
+
+  return {
+    cards,
+    nextDeckCardSequence: cards.length + 1,
+    nextGeneratedCardSequence: 1,
+  };
+}
+
 function getEncounterCompletion(run: AdventureRunState, battleResult?: BattleResult): "completed" | "failed" {
   if (!run.encounter) {
     throw new Error("No active encounter to resolve.");
@@ -654,9 +675,21 @@ function resolveRewardedEncounter(
   };
 
   if (!generatedStealReward.rewardOffer) {
-    return queuedCharmOffer || queuedSiteState
-      ? continueAfterActiveNodeChoice(completedRun, node)
-      : resolveNodeToMap(completedRun, node);
+    const generatedReward = createAdventureRewardOffer({
+      sourceNodeId: node.id,
+      sourceNodeKind: node.kind,
+      progress: run.rewardProgress,
+      playerDeck: run.deck,
+      seed: completedRun.rngState,
+    });
+
+    return {
+      ...completedRun,
+      phase: "reward",
+      rngState: generatedReward.seed,
+      rewardProgress: generatedReward.progress,
+      rewardOffer: generatedReward.rewardOffer,
+    };
   }
 
   return {
@@ -778,24 +811,24 @@ export function createAdventureRun(settings: Partial<AdventureSettings> = {}): A
     ownedCharmIds: [],
     seed: builtMap.seed,
   });
-  const draft = createAdventureDraft(openingCharmOffer.seed, ADVENTURE_CONFIG);
   const startingNodes = builtMap.map.nodes
     .filter((node) => node.depth === 0)
     .map((node) => node.id)
     .sort();
 
-  return {
+  const run: AdventureRunState = {
     config: ADVENTURE_CONFIG,
     seed,
-    rngState: draft.seed,
+    rngState: openingCharmOffer.seed,
     map: builtMap.map,
-    phase: "draft",
+    phase: "family",
+    selectedFamily: null,
     outcome: "in-progress",
     history: [],
     activeNodeId: null,
     availableNodeIds: startingNodes,
     encounter: null,
-    draft: draft.draft,
+    draft: null,
     deck: createEmptyAdventureDeck(),
     charms: [],
     charmProgress: createInitialAdventureCharmProgress(),
@@ -805,6 +838,36 @@ export function createAdventureRun(settings: Partial<AdventureSettings> = {}): A
     siteState: null,
     queuedCharmOffer: null,
     queuedSiteState: null,
+  };
+
+  return settings.selectedFamily ? chooseAdventureFamily(run, settings.selectedFamily) : run;
+}
+
+/**
+ * Returns the six V4 family starter choices shown at the start of a run.
+ */
+export function listAdventureFamilyStarterDecks(): FamilyStarterDeckConfig[] {
+  return STARTER_DECK_FAMILIES.map((family) => getFamilyStarterDeckConfig(family));
+}
+
+/**
+ * Chooses the run family and creates its fixed 10-card starter deck with duplicates.
+ */
+export function chooseAdventureFamily(run: AdventureRunState, family: CardFamily): AdventureRunState {
+  if (run.phase !== "family") {
+    throw new Error("Cannot choose a family after the run has already started.");
+  }
+
+  if (!FAMILY_STARTER_DECKS[family as keyof typeof FAMILY_STARTER_DECKS]) {
+    throw new Error(`Family ${family} is not available as a starter family.`);
+  }
+
+  return {
+    ...run,
+    phase: run.charmOffer ? "charm" : "map",
+    selectedFamily: family,
+    deck: createDeckFromStarterFamily(family),
+    draft: null,
   };
 }
 
@@ -1106,7 +1169,7 @@ export function resolveAdventureReward(run: AdventureRunState, rewardId?: string
   return continueAfterActiveNodeChoice(
     {
       ...run,
-      deck: addCardToAdventureDeck(run.deck, getCardArchetype(selectedOption.archetypeId)).deck,
+      deck: addCardToAdventureDeck(run.deck, selectedOption.card ?? getCardArchetype(selectedOption.archetypeId)).deck,
       rewardProgress: claimAdventureRewardOption(run.rewardProgress, selectedOption.rarity),
       rewardOffer: null,
     },

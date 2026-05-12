@@ -7,6 +7,7 @@ import {
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { cloneCardEffects } from "@/core/card-effects";
 import { countAdventureDeckByRarity, countAdventureDeckBySource, getCardArchetype } from "@/core/cards";
+import { countCardCopiesByBaseId } from "@/core/deck-building";
 import { getCardName, getCardSides, summarizeBoardControl } from "@/core/engine";
 import { getLuckyCharmDefinition } from "@/core/config/luckyCharms";
 import { getPlayerNextDrawPreview, listPlayerCharmActions } from "@/core/player-charms";
@@ -176,11 +177,16 @@ export function serializeAdventureState(
     : null;
   const deckByRarity = countAdventureDeckByRarity(run.deck);
   const deckBySource = countAdventureDeckBySource(run.deck);
+  const deckCopyCounts = countCardCopiesByBaseId(run.deck.cards.map((entry) => entry.card));
+  const deckCopyRepresentatives = new Map(
+    run.deck.cards.map((entry) => [entry.card.baseArchetypeId ?? entry.card.id, entry.card] as const),
+  );
 
   return {
     mode: run.phase,
     seed: run.seed,
     outcome: run.outcome,
+    selectedFamily: run.selectedFamily,
     locationsCleared: getAdventureLocationsCleared(run),
     totalLocationsBeforeBoss: run.config.depthCount,
     activeNodeId: run.activeNodeId,
@@ -218,6 +224,24 @@ export function serializeAdventureState(
         deckBySource.fusion +
         deckBySource["enemy-upgrade"] +
         deckBySource.charm,
+      copyCounts: Object.entries(deckCopyCounts)
+        .map(([archetypeId, count]) => {
+          const card = deckCopyRepresentatives.get(archetypeId) ?? getCardArchetype(archetypeId);
+          return {
+            archetypeId,
+            name: card.name,
+            count,
+            family: card.family,
+            role: card.role ?? null,
+          };
+        })
+        .sort((left, right) => {
+          if (left.family !== right.family) {
+            return left.family.localeCompare(right.family);
+          }
+
+          return left.name.localeCompare(right.name);
+        }),
       byRarity: deckByRarity,
       offeredByRarity: {
         common: run.rewardProgress.offeredByRarity.common,
@@ -286,6 +310,12 @@ export function serializeAdventureState(
                   uncommon: enemyPlan.rarityCounts.uncommon,
                   rare: enemyPlan.rarityCounts.rare,
                 },
+                mainFamily: enemyPlan.mainFamily,
+                splashFamilies: [...enemyPlan.splashFamilies],
+                deckPlan: enemyPlan.deckPlan,
+                preferredBoardShapes: [...enemyPlan.preferredBoardShapes],
+                keyPayoffCardIds: [...enemyPlan.keyPayoffCardIds],
+                counterplayHint: enemyPlan.counterplayHint,
               }
             : null,
         }
@@ -295,12 +325,18 @@ export function serializeAdventureState(
           sourceNodeId: run.rewardOffer.sourceNodeId,
           sourceNodeKind: run.rewardOffer.sourceNodeKind,
           options: run.rewardOffer.options.map((option) => {
-            const card = getCardArchetype(option.archetypeId);
+            const card = option.card ?? getCardArchetype(option.archetypeId);
             return {
               rewardId: option.rewardId,
+              archetypeId: option.archetypeId,
+              name: card.name,
               rarity: option.rarity,
               sides: { ...card.sides },
               effects: cloneCardEffects(card.effects),
+              reason: option.reason ?? null,
+              rewardType: option.rewardType ?? null,
+              alreadyOwnedCount: option.alreadyOwnedCount ?? 0,
+              sourceDeckCount: option.sourceDeckCount ?? 0,
             };
           }),
         }

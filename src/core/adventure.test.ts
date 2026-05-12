@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  chooseAdventureFamily,
   chooseAdventureCampMode,
   completeAdventureEncounter,
   createAdventureRun,
@@ -15,7 +16,6 @@ import {
   leaveAdventureSite,
   listAvailableAdventureNodes,
   resolveAdventureCharm,
-  resolveAdventureDraft,
   resolveAdventureReward,
   resolveAdventureCamp,
   resolveAdventureForge,
@@ -23,6 +23,7 @@ import {
   toggleAdventureForgeSelection,
 } from "@/core/adventure";
 import { getCardArchetype } from "@/core/cards";
+import { FAMILY_STARTER_DECKS } from "@/core/config/decks";
 import type { AdventureRunState, BattleResult, MatchOutcome } from "@/core/types";
 
 function makeBattleResult(winner: MatchOutcome): BattleResult {
@@ -60,7 +61,7 @@ function mapStructureSignature(run: AdventureRunState): string {
 }
 
 function startRun(seed: number): AdventureRunState {
-  const run = resolveOpeningDraft(createAdventureRun({ seed }));
+  const run = resolveOpeningFamily(createAdventureRun({ seed }));
   const openingCharm = getAdventureCharmOptions(run)[0];
   if (!openingCharm) {
     throw new Error("Missing opening charm.");
@@ -69,12 +70,12 @@ function startRun(seed: number): AdventureRunState {
   return resolveAdventureCharm(run, openingCharm.charmId);
 }
 
-function resolveOpeningDraft(run: AdventureRunState): AdventureRunState {
-  if (run.phase !== "draft" || !run.draft) {
-    throw new Error("Missing opening draft.");
+function resolveOpeningFamily(run: AdventureRunState): AdventureRunState {
+  if (run.phase !== "family") {
+    throw new Error("Missing opening family choice.");
   }
 
-  return resolveAdventureDraft(run, run.draft.offerCardIds.slice(0, run.draft.pickCount));
+  return chooseAdventureFamily(run, "familiar");
 }
 
 function countCrossings(run: AdventureRunState): number {
@@ -296,28 +297,39 @@ describe("adventure progression", () => {
     expect(afterChest.deck.cards).toHaveLength(chestRun.deck.cards.length + 1);
   });
 
-  it("starts every run with a 7-card draft before the mandatory opening charm choice", () => {
+  it("starts every run with a family choice before the mandatory opening charm choice", () => {
     const run = createAdventureRun({ seed: 12 });
 
-    expect(run.phase).toBe("draft");
+    expect(run.phase).toBe("family");
     expect(run.deck.cards).toHaveLength(0);
-    expect(run.draft?.pickCount).toBe(7);
-    expect(run.draft?.offerCardIds).toHaveLength(14);
-    expect(new Set(run.draft?.offerCardIds).size).toBe(14);
-    expect(run.draft?.offerCardIds).toEqual(
-      expect.arrayContaining(["sapling", "badger", "heron", "foxfire", "mole", "stag", "owl"]),
-    );
+    expect(run.draft).toBeNull();
+    expect(run.selectedFamily).toBeNull();
+    expect(Object.keys(FAMILY_STARTER_DECKS)).toEqual([
+      "familiar",
+      "demon",
+      "human",
+      "automaton",
+      "revenant",
+      "arcane",
+    ]);
 
-    const drafted = resolveAdventureDraft(run, run.draft?.offerCardIds.slice(0, 7));
+    const familyRun = chooseAdventureFamily(run, "familiar");
+    const copyCounts = familyRun.deck.cards.reduce<Record<string, number>>((counts, entry) => {
+      counts[entry.card.id] = (counts[entry.card.id] ?? 0) + 1;
+      return counts;
+    }, {});
 
-    expect(drafted.phase).toBe("charm");
-    expect(drafted.deck.cards).toHaveLength(7);
-    expect(drafted.draft).toBeNull();
+    expect(familyRun.phase).toBe("charm");
+    expect(familyRun.selectedFamily).toBe("familiar");
+    expect(familyRun.deck.cards).toHaveLength(10);
+    expect(Object.values(copyCounts).sort()).toEqual([2, 2, 3, 3]);
+    expect(new Set(familyRun.deck.cards.map((entry) => entry.card.id)).size).toBe(4);
+    expect(familyRun.deck.cards.every((entry) => entry.card.effects?.length === 1)).toBe(true);
     expect(run.charms).toHaveLength(0);
-    expect(drafted.charmOffer?.canSkip).toBe(false);
-    expect(getAdventureCharmOptions(drafted)).toHaveLength(3);
+    expect(familyRun.charmOffer?.canSkip).toBe(false);
+    expect(getAdventureCharmOptions(familyRun)).toHaveLength(3);
 
-    const resolved = resolveAdventureCharm(drafted, getAdventureCharmOptions(drafted)[0]?.charmId);
+    const resolved = resolveAdventureCharm(familyRun, getAdventureCharmOptions(familyRun)[0]?.charmId);
     expect(resolved.phase).toBe("map");
     expect(resolved.charms).toHaveLength(1);
   });

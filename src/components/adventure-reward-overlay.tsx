@@ -1,7 +1,7 @@
 "use client";
 
 import { CARD_ARCHETYPE_LOOKUP } from "@/core/config/cardArchetypes";
-import type { AdventureRewardState } from "@/core/types";
+import type { AdventureRewardState, CardArchetype } from "@/core/types";
 
 import { CardView } from "@/components/card-view";
 
@@ -44,9 +44,11 @@ function isStealReward(kind: AdventureRewardState["sourceNodeKind"]): boolean {
   return kind === "combat" || kind === "elite";
 }
 
-function rewardPreviewCard(archetypeId: string) {
-  const card = CARD_ARCHETYPE_LOOKUP[archetypeId];
+function getRewardCard(option: AdventureRewardState["options"][number]): CardArchetype {
+  return option.card ?? CARD_ARCHETYPE_LOOKUP[option.archetypeId];
+}
 
+function rewardPreviewCard(card: CardArchetype) {
   return {
     instanceId: `reward-${card.id}`,
     archetypeId: card.id,
@@ -67,7 +69,7 @@ function rewardPreviewCard(archetypeId: string) {
 function rewardFlavor(kind: AdventureRewardState["sourceNodeKind"]): string {
   switch (kind) {
     case "combat":
-      return "Victoire nette. Tu peux prendre une carte unique dans le deck adverse.";
+      return "Victoire nette. Tu peux prendre une carte du deck adverse, meme une copie deja possedee.";
     case "elite":
       return "L'adversaire garde des cartes plus dangereuses. Une seule peut rejoindre ton deck.";
     case "shop":
@@ -130,7 +132,7 @@ export function AdventureRewardOverlay({
 
           <div className="ogot-scroll relative mt-6 grid min-h-0 flex-1 gap-4 overflow-y-auto pr-1 lg:grid-cols-3">
             {rewardOffer.options.map((option) => {
-              const card = CARD_ARCHETYPE_LOOKUP[option.archetypeId];
+              const card = getRewardCard(option);
               return (
                 <section key={option.rewardId} className="ogot-choice-card rounded-[1.9rem] p-4 sm:p-5">
                   <div className="relative flex h-full flex-col">
@@ -143,17 +145,32 @@ export function AdventureRewardOverlay({
                         {rarityLabel(option.rarity)}
                       </span>
                     </div>
+                    {(option.alreadyOwnedCount ?? 0) > 0 || (option.sourceDeckCount ?? 0) > 1 ? (
+                      <div className="mt-3 flex flex-wrap gap-2 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#ffe0a6]">
+                        {(option.alreadyOwnedCount ?? 0) > 0 ? (
+                          <span className="rounded-full border border-amber-100/18 bg-amber-200/10 px-2 py-1">
+                            Deja x{option.alreadyOwnedCount}
+                          </span>
+                        ) : null}
+                        {(option.sourceDeckCount ?? 0) > 1 ? (
+                          <span className="rounded-full border border-cyan-100/18 bg-cyan-200/10 px-2 py-1">
+                            Ennemi x{option.sourceDeckCount}
+                          </span>
+                        ) : null}
+                      </div>
+                    ) : null}
 
                     <div className="mx-auto mt-5 aspect-[2/3] w-full max-w-[12.4rem] sm:max-w-[13rem]">
-                      <CardView card={rewardPreviewCard(option.archetypeId)} layout="hand" className="h-full w-full" />
+                      <CardView card={rewardPreviewCard(card)} layout="hand" className="h-full w-full" />
                     </div>
 
                     <div className="mt-5 rounded-[1.2rem] border border-white/10 bg-black/28 px-4 py-3">
                       <p className="text-[0.5rem] uppercase tracking-[0.22em] text-white/42">Pourquoi la prendre</p>
                       <p className="mt-2 text-[0.86rem] leading-7 text-white/74">
-                        {stealReward
-                          ? "Cette carte quitte le pool adverse et devient une vraie option de ta run."
-                          : "Cette carte rejoint le deck fixe de la run pour les prochains combats."}
+                        {option.reason ??
+                          (stealReward
+                            ? "Cette carte devient une vraie copie jouable de ta run."
+                            : "Cette carte rejoint le deck fixe de la run pour les prochains combats.")}
                       </p>
                     </div>
 

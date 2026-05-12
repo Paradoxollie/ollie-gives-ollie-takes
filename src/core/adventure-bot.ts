@@ -1,5 +1,6 @@
 import { getAdventureCharmOptions, getAdventureNode, getAdventureRewardOptions, listAvailableAdventureNodes } from "@/core/adventure";
 import { getLuckyCharmDefinition } from "@/core/config/luckyCharms";
+import { STARTER_DECK_FAMILIES } from "@/core/config/decks";
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { getCardArchetype, getCardStrength } from "@/core/cards";
 import {
@@ -482,6 +483,53 @@ function scoreDraftCard(cardId: string, pickedCardIds: string[], weights?: Train
   return getCardStrength(card) + getCardEffectDraftValue(card) + rarityScore + familyScore + intentScore;
 }
 
+function familyIntentProfile(family: CardFamily): BuildIntentProfile {
+  switch (family) {
+    case "demon":
+      return { aggression: 1.25, control: 0.15, tempo: 0.45, fusion: 0.2, precision: 0.45 };
+    case "human":
+      return { aggression: 0.25, control: 1, tempo: 0.6, fusion: 0.25, precision: 0.65 };
+    case "automaton":
+      return { aggression: 0.1, control: 1.25, tempo: 0.2, fusion: 0.55, precision: 0.55 };
+    case "revenant":
+      return { aggression: 0.65, control: 0.65, tempo: 0.75, fusion: 0.25, precision: 0.7 };
+    case "arcane":
+      return { aggression: 0.35, control: 0.35, tempo: 0.95, fusion: 0.45, precision: 1.25 };
+    case "familiar":
+    default:
+      return { aggression: 0.3, control: 0.85, tempo: 0.85, fusion: 0.3, precision: 0.55 };
+  }
+}
+
+export function chooseAdventureFamilyForBot(
+  run: AdventureRunState,
+  weights?: TrainedBotWeights | null,
+): CardFamily {
+  const intent = {
+    aggression: resolveAdventureWeight(weights, "aggressionPlanBias"),
+    control: resolveAdventureWeight(weights, "controlPlanBias"),
+    tempo: resolveAdventureWeight(weights, "tempoPlanBias"),
+    fusion: resolveAdventureWeight(weights, "fusionPlanBias"),
+    precision: resolveAdventureWeight(weights, "precisionPlanBias"),
+  };
+  const hasLearnedPreference = Object.values(intent).some((value) => Math.abs(value) > 0.001);
+
+  if (!hasLearnedPreference) {
+    return STARTER_DECK_FAMILIES[Math.abs(run.seed) % STARTER_DECK_FAMILIES.length];
+  }
+
+  return [...STARTER_DECK_FAMILIES].sort((left, right) => {
+    const scoreDiff =
+      scoreIntentAlignment(intent, familyIntentProfile(right)) -
+      scoreIntentAlignment(intent, familyIntentProfile(left));
+    if (scoreDiff !== 0) {
+      return scoreDiff;
+    }
+
+    return left.localeCompare(right);
+  })[0];
+}
+
 export function chooseAdventureDraftCardsForBot(
   run: AdventureRunState,
   weights?: TrainedBotWeights | null,
@@ -515,7 +563,7 @@ export function chooseAdventureDraftCardsForBot(
 }
 
 function scoreReward(option: AdventureRewardOption, weights?: TrainedBotWeights | null): number {
-  const archetype = getCardArchetype(option.archetypeId);
+  const archetype = option.card ?? getCardArchetype(option.archetypeId);
   const rarityBias =
     option.rarity === "rare"
       ? resolveAdventureWeight(weights, "rareCardBias") * 1.2
@@ -700,8 +748,8 @@ export function chooseAdventureRewardForBot(
   }
 
   return [...options].sort((left, right) => {
-    const rightCard = getCardArchetype(right.archetypeId);
-    const leftCard = getCardArchetype(left.archetypeId);
+    const rightCard = right.card ?? getCardArchetype(right.archetypeId);
+    const leftCard = left.card ?? getCardArchetype(left.archetypeId);
     const rightDuplicatePenalty =
       Math.max(0, countDuplicateBaseIds(run, rightCard.baseArchetypeId ?? rightCard.id) - 1) *
       resolveAdventureWeight(weights, "duplicateCardPenalty");

@@ -2,11 +2,13 @@ export const PLAYER_IDS = ["player", "enemy"] as const;
 export const DIRECTIONS = ["top", "right", "bottom", "left"] as const;
 export const DECK_PRESET_IDS = ["starter10", "starter12", "starter14"] as const;
 export const ADVENTURE_NODE_TYPES = ["combat", "elite", "shop", "chest", "rest", "boss"] as const;
-export const ADVENTURE_PHASES = ["draft", "charm", "map", "encounter", "reward", "site", "finished"] as const;
+export const ADVENTURE_PHASES = ["family", "draft", "charm", "map", "encounter", "reward", "site", "finished"] as const;
 export const ADVENTURE_NODE_STATUSES = ["locked", "available", "active", "completed"] as const;
 export const ROUND_COIN_FACES = ["sun", "moon"] as const;
 export const CARD_RARITIES = ["common", "uncommon", "rare"] as const;
 export const CARD_SOURCE_TYPES = ["draft", "reward", "treasure", "upgrade", "fusion", "enemy-upgrade", "charm"] as const;
+export const CARD_ROLES = ["anchor", "attacker", "connector", "payoff", "engine", "stabilizer", "finisher"] as const;
+export const BOARD_POSITION_TAGS = ["corner", "edge", "center", "adjacent", "line", "behind"] as const;
 export const CARD_FAMILIES = [
   "familiar",
   "demon",
@@ -63,6 +65,8 @@ export type AdventureOutcome = "in-progress" | "victory" | "defeat";
 export type RoundCoinFace = (typeof ROUND_COIN_FACES)[number];
 export type CardRarity = (typeof CARD_RARITIES)[number];
 export type CardSourceType = (typeof CARD_SOURCE_TYPES)[number];
+export type CardRole = (typeof CARD_ROLES)[number];
+export type BoardPositionTag = (typeof BOARD_POSITION_TAGS)[number];
 export type CardFamily = (typeof CARD_FAMILIES)[number];
 export type AdventureCampMode = "remove" | "upgrade";
 export type EnemyTier = (typeof ENEMY_TIERS)[number];
@@ -134,6 +138,12 @@ export interface CardArchetype {
   accent: string;
   artSrc: string;
   rarity: CardRarity;
+  role?: CardRole;
+  buildTags?: string[];
+  preferredPositions?: BoardPositionTag[];
+  hybridLinks?: CardFamily[];
+  deckbuildingObjective?: string;
+  counterplay?: string;
   sourceType: CardSourceType;
   baseArchetypeId: string | null;
   temporaryScope?: TemporaryCardScope | null;
@@ -151,6 +161,12 @@ export interface CardInstance {
   accent: string;
   artSrc: string;
   rarity: CardRarity;
+  role?: CardRole;
+  buildTags?: string[];
+  preferredPositions?: BoardPositionTag[];
+  hybridLinks?: CardFamily[];
+  deckbuildingObjective?: string;
+  counterplay?: string;
   sourceType: CardSourceType;
   baseArchetypeId: string | null;
   temporaryScope?: TemporaryCardScope | null;
@@ -475,6 +491,7 @@ export interface MatchSettings {
 
 export interface AdventureSettings {
   seed: number;
+  selectedFamily?: CardFamily;
 }
 
 export interface MatchState {
@@ -567,7 +584,12 @@ export interface AdventureRewardProgress {
 export interface AdventureRewardOption {
   rewardId: string;
   archetypeId: string;
+  card?: CardArchetype;
   rarity: CardRarity;
+  reason?: string;
+  rewardType?: "steal" | "generated";
+  alreadyOwnedCount?: number;
+  sourceDeckCount?: number;
 }
 
 export interface AdventureRewardState {
@@ -625,6 +647,7 @@ export interface AdventureRunState {
   rngState: number;
   map: AdventureMap;
   phase: AdventurePhase;
+  selectedFamily: CardFamily | null;
   outcome: AdventureOutcome;
   history: string[];
   activeNodeId: string | null;
@@ -755,6 +778,7 @@ export interface SerializedAdventureRunState {
   mode: AdventurePhase;
   seed: number;
   outcome: AdventureOutcome;
+  selectedFamily: CardFamily | null;
   locationsCleared: number;
   totalLocationsBeforeBoss: number;
   activeNodeId: string | null;
@@ -777,6 +801,13 @@ export interface SerializedAdventureRunState {
     size: number;
     draftCount: number;
     specialCount: number;
+    copyCounts: Array<{
+      archetypeId: string;
+      name: string;
+      count: number;
+      family: CardFamily;
+      role: CardRole | null;
+    }>;
     byRarity: Record<CardRarity, number>;
     offeredByRarity: Record<CardRarity, number>;
     claimedByRarity: Record<CardRarity, number>;
@@ -827,6 +858,12 @@ export interface SerializedAdventureRunState {
               additions: number;
               searchDepth: number;
               rarityCounts: Record<CardRarity, number>;
+              mainFamily: CardFamily;
+              splashFamilies: CardFamily[];
+              deckPlan: string;
+              preferredBoardShapes: string[];
+              keyPayoffCardIds: string[];
+              counterplayHint: string;
             }
           | null;
       }
@@ -837,9 +874,15 @@ export interface SerializedAdventureRunState {
         sourceNodeKind: AdventureNodeType;
         options: Array<{
             rewardId: string;
+            archetypeId: string;
+            name: string;
             rarity: CardRarity;
             sides: CardSides;
             effects: CardEffect[];
+            reason: string | null;
+            rewardType: "steal" | "generated" | null;
+            alreadyOwnedCount: number;
+            sourceDeckCount: number;
           }>;
       }
     | null;

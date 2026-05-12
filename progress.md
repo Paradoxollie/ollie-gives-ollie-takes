@@ -1,6 +1,16 @@
 Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes with a deterministic TypeScript rules engine in `src/core`, a minimal Next.js App Router UI, seeded randomness, Vitest coverage for core battle rules, and one greedy AI opponent.
 
 ## Progress
+- 2026-05-12: Started the V4 family-run implementation from `docs/combat-system-v4-family-runs-plan.md`:
+  - added core card metadata for roles, build tags, preferred positions, hybrid links, deckbuilding objective, and counterplay
+  - added six V4 starter family deck configs with fixed `3/3/2/2` duplicate splits and 10 cards total per family
+  - added deterministic deckbuilding profile helpers for copy counts, family density, missing roles, hybrid detection, and reward reasons
+  - wired new runs to start on a family selection phase, with family choice creating the fixed starter deck before the mandatory charm choice
+  - changed combat/elite steal rewards so owned duplicates remain eligible and reward options carry copy counts plus short deckbuilding reasons
+  - changed adventure enemies from leftover draft pools to readable family decks: early mono-family, mid/elite splash, late/boss hybrid plans with counterplay hints
+  - updated core tests for family starters, duplicate steals, family run start, and enemy family plans; final validation is `npx tsc --noEmit --pretty false`, `npm run test` (`103/103`), and `npm run build`
+  - browser QA on local dev server `http://127.0.0.1:3120/`: `$develop-web-game` screenshots saved in `output/web-game/v4-family-select-one-row/`; focused Playwright flow saved in `output/playwright/v4-family-flow-final/`; mobile portrait screenshot saved in `output/playwright/v4-family-mobile/`; no console/page errors
+  - remaining design follow-up: add a richer mobile starter-card inspection pattern later, because mobile currently prioritizes fast family choice while desktop shows the compact four-card starter summary
 - 2026-05-06: Added a player-safe playtest build path for non-technical testers:
   - added a public `PlaytestExperience` menu with a single `Jouer` entry point, fullscreen support, and a portrait-phone hint
   - added `/playtest` for local testing and a playtest build mode where `/` serves only the tester experience

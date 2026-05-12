@@ -1,6 +1,98 @@
-import type { CardArchetype, CardEffect, CardFamily, CardSides } from "@/core/types";
+import type { BoardPositionTag, CardArchetype, CardEffect, CardFamily, CardRole, CardSides } from "@/core/types";
 import { ADVENTURE_REWARD_ARCHETYPES } from "@/core/config/adventureRewards";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
+import { FAMILY_STARTER_DECKS } from "@/core/config/decks";
+
+const STARTER_ROLE_BY_CARD_ID = new Map<string, CardRole>(
+  Object.values(FAMILY_STARTER_DECKS).flatMap((deck) =>
+    deck.cards.map((entry) => [entry.cardId, entry.role] as const),
+  ),
+);
+
+const FAMILY_HYBRID_LINKS: Record<CardFamily, CardFamily[]> = {
+  familiar: ["human", "automaton", "arcane"],
+  demon: ["revenant", "arcane", "human"],
+  human: ["familiar", "automaton", "arcane"],
+  automaton: ["familiar", "human", "arcane"],
+  revenant: ["demon", "human", "arcane"],
+  arcane: ["familiar", "demon", "automaton"],
+  dragon: ["arcane", "demon"],
+  renegade: ["human", "revenant"],
+};
+
+const FAMILY_OBJECTIVES: Record<CardFamily, string> = {
+  familiar: "Garder les allies proches pour proteger un moteur de meute.",
+  demon: "Creer des flips agressifs puis convertir la pression en degats directs.",
+  human: "Former des lignes fiables et gagner par controle stable.",
+  automaton: "Tenir les coins et construire une forteresse difficile a retourner.",
+  revenant: "Rester au contact quand tu n'es pas devant, puis renverser la manche.",
+  arcane: "Controler le centre et enchainer des conditions precises.",
+  dragon: "Chercher une puissance rare de fin de run.",
+  renegade: "Ajouter un paquet de contre et de tempo.",
+};
+
+const ROLE_OBJECTIVES: Record<CardRole, string> = {
+  anchor: "Ouvre correctement une manche et donne une base au plan de famille.",
+  attacker: "Menace un cote fort et cree des flips qui declenchent le moteur.",
+  connector: "Prepare les conditions du deck et rend les prochains tours plus constants.",
+  payoff: "Convertit le setup familial en avantage mesurable.",
+  engine: "Ouvre une direction de build plus specialisee.",
+  stabilizer: "Evite les mauvais departs et garde la run vivante.",
+  finisher: "Sert de payoff tardif quand le deck a deja son setup.",
+};
+
+function inferPreferredPositions(effects: CardEffect[] | undefined): BoardPositionTag[] {
+  const positions = new Set<BoardPositionTag>();
+  for (const effect of effects ?? []) {
+    if (effect.condition === "corner") positions.add("corner");
+    if (effect.condition === "center") positions.add("center");
+    if (effect.condition === "adjacent-ally" || effect.condition === "adjacent-enemy") positions.add("adjacent");
+    if (effect.condition === "behind-on-board") positions.add("behind");
+  }
+  return [...positions];
+}
+
+function inferBuildTags(options: {
+  family: CardFamily;
+  role: CardRole;
+  effects?: CardEffect[];
+}): string[] {
+  const tags = new Set<string>([options.family, options.role]);
+  for (const effect of options.effects ?? []) {
+    tags.add(effect.kind);
+    if (effect.condition && effect.condition !== "always") {
+      tags.add(effect.condition);
+    }
+    if (effect.requiredFamilyCount) {
+      tags.add(`combo-${effect.requiredFamilyCount}`);
+    }
+    if ("minFlips" in effect && effect.minFlips) {
+      tags.add(`flip-${effect.minFlips}`);
+    }
+  }
+  return [...tags];
+}
+
+function inferRole(id: string, effects: CardEffect[] | undefined): CardRole {
+  const starterRole = STARTER_ROLE_BY_CARD_ID.get(id);
+  if (starterRole) {
+    return starterRole;
+  }
+
+  if ((effects ?? []).some((effect) => effect.kind === "deal-damage" || ("minFlips" in effect && effect.minFlips))) {
+    return "attacker";
+  }
+
+  if ((effects ?? []).some((effect) => effect.requiredFamilyCount || effect.scaleWithFamilyCount)) {
+    return "engine";
+  }
+
+  if ((effects ?? []).some((effect) => effect.kind === "gain-shield")) {
+    return "stabilizer";
+  }
+
+  return "connector";
+}
 
 function draftCard(options: {
   id: string;
@@ -10,7 +102,15 @@ function draftCard(options: {
   accent: string;
   artSrc?: string;
   effects?: CardEffect[];
+  role?: CardRole;
+  buildTags?: string[];
+  preferredPositions?: BoardPositionTag[];
+  hybridLinks?: CardFamily[];
+  deckbuildingObjective?: string;
+  counterplay?: string;
 }): CardArchetype {
+  const role = options.role ?? inferRole(options.id, options.effects);
+  const preferredPositions = options.preferredPositions ?? inferPreferredPositions(options.effects);
   return {
     id: options.id,
     name: options.name,
@@ -19,6 +119,21 @@ function draftCard(options: {
     accent: options.accent,
     artSrc: options.artSrc ?? getNeutralCardArtSrc(options.family),
     rarity: "common",
+    role,
+    buildTags: options.buildTags ?? inferBuildTags({ family: options.family, role, effects: options.effects }),
+    preferredPositions,
+    hybridLinks: options.hybridLinks ?? FAMILY_HYBRID_LINKS[options.family],
+    deckbuildingObjective:
+      options.deckbuildingObjective ?? `${ROLE_OBJECTIVES[role]} ${FAMILY_OBJECTIVES[options.family]}`,
+    counterplay:
+      options.counterplay ??
+      (preferredPositions.includes("center")
+        ? "Conteste le centre avant que cette carte ne devienne rentable."
+        : preferredPositions.includes("corner")
+          ? "Nie les coins ou force-la a jouer vers le centre."
+          : preferredPositions.includes("adjacent")
+            ? "Separe les cartes pour casser la condition d'adjacence."
+            : "Retourne-la avant que le seuil familial ne soit actif."),
     sourceType: "draft",
     baseArchetypeId: null,
     effects: options.effects ?? [],

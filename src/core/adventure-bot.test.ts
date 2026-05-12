@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   getAdventureCharmOptions,
+  chooseAdventureFamily,
   chooseAdventureCampForBot,
   chooseAdventureCharmForBot,
   chooseAdventureForgeForBot,
@@ -12,17 +13,16 @@ import {
   enterAdventureNode,
   getCardArchetype,
   resolveAdventureCharm,
-  resolveAdventureDraft,
 } from "@/core";
 import type { TrainedBotWeights } from "@/core/types";
 
 function startRun(seed: number) {
   const initialRun = createAdventureRun({ seed });
-  if (!initialRun.draft) {
-    throw new Error("Missing opening draft.");
+  if (initialRun.phase !== "family") {
+    throw new Error("Missing opening family choice.");
   }
 
-  const run = resolveAdventureDraft(initialRun, initialRun.draft.offerCardIds.slice(0, initialRun.draft.pickCount));
+  const run = chooseAdventureFamily(initialRun, "familiar");
   const openingCharm = getAdventureCharmOptions(run)[0];
   if (!openingCharm) {
     throw new Error("Missing opening charm.");

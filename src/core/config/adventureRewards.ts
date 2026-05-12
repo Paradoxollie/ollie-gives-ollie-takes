@@ -1,4 +1,4 @@
-import type { CardArchetype, CardEffect, CardFamily, CardRarity, CardSides } from "@/core/types";
+import type { BoardPositionTag, CardArchetype, CardEffect, CardFamily, CardRarity, CardRole, CardSides } from "@/core/types";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
 export interface AdventureRewardArchetype extends CardArchetype {
@@ -88,6 +88,79 @@ function rewardAccent(rarity: CardRarity): string {
   }
 }
 
+function rewardRole(rarity: CardRarity, family: CardFamily, index: number): CardRole {
+  if (rarity === "rare") {
+    return "finisher";
+  }
+
+  if (index % 4 === 0) {
+    return "payoff";
+  }
+
+  if (family === "human" || family === "automaton") {
+    return index % 2 === 0 ? "stabilizer" : "connector";
+  }
+
+  if (family === "demon") {
+    return "attacker";
+  }
+
+  return index % 2 === 0 ? "connector" : "engine";
+}
+
+function rewardPreferredPositions(family: CardFamily, index: number): BoardPositionTag[] {
+  if (family === "automaton") {
+    return ["corner"];
+  }
+
+  if (family === "arcane") {
+    return ["center"];
+  }
+
+  if (family === "human") {
+    return ["line"];
+  }
+
+  if (family === "revenant") {
+    return ["behind"];
+  }
+
+  if (family === "familiar") {
+    return ["adjacent"];
+  }
+
+  return index % 2 === 0 ? ["adjacent"] : [];
+}
+
+function rewardBuildTags(options: {
+  rarity: CardRarity;
+  family: CardFamily;
+  role: CardRole;
+  effects: CardEffect[];
+}): string[] {
+  const tags = new Set<string>([options.rarity, options.family, options.role]);
+  for (const effect of options.effects) {
+    tags.add(effect.kind);
+    if (effect.condition && effect.condition !== "always") {
+      tags.add(effect.condition);
+    }
+    if (effect.requiredFamilyCount) {
+      tags.add(`combo-${effect.requiredFamilyCount}`);
+    }
+  }
+  return [...tags];
+}
+
+function rewardObjective(rarity: CardRarity, family: CardFamily, role: CardRole): string {
+  const rarityText =
+    rarity === "rare"
+      ? "Run-defining card: commit to setup before taking it."
+      : rarity === "uncommon"
+        ? "Bridge card: adds a stronger condition or supports a hybrid."
+        : "Consistency card: improves the current engine without demanding a full pivot.";
+  return `${rarityText} Role ${role} for ${family} decks.`;
+}
+
 function rewardComboSetup(rarity: CardRarity): Pick<CardEffect, "requiredFamilyCount" | "scaleWithFamilyCount" | "maxScale"> {
   if (rarity === "common") {
     return {};
@@ -139,18 +212,39 @@ const REWARD_TEMPLATES: RewardTemplate[] = [
 ];
 
 export const ADVENTURE_REWARD_ARCHETYPES: ReadonlyArray<AdventureRewardArchetype> = REWARD_TEMPLATES.map(
-  ({ rarity, index, sides, family }) => ({
-    id: rewardId(rarity, index),
-    name: rewardName(rarity, index),
-    sides,
-    family,
-    accent: rewardAccent(rarity),
-    artSrc: getNeutralCardArtSrc(family),
-    rarity,
-    sourceType: "reward",
-    baseArchetypeId: null,
-    effects: rewardEffects(rarity, family, index),
-  }),
+  ({ rarity, index, sides, family }) => {
+    const effects = rewardEffects(rarity, family, index);
+    const role = rewardRole(rarity, family, index);
+    return {
+      id: rewardId(rarity, index),
+      name: rewardName(rarity, index),
+      sides,
+      family,
+      accent: rewardAccent(rarity),
+      artSrc: getNeutralCardArtSrc(family),
+      rarity,
+      role,
+      buildTags: rewardBuildTags({ rarity, family, role, effects }),
+      preferredPositions: rewardPreferredPositions(family, index),
+      hybridLinks:
+        family === "familiar"
+          ? ["human", "automaton", "arcane"]
+          : family === "demon"
+            ? ["revenant", "arcane", "human"]
+            : family === "human"
+              ? ["familiar", "automaton", "arcane"]
+              : family === "automaton"
+                ? ["familiar", "human", "arcane"]
+                : family === "revenant"
+                  ? ["demon", "human", "arcane"]
+                  : ["familiar", "demon", "automaton"],
+      deckbuildingObjective: rewardObjective(rarity, family, role),
+      counterplay: "Deny its setup condition or force it onto a weak side before the payoff turn.",
+      sourceType: "reward",
+      baseArchetypeId: null,
+      effects,
+    };
+  },
 );
 
 export const ADVENTURE_REWARD_POOLS: Record<CardRarity, string[]> = {

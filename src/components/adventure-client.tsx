@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AdventureMap } from "@/components/adventure-map";
 import { AdventureCharmOverlay } from "@/components/adventure-charm-overlay";
 import { AdventureDraftOverlay } from "@/components/adventure-draft-overlay";
+import { AdventureFamilyOverlay } from "@/components/adventure-family-overlay";
 import { AdventureRouteChoiceRack } from "@/components/adventure-route-choice-rack";
 import { CharmBuffBar } from "@/components/charm-buff-bar";
 import { AdventureRewardOverlay } from "@/components/adventure-reward-overlay";
@@ -25,6 +26,7 @@ import {
   chooseAdventureCampForBot,
   chooseAdventureCharmForBot,
   chooseAdventureDraftCardsForBot,
+  chooseAdventureFamilyForBot,
   chooseAdventureForgeForBot,
   chooseAdventureNodeForBot,
   chooseAdventureRewardForBot,
@@ -32,6 +34,7 @@ import {
   chooseAdventureSiteModeForBot,
   completeAdventureEncounter,
   createAdventureRun,
+  chooseAdventureFamily,
   chooseAdventureCampMode,
   enterAdventureNode,
   getAdventureDeckCards,
@@ -99,6 +102,10 @@ function runStatusText(run: AdventureRunState): string {
     return "Draft initial";
   }
 
+  if (run.phase === "family") {
+    return "Famille";
+  }
+
   if (run.phase === "reward") {
     return "Recompense";
   }
@@ -116,6 +123,10 @@ function runStatusText(run: AdventureRunState): string {
 
 function focusNode(run: AdventureRunState): AdventureNode | null {
   if (run.phase === "draft") {
+    return null;
+  }
+
+  if (run.phase === "family") {
     return null;
   }
 
@@ -190,6 +201,10 @@ function phaseNarrative(run: AdventureRunState, previewNode: AdventureNode | nul
     return "Le pool est tire. Ton deck de depart se decide maintenant, avant que la carte du monde ne bouge.";
   }
 
+  if (run.phase === "family") {
+    return "Choisis une famille: le deck de depart aura deja ses copies, son payoff et son objectif de build.";
+  }
+
   if (run.phase === "reward") {
     return "Le duel est termine. Ollie fait glisser une nouvelle carte entre les planches du plateau.";
   }
@@ -228,6 +243,10 @@ function ollieQuote(run: AdventureRunState): string {
 
   if (run.phase === "draft") {
     return "\"Sept cartes. Pas une de plus. Le reste trouvera peut-etre un autre maitre.\"";
+  }
+
+  if (run.phase === "family") {
+    return "\"Choisis ta maison. Les copies font les habitudes, les habitudes font les combos.\"";
   }
 
   if (run.phase === "reward") {
@@ -326,11 +345,19 @@ export function AdventureClient({
   const deckCards = useMemo(() => getAdventureDeckCards(run), [run]);
   const charmDefinitions = useMemo(() => run.charms.map((charmId) => getLuckyCharmDefinition(charmId)), [run.charms]);
   const progressRatio = run.config.depthCount > 0 ? clearedLocations / run.config.depthCount : 0;
-  const immersiveAdventurePhase = run.phase === "draft" || run.phase === "charm" || run.phase === "reward" || run.phase === "site";
+  const immersiveAdventurePhase =
+    run.phase === "family" || run.phase === "draft" || run.phase === "charm" || run.phase === "reward" || run.phase === "site";
   const routeProgressLabel = run.phase === "draft" && run.draft
     ? `${run.draft.selectedCardIds.length}/${run.draft.pickCount}`
+    : run.phase === "family"
+      ? "Famille"
     : `${clearedLocations}/${run.config.depthCount}`;
-  const deckHeaderLabel = run.phase === "draft" && run.draft ? `Pool ${run.draft.offerCardIds.length}` : `Deck ${run.deck.cards.length}`;
+  const deckHeaderLabel =
+    run.phase === "family"
+      ? "Starter"
+      : run.phase === "draft" && run.draft
+        ? `Pool ${run.draft.offerCardIds.length}`
+        : `Deck ${run.deck.cards.length}`;
   const ollieLine = ollieQuote(run);
   const deckRarityCounts = useMemo(
     () =>
@@ -415,6 +442,24 @@ export function AdventureClient({
       window.advanceTime = undefined;
     };
   }, [battle, run, spectatorMode, spectatorPaused]);
+
+  useEffect(() => {
+    if (!spectatorMode || spectatorPaused || run.phase !== "family") {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setRun((current) => {
+        if (current.phase !== "family") {
+          return current;
+        }
+
+        return chooseAdventureFamily(current, chooseAdventureFamilyForBot(current, liveChampion.profile.weights));
+      });
+    }, 850);
+
+    return () => window.clearTimeout(timer);
+  }, [liveChampion.profile.weights, run, spectatorMode, spectatorPaused]);
 
   useEffect(() => {
     if (!spectatorMode || spectatorPaused || run.phase !== "draft") {
@@ -830,7 +875,13 @@ export function AdventureClient({
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="h-full min-h-0">
           <section className="ogot-stage relative h-full min-h-0 rounded-[2rem] p-2 shadow-[0_28px_100px_rgba(5,12,24,0.42)] sm:p-3">
-          {run.phase === "draft" && run.draft ? (
+          {run.phase === "family" ? (
+            <AdventureFamilyOverlay
+              selectedFamily={run.selectedFamily}
+              spectatorMode={spectatorMode}
+              onChooseFamily={(family) => setRun((current) => chooseAdventureFamily(current, family))}
+            />
+          ) : run.phase === "draft" && run.draft ? (
             <AdventureDraftOverlay
               draft={run.draft}
               spectatorMode={spectatorMode}

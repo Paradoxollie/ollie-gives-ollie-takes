@@ -1,5 +1,6 @@
 import {
   chooseAdventureCampMode,
+  chooseAdventureFamily,
   completeAdventureEncounter,
   createAdventureRun,
   enterAdventureNode,
@@ -20,6 +21,7 @@ import {
   chooseAdventureCampForBot,
   chooseAdventureCharmForBot,
   chooseAdventureDraftCardsForBot,
+  chooseAdventureFamilyForBot,
   chooseAdventureForgeForBot,
   chooseAdventureNodeForBot,
   chooseAdventureRewardForBot,
@@ -195,6 +197,12 @@ function playAdventureRun(options: {
   while (run.phase !== "finished" && guard < 96) {
     if (run.phase === "draft") {
       run = resolveAdventureDraft(run, chooseAdventureDraftCardsForBot(run, options.candidate.weights));
+      guard += 1;
+      continue;
+    }
+
+    if (run.phase === "family") {
+      run = chooseAdventureFamily(run, chooseAdventureFamilyForBot(run, options.candidate.weights));
       guard += 1;
       continue;
     }

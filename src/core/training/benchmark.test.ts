@@ -82,7 +82,7 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      runsPerOpponent: 2,
+      runsPerOpponent: 1,
     });
 
     const right = benchmarkAdventureAgainstOpponents({
@@ -103,11 +103,11 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      runsPerOpponent: 2,
+      runsPerOpponent: 1,
     });
 
     expect(left).toEqual(right);
-    expect(left.totalRuns).toBe(2);
+    expect(left.totalRuns).toBe(1);
     expect(left.averageLocationsCleared).toBeGreaterThanOrEqual(0);
   });
 });

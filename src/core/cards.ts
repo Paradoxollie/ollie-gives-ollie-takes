@@ -7,7 +7,9 @@ import { pickWithSeed } from "@/core/utils/rng";
 import type {
   AdventureDeckCard,
   AdventureDeckState,
+  BoardPositionTag,
   CardArchetype,
+  CardFamily,
   CardInstance,
   CardRarity,
   CardSides,
@@ -33,6 +35,20 @@ function cloneSides(sides: CardSides): CardSides {
   };
 }
 
+function cloneCardMetadata(card: CardArchetype): Pick<
+  CardArchetype,
+  "role" | "buildTags" | "preferredPositions" | "hybridLinks" | "deckbuildingObjective" | "counterplay"
+> {
+  return {
+    role: card.role,
+    buildTags: card.buildTags ? [...card.buildTags] : undefined,
+    preferredPositions: card.preferredPositions ? [...card.preferredPositions] as BoardPositionTag[] : undefined,
+    hybridLinks: card.hybridLinks ? [...card.hybridLinks] as CardFamily[] : undefined,
+    deckbuildingObjective: card.deckbuildingObjective,
+    counterplay: card.counterplay,
+  };
+}
+
 export function createRarityRecord(amount = 0): Record<CardRarity, number> {
   return {
     common: amount,
@@ -50,6 +66,7 @@ export function getCardArchetype(cardId: string): CardArchetype {
   return {
     ...card,
     sides: cloneSides(card.sides),
+    ...cloneCardMetadata(card),
     temporaryScope: card.temporaryScope ?? null,
     createdByCharmId: card.createdByCharmId ?? null,
     effects: cloneCardEffects(card.effects),
@@ -67,6 +84,7 @@ export function createCardInstance(owner: PlayerId, archetype: CardArchetype, in
     accent: archetype.accent,
     artSrc: archetype.artSrc,
     rarity: archetype.rarity,
+    ...cloneCardMetadata(archetype),
     sourceType: archetype.sourceType,
     baseArchetypeId: archetype.baseArchetypeId,
     temporaryScope: archetype.temporaryScope ?? null,
@@ -82,6 +100,7 @@ export function createAdventureDeckCard(deckCardId: string, card: CardArchetype)
     card: {
       ...card,
       sides: cloneSides(card.sides),
+      ...cloneCardMetadata(card),
       temporaryScope: card.temporaryScope ?? null,
       createdByCharmId: card.createdByCharmId ?? null,
       effects: cloneCardEffects(card.effects),
@@ -121,6 +140,7 @@ export function listAdventureDeckArchetypes(deck: AdventureDeckState): CardArche
   return deck.cards.map((entry) => ({
     ...entry.card,
     sides: cloneSides(entry.card.sides),
+    ...cloneCardMetadata(entry.card),
     effects: cloneCardEffects(entry.card.effects),
   }));
 }
@@ -235,6 +255,12 @@ export function createLuckyCharmPenaltyCard(generatedCardId: string): CardArchet
     rarity: "common",
     sourceType: "charm",
     baseArchetypeId: null,
+    role: "stabilizer",
+    buildTags: ["penalty", "fragile"],
+    preferredPositions: ["corner"],
+    hybridLinks: ["familiar"],
+    deckbuildingObjective: "Carte de penalite volontairement faible creee par un porte-bonheur.",
+    counterplay: "Retire-la au camp ou fusionne-la si elle encombre le deck.",
     temporaryScope: null,
     createdByCharmId: "split-hazelnut",
     effects: [],

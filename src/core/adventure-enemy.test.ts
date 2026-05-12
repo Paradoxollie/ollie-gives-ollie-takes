@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
-import { createAdventureRun, getAdventureNode, resolveAdventureDraft } from "@/core/adventure";
+import { chooseAdventureFamily, createAdventureRun, getAdventureNode } from "@/core/adventure";
 import { createAdventureDeckCard, getCardArchetype } from "@/core/cards";
 
 function createRunAtDepth(seed: number, activeNodeId: string, historyLength: number) {
-  const run = createDraftedRun(seed);
+  const run = createFamilyRun(seed);
   const nonBossNodeIds = run.map.nodes.filter((node) => node.kind !== "boss").map((node) => node.id);
 
   return {
@@ -15,18 +15,18 @@ function createRunAtDepth(seed: number, activeNodeId: string, historyLength: num
   };
 }
 
-function createDraftedRun(seed: number) {
+function createFamilyRun(seed: number) {
   const run = createAdventureRun({ seed });
-  if (!run.draft) {
-    throw new Error("Missing opening draft.");
+  if (run.phase !== "family") {
+    throw new Error("Missing opening family choice.");
   }
 
-  return resolveAdventureDraft(run, run.draft.offerCardIds.slice(0, run.draft.pickCount));
+  return chooseAdventureFamily(run, "familiar");
 }
 
 describe("adventure enemy scaling", () => {
-  it("keeps the first normal combat on a fair draft-pool deck", () => {
-    const run = createDraftedRun(5);
+  it("keeps the first normal combat on a fair mono-family starter deck", () => {
+    const run = createFamilyRun(5);
     const firstCombat = run.map.nodes.find((node) => node.depth === 0 && node.kind === "combat");
     if (!firstCombat) {
       throw new Error("Missing first combat node.");
@@ -42,6 +42,8 @@ describe("adventure enemy scaling", () => {
     expect(loadout.replacements).toBe(0);
     expect(loadout.additions).toBe(0);
     expect(loadout.cardIds).toHaveLength(run.deck.cards.length);
+    expect(loadout.splashFamilies).toEqual([]);
+    expect(loadout.deckPlan).toContain(`Mono-${loadout.mainFamily}`);
     expect(new Set(["greedy", "heuristic"]).has(loadout.botId)).toBe(true);
     expect(loadout.rarityCounts).toEqual({
       common: 0,
@@ -50,8 +52,8 @@ describe("adventure enemy scaling", () => {
     });
   });
 
-  it("keeps drafted player cards out of the enemy draft pool", () => {
-    const run = createDraftedRun(12);
+  it("builds readable enemy family plans without relying on the player draft pool", () => {
+    const run = createFamilyRun(12);
     const firstCombat = run.map.nodes.find((node) => node.depth === 0 && node.kind === "combat");
     if (!firstCombat) {
       throw new Error("Missing first combat node.");
@@ -65,13 +67,14 @@ describe("adventure enemy scaling", () => {
       },
       firstCombat,
     );
-    const playerBaseIds = new Set(run.deck.cards.map((entry) => entry.card.baseArchetypeId ?? entry.card.id));
-
-    expect(loadout.cardIds.some((cardId) => playerBaseIds.has(cardId))).toBe(false);
+    expect(loadout.mainFamily).not.toBe("dragon");
+    expect(loadout.mainFamily).not.toBe("renegade");
+    expect(loadout.preferredBoardShapes.length).toBeGreaterThan(0);
+    expect(loadout.counterplayHint.length).toBeGreaterThan(0);
   });
 
   it("adds stronger cards as the run progresses and makes elites stronger than normals", () => {
-    const run = createDraftedRun(8);
+    const run = createFamilyRun(8);
     const normalNode = run.map.nodes.find((node) => node.depth >= 4 && node.kind === "combat");
     const eliteNode = run.map.nodes.find((node) => node.depth >= 4 && node.kind === "elite");
     if (!normalNode || !eliteNode) {
@@ -116,7 +119,7 @@ describe("adventure enemy scaling", () => {
   });
 
   it("pushes the boss to the maximum upgrade budget with higher rarity pressure", () => {
-    const run = createDraftedRun(11);
+    const run = createFamilyRun(11);
     const bossNode = getAdventureNode(run, run.map.bossNodeId);
     const bossRun = {
       ...createRunAtDepth(11, bossNode.id, run.config.depthCount),
@@ -143,11 +146,14 @@ describe("adventure enemy scaling", () => {
 
     const bossLoadout = buildAdventureEnemyLoadout(bossRun, bossNode);
 
-    expect(bossLoadout.replacements).toBe(14);
+    expect(bossLoadout.replacements).toBeGreaterThan(0);
+    expect(bossLoadout.replacements).toBeLessThanOrEqual(4);
     expect(bossLoadout.additions).toBe(0);
     expect(bossLoadout.botId).toBe("champion");
     expect(bossLoadout.searchDepth).toBe(3);
-    expect(bossLoadout.cardIds).toHaveLength(bossRun.deck.cards.length);
+    expect(bossLoadout.cardIds).toHaveLength(14);
+    expect(bossLoadout.splashFamilies.length).toBeGreaterThan(0);
+    expect(bossLoadout.deckPlan).toContain("Hybride");
     expect(bossLoadout.rarityCounts.uncommon + bossLoadout.rarityCounts.rare).toBeGreaterThan(0);
   });
 
@@ -157,7 +163,7 @@ describe("adventure enemy scaling", () => {
     const bossProfiles = new Set<string>();
 
     for (let seed = 1; seed <= 80; seed += 1) {
-      const run = createDraftedRun(seed);
+      const run = createFamilyRun(seed);
       const normalNode = run.map.nodes.find((node) => node.kind === "combat");
       const eliteNode = run.map.nodes.find((node) => node.kind === "elite");
       const bossNode = getAdventureNode(run, run.map.bossNodeId);
@@ -183,7 +189,7 @@ describe("adventure enemy scaling", () => {
     let shaperFound = false;
 
     for (let seed = 1; seed <= 120; seed += 1) {
-      const run = createDraftedRun(seed);
+      const run = createFamilyRun(seed);
       const deepNormalNode = run.map.nodes.find((node) => node.kind === "combat" && node.depth >= 5);
       const eliteNode = run.map.nodes.find((node) => node.kind === "elite" && node.depth >= 4);
 
