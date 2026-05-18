@@ -15,6 +15,7 @@ Prototype jouable dans le navigateur d'un combat tactique par cartes pour **Olli
 - Bots `random`, `greedy`, `heuristic`, `trained` et `champion`
 - Simulateur deterministe en self-play avec rapports JSON et Markdown
 - Pipeline local d'entrainement self-play avec benchmark et promotion conditionnelle du bot live
+- Studio IA `/lab/ai` avec echelle de joueurs, diagnostics de decks et snapshot deployable
 - Route `/lab` pour l'inspection locale des rapports et du sandbox
 - Couverture Vitest sur les regles de combat, la legalite des bots et l'agregation des simulations
 
@@ -54,7 +55,7 @@ npm install
 npm run dev
 ```
 
-Ouvre [http://localhost:3000](http://localhost:3000) pour le prototype jouable et [http://localhost:3000/lab](http://localhost:3000/lab) pour le labo local.
+Ouvre [http://localhost:3000](http://localhost:3000) pour le prototype jouable, [http://localhost:3000/lab](http://localhost:3000/lab) pour le labo local et [http://localhost:3000/lab/ai](http://localhost:3000/lab/ai) pour le studio IA.
 
 ## Pipeline visuel des personnages
 
@@ -89,6 +90,8 @@ npm run build
 npm run start
 npm run test
 npm run sim -- --matches 100 --seed 700 --deck starter12 --matchup greedy:heuristic
+npm run ai:lab:apply -- --matches 24 --seed 1701
+npm run ai:train -- --seed 700 --iterations 8 --population 10 --elite-count 3 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8
 npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --matches-per-opponent 4 --promotion-matches-per-opponent 8 --search-depth 3 --beam-width 8 --apply --promote
 ```
 
@@ -142,6 +145,16 @@ Chaque execution ecrit :
 - `reports/latest-simulation-report.md`
 
 Les rapports incluent les win rates par bot, le taux de draw, l'avantage du premier joueur, les tours et rounds moyens, les flips, les reshuffles, l'occupation de fin de round, l'ecart de controle, les degats de fin de round, le controle moyen par camp, la heatmap des poses et les raisons de fin.
+
+## Studio IA
+
+Le studio IA separe trois besoins :
+
+- `npm run ai:lab:apply -- --matches 24 --seed 1701` genere `reports/ai-lab/latest-ai-lab-report.*` et met a jour `src/core/ai-lab/generated/latestAiLabReport.ts` pour la page deployee.
+- `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8` entraine et promeut le champion si le benchmark passe.
+- `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage par deck et par niveau de joueur.
+
+Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle.
 
 ## Structure du projet
 

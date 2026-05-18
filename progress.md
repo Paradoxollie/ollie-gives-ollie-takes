@@ -1,6 +1,13 @@
 Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes with a deterministic TypeScript rules engine in `src/core`, a minimal Next.js App Router UI, seeded randomness, Vitest coverage for core battle rules, and one greedy AI opponent.
 
 ## Progress
+- 2026-05-18: Rebuilt the AI lab surface around a simpler deterministic loop:
+  - added `src/core/ai-lab/` with player models from `Debutant` to `Champion`, model-specific deterministic simulations, deck-size summaries, skill-ladder summaries, and actionable balance insights
+  - added `scripts/ai-lab.ts` plus `npm run ai:lab` / `npm run ai:lab:apply`; the apply path writes a deployable snapshot to `src/core/ai-lab/generated/latestAiLabReport.ts`
+  - added `/lab/ai` as the focused private lab page for champion status, learning controls, skill ladder, deck-size diagnostics, and balance alerts
+  - removed the old floating training widget from `/lab` and replaced it with a clear link to the new IA studio
+  - generated first AI-lab snapshot with `npm run ai:lab:apply -- --matches 8 --seed 1701`; current signals flag first-player bias on all deck sizes and a starter14 expert-vs-champion inversion to investigate with a larger run
+  - validation so far: `npx tsc --noEmit --pretty false` and targeted `npm run test -- src/core/ai-lab/ai-lab.test.ts`
 - 2026-05-12: Started the V4 family-run implementation from `docs/combat-system-v4-family-runs-plan.md`:
   - added core card metadata for roles, build tags, preferred positions, hybrid links, deckbuilding objective, and counterplay
   - added six V4 starter family deck configs with fixed `3/3/2/2` duplicate splits and 10 cards total per family

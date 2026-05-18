@@ -3,6 +3,7 @@ export * from "@/core/adventure-charms";
 export * from "@/core/adventure-bot";
 export * from "@/core/adventure-enemy";
 export * from "@/core/adventure-rewards";
+export * from "@/core/ai-lab";
 export * from "@/core/card-effects";
 export * from "@/core/cards";
 export * from "@/core/deck-building";

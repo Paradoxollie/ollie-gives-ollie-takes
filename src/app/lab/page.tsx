@@ -12,13 +12,11 @@ export default async function LabPage() {
   const [
     { BattleClient },
     { LabReportDashboard },
-    { TrainingStatusWidget },
     { loadResolvedLiveChampionProfile },
     { loadSimulationReports },
   ] = await Promise.all([
     import("@/components/battle-client"),
     import("@/components/lab-report-dashboard"),
-    import("@/components/training-status-widget"),
     import("@/lib/live-champion"),
     import("@/lib/simulation-reports"),
   ]);
@@ -30,8 +28,26 @@ export default async function LabPage() {
 
   return (
     <div className="ogot-scroll mx-auto flex h-screen max-w-[92rem] flex-col gap-6 overflow-y-auto px-4 py-5 lg:px-6 lg:py-6">
-      <TrainingStatusWidget />
       <LabReportDashboard latestReport={reports.latestReport} recentReports={reports.recentReports} />
+
+      <section className="rounded-[2.2rem] border border-cyan-200/12 bg-[linear-gradient(180deg,rgba(7,22,34,0.94),rgba(6,12,23,0.9))] p-6 text-white shadow-[0_28px_100px_rgba(5,12,24,0.42)] backdrop-blur-xl">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+          <div>
+            <p className="text-[0.64rem] uppercase tracking-[0.32em] text-cyan-100/55">Equilibrage</p>
+            <h2 className="mt-3 font-serif text-4xl text-white">Studio IA</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
+              Le suivi d'apprentissage et les benchmarks par niveau de joueur sont maintenant isoles dans une page plus lisible.
+            </p>
+          </div>
+
+          <a
+            href="/lab/ai"
+            className="inline-flex items-center justify-center rounded-full border border-cyan-200/24 bg-cyan-300/12 px-5 py-3 text-sm font-medium text-cyan-50 transition hover:border-cyan-100/40 hover:bg-cyan-300/18"
+          >
+            Ouvrir le studio IA
+          </a>
+        </div>
+      </section>
 
       <section className="rounded-[2.2rem] border border-fuchsia-200/12 bg-[linear-gradient(180deg,rgba(21,12,31,0.94),rgba(9,10,21,0.92))] p-6 text-white shadow-[0_28px_100px_rgba(10,7,20,0.42)] backdrop-blur-xl">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
