@@ -1,11 +1,11 @@
 import type { AiLabReport } from "@/core/ai-lab/types";
 
 export const LATEST_AI_LAB_REPORT: AiLabReport = {
-  "reportId": "ai-lab-20260518-070157",
-  "generatedAt": "2026-05-18T07:01:57.193Z",
+  "reportId": "ai-lab-20260518-161929",
+  "generatedAt": "2026-05-18T16:19:29.127Z",
   "config": {
-    "matchesPerPairing": 8,
-    "seed": 1701,
+    "matchesPerPairing": 6,
+    "seed": 2,
     "deckPresetIds": [
       "starter10",
       "starter12",
@@ -74,112 +74,112 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
   "skillSummaries": [
     {
       "modelId": "beginner",
-      "games": 24,
+      "games": 18,
       "wins": 0,
-      "losses": 24,
+      "losses": 18,
       "draws": 0,
       "winRate": 0,
-      "averageHpEdge": -20.916666666666668
+      "averageHpEdge": -22.166666666666668
     },
     {
       "modelId": "opportunist",
-      "games": 48,
-      "wins": 27,
-      "losses": 21,
+      "games": 36,
+      "wins": 19,
+      "losses": 17,
       "draws": 0,
-      "winRate": 0.5625,
-      "averageHpEdge": 6
+      "winRate": 0.5277777777777778,
+      "averageHpEdge": 6.638888888888889
     },
     {
       "modelId": "regular",
-      "games": 48,
-      "wins": 28,
-      "losses": 20,
+      "games": 36,
+      "wins": 17,
+      "losses": 19,
       "draws": 0,
-      "winRate": 0.5833333333333334,
-      "averageHpEdge": 1.375
+      "winRate": 0.4722222222222222,
+      "averageHpEdge": -0.08333333333333333
     },
     {
       "modelId": "expert",
-      "games": 48,
-      "wins": 28,
-      "losses": 20,
+      "games": 36,
+      "wins": 24,
+      "losses": 12,
       "draws": 0,
-      "winRate": 0.5833333333333334,
-      "averageHpEdge": 2.6875
+      "winRate": 0.6666666666666666,
+      "averageHpEdge": 2.6944444444444446
     },
     {
       "modelId": "champion",
-      "games": 24,
-      "wins": 13,
-      "losses": 11,
+      "games": 18,
+      "wins": 12,
+      "losses": 6,
       "draws": 0,
-      "winRate": 0.5416666666666666,
-      "averageHpEdge": 0.7916666666666666
+      "winRate": 0.6666666666666666,
+      "averageHpEdge": 3.6666666666666665
     }
   ],
   "deckSummaries": [
     {
       "deckPresetId": "starter10",
       "mirrorModelId": "regular",
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
-      "startingPlayerWinRate": 0.875,
+      "startingPlayerWinRate": 0.5,
       "averages": {
-        "turns": 48,
-        "rounds": 5.5,
-        "flipsPerMatch": 16.625,
-        "flipsPerTurn": 0.3463541666666667,
-        "reshuffles": 8,
+        "turns": 46.5,
+        "rounds": 5.166666666666667,
+        "flipsPerMatch": 17.666666666666668,
+        "flipsPerTurn": 0.37992831541218636,
+        "reshuffles": 8.166666666666666,
         "deadTurns": 0,
-        "finalHpDifference": 7.25
+        "finalHpDifference": 6.333333333333333
       },
       "deadTurnFrequency": 0,
-      "status": "problem",
+      "status": "healthy",
       "notes": [
-        "Avantage premier joueur tres marque (88%)."
+        "Ouverture stable sur ce deck."
       ]
     },
     {
       "deckPresetId": "starter12",
       "mirrorModelId": "regular",
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
-      "startingPlayerWinRate": 0.625,
+      "startingPlayerWinRate": 0.5,
       "averages": {
-        "turns": 50.625,
-        "rounds": 5.625,
-        "flipsPerMatch": 16.75,
-        "flipsPerTurn": 0.3308641975308642,
-        "reshuffles": 5.5,
+        "turns": 54,
+        "rounds": 6,
+        "flipsPerMatch": 18.333333333333332,
+        "flipsPerTurn": 0.3395061728395062,
+        "reshuffles": 6.333333333333333,
         "deadTurns": 0,
-        "finalHpDifference": 7.875
+        "finalHpDifference": 4.333333333333333
       },
       "deadTurnFrequency": 0,
-      "status": "problem",
+      "status": "healthy",
       "notes": [
-        "Avantage premier joueur tres marque (63%)."
+        "Ouverture stable sur ce deck."
       ]
     },
     {
       "deckPresetId": "starter14",
       "mirrorModelId": "regular",
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
-      "startingPlayerWinRate": 0.75,
+      "startingPlayerWinRate": 1,
       "averages": {
-        "turns": 51.5,
-        "rounds": 5.875,
-        "flipsPerMatch": 18,
-        "flipsPerTurn": 0.34951456310679613,
-        "reshuffles": 4.375,
+        "turns": 49.5,
+        "rounds": 5.5,
+        "flipsPerMatch": 17.5,
+        "flipsPerTurn": 0.35353535353535354,
+        "reshuffles": 4,
         "deadTurns": 0,
-        "finalHpDifference": 7.75
+        "finalHpDifference": 6.666666666666667
       },
       "deadTurnFrequency": 0,
       "status": "problem",
       "notes": [
-        "Avantage premier joueur tres marque (75%)."
+        "Avantage premier joueur tres marque (100%)."
       ]
     }
   ],
@@ -190,7 +190,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "beginner",
         "opportunist"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
@@ -199,8 +199,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "winRate": 0.5
         },
         "enemy": {
-          "games": 4,
-          "wins": 2,
+          "games": 2,
+          "wins": 1,
           "winRate": 0.5
         },
         "overallStartingPlayerWinRate": 0.5
@@ -208,31 +208,31 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "modelSummaries": [
         {
           "modelId": "beginner",
-          "games": 8,
+          "games": 6,
           "wins": 0,
-          "losses": 8,
+          "losses": 6,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -22.875
+          "averageHpEdge": -23
         },
         {
           "modelId": "opportunist",
-          "games": 8,
-          "wins": 8,
+          "games": 6,
+          "wins": 6,
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 22.875
+          "averageHpEdge": 23
         }
       ],
       "averages": {
-        "turns": 33.75,
-        "rounds": 3.75,
-        "flipsPerMatch": 18.75,
-        "flipsPerTurn": 0.5555555555555556,
-        "reshuffles": 4.5,
+        "turns": 30,
+        "rounds": 3.3333333333333335,
+        "flipsPerMatch": 17.666666666666668,
+        "flipsPerTurn": 0.5888888888888889,
+        "reshuffles": 3.8333333333333335,
         "deadTurns": 0,
-        "finalHpDifference": 22.875
+        "finalHpDifference": 23
       },
       "deadTurnFrequency": 0
     },
@@ -242,7 +242,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "opportunist",
         "regular"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
@@ -251,8 +251,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "winRate": 0.5
         },
         "enemy": {
-          "games": 4,
-          "wins": 2,
+          "games": 2,
+          "wins": 1,
           "winRate": 0.5
         },
         "overallStartingPlayerWinRate": 0.5
@@ -260,83 +260,83 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "modelSummaries": [
         {
           "modelId": "opportunist",
-          "games": 8,
+          "games": 6,
           "wins": 0,
-          "losses": 8,
+          "losses": 6,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -10.875
+          "averageHpEdge": -8.666666666666666
         },
         {
           "modelId": "regular",
-          "games": 8,
-          "wins": 8,
+          "games": 6,
+          "wins": 6,
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 10.875
+          "averageHpEdge": 8.666666666666666
         }
       ],
       "averages": {
-        "turns": 45.375,
+        "turns": 47.5,
+        "rounds": 5.333333333333333,
+        "flipsPerMatch": 25.166666666666668,
+        "flipsPerTurn": 0.5298245614035088,
+        "reshuffles": 7.166666666666667,
+        "deadTurns": 0.5,
+        "finalHpDifference": 8.666666666666666
+      },
+      "deadTurnFrequency": 0.010526315789473684
+    },
+    {
+      "deckPresetId": "starter10",
+      "matchup": [
+        "regular",
+        "expert"
+      ],
+      "totalGames": 6,
+      "drawRate": 0,
+      "startingPlayer": {
+        "player": {
+          "games": 4,
+          "wins": 2,
+          "winRate": 0.5
+        },
+        "enemy": {
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
+        },
+        "overallStartingPlayerWinRate": 0.5
+      },
+      "modelSummaries": [
+        {
+          "modelId": "regular",
+          "games": 6,
+          "wins": 0,
+          "losses": 6,
+          "draws": 0,
+          "winRate": 0,
+          "averageHpEdge": -9.5
+        },
+        {
+          "modelId": "expert",
+          "games": 6,
+          "wins": 6,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "averageHpEdge": 9.5
+        }
+      ],
+      "averages": {
+        "turns": 45,
         "rounds": 5,
-        "flipsPerMatch": 29.375,
-        "flipsPerTurn": 0.6473829201101928,
-        "reshuffles": 7.125,
-        "deadTurns": 0.375,
-        "finalHpDifference": 10.875
-      },
-      "deadTurnFrequency": 0.008264462809917356
-    },
-    {
-      "deckPresetId": "starter10",
-      "matchup": [
-        "regular",
-        "expert"
-      ],
-      "totalGames": 8,
-      "drawRate": 0,
-      "startingPlayer": {
-        "player": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
-        },
-        "enemy": {
-          "games": 4,
-          "wins": 2,
-          "winRate": 0.5
-        },
-        "overallStartingPlayerWinRate": 0.625
-      },
-      "modelSummaries": [
-        {
-          "modelId": "regular",
-          "games": 8,
-          "wins": 1,
-          "losses": 7,
-          "draws": 0,
-          "winRate": 0.125,
-          "averageHpEdge": -8.625
-        },
-        {
-          "modelId": "expert",
-          "games": 8,
-          "wins": 7,
-          "losses": 1,
-          "draws": 0,
-          "winRate": 0.875,
-          "averageHpEdge": 8.625
-        }
-      ],
-      "averages": {
-        "turns": 47.25,
-        "rounds": 5.25,
-        "flipsPerMatch": 19,
-        "flipsPerTurn": 0.4021164021164021,
-        "reshuffles": 7.875,
+        "flipsPerMatch": 20,
+        "flipsPerTurn": 0.4444444444444444,
+        "reshuffles": 7.333333333333333,
         "deadTurns": 0,
-        "finalHpDifference": 8.875
+        "finalHpDifference": 9.5
       },
       "deadTurnFrequency": 0
     },
@@ -346,267 +346,59 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "expert",
         "champion"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
-        },
-        "enemy": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
-        },
-        "overallStartingPlayerWinRate": 0.75
-      },
-      "modelSummaries": [
-        {
-          "modelId": "expert",
-          "games": 8,
-          "wins": 2,
-          "losses": 6,
-          "draws": 0,
-          "winRate": 0.25,
-          "averageHpEdge": -2.25
-        },
-        {
-          "modelId": "champion",
-          "games": 8,
-          "wins": 6,
-          "losses": 2,
-          "draws": 0,
-          "winRate": 0.75,
-          "averageHpEdge": 2.25
-        }
-      ],
-      "averages": {
-        "turns": 43.875,
-        "rounds": 4.875,
-        "flipsPerMatch": 25.875,
-        "flipsPerTurn": 0.5897435897435898,
-        "reshuffles": 7,
-        "deadTurns": 0,
-        "finalHpDifference": 8.25
-      },
-      "deadTurnFrequency": 0
-    },
-    {
-      "deckPresetId": "starter12",
-      "matchup": [
-        "beginner",
-        "opportunist"
-      ],
-      "totalGames": 8,
-      "drawRate": 0,
-      "startingPlayer": {
-        "player": {
-          "games": 4,
-          "wins": 2,
-          "winRate": 0.5
-        },
-        "enemy": {
-          "games": 4,
-          "wins": 2,
-          "winRate": 0.5
-        },
-        "overallStartingPlayerWinRate": 0.5
-      },
-      "modelSummaries": [
-        {
-          "modelId": "beginner",
-          "games": 8,
-          "wins": 0,
-          "losses": 8,
-          "draws": 0,
-          "winRate": 0,
-          "averageHpEdge": -19.25
-        },
-        {
-          "modelId": "opportunist",
-          "games": 8,
-          "wins": 8,
-          "losses": 0,
-          "draws": 0,
-          "winRate": 1,
-          "averageHpEdge": 19.25
-        }
-      ],
-      "averages": {
-        "turns": 37,
-        "rounds": 4.125,
-        "flipsPerMatch": 22.5,
-        "flipsPerTurn": 0.6081081081081081,
-        "reshuffles": 3.75,
-        "deadTurns": 0,
-        "finalHpDifference": 19.25
-      },
-      "deadTurnFrequency": 0
-    },
-    {
-      "deckPresetId": "starter12",
-      "matchup": [
-        "opportunist",
-        "regular"
-      ],
-      "totalGames": 8,
-      "drawRate": 0,
-      "startingPlayer": {
-        "player": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
-        },
-        "enemy": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
-        },
-        "overallStartingPlayerWinRate": 0.75
-      },
-      "modelSummaries": [
-        {
-          "modelId": "opportunist",
-          "games": 8,
-          "wins": 2,
-          "losses": 6,
-          "draws": 0,
-          "winRate": 0.25,
-          "averageHpEdge": -7.625
-        },
-        {
-          "modelId": "regular",
-          "games": 8,
-          "wins": 6,
-          "losses": 2,
-          "draws": 0,
-          "winRate": 0.75,
-          "averageHpEdge": 7.625
-        }
-      ],
-      "averages": {
-        "turns": 47.625,
-        "rounds": 5.375,
-        "flipsPerMatch": 28.25,
-        "flipsPerTurn": 0.5931758530183727,
-        "reshuffles": 5.75,
-        "deadTurns": 0,
-        "finalHpDifference": 10.625
-      },
-      "deadTurnFrequency": 0
-    },
-    {
-      "deckPresetId": "starter12",
-      "matchup": [
-        "regular",
-        "expert"
-      ],
-      "totalGames": 8,
-      "drawRate": 0,
-      "startingPlayer": {
-        "player": {
-          "games": 4,
-          "wins": 4,
-          "winRate": 1
-        },
-        "enemy": {
           "games": 4,
           "wins": 1,
           "winRate": 0.25
         },
-        "overallStartingPlayerWinRate": 0.625
+        "enemy": {
+          "games": 2,
+          "wins": 2,
+          "winRate": 1
+        },
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
-          "modelId": "regular",
-          "games": 8,
-          "wins": 3,
-          "losses": 5,
+          "modelId": "expert",
+          "games": 6,
+          "wins": 2,
+          "losses": 4,
           "draws": 0,
-          "winRate": 0.375,
-          "averageHpEdge": -5.25
+          "winRate": 0.3333333333333333,
+          "averageHpEdge": -3.5
         },
         {
-          "modelId": "expert",
-          "games": 8,
-          "wins": 5,
-          "losses": 3,
+          "modelId": "champion",
+          "games": 6,
+          "wins": 4,
+          "losses": 2,
           "draws": 0,
-          "winRate": 0.625,
-          "averageHpEdge": 5.25
+          "winRate": 0.6666666666666666,
+          "averageHpEdge": 3.5
         }
       ],
       "averages": {
-        "turns": 49.5,
-        "rounds": 5.5,
-        "flipsPerMatch": 19.875,
-        "flipsPerTurn": 0.4015151515151515,
-        "reshuffles": 5.125,
+        "turns": 45,
+        "rounds": 5,
+        "flipsPerMatch": 24.5,
+        "flipsPerTurn": 0.5444444444444444,
+        "reshuffles": 7.166666666666667,
         "deadTurns": 0,
-        "finalHpDifference": 8
+        "finalHpDifference": 11.5
       },
       "deadTurnFrequency": 0
     },
     {
       "deckPresetId": "starter12",
       "matchup": [
-        "expert",
-        "champion"
-      ],
-      "totalGames": 8,
-      "drawRate": 0,
-      "startingPlayer": {
-        "player": {
-          "games": 4,
-          "wins": 4,
-          "winRate": 1
-        },
-        "enemy": {
-          "games": 4,
-          "wins": 2,
-          "winRate": 0.5
-        },
-        "overallStartingPlayerWinRate": 0.75
-      },
-      "modelSummaries": [
-        {
-          "modelId": "expert",
-          "games": 8,
-          "wins": 4,
-          "losses": 4,
-          "draws": 0,
-          "winRate": 0.5,
-          "averageHpEdge": -2
-        },
-        {
-          "modelId": "champion",
-          "games": 8,
-          "wins": 4,
-          "losses": 4,
-          "draws": 0,
-          "winRate": 0.5,
-          "averageHpEdge": 2
-        }
-      ],
-      "averages": {
-        "turns": 48.5,
-        "rounds": 5.5,
-        "flipsPerMatch": 25.875,
-        "flipsPerTurn": 0.5335051546391752,
-        "reshuffles": 5.25,
-        "deadTurns": 0,
-        "finalHpDifference": 7.75
-      },
-      "deadTurnFrequency": 0
-    },
-    {
-      "deckPresetId": "starter14",
-      "matchup": [
         "beginner",
         "opportunist"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
@@ -615,8 +407,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "winRate": 0.5
         },
         "enemy": {
-          "games": 4,
-          "wins": 2,
+          "games": 2,
+          "wins": 1,
           "winRate": 0.5
         },
         "overallStartingPlayerWinRate": 0.5
@@ -624,83 +416,291 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "modelSummaries": [
         {
           "modelId": "beginner",
-          "games": 8,
+          "games": 6,
           "wins": 0,
-          "losses": 8,
+          "losses": 6,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -20.625
+          "averageHpEdge": -21.5
         },
         {
           "modelId": "opportunist",
-          "games": 8,
-          "wins": 8,
+          "games": 6,
+          "wins": 6,
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 20.625
+          "averageHpEdge": 21.5
         }
       ],
       "averages": {
-        "turns": 34.875,
-        "rounds": 3.875,
-        "flipsPerMatch": 20.125,
-        "flipsPerTurn": 0.5770609318996416,
-        "reshuffles": 2.75,
+        "turns": 33.833333333333336,
+        "rounds": 3.8333333333333335,
+        "flipsPerMatch": 18.833333333333332,
+        "flipsPerTurn": 0.5566502463054187,
+        "reshuffles": 3.1666666666666665,
         "deadTurns": 0,
-        "finalHpDifference": 20.625
+        "finalHpDifference": 21.5
       },
       "deadTurnFrequency": 0
     },
     {
-      "deckPresetId": "starter14",
+      "deckPresetId": "starter12",
       "matchup": [
         "opportunist",
         "regular"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
           "games": 4,
-          "wins": 2,
-          "winRate": 0.5
-        },
-        "enemy": {
-          "games": 4,
           "wins": 3,
           "winRate": 0.75
         },
-        "overallStartingPlayerWinRate": 0.625
+        "enemy": {
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
+        },
+        "overallStartingPlayerWinRate": 0.6666666666666666
       },
       "modelSummaries": [
         {
           "modelId": "opportunist",
-          "games": 8,
+          "games": 6,
           "wins": 1,
-          "losses": 7,
+          "losses": 5,
           "draws": 0,
-          "winRate": 0.125,
-          "averageHpEdge": -8.25
+          "winRate": 0.16666666666666666,
+          "averageHpEdge": -9.666666666666666
         },
         {
           "modelId": "regular",
-          "games": 8,
-          "wins": 7,
+          "games": 6,
+          "wins": 5,
           "losses": 1,
           "draws": 0,
-          "winRate": 0.875,
-          "averageHpEdge": 8.25
+          "winRate": 0.8333333333333334,
+          "averageHpEdge": 9.666666666666666
         }
       ],
       "averages": {
-        "turns": 48.75,
-        "rounds": 5.625,
-        "flipsPerMatch": 28.5,
-        "flipsPerTurn": 0.5846153846153846,
-        "reshuffles": 4.625,
+        "turns": 40.833333333333336,
+        "rounds": 4.666666666666667,
+        "flipsPerMatch": 24.833333333333332,
+        "flipsPerTurn": 0.6081632653061224,
+        "reshuffles": 4.666666666666667,
         "deadTurns": 0,
-        "finalHpDifference": 9.25
+        "finalHpDifference": 12.333333333333334
+      },
+      "deadTurnFrequency": 0
+    },
+    {
+      "deckPresetId": "starter12",
+      "matchup": [
+        "regular",
+        "expert"
+      ],
+      "totalGames": 6,
+      "drawRate": 0,
+      "startingPlayer": {
+        "player": {
+          "games": 4,
+          "wins": 2,
+          "winRate": 0.5
+        },
+        "enemy": {
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
+        },
+        "overallStartingPlayerWinRate": 0.5
+      },
+      "modelSummaries": [
+        {
+          "modelId": "regular",
+          "games": 6,
+          "wins": 0,
+          "losses": 6,
+          "draws": 0,
+          "winRate": 0,
+          "averageHpEdge": -7
+        },
+        {
+          "modelId": "expert",
+          "games": 6,
+          "wins": 6,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "averageHpEdge": 7
+        }
+      ],
+      "averages": {
+        "turns": 51,
+        "rounds": 5.666666666666667,
+        "flipsPerMatch": 19.166666666666668,
+        "flipsPerTurn": 0.3758169934640523,
+        "reshuffles": 6,
+        "deadTurns": 0,
+        "finalHpDifference": 7
+      },
+      "deadTurnFrequency": 0
+    },
+    {
+      "deckPresetId": "starter12",
+      "matchup": [
+        "expert",
+        "champion"
+      ],
+      "totalGames": 6,
+      "drawRate": 0,
+      "startingPlayer": {
+        "player": {
+          "games": 4,
+          "wins": 4,
+          "winRate": 1
+        },
+        "enemy": {
+          "games": 2,
+          "wins": 2,
+          "winRate": 1
+        },
+        "overallStartingPlayerWinRate": 1
+      },
+      "modelSummaries": [
+        {
+          "modelId": "expert",
+          "games": 6,
+          "wins": 3,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0.5,
+          "averageHpEdge": -1.8333333333333333
+        },
+        {
+          "modelId": "champion",
+          "games": 6,
+          "wins": 3,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0.5,
+          "averageHpEdge": 1.8333333333333333
+        }
+      ],
+      "averages": {
+        "turns": 52.5,
+        "rounds": 5.833333333333333,
+        "flipsPerMatch": 29.833333333333332,
+        "flipsPerTurn": 0.5682539682539682,
+        "reshuffles": 5.833333333333333,
+        "deadTurns": 0,
+        "finalHpDifference": 6.166666666666667
+      },
+      "deadTurnFrequency": 0
+    },
+    {
+      "deckPresetId": "starter14",
+      "matchup": [
+        "beginner",
+        "opportunist"
+      ],
+      "totalGames": 6,
+      "drawRate": 0,
+      "startingPlayer": {
+        "player": {
+          "games": 4,
+          "wins": 2,
+          "winRate": 0.5
+        },
+        "enemy": {
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
+        },
+        "overallStartingPlayerWinRate": 0.5
+      },
+      "modelSummaries": [
+        {
+          "modelId": "beginner",
+          "games": 6,
+          "wins": 0,
+          "losses": 6,
+          "draws": 0,
+          "winRate": 0,
+          "averageHpEdge": -22
+        },
+        {
+          "modelId": "opportunist",
+          "games": 6,
+          "wins": 6,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "averageHpEdge": 22
+        }
+      ],
+      "averages": {
+        "turns": 35,
+        "rounds": 4,
+        "flipsPerMatch": 19.833333333333332,
+        "flipsPerTurn": 0.5666666666666667,
+        "reshuffles": 2.5,
+        "deadTurns": 0,
+        "finalHpDifference": 22
+      },
+      "deadTurnFrequency": 0
+    },
+    {
+      "deckPresetId": "starter14",
+      "matchup": [
+        "opportunist",
+        "regular"
+      ],
+      "totalGames": 6,
+      "drawRate": 0,
+      "startingPlayer": {
+        "player": {
+          "games": 4,
+          "wins": 2,
+          "winRate": 0.5
+        },
+        "enemy": {
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
+        },
+        "overallStartingPlayerWinRate": 0.5
+      },
+      "modelSummaries": [
+        {
+          "modelId": "opportunist",
+          "games": 6,
+          "wins": 0,
+          "losses": 6,
+          "draws": 0,
+          "winRate": 0,
+          "averageHpEdge": -8.333333333333334
+        },
+        {
+          "modelId": "regular",
+          "games": 6,
+          "wins": 6,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "averageHpEdge": 8.333333333333334
+        }
+      ],
+      "averages": {
+        "turns": 51,
+        "rounds": 5.666666666666667,
+        "flipsPerMatch": 25.166666666666668,
+        "flipsPerTurn": 0.4934640522875817,
+        "reshuffles": 4.666666666666667,
+        "deadTurns": 0,
+        "finalHpDifference": 8.333333333333334
       },
       "deadTurnFrequency": 0
     },
@@ -710,7 +710,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "regular",
         "expert"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
@@ -719,40 +719,40 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "winRate": 0.5
         },
         "enemy": {
-          "games": 4,
-          "wins": 3,
-          "winRate": 0.75
+          "games": 2,
+          "wins": 1,
+          "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.625
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
           "modelId": "regular",
-          "games": 8,
-          "wins": 3,
-          "losses": 5,
+          "games": 6,
+          "wins": 0,
+          "losses": 6,
           "draws": 0,
-          "winRate": 0.375,
-          "averageHpEdge": -4.625
+          "winRate": 0,
+          "averageHpEdge": -10.666666666666666
         },
         {
           "modelId": "expert",
-          "games": 8,
-          "wins": 5,
-          "losses": 3,
+          "games": 6,
+          "wins": 6,
+          "losses": 0,
           "draws": 0,
-          "winRate": 0.625,
-          "averageHpEdge": 4.625
+          "winRate": 1,
+          "averageHpEdge": 10.666666666666666
         }
       ],
       "averages": {
-        "turns": 47.375,
-        "rounds": 5.375,
-        "flipsPerMatch": 19.75,
-        "flipsPerTurn": 0.41688654353562005,
+        "turns": 48,
+        "rounds": 5.333333333333333,
+        "flipsPerMatch": 19.333333333333332,
+        "flipsPerTurn": 0.4027777777777778,
         "reshuffles": 4,
         "deadTurns": 0,
-        "finalHpDifference": 6.125
+        "finalHpDifference": 10.666666666666666
       },
       "deadTurnFrequency": 0
     },
@@ -762,7 +762,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "expert",
         "champion"
       ],
-      "totalGames": 8,
+      "totalGames": 6,
       "drawRate": 0,
       "startingPlayer": {
         "player": {
@@ -771,80 +771,58 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "winRate": 0.5
         },
         "enemy": {
-          "games": 4,
-          "wins": 1,
-          "winRate": 0.25
+          "games": 2,
+          "wins": 0,
+          "winRate": 0
         },
-        "overallStartingPlayerWinRate": 0.375
+        "overallStartingPlayerWinRate": 0.3333333333333333
       },
       "modelSummaries": [
         {
           "modelId": "expert",
-          "games": 8,
-          "wins": 5,
-          "losses": 3,
+          "games": 6,
+          "wins": 1,
+          "losses": 5,
           "draws": 0,
-          "winRate": 0.625,
-          "averageHpEdge": 1.875
+          "winRate": 0.16666666666666666,
+          "averageHpEdge": -5.666666666666667
         },
         {
           "modelId": "champion",
-          "games": 8,
-          "wins": 3,
-          "losses": 5,
+          "games": 6,
+          "wins": 5,
+          "losses": 1,
           "draws": 0,
-          "winRate": 0.375,
-          "averageHpEdge": -1.875
+          "winRate": 0.8333333333333334,
+          "averageHpEdge": 5.666666666666667
         }
       ],
       "averages": {
-        "turns": 51.125,
-        "rounds": 5.75,
-        "flipsPerMatch": 28,
-        "flipsPerTurn": 0.5476772616136919,
-        "reshuffles": 4,
+        "turns": 51,
+        "rounds": 5.666666666666667,
+        "flipsPerMatch": 27.166666666666668,
+        "flipsPerTurn": 0.5326797385620915,
+        "reshuffles": 4.166666666666667,
         "deadTurns": 0,
-        "finalHpDifference": 8.375
+        "finalHpDifference": 7.333333333333333
       },
       "deadTurnFrequency": 0
     }
   ],
   "insights": [
     {
-      "id": "deck-starter10-problem",
-      "severity": "problem",
-      "title": "starter10 sort de la zone saine",
-      "detail": "Avantage premier joueur tres marque (88%).",
-      "recommendation": "Tester ce preset avec plus de matchs, puis ajuster pioche, taille de deck ou valeurs faibles."
-    },
-    {
-      "id": "deck-starter12-problem",
-      "severity": "problem",
-      "title": "starter12 sort de la zone saine",
-      "detail": "Avantage premier joueur tres marque (63%).",
-      "recommendation": "Tester ce preset avec plus de matchs, puis ajuster pioche, taille de deck ou valeurs faibles."
-    },
-    {
       "id": "deck-starter14-problem",
       "severity": "problem",
       "title": "starter14 sort de la zone saine",
-      "detail": "Avantage premier joueur tres marque (75%).",
+      "detail": "Avantage premier joueur tres marque (100%).",
       "recommendation": "Tester ce preset avec plus de matchs, puis ajuster pioche, taille de deck ou valeurs faibles."
     },
     {
-      "id": "skill-inversion-starter14-expert-vs-champion",
-      "severity": "problem",
-      "title": "Inversion de niveau detectee",
-      "detail": "Expert bat Champion sur starter14 (62.5% contre 37.5%).",
-      "recommendation": "Regarder les cartes ou situations qui recompensent trop le jeu immediat."
-    },
-    {
-      "id": "champion-underperforms-starter14",
+      "id": "deck-turn-spread",
       "severity": "watch",
-      "title": "Le champion ne depasse pas l'expert",
-      "detail": "Champion gagne 37.5% contre Expert sur starter14.",
-      "recommendation": "Relancer `npm run ai:train` puis refaire un rapport AI lab pour verifier la promotion."
+      "title": "La taille de deck change fortement le rythme",
+      "detail": "Ecart de 7.50 tours moyens entre les presets.",
+      "recommendation": "Comparer les reshuffles et les tours morts avant de choisir le deck par defaut."
     }
   ]
-}
-;
+};
