@@ -1,6 +1,11 @@
 Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes with a deterministic TypeScript rules engine in `src/core`, a minimal Next.js App Router UI, seeded randomness, Vitest coverage for core battle rules, and one greedy AI opponent.
 
 ## Progress
+- 2026-05-18: Upgraded the cloud AI training loop:
+  - changed `.github/workflows/ai-training.yml` so scheduled runs use the `standard` profile instead of falling through to the tiny quick profile
+  - kept standard training every 6 hours and added one deeper daily calibration run at `02:47 UTC`
+  - increased standard profile to 4 iterations, population 8, 6 matches/opponent, 16 promotion matches, and 18 AI-lab matches; deep profile now uses 10 iterations, population 12, 12 matches/opponent, 32 promotion matches, and 32 AI-lab matches
+  - workflow edits pushed to `main` trigger a standard training run immediately, then the schedule continues without the local PC
 - 2026-05-18: Expanded the AI lab into a detailed balancing diagnostic system:
   - enriched AI-lab match traces with played card metadata, full hand offers, ignored cards, placement context, adjacent families, flip margins, effect tallies, damage dealt/taken, round closures, and lethal moves
   - added `src/core/ai-lab/diagnostics.ts` for card, family, role, rarity, and combo analytics plus prioritized nerf/buff/watch recommendations

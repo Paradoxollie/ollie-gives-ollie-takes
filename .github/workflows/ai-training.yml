@@ -7,7 +7,10 @@ on:
     paths:
       - ".github/workflows/ai-training.yml"
   schedule:
+    # Standard continuous learning, four times per day.
     - cron: "17 */6 * * *"
+    # Daily deeper calibration pass, early morning in Europe/Paris.
+    - cron: "47 2 * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -53,7 +56,21 @@ jobs:
         id: profile
         shell: bash
         run: |
-          MODE="${{ github.event_name == 'push' && 'quick' || github.event.inputs.mode || 'scheduled' }}"
+          EVENT_NAME="${{ github.event_name }}"
+          MANUAL_MODE="${{ github.event.inputs.mode }}"
+          SCHEDULE="${{ github.event.schedule }}"
+
+          if [ "$EVENT_NAME" = "push" ]; then
+            MODE="standard"
+          elif [ "$EVENT_NAME" = "schedule" ] && [ "$SCHEDULE" = "47 2 * * *" ]; then
+            MODE="deep"
+          elif [ "$EVENT_NAME" = "schedule" ]; then
+            MODE="standard"
+          else
+            MODE="${MANUAL_MODE:-standard}"
+          fi
+
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
 
           case "$MODE" in
             quick)
@@ -65,20 +82,20 @@ jobs:
               echo "lab_matches=6" >> "$GITHUB_OUTPUT"
               ;;
             deep)
-              echo "iterations=8" >> "$GITHUB_OUTPUT"
-              echo "population=10" >> "$GITHUB_OUTPUT"
+              echo "iterations=10" >> "$GITHUB_OUTPUT"
+              echo "population=12" >> "$GITHUB_OUTPUT"
               echo "elite_count=3" >> "$GITHUB_OUTPUT"
-              echo "matches=10" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=24" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=24" >> "$GITHUB_OUTPUT"
+              echo "matches=12" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=32" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=32" >> "$GITHUB_OUTPUT"
               ;;
             standard)
-              echo "iterations=3" >> "$GITHUB_OUTPUT"
-              echo "population=6" >> "$GITHUB_OUTPUT"
-              echo "elite_count=2" >> "$GITHUB_OUTPUT"
-              echo "matches=4" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=8" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=12" >> "$GITHUB_OUTPUT"
+              echo "iterations=4" >> "$GITHUB_OUTPUT"
+              echo "population=8" >> "$GITHUB_OUTPUT"
+              echo "elite_count=3" >> "$GITHUB_OUTPUT"
+              echo "matches=6" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=16" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=18" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "iterations=1" >> "$GITHUB_OUTPUT"
@@ -89,6 +106,8 @@ jobs:
               echo "lab_matches=6" >> "$GITHUB_OUTPUT"
               ;;
           esac
+
+          echo "Selected AI training mode: $MODE"
 
       - name: Validate AI lab tests
         run: npm run test -- src/core/ai-lab/ai-lab.test.ts
