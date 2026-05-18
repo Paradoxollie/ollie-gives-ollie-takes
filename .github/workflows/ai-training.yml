@@ -1,11 +1,6 @@
 name: AI Training
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/ai-training.yml"
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -57,28 +52,36 @@ jobs:
 
           case "$MODE" in
             quick)
-              echo "iterations=2" >> "$GITHUB_OUTPUT"
-              echo "matches=3" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=6" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=8" >> "$GITHUB_OUTPUT"
+              echo "iterations=1" >> "$GITHUB_OUTPUT"
+              echo "population=4" >> "$GITHUB_OUTPUT"
+              echo "elite_count=2" >> "$GITHUB_OUTPUT"
+              echo "matches=2" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=6" >> "$GITHUB_OUTPUT"
               ;;
             deep)
-              echo "iterations=12" >> "$GITHUB_OUTPUT"
+              echo "iterations=8" >> "$GITHUB_OUTPUT"
+              echo "population=10" >> "$GITHUB_OUTPUT"
+              echo "elite_count=3" >> "$GITHUB_OUTPUT"
               echo "matches=10" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=24" >> "$GITHUB_OUTPUT"
               echo "lab_matches=24" >> "$GITHUB_OUTPUT"
               ;;
             standard)
-              echo "iterations=6" >> "$GITHUB_OUTPUT"
-              echo "matches=6" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=12" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=16" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "iterations=4" >> "$GITHUB_OUTPUT"
+              echo "iterations=3" >> "$GITHUB_OUTPUT"
+              echo "population=6" >> "$GITHUB_OUTPUT"
+              echo "elite_count=2" >> "$GITHUB_OUTPUT"
               echo "matches=4" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=8" >> "$GITHUB_OUTPUT"
               echo "lab_matches=12" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "iterations=1" >> "$GITHUB_OUTPUT"
+              echo "population=4" >> "$GITHUB_OUTPUT"
+              echo "elite_count=2" >> "$GITHUB_OUTPUT"
+              echo "matches=2" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=6" >> "$GITHUB_OUTPUT"
               ;;
           esac
 
@@ -90,8 +93,8 @@ jobs:
           npm run ai:train -- \
             --seed "${{ github.run_number }}" \
             --iterations "${{ steps.profile.outputs.iterations }}" \
-            --population 10 \
-            --elite-count 3 \
+            --population "${{ steps.profile.outputs.population }}" \
+            --elite-count "${{ steps.profile.outputs.elite_count }}" \
             --matches-per-opponent "${{ steps.profile.outputs.matches }}" \
             --promotion-matches-per-opponent "${{ steps.profile.outputs.promotion_matches }}" \
             --search-depth 3 \
