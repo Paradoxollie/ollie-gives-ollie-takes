@@ -1,4 +1,4 @@
-import { STARTER_DECK_PRESETS } from "@/core";
+import { STARTER_DECK_PRESETS } from "@/core/config/decks";
 import type { AiLabInsightSeverity, AiLabModelSummary, AiLabPairingSummary, AiLabReport, AiPlayerModelId } from "@/core/ai-lab/types";
 import { AiTrainingControls } from "@/components/ai-training-controls";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
