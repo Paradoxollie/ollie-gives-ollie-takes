@@ -1,0 +1,121 @@
+name: AI Training
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Training intensity"
+        required: true
+        default: "standard"
+        type: choice
+        options:
+          - quick
+          - standard
+          - deep
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-training-main
+  cancel-in-progress: false
+
+jobs:
+  train:
+    name: Train and publish AI snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pick training profile
+        id: profile
+        shell: bash
+        run: |
+          MODE="${{ github.event.inputs.mode || 'scheduled' }}"
+
+          case "$MODE" in
+            quick)
+              echo "iterations=2" >> "$GITHUB_OUTPUT"
+              echo "matches=3" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=6" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=8" >> "$GITHUB_OUTPUT"
+              ;;
+            deep)
+              echo "iterations=12" >> "$GITHUB_OUTPUT"
+              echo "matches=10" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=24" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=24" >> "$GITHUB_OUTPUT"
+              ;;
+            standard)
+              echo "iterations=6" >> "$GITHUB_OUTPUT"
+              echo "matches=6" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=12" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=16" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "iterations=4" >> "$GITHUB_OUTPUT"
+              echo "matches=4" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=8" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=12" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+      - name: Validate AI lab tests
+        run: npm run test -- src/core/ai-lab/ai-lab.test.ts
+
+      - name: Train candidate and promote if approved
+        run: |
+          npm run ai:train -- \
+            --seed "${{ github.run_number }}" \
+            --iterations "${{ steps.profile.outputs.iterations }}" \
+            --population 10 \
+            --elite-count 3 \
+            --matches-per-opponent "${{ steps.profile.outputs.matches }}" \
+            --promotion-matches-per-opponent "${{ steps.profile.outputs.promotion_matches }}" \
+            --search-depth 3 \
+            --beam-width 8
+
+      - name: Refresh AI lab snapshot
+        run: |
+          npm run ai:lab:apply -- \
+            --matches "${{ steps.profile.outputs.lab_matches }}" \
+            --seed "${{ github.run_number }}"
+
+      - name: Typecheck generated files
+        run: npx tsc --noEmit --pretty false
+
+      - name: Commit training results
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            src/core/bots/generated/trainedWeights.ts \
+            src/core/bots/generated/liveChampion.ts \
+            src/core/ai-lab/generated/latestAiLabReport.ts
+
+          if git diff --cached --quiet; then
+            echo "No AI changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update AI training snapshot [skip ci]"
+          git push origin HEAD:main
