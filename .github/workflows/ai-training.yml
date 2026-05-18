@@ -1,6 +1,11 @@
 name: AI Training
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/ai-training.yml"
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -20,7 +25,7 @@ permissions:
 
 concurrency:
   group: ai-training-main
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   train:
@@ -126,4 +131,5 @@ jobs:
           fi
 
           git commit -m "Update AI training snapshot [skip ci]"
+          git pull --rebase origin main
           git push origin HEAD:main
