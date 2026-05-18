@@ -1,6 +1,11 @@
 name: AI Training
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/ai-training.yml"
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -48,7 +53,7 @@ jobs:
         id: profile
         shell: bash
         run: |
-          MODE="${{ github.event.inputs.mode || 'scheduled' }}"
+          MODE="${{ github.event_name == 'push' && 'quick' || github.event.inputs.mode || 'scheduled' }}"
 
           case "$MODE" in
             quick)
