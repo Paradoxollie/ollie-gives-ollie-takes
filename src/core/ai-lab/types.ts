@@ -1,11 +1,27 @@
 import type { BotId } from "@/core/bots";
-import type { BattleResult, DeckPresetId, MatchOutcome, PlayerId } from "@/core/types";
+import type {
+  BattleResult,
+  BoardPositionTag,
+  CardEffectKind,
+  CardFamily,
+  CardRarity,
+  CardRole,
+  CardSourceType,
+  DeckPresetId,
+  MatchOutcome,
+  PlayerId,
+} from "@/core/types";
 
 export const AI_PLAYER_MODEL_IDS = ["beginner", "opportunist", "regular", "expert", "champion"] as const;
 
 export type AiPlayerModelId = (typeof AI_PLAYER_MODEL_IDS)[number];
 
 export type AiLabInsightSeverity = "info" | "watch" | "problem";
+export type AiLabPositionKind = "corner" | "edge" | "center" | "inner";
+export type AiLabCardStatus = "healthy" | "overperformer" | "underperformer" | "ignored" | "risky";
+export type AiLabRecommendationAction = "nerf" | "buff" | "watch" | "verify";
+export type AiLabRecommendationTarget = "card" | "family" | "role" | "rarity" | "combo";
+export type AiLabRecommendationConfidence = "low" | "medium" | "high";
 
 export interface AiPlayerModel {
   id: AiPlayerModelId;
@@ -25,6 +41,29 @@ export interface AiLabRunConfig {
   modelIds: AiPlayerModelId[];
 }
 
+export interface AiLabCardSnapshot {
+  cardId: string;
+  instanceId: string;
+  archetypeId: string;
+  name: string;
+  family: CardFamily;
+  rarity: CardRarity;
+  role?: CardRole;
+  sourceType: CardSourceType;
+  sideTotal: number;
+  maxSide: number;
+  minSide: number;
+  effectKinds: CardEffectKind[];
+  buildTags: string[];
+  preferredPositions: BoardPositionTag[];
+}
+
+export interface AiLabEffectTally {
+  kind: CardEffectKind;
+  count: number;
+  amount: number;
+}
+
 export interface AiLabMoveRecord {
   turn: number;
   round: number;
@@ -33,8 +72,27 @@ export interface AiLabMoveRecord {
   playerId: PlayerId;
   row: number;
   col: number;
+  positionKind: AiLabPositionKind;
+  card: AiLabCardSnapshot;
+  offeredCards: AiLabCardSnapshot[];
+  ignoredCardIds: string[];
+  adjacentFriendlyCount: number;
+  adjacentEnemyCount: number;
+  adjacentFriendlyFamilies: CardFamily[];
+  adjacentEnemyFamilies: CardFamily[];
   flippedCount: number;
+  failedImpactCount: number;
+  flipMargins: number[];
+  averageFlipMargin: number;
+  effectEvents: AiLabEffectTally[];
+  effectAmountTotal: number;
+  damageDealt: number;
+  damageTaken: number;
+  roundWinner: MatchOutcome | null;
+  roundControlDifference: number | null;
   roundEnded: boolean;
+  matchEnded: boolean;
+  lethal: boolean;
 }
 
 export interface AiLabMatchResult {
@@ -131,6 +189,114 @@ export interface AiLabInsight {
   recommendation: string;
 }
 
+export interface AiLabUsageByModel {
+  modelId: AiPlayerModelId;
+  played: number;
+  winRate: number;
+}
+
+export interface AiLabUsageByDeck {
+  deckPresetId: DeckPresetId;
+  played: number;
+  winRate: number;
+}
+
+export interface AiLabCardAnalysis {
+  cardId: string;
+  name: string;
+  family: CardFamily;
+  rarity: CardRarity;
+  role?: CardRole;
+  sourceType: CardSourceType;
+  sideTotal: number;
+  maxSide: number;
+  minSide: number;
+  effectKinds: CardEffectKind[];
+  buildTags: string[];
+  preferredPositions: BoardPositionTag[];
+  offered: number;
+  played: number;
+  ignored: number;
+  selectionRate: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRateWhenPlayed: number;
+  averageFlips: number;
+  failedImpactRate: number;
+  averageFlipMargin: number;
+  averageEffectAmount: number;
+  averageDamageDealt: number;
+  averageDamageTaken: number;
+  averageNetDamage: number;
+  lethalMoves: number;
+  roundClosers: number;
+  byModel: AiLabUsageByModel[];
+  byDeck: AiLabUsageByDeck[];
+  status: AiLabCardStatus;
+  notes: string[];
+}
+
+export interface AiLabGroupAnalysis {
+  id: string;
+  label: string;
+  offered: number;
+  played: number;
+  ignored: number;
+  selectionRate: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRateWhenPlayed: number;
+  averageFlips: number;
+  averageDamageDealt: number;
+  averageNetDamage: number;
+  topCards: Array<{
+    cardId: string;
+    name: string;
+    played: number;
+    winRateWhenPlayed: number;
+  }>;
+  status: AiLabCardStatus;
+  notes: string[];
+}
+
+export interface AiLabComboAnalysis {
+  id: string;
+  kind: "family-chain" | "friendly-adjacent" | "effect";
+  label: string;
+  count: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRate: number;
+  averageFlips: number;
+  averageDamageDealt: number;
+  averageEffectAmount: number;
+  notes: string[];
+}
+
+export interface AiLabBalanceRecommendation {
+  id: string;
+  severity: AiLabInsightSeverity;
+  target: AiLabRecommendationTarget;
+  action: AiLabRecommendationAction;
+  confidence: AiLabRecommendationConfidence;
+  sampleSize: number;
+  title: string;
+  detail: string;
+  recommendation: string;
+}
+
+export interface AiLabDesignDiagnostics {
+  cardAnalytics: AiLabCardAnalysis[];
+  familyAnalytics: AiLabGroupAnalysis[];
+  roleAnalytics: AiLabGroupAnalysis[];
+  rarityAnalytics: AiLabGroupAnalysis[];
+  comboAnalytics: AiLabComboAnalysis[];
+  balanceRecommendations: AiLabBalanceRecommendation[];
+}
+
 export interface AiLabReport {
   reportId: string;
   generatedAt: string;
@@ -139,5 +305,6 @@ export interface AiLabReport {
   skillSummaries: AiLabModelSummary[];
   deckSummaries: AiLabDeckSummary[];
   ladderPairings: AiLabPairingSummary[];
+  diagnostics: AiLabDesignDiagnostics;
   insights: AiLabInsight[];
 }

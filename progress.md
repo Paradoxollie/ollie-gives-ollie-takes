@@ -1,6 +1,12 @@
 Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes with a deterministic TypeScript rules engine in `src/core`, a minimal Next.js App Router UI, seeded randomness, Vitest coverage for core battle rules, and one greedy AI opponent.
 
 ## Progress
+- 2026-05-18: Expanded the AI lab into a detailed balancing diagnostic system:
+  - enriched AI-lab match traces with played card metadata, full hand offers, ignored cards, placement context, adjacent families, flip margins, effect tallies, damage dealt/taken, round closures, and lethal moves
+  - added `src/core/ai-lab/diagnostics.ts` for card, family, role, rarity, and combo analytics plus prioritized nerf/buff/watch recommendations
+  - updated generated Markdown and deployable snapshot output so `/lab/ai` now shows actionable design recommendations, ignored/overperforming cards, group balance, and detected chains/adjacencies/effects
+  - regenerated the deployed snapshot with `npm run ai:lab:apply -- --matches 12 --seed 1701`; current strongest signals are first-player advantage on all starter sizes, expert beating champion on starter14, and several cards frequently offered but rarely selected
+  - validation: `npx tsc --noEmit --pretty false`, targeted AI-lab tests, full `npm run test` (`106/106`), `npm run build`, and desktop/mobile Playwright checks on `http://127.0.0.1:3000/lab/ai` with no browser console errors
 - 2026-05-18: Rebuilt the AI lab surface around a simpler deterministic loop:
   - added `src/core/ai-lab/` with player models from `Debutant` to `Champion`, model-specific deterministic simulations, deck-size summaries, skill-ladder summaries, and actionable balance insights
   - added `scripts/ai-lab.ts` plus `npm run ai:lab` / `npm run ai:lab:apply`; the apply path writes a deployable snapshot to `src/core/ai-lab/generated/latestAiLabReport.ts`

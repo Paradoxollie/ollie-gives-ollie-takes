@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { AI_PLAYER_MODELS } from "@/core/ai-lab/models";
-import { buildAiLabReport, createAiLabInsights } from "@/core/ai-lab/report";
+import { buildAiLabReport, createAiLabInsights, createAiLabMarkdownReport } from "@/core/ai-lab/report";
 import type { AiLabDeckSummary } from "@/core/ai-lab/types";
 
 function makeDeckSummary(overrides: Partial<AiLabDeckSummary> = {}): AiLabDeckSummary {
@@ -45,6 +45,12 @@ describe("AI lab report", () => {
     expect(left.deckSummaries).toHaveLength(1);
     expect(left.ladderPairings).toHaveLength(AI_PLAYER_MODELS.length - 1);
     expect(left.skillSummaries.find((summary) => summary.modelId === "beginner")?.games).toBeGreaterThan(0);
+    expect(left.diagnostics.cardAnalytics.length).toBeGreaterThan(0);
+    expect(left.diagnostics.familyAnalytics.length).toBeGreaterThan(0);
+    expect(left.diagnostics.comboAnalytics.length).toBeGreaterThan(0);
+    expect(left.diagnostics.cardAnalytics[0]?.offered).toBeGreaterThanOrEqual(
+      left.diagnostics.cardAnalytics[0]?.played ?? 0,
+    );
   });
 
   it("creates actionable insights for unhealthy deck summaries", () => {
@@ -57,5 +63,20 @@ describe("AI lab report", () => {
       severity: "problem",
       id: "deck-starter10-problem",
     });
+  });
+
+  it("exports card, family, and combo diagnostics to markdown", { timeout: 20_000 }, () => {
+    const report = buildAiLabReport({
+      seed: 405,
+      matchesPerPairing: 1,
+      deckPresetIds: ["starter10" as const],
+      generatedAt: "2026-05-18T00:00:00.000Z",
+      reportId: "ai-lab-markdown-test",
+    });
+    const markdown = createAiLabMarkdownReport(report);
+
+    expect(markdown).toContain("## Cartes");
+    expect(markdown).toContain("## Familles");
+    expect(markdown).toContain("## Combos detectes");
   });
 });

@@ -1,10 +1,12 @@
 import { DECK_PRESET_IDS } from "@/core/types";
 import { summarizeAiLabDeck, summarizeAiLabPairing } from "@/core/ai-lab/aggregate";
+import { summarizeAiLabDiagnostics } from "@/core/ai-lab/diagnostics";
 import { AI_PLAYER_MODELS, getAiPlayerModel, getDefaultAiLadderPairings } from "@/core/ai-lab/models";
 import { simulateAiLabSeries } from "@/core/ai-lab/match";
 import type {
   AiLabDeckSummary,
   AiLabInsight,
+  AiLabMatchResult,
   AiLabModelSummary,
   AiLabPairingSummary,
   AiLabReport,
@@ -92,7 +94,9 @@ function severityRank(severity: AiLabInsight["severity"]): number {
 /**
  * Builds concise design diagnostics from deterministic AI-lab summaries.
  */
-export function createAiLabInsights(report: Pick<AiLabReport, "deckSummaries" | "ladderPairings">): AiLabInsight[] {
+export function createAiLabInsights(
+  report: Pick<AiLabReport, "deckSummaries" | "ladderPairings"> & Partial<Pick<AiLabReport, "diagnostics">>,
+): AiLabInsight[] {
   const insights: AiLabInsight[] = [];
 
   for (const deck of report.deckSummaries) {
@@ -160,6 +164,16 @@ export function createAiLabInsights(report: Pick<AiLabReport, "deckSummaries" | 
     }
   }
 
+  for (const recommendation of report.diagnostics?.balanceRecommendations.slice(0, 4) ?? []) {
+    insights.push({
+      id: `diagnostic-${recommendation.id}`,
+      severity: recommendation.severity,
+      title: recommendation.title,
+      detail: `${recommendation.detail} Confiance ${recommendation.confidence}, echantillon ${recommendation.sampleSize}.`,
+      recommendation: recommendation.recommendation,
+    });
+  }
+
   if (insights.length === 0) {
     insights.push({
       id: "baseline-healthy",
@@ -203,30 +217,29 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
   const ladderPairs = getDefaultAiLadderPairings(playerModels);
   const ladderPairings: AiLabPairingSummary[] = [];
   const deckSummaries: AiLabDeckSummary[] = [];
+  const allResults: AiLabMatchResult[] = [];
 
   for (const deckPresetId of deckPresetIds) {
     const mirrorModelId = playerModels.find((model) => model.id === "regular")?.id ?? playerModels[0].id;
-    const mirrorSummary = summarizeAiLabPairing(
-      simulateAiLabSeries({
+    const mirrorResults = simulateAiLabSeries({
         deckPresetId,
         seed,
         matchup: [mirrorModelId, mirrorModelId],
         matches: matchesPerPairing,
-      }),
-    );
+      });
+    allResults.push(...mirrorResults);
+    const mirrorSummary = summarizeAiLabPairing(mirrorResults);
     deckSummaries.push(summarizeAiLabDeck(deckPresetId, mirrorModelId, mirrorSummary));
 
     for (const matchup of ladderPairs) {
-      ladderPairings.push(
-        summarizeAiLabPairing(
-          simulateAiLabSeries({
-            deckPresetId,
-            seed,
-            matchup,
-            matches: matchesPerPairing,
-          }),
-        ),
-      );
+      const pairingResults = simulateAiLabSeries({
+        deckPresetId,
+        seed,
+        matchup,
+        matches: matchesPerPairing,
+      });
+      allResults.push(...pairingResults);
+      ladderPairings.push(summarizeAiLabPairing(pairingResults));
     }
   }
 
@@ -236,9 +249,11 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
     deckPresetIds,
     modelIds: playerModels.map((model) => model.id),
   };
+  const diagnostics = summarizeAiLabDiagnostics(allResults);
   const partialReport = {
     deckSummaries,
     ladderPairings,
+    diagnostics,
   };
 
   return {
@@ -249,6 +264,7 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
     skillSummaries: aggregateSkillSummaries(config.modelIds, ladderPairings),
     deckSummaries,
     ladderPairings,
+    diagnostics,
     insights: createAiLabInsights(partialReport),
   };
 }
@@ -290,6 +306,42 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
       )} |`;
     })
     .join("\n");
+  const recommendationRows = report.diagnostics.balanceRecommendations
+    .map(
+      (recommendation) =>
+        `| ${recommendation.severity} | ${recommendation.target} | ${recommendation.action} | ${recommendation.confidence} | ${recommendation.sampleSize} | ${recommendation.title} | ${recommendation.recommendation} |`,
+    )
+    .join("\n");
+  const cardRows = report.diagnostics.cardAnalytics
+    .slice(0, 18)
+    .map(
+      (card) =>
+        `| ${card.name} | ${card.family} | ${card.role ?? "sans role"} | ${card.status} | ${card.played}/${card.offered} | ${formatPercent(
+          card.selectionRate,
+        )} | ${formatPercent(card.winRateWhenPlayed)} | ${formatAverage(card.averageFlips)} | ${formatAverage(
+          card.averageNetDamage,
+        )} | ${card.notes.join(" ")} |`,
+    )
+    .join("\n");
+  const familyRows = report.diagnostics.familyAnalytics
+    .map(
+      (family) =>
+        `| ${family.label} | ${family.status} | ${family.played}/${family.offered} | ${formatPercent(
+          family.selectionRate,
+        )} | ${formatPercent(family.winRateWhenPlayed)} | ${formatAverage(family.averageFlips)} | ${formatAverage(
+          family.averageNetDamage,
+        )} | ${family.topCards.map((card) => card.name).join(", ")} |`,
+    )
+    .join("\n");
+  const comboRows = report.diagnostics.comboAnalytics
+    .slice(0, 18)
+    .map(
+      (combo) =>
+        `| ${combo.kind} | ${combo.label} | ${combo.count} | ${formatPercent(combo.winRate)} | ${formatAverage(
+          combo.averageFlips,
+        )} | ${formatAverage(combo.averageDamageDealt)} | ${combo.notes.join(" ")} |`,
+    )
+    .join("\n");
 
   return `# Rapport AI Lab
 
@@ -302,6 +354,12 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
 
 ${insightLines}
 
+## Recommandations design
+
+| Severite | Cible | Action | Confiance | Sample | Signal | Proposition |
+| --- | --- | --- | --- | ---: | --- | --- |
+${recommendationRows}
+
 ## Echelle de joueurs
 
 | Modele | Games | Wins | Losses | Draws | Win rate | Edge PV |
@@ -313,6 +371,24 @@ ${modelRows}
 | Deck | Statut | Premier joueur | Draw | Tours | Flips/tour | Tours morts | Notes |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 ${deckRows}
+
+## Cartes
+
+| Carte | Famille | Role | Statut | Plays/offres | Selection | Win | Flips | Net PV | Notes |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+${cardRows}
+
+## Familles
+
+| Famille | Statut | Plays/offres | Selection | Win | Flips | Net PV | Cartes cle |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+${familyRows}
+
+## Combos detectes
+
+| Type | Combo | Occurrences | Win | Flips | Degats | Notes |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+${comboRows}
 
 ## Pairings de progression
 
