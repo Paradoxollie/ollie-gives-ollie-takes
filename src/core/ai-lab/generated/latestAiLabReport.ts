@@ -1,11 +1,11 @@
 import type { AiLabReport } from "@/core/ai-lab/types";
 
 export const LATEST_AI_LAB_REPORT: AiLabReport = {
-  "reportId": "ai-lab-20260519-121346",
-  "generatedAt": "2026-05-19T12:13:46.364Z",
+  "reportId": "ai-lab-20260519-135104",
+  "generatedAt": "2026-05-19T13:51:04.154Z",
   "config": {
     "matchesPerPairing": 18,
-    "seed": 5,
+    "seed": 8,
     "deckPresetIds": [
       "starter10",
       "starter12",
@@ -79,43 +79,43 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "losses": 54,
       "draws": 0,
       "winRate": 0,
-      "averageHpEdge": -22.833333333333332
+      "averageHpEdge": -23.074074074074073
     },
     {
       "modelId": "opportunist",
-      "games": 108,
-      "wins": 58,
-      "losses": 50,
-      "draws": 0,
-      "winRate": 0.5370370370370371,
-      "averageHpEdge": 6.324074074074074
-    },
-    {
-      "modelId": "regular",
       "games": 108,
       "wins": 59,
       "losses": 49,
       "draws": 0,
       "winRate": 0.5462962962962963,
-      "averageHpEdge": 0.7314814814814815
+      "averageHpEdge": 7.083333333333333
+    },
+    {
+      "modelId": "regular",
+      "games": 108,
+      "wins": 52,
+      "losses": 56,
+      "draws": 0,
+      "winRate": 0.48148148148148145,
+      "averageHpEdge": -0.8981481481481481
     },
     {
       "modelId": "expert",
       "games": 108,
-      "wins": 65,
-      "losses": 43,
+      "wins": 67,
+      "losses": 41,
       "draws": 0,
-      "winRate": 0.6018518518518519,
-      "averageHpEdge": 2.7685185185185186
+      "winRate": 0.6203703703703703,
+      "averageHpEdge": 4.388888888888889
     },
     {
       "modelId": "champion",
       "games": 54,
-      "wins": 34,
-      "losses": 20,
+      "wins": 38,
+      "losses": 16,
       "draws": 0,
-      "winRate": 0.6296296296296297,
-      "averageHpEdge": 3.185185185185185
+      "winRate": 0.7037037037037037,
+      "averageHpEdge": 1.9259259259259258
     }
   ],
   "deckSummaries": [
@@ -124,17 +124,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "mirrorModelId": "regular",
       "totalGames": 18,
       "drawRate": 0,
-      "startingPlayerWinRate": 0.5,
+      "startingPlayerWinRate": 0.5555555555555556,
       "averages": {
-        "turns": 65.44444444444444,
-        "rounds": 7.333333333333333,
-        "flipsPerMatch": 22.055555555555557,
-        "flipsPerTurn": 0.3370118845500849,
-        "reshuffles": 11.166666666666666,
+        "turns": 67.83333333333333,
+        "rounds": 7.555555555555555,
+        "flipsPerMatch": 22.444444444444443,
+        "flipsPerTurn": 0.3308763308763309,
+        "reshuffles": 11.777777777777779,
         "deadTurns": 0.2777777777777778,
-        "finalHpDifference": 10.777777777777779
+        "finalHpDifference": 9.722222222222221
       },
-      "deadTurnFrequency": 0.004244482173174873,
+      "deadTurnFrequency": 0.004095004095004095,
       "status": "healthy",
       "notes": [
         "Ouverture stable sur ce deck."
@@ -147,15 +147,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "drawRate": 0,
       "startingPlayerWinRate": 0.5555555555555556,
       "averages": {
-        "turns": 71.11111111111111,
-        "rounds": 7.944444444444445,
-        "flipsPerMatch": 26.27777777777778,
-        "flipsPerTurn": 0.36953125,
-        "reshuffles": 9.277777777777779,
-        "deadTurns": 0.05555555555555555,
-        "finalHpDifference": 9.38888888888889
+        "turns": 73.22222222222223,
+        "rounds": 8.277777777777779,
+        "flipsPerMatch": 24.5,
+        "flipsPerTurn": 0.334597875569044,
+        "reshuffles": 9.5,
+        "deadTurns": 0,
+        "finalHpDifference": 7.388888888888889
       },
-      "deadTurnFrequency": 0.00078125,
+      "deadTurnFrequency": 0,
       "status": "healthy",
       "notes": [
         "Ouverture stable sur ce deck."
@@ -166,15 +166,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "mirrorModelId": "regular",
       "totalGames": 18,
       "drawRate": 0,
-      "startingPlayerWinRate": 0.4444444444444444,
+      "startingPlayerWinRate": 0.5,
       "averages": {
-        "turns": 74.05555555555556,
-        "rounds": 8.277777777777779,
-        "flipsPerMatch": 26.055555555555557,
-        "flipsPerTurn": 0.35183795948987245,
-        "reshuffles": 7.222222222222222,
+        "turns": 74.44444444444444,
+        "rounds": 8.5,
+        "flipsPerMatch": 25.72222222222222,
+        "flipsPerTurn": 0.3455223880597015,
+        "reshuffles": 7.444444444444445,
         "deadTurns": 0,
-        "finalHpDifference": 7.722222222222222
+        "finalHpDifference": 6.444444444444445
       },
       "deadTurnFrequency": 0,
       "status": "healthy",
@@ -213,7 +213,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 18,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -23.11111111111111
+          "averageHpEdge": -24.77777777777778
         },
         {
           "modelId": "opportunist",
@@ -222,19 +222,19 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 23.11111111111111
+          "averageHpEdge": 24.77777777777778
         }
       ],
       "averages": {
-        "turns": 34.77777777777778,
-        "rounds": 3.8333333333333335,
-        "flipsPerMatch": 20.166666666666668,
-        "flipsPerTurn": 0.5798722044728435,
-        "reshuffles": 4.555555555555555,
-        "deadTurns": 0.5,
-        "finalHpDifference": 23.11111111111111
+        "turns": 35.388888888888886,
+        "rounds": 3.888888888888889,
+        "flipsPerMatch": 19.38888888888889,
+        "flipsPerTurn": 0.5478806907378336,
+        "reshuffles": 4.944444444444445,
+        "deadTurns": 1.2222222222222223,
+        "finalHpDifference": 24.77777777777778
       },
-      "deadTurnFrequency": 0.01437699680511182
+      "deadTurnFrequency": 0.03453689167974882
     },
     {
       "deckPresetId": "starter10",
@@ -261,32 +261,32 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         {
           "modelId": "opportunist",
           "games": 18,
-          "wins": 1,
-          "losses": 17,
+          "wins": 3,
+          "losses": 15,
           "draws": 0,
-          "winRate": 0.05555555555555555,
-          "averageHpEdge": -11.61111111111111
+          "winRate": 0.16666666666666666,
+          "averageHpEdge": -8.333333333333334
         },
         {
           "modelId": "regular",
           "games": 18,
-          "wins": 17,
-          "losses": 1,
+          "wins": 15,
+          "losses": 3,
           "draws": 0,
-          "winRate": 0.9444444444444444,
-          "averageHpEdge": 11.61111111111111
+          "winRate": 0.8333333333333334,
+          "averageHpEdge": 8.333333333333334
         }
       ],
       "averages": {
-        "turns": 50.888888888888886,
-        "rounds": 5.611111111111111,
-        "flipsPerMatch": 28.333333333333332,
-        "flipsPerTurn": 0.5567685589519651,
-        "reshuffles": 8,
-        "deadTurns": 1.0555555555555556,
-        "finalHpDifference": 13.38888888888889
+        "turns": 58.77777777777778,
+        "rounds": 6.555555555555555,
+        "flipsPerMatch": 33.55555555555556,
+        "flipsPerTurn": 0.5708884688090737,
+        "reshuffles": 9.722222222222221,
+        "deadTurns": 0.5555555555555556,
+        "finalHpDifference": 9.222222222222221
       },
-      "deadTurnFrequency": 0.02074235807860262
+      "deadTurnFrequency": 0.00945179584120983
     },
     {
       "deckPresetId": "starter10",
@@ -313,32 +313,32 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         {
           "modelId": "regular",
           "games": 18,
-          "wins": 2,
-          "losses": 16,
+          "wins": 0,
+          "losses": 18,
           "draws": 0,
-          "winRate": 0.1111111111111111,
-          "averageHpEdge": -10.833333333333334
+          "winRate": 0,
+          "averageHpEdge": -12.055555555555555
         },
         {
           "modelId": "expert",
           "games": 18,
-          "wins": 16,
-          "losses": 2,
+          "wins": 18,
+          "losses": 0,
           "draws": 0,
-          "winRate": 0.8888888888888888,
-          "averageHpEdge": 10.833333333333334
+          "winRate": 1,
+          "averageHpEdge": 12.055555555555555
         }
       ],
       "averages": {
-        "turns": 63.833333333333336,
-        "rounds": 7.166666666666667,
-        "flipsPerMatch": 27.22222222222222,
-        "flipsPerTurn": 0.42645778938207135,
-        "reshuffles": 11.11111111111111,
-        "deadTurns": 0,
-        "finalHpDifference": 11.61111111111111
+        "turns": 60.77777777777778,
+        "rounds": 6.777777777777778,
+        "flipsPerMatch": 26.5,
+        "flipsPerTurn": 0.4360146252285192,
+        "reshuffles": 10.5,
+        "deadTurns": 0.16666666666666666,
+        "finalHpDifference": 12.055555555555555
       },
-      "deadTurnFrequency": 0
+      "deadTurnFrequency": 0.002742230347349177
     },
     {
       "deckPresetId": "starter10",
@@ -351,44 +351,44 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 10,
-          "wins": 5,
-          "winRate": 0.5
+          "wins": 4,
+          "winRate": 0.4
         },
         "enemy": {
           "games": 8,
-          "wins": 7,
-          "winRate": 0.875
+          "wins": 4,
+          "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.6666666666666666
+        "overallStartingPlayerWinRate": 0.4444444444444444
       },
       "modelSummaries": [
         {
           "modelId": "expert",
           "games": 18,
-          "wins": 9,
-          "losses": 9,
+          "wins": 5,
+          "losses": 13,
           "draws": 0,
-          "winRate": 0.5,
-          "averageHpEdge": -1.7777777777777777
+          "winRate": 0.2777777777777778,
+          "averageHpEdge": -2.0555555555555554
         },
         {
           "modelId": "champion",
           "games": 18,
-          "wins": 9,
-          "losses": 9,
+          "wins": 13,
+          "losses": 5,
           "draws": 0,
-          "winRate": 0.5,
-          "averageHpEdge": 1.7777777777777777
+          "winRate": 0.7222222222222222,
+          "averageHpEdge": 2.0555555555555554
         }
       ],
       "averages": {
-        "turns": 60.333333333333336,
-        "rounds": 6.944444444444445,
-        "flipsPerMatch": 35.05555555555556,
-        "flipsPerTurn": 0.5810313075506446,
-        "reshuffles": 10.833333333333334,
+        "turns": 62.333333333333336,
+        "rounds": 7.111111111111111,
+        "flipsPerMatch": 37.111111111111114,
+        "flipsPerTurn": 0.5953654188948306,
+        "reshuffles": 11.222222222222221,
         "deadTurns": 0,
-        "finalHpDifference": 7.666666666666667
+        "finalHpDifference": 7.5
       },
       "deadTurnFrequency": 0
     },
@@ -421,7 +421,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 18,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -22.61111111111111
+          "averageHpEdge": -22.444444444444443
         },
         {
           "modelId": "opportunist",
@@ -430,19 +430,19 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 22.61111111111111
+          "averageHpEdge": 22.444444444444443
         }
       ],
       "averages": {
-        "turns": 33.27777777777778,
-        "rounds": 3.8333333333333335,
-        "flipsPerMatch": 18.055555555555557,
-        "flipsPerTurn": 0.5425709515859767,
-        "reshuffles": 3.4444444444444446,
-        "deadTurns": 0,
-        "finalHpDifference": 22.61111111111111
+        "turns": 34.77777777777778,
+        "rounds": 3.9444444444444446,
+        "flipsPerMatch": 19.88888888888889,
+        "flipsPerTurn": 0.5718849840255591,
+        "reshuffles": 3.5,
+        "deadTurns": 0.05555555555555555,
+        "finalHpDifference": 22.444444444444443
       },
-      "deadTurnFrequency": 0
+      "deadTurnFrequency": 0.001597444089456869
     },
     {
       "deckPresetId": "starter12",
@@ -455,46 +455,46 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 10,
-          "wins": 5,
-          "winRate": 0.5
+          "wins": 6,
+          "winRate": 0.6
         },
         "enemy": {
           "games": 8,
           "wins": 4,
           "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.5
+        "overallStartingPlayerWinRate": 0.5555555555555556
       },
       "modelSummaries": [
         {
           "modelId": "opportunist",
           "games": 18,
-          "wins": 2,
-          "losses": 16,
+          "wins": 1,
+          "losses": 17,
           "draws": 0,
-          "winRate": 0.1111111111111111,
-          "averageHpEdge": -9.333333333333334
+          "winRate": 0.05555555555555555,
+          "averageHpEdge": -8.61111111111111
         },
         {
           "modelId": "regular",
           "games": 18,
-          "wins": 16,
-          "losses": 2,
+          "wins": 17,
+          "losses": 1,
           "draws": 0,
-          "winRate": 0.8888888888888888,
-          "averageHpEdge": 9.333333333333334
+          "winRate": 0.9444444444444444,
+          "averageHpEdge": 8.61111111111111
         }
       ],
       "averages": {
-        "turns": 64.5,
-        "rounds": 7.333333333333333,
-        "flipsPerMatch": 38,
-        "flipsPerTurn": 0.5891472868217055,
-        "reshuffles": 8.555555555555555,
-        "deadTurns": 0.05555555555555555,
-        "finalHpDifference": 9.666666666666666
+        "turns": 62.833333333333336,
+        "rounds": 7.055555555555555,
+        "flipsPerMatch": 37.333333333333336,
+        "flipsPerTurn": 0.5941644562334217,
+        "reshuffles": 7.777777777777778,
+        "deadTurns": 0.16666666666666666,
+        "finalHpDifference": 9.277777777777779
       },
-      "deadTurnFrequency": 0.0008613264427217916
+      "deadTurnFrequency": 0.002652519893899204
     },
     {
       "deckPresetId": "starter12",
@@ -521,30 +521,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         {
           "modelId": "regular",
           "games": 18,
-          "wins": 4,
-          "losses": 14,
+          "wins": 0,
+          "losses": 18,
           "draws": 0,
-          "winRate": 0.2222222222222222,
-          "averageHpEdge": -7.277777777777778
+          "winRate": 0,
+          "averageHpEdge": -10.166666666666666
         },
         {
           "modelId": "expert",
           "games": 18,
-          "wins": 14,
-          "losses": 4,
+          "wins": 18,
+          "losses": 0,
           "draws": 0,
-          "winRate": 0.7777777777777778,
-          "averageHpEdge": 7.277777777777778
+          "winRate": 1,
+          "averageHpEdge": 10.166666666666666
         }
       ],
       "averages": {
-        "turns": 61.333333333333336,
-        "rounds": 6.833333333333333,
-        "flipsPerMatch": 25.055555555555557,
-        "flipsPerTurn": 0.40851449275362317,
-        "reshuffles": 7.333333333333333,
+        "turns": 66.16666666666667,
+        "rounds": 7.444444444444445,
+        "flipsPerMatch": 27.333333333333332,
+        "flipsPerTurn": 0.41309823677581864,
+        "reshuffles": 8.333333333333334,
         "deadTurns": 0,
-        "finalHpDifference": 10.5
+        "finalHpDifference": 10.166666666666666
       },
       "deadTurnFrequency": 0
     },
@@ -559,44 +559,44 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 10,
-          "wins": 5,
-          "winRate": 0.5
+          "wins": 6,
+          "winRate": 0.6
         },
         "enemy": {
           "games": 8,
-          "wins": 5,
-          "winRate": 0.625
+          "wins": 3,
+          "winRate": 0.375
         },
-        "overallStartingPlayerWinRate": 0.5555555555555556
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
           "modelId": "expert",
           "games": 18,
-          "wins": 5,
-          "losses": 13,
+          "wins": 6,
+          "losses": 12,
           "draws": 0,
-          "winRate": 0.2777777777777778,
-          "averageHpEdge": -5.333333333333333
+          "winRate": 0.3333333333333333,
+          "averageHpEdge": -0.9444444444444444
         },
         {
           "modelId": "champion",
           "games": 18,
-          "wins": 13,
-          "losses": 5,
+          "wins": 12,
+          "losses": 6,
           "draws": 0,
-          "winRate": 0.7222222222222222,
-          "averageHpEdge": 5.333333333333333
+          "winRate": 0.6666666666666666,
+          "averageHpEdge": 0.9444444444444444
         }
       ],
       "averages": {
-        "turns": 62.27777777777778,
-        "rounds": 7,
-        "flipsPerMatch": 34.888888888888886,
-        "flipsPerTurn": 0.56021409455843,
-        "reshuffles": 7.666666666666667,
+        "turns": 66.55555555555556,
+        "rounds": 7.555555555555555,
+        "flipsPerMatch": 39.111111111111114,
+        "flipsPerTurn": 0.5876460767946577,
+        "reshuffles": 8.61111111111111,
         "deadTurns": 0,
-        "finalHpDifference": 7.111111111111111
+        "finalHpDifference": 6.277777777777778
       },
       "deadTurnFrequency": 0
     },
@@ -629,7 +629,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 18,
           "draws": 0,
           "winRate": 0,
-          "averageHpEdge": -22.77777777777778
+          "averageHpEdge": -22
         },
         {
           "modelId": "opportunist",
@@ -638,17 +638,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 0,
           "draws": 0,
           "winRate": 1,
-          "averageHpEdge": 22.77777777777778
+          "averageHpEdge": 22
         }
       ],
       "averages": {
-        "turns": 37.166666666666664,
-        "rounds": 4.222222222222222,
-        "flipsPerMatch": 21.166666666666668,
-        "flipsPerTurn": 0.5695067264573991,
-        "reshuffles": 3.1666666666666665,
+        "turns": 38.55555555555556,
+        "rounds": 4.5,
+        "flipsPerMatch": 21.27777777777778,
+        "flipsPerTurn": 0.5518731988472623,
+        "reshuffles": 3.2222222222222223,
         "deadTurns": 0,
-        "finalHpDifference": 22.77777777777778
+        "finalHpDifference": 22
       },
       "deadTurnFrequency": 0
     },
@@ -681,7 +681,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 17,
           "draws": 0,
           "winRate": 0.05555555555555555,
-          "averageHpEdge": -9.61111111111111
+          "averageHpEdge": -9.777777777777779
         },
         {
           "modelId": "regular",
@@ -690,17 +690,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 1,
           "draws": 0,
           "winRate": 0.9444444444444444,
-          "averageHpEdge": 9.61111111111111
+          "averageHpEdge": 9.777777777777779
         }
       ],
       "averages": {
-        "turns": 67.27777777777777,
-        "rounds": 7.666666666666667,
-        "flipsPerMatch": 38.388888888888886,
-        "flipsPerTurn": 0.5706028075970272,
-        "reshuffles": 6.777777777777778,
+        "turns": 64.94444444444444,
+        "rounds": 7.333333333333333,
+        "flipsPerMatch": 35.888888888888886,
+        "flipsPerTurn": 0.5526090675791274,
+        "reshuffles": 6.666666666666667,
         "deadTurns": 0,
-        "finalHpDifference": 10.61111111111111
+        "finalHpDifference": 11.666666666666666
       },
       "deadTurnFrequency": 0
     },
@@ -715,15 +715,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 10,
-          "wins": 4,
-          "winRate": 0.4
+          "wins": 6,
+          "winRate": 0.6
         },
         "enemy": {
           "games": 8,
           "wins": 4,
           "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.4444444444444444
+        "overallStartingPlayerWinRate": 0.5555555555555556
       },
       "modelSummaries": [
         {
@@ -733,7 +733,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 15,
           "draws": 0,
           "winRate": 0.16666666666666666,
-          "averageHpEdge": -8.055555555555555
+          "averageHpEdge": -9.88888888888889
         },
         {
           "modelId": "expert",
@@ -742,17 +742,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 3,
           "draws": 0,
           "winRate": 0.8333333333333334,
-          "averageHpEdge": 8.055555555555555
+          "averageHpEdge": 9.88888888888889
         }
       ],
       "averages": {
-        "turns": 67,
-        "rounds": 7.611111111111111,
-        "flipsPerMatch": 26.5,
-        "flipsPerTurn": 0.39552238805970147,
-        "reshuffles": 6.277777777777778,
+        "turns": 70.27777777777777,
+        "rounds": 7.888888888888889,
+        "flipsPerMatch": 25.666666666666668,
+        "flipsPerTurn": 0.3652173913043478,
+        "reshuffles": 6.666666666666667,
         "deadTurns": 0,
-        "finalHpDifference": 10.166666666666666
+        "finalHpDifference": 11.222222222222221
       },
       "deadTurnFrequency": 0
     },
@@ -767,44 +767,44 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 10,
-          "wins": 7,
-          "winRate": 0.7
+          "wins": 5,
+          "winRate": 0.5
         },
         "enemy": {
           "games": 8,
-          "wins": 6,
-          "winRate": 0.75
+          "wins": 5,
+          "winRate": 0.625
         },
-        "overallStartingPlayerWinRate": 0.7222222222222222
+        "overallStartingPlayerWinRate": 0.5555555555555556
       },
       "modelSummaries": [
         {
           "modelId": "expert",
           "games": 18,
-          "wins": 6,
-          "losses": 12,
+          "wins": 5,
+          "losses": 13,
           "draws": 0,
-          "winRate": 0.3333333333333333,
-          "averageHpEdge": -2.4444444444444446
+          "winRate": 0.2777777777777778,
+          "averageHpEdge": -2.7777777777777777
         },
         {
           "modelId": "champion",
           "games": 18,
-          "wins": 12,
-          "losses": 6,
+          "wins": 13,
+          "losses": 5,
           "draws": 0,
-          "winRate": 0.6666666666666666,
-          "averageHpEdge": 2.4444444444444446
+          "winRate": 0.7222222222222222,
+          "averageHpEdge": 2.7777777777777777
         }
       ],
       "averages": {
-        "turns": 66.33333333333333,
-        "rounds": 7.5,
-        "flipsPerMatch": 39.72222222222222,
-        "flipsPerTurn": 0.5988274706867671,
-        "reshuffles": 6,
+        "turns": 69.38888888888889,
+        "rounds": 7.833333333333333,
+        "flipsPerMatch": 39.111111111111114,
+        "flipsPerTurn": 0.5636509207365893,
+        "reshuffles": 6.555555555555555,
         "deadTurns": 0,
-        "finalHpDifference": 7
+        "finalHpDifference": 4.555555555555555
       },
       "deadTurnFrequency": 0
     }
@@ -812,85 +812,84 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
   "diagnostics": {
     "cardAnalytics": [
       {
-        "cardId": "heron",
-        "name": "Oiselle aubeplume",
-        "family": "familiar",
+        "cardId": "ember-imp",
+        "name": "Diablotin braise",
+        "family": "demon",
         "rarity": "common",
-        "role": "connector",
+        "role": "attacker",
         "sourceType": "draft",
         "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
+        "maxSide": 5,
+        "minSide": 1,
         "effectKinds": [
-          "draw-next-turn"
+          "deal-damage"
         ],
         "buildTags": [
-          "combo-1",
-          "connector",
-          "draw-next-turn",
-          "familiar",
+          "attacker",
+          "deal-damage",
+          "demon",
           "flip-1"
         ],
         "preferredPositions": [],
-        "offered": 3327,
-        "played": 580,
-        "ignored": 2747,
-        "selectionRate": 0.17433122933573791,
-        "wins": 293,
-        "losses": 287,
+        "offered": 3358,
+        "played": 594,
+        "ignored": 2764,
+        "selectionRate": 0.17689100655151876,
+        "wins": 288,
+        "losses": 306,
         "draws": 0,
-        "winRateWhenPlayed": 0.5051724137931034,
-        "averageFlips": 0.7775862068965518,
-        "failedImpactRate": 0.2908805031446541,
-        "averageFlipMargin": 1.3037694013303769,
-        "averageEffectAmount": 1.1155172413793104,
-        "averageDamageDealt": 0.28620689655172415,
-        "averageDamageTaken": 0.296551724137931,
-        "averageNetDamage": -0.010344827586206862,
-        "lethalMoves": 4,
-        "roundClosers": 64,
+        "winRateWhenPlayed": 0.48484848484848486,
+        "averageFlips": 0.6616161616161617,
+        "failedImpactRate": 0.362012987012987,
+        "averageFlipMargin": 1.6055979643765903,
+        "averageEffectAmount": 0.2845117845117845,
+        "averageDamageDealt": 0.7306397306397306,
+        "averageDamageTaken": 0.26262626262626265,
+        "averageNetDamage": 0.468013468013468,
+        "lethalMoves": 6,
+        "roundClosers": 70,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 262,
-            "winRate": 0.5267175572519084
-          },
-          {
-            "modelId": "opportunist",
-            "played": 136,
-            "winRate": 0.47794117647058826
+            "played": 240,
+            "winRate": 0.42916666666666664
           },
           {
             "modelId": "expert",
-            "played": 104,
-            "winRate": 0.6538461538461539
+            "played": 137,
+            "winRate": 0.6131386861313869
           },
           {
-            "modelId": "beginner",
-            "played": 42,
-            "winRate": 0
+            "modelId": "opportunist",
+            "played": 92,
+            "winRate": 0.5108695652173914
           },
           {
             "modelId": "champion",
-            "played": 36,
-            "winRate": 0.6111111111111112
+            "played": 80,
+            "winRate": 0.675
+          },
+          {
+            "modelId": "beginner",
+            "played": 45,
+            "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 220,
-            "winRate": 0.5227272727272727
+            "played": 219,
+            "winRate": 0.4657534246575342
           },
           {
             "deckPresetId": "starter12",
-            "played": 186,
-            "winRate": 0.478494623655914
+            "played": 191,
+            "winRate": 0.5706806282722513
           },
           {
             "deckPresetId": "starter14",
-            "played": 174,
-            "winRate": 0.5114942528735632
+            "played": 184,
+            "winRate": 0.41847826086956524
           }
         ],
         "status": "ignored",
@@ -920,151 +919,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 3385,
-        "played": 573,
-        "ignored": 2812,
-        "selectionRate": 0.16927621861152142,
-        "wins": 296,
-        "losses": 277,
+        "offered": 3591,
+        "played": 579,
+        "ignored": 3012,
+        "selectionRate": 0.16123642439431912,
+        "wins": 294,
+        "losses": 285,
         "draws": 0,
-        "winRateWhenPlayed": 0.5165794066317626,
-        "averageFlips": 0.5497382198952879,
-        "failedImpactRate": 0.5434782608695652,
-        "averageFlipMargin": 1.4253968253968254,
-        "averageEffectAmount": 0.37347294938917974,
-        "averageDamageDealt": 1.1291448516579408,
-        "averageDamageTaken": 0.462478184991274,
-        "averageNetDamage": 0.6666666666666667,
-        "lethalMoves": 20,
-        "roundClosers": 119,
+        "winRateWhenPlayed": 0.5077720207253886,
+        "averageFlips": 0.5716753022452504,
+        "failedImpactRate": 0.5230547550432276,
+        "averageFlipMargin": 1.392749244712991,
+        "averageEffectAmount": 0.38169257340241797,
+        "averageDamageDealt": 1.1329879101899827,
+        "averageDamageTaken": 0.41968911917098445,
+        "averageNetDamage": 0.7132987910189983,
+        "lethalMoves": 14,
+        "roundClosers": 114,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 223,
-            "winRate": 0.5022421524663677
+            "played": 221,
+            "winRate": 0.4751131221719457
           },
           {
             "modelId": "expert",
-            "played": 145,
-            "winRate": 0.6413793103448275
-          },
-          {
-            "modelId": "champion",
-            "played": 85,
-            "winRate": 0.5647058823529412
+            "played": 149,
+            "winRate": 0.6442953020134228
           },
           {
             "modelId": "opportunist",
-            "played": 84,
-            "winRate": 0.5119047619047619
+            "played": 97,
+            "winRate": 0.422680412371134
+          },
+          {
+            "modelId": "champion",
+            "played": 78,
+            "winRate": 0.6666666666666666
           },
           {
             "modelId": "beginner",
-            "played": 36,
+            "played": 34,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 213,
-            "winRate": 0.45539906103286387
+            "played": 204,
+            "winRate": 0.43137254901960786
           },
           {
             "deckPresetId": "starter12",
-            "played": 192,
-            "winRate": 0.5260416666666666
+            "played": 196,
+            "winRate": 0.5663265306122449
           },
           {
             "deckPresetId": "starter14",
-            "played": 168,
-            "winRate": 0.5833333333333334
-          }
-        ],
-        "status": "ignored",
-        "notes": [
-          "Souvent propose, rarement choisi."
-        ]
-      },
-      {
-        "cardId": "ember-imp",
-        "name": "Diablotin braise",
-        "family": "demon",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "attacker",
-          "deal-damage",
-          "demon",
-          "flip-1"
-        ],
-        "preferredPositions": [],
-        "offered": 3347,
-        "played": 546,
-        "ignored": 2801,
-        "selectionRate": 0.16313116223483717,
-        "wins": 281,
-        "losses": 265,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5146520146520146,
-        "averageFlips": 0.6996336996336996,
-        "failedImpactRate": 0.347008547008547,
-        "averageFlipMargin": 1.557591623036649,
-        "averageEffectAmount": 0.34615384615384615,
-        "averageDamageDealt": 0.6904761904761905,
-        "averageDamageTaken": 0.2673992673992674,
-        "averageNetDamage": 0.4230769230769231,
-        "lethalMoves": 9,
-        "roundClosers": 54,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 232,
-            "winRate": 0.521551724137931
-          },
-          {
-            "modelId": "expert",
-            "played": 128,
-            "winRate": 0.5859375
-          },
-          {
-            "modelId": "opportunist",
-            "played": 75,
-            "winRate": 0.6266666666666667
-          },
-          {
-            "modelId": "champion",
-            "played": 71,
-            "winRate": 0.5352112676056338
-          },
-          {
-            "modelId": "beginner",
-            "played": 40,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 190,
-            "winRate": 0.5473684210526316
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 184,
-            "winRate": 0.45652173913043476
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 172,
-            "winRate": 0.5406976744186046
+            "played": 179,
+            "winRate": 0.5307262569832403
           }
         ],
         "status": "ignored",
@@ -1094,43 +1007,43 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 2134,
-        "played": 356,
-        "ignored": 1778,
-        "selectionRate": 0.1668228678537957,
-        "wins": 175,
-        "losses": 181,
+        "offered": 2227,
+        "played": 373,
+        "ignored": 1854,
+        "selectionRate": 0.1674898967220476,
+        "wins": 176,
+        "losses": 197,
         "draws": 0,
-        "winRateWhenPlayed": 0.49157303370786515,
-        "averageFlips": 0.3455056179775281,
-        "failedImpactRate": 0.6045016077170418,
-        "averageFlipMargin": 1.2195121951219512,
-        "averageEffectAmount": 0.6853932584269663,
-        "averageDamageDealt": 0.4859550561797753,
-        "averageDamageTaken": 0.34269662921348315,
-        "averageNetDamage": 0.14325842696629215,
-        "lethalMoves": 6,
+        "winRateWhenPlayed": 0.4718498659517426,
+        "averageFlips": 0.3351206434316354,
+        "failedImpactRate": 0.6268656716417911,
+        "averageFlipMargin": 1.224,
+        "averageEffectAmount": 0.6970509383378016,
+        "averageDamageDealt": 0.5549597855227882,
+        "averageDamageTaken": 0.3646112600536193,
+        "averageNetDamage": 0.19034852546916892,
+        "lethalMoves": 5,
         "roundClosers": 71,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 174,
-            "winRate": 0.4885057471264368
+            "played": 165,
+            "winRate": 0.4484848484848485
           },
           {
             "modelId": "expert",
-            "played": 91,
-            "winRate": 0.5714285714285714
+            "played": 95,
+            "winRate": 0.6421052631578947
           },
           {
             "modelId": "opportunist",
-            "played": 42,
-            "winRate": 0.42857142857142855
+            "played": 57,
+            "winRate": 0.2982456140350877
           },
           {
             "modelId": "champion",
-            "played": 28,
-            "winRate": 0.7142857142857143
+            "played": 35,
+            "winRate": 0.6857142857142857
           },
           {
             "modelId": "beginner",
@@ -1141,103 +1054,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "byDeck": [
           {
             "deckPresetId": "starter12",
-            "played": 180,
-            "winRate": 0.45
+            "played": 196,
+            "winRate": 0.4387755102040816
           },
           {
             "deckPresetId": "starter14",
-            "played": 176,
-            "winRate": 0.5340909090909091
+            "played": 177,
+            "winRate": 0.5084745762711864
           }
         ],
         "status": "ignored",
         "notes": [
           "Souvent propose, rarement choisi."
-        ]
-      },
-      {
-        "cardId": "path-ranger",
-        "name": "Rodeuse du sentier",
-        "family": "human",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "attacker",
-          "boost-self",
-          "human"
-        ],
-        "preferredPositions": [],
-        "offered": 2344,
-        "played": 796,
-        "ignored": 1548,
-        "selectionRate": 0.3395904436860068,
-        "wins": 419,
-        "losses": 377,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5263819095477387,
-        "averageFlips": 0.47613065326633164,
-        "failedImpactRate": 0.37766830870279144,
-        "averageFlipMargin": 1.6226912928759893,
-        "averageEffectAmount": 1,
-        "averageDamageDealt": 0.19974874371859297,
-        "averageDamageTaken": 0.1708542713567839,
-        "averageNetDamage": 0.02889447236180906,
-        "lethalMoves": 3,
-        "roundClosers": 53,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 351,
-            "winRate": 0.5897435897435898
-          },
-          {
-            "modelId": "expert",
-            "played": 215,
-            "winRate": 0.6
-          },
-          {
-            "modelId": "opportunist",
-            "played": 119,
-            "winRate": 0.3865546218487395
-          },
-          {
-            "modelId": "champion",
-            "played": 61,
-            "winRate": 0.6065573770491803
-          },
-          {
-            "modelId": "beginner",
-            "played": 50,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 304,
-            "winRate": 0.5592105263157895
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 265,
-            "winRate": 0.5018867924528302
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 227,
-            "winRate": 0.5110132158590308
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
         ]
       },
       {
@@ -1262,65 +1090,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 2242,
-        "played": 785,
-        "ignored": 1457,
-        "selectionRate": 0.35013380909901876,
-        "wins": 457,
-        "losses": 328,
+        "offered": 2232,
+        "played": 828,
+        "ignored": 1404,
+        "selectionRate": 0.3709677419354839,
+        "wins": 456,
+        "losses": 372,
         "draws": 0,
-        "winRateWhenPlayed": 0.5821656050955414,
-        "averageFlips": 0.21910828025477708,
-        "failedImpactRate": 0.5656565656565656,
-        "averageFlipMargin": 1.680232558139535,
-        "averageEffectAmount": 1.621656050955414,
-        "averageDamageDealt": 0.2573248407643312,
-        "averageDamageTaken": 0.14777070063694267,
-        "averageNetDamage": 0.10955414012738854,
-        "lethalMoves": 6,
-        "roundClosers": 67,
+        "winRateWhenPlayed": 0.5507246376811594,
+        "averageFlips": 0.2391304347826087,
+        "failedImpactRate": 0.5469107551487414,
+        "averageFlipMargin": 1.6666666666666667,
+        "averageEffectAmount": 1.6135265700483092,
+        "averageDamageDealt": 0.19202898550724637,
+        "averageDamageTaken": 0.1111111111111111,
+        "averageNetDamage": 0.08091787439613526,
+        "lethalMoves": 7,
+        "roundClosers": 52,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 358,
-            "winRate": 0.5949720670391061
+            "played": 386,
+            "winRate": 0.5284974093264249
           },
           {
             "modelId": "expert",
-            "played": 167,
-            "winRate": 0.7365269461077845
+            "played": 173,
+            "winRate": 0.6647398843930635
           },
           {
             "modelId": "opportunist",
-            "played": 123,
-            "winRate": 0.4065040650406504
+            "played": 128,
+            "winRate": 0.4921875
           },
           {
             "modelId": "champion",
-            "played": 99,
-            "winRate": 0.7171717171717171
+            "played": 102,
+            "winRate": 0.7254901960784313
           },
           {
             "modelId": "beginner",
-            "played": 38,
+            "played": 39,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 290,
-            "winRate": 0.6413793103448275
+            "played": 314,
+            "winRate": 0.5414012738853503
           },
           {
             "deckPresetId": "starter12",
-            "played": 265,
-            "winRate": 0.5471698113207547
+            "played": 277,
+            "winRate": 0.5270758122743683
           },
           {
             "deckPresetId": "starter14",
-            "played": 230,
-            "winRate": 0.5478260869565217
+            "played": 237,
+            "winRate": 0.5907172995780591
           }
         ],
         "status": "healthy",
@@ -1347,65 +1175,150 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "stabilizer"
         ],
         "preferredPositions": [],
-        "offered": 2598,
-        "played": 749,
-        "ignored": 1849,
-        "selectionRate": 0.2882986913010008,
-        "wins": 380,
-        "losses": 369,
+        "offered": 2618,
+        "played": 803,
+        "ignored": 1815,
+        "selectionRate": 0.3067226890756303,
+        "wins": 395,
+        "losses": 408,
         "draws": 0,
-        "winRateWhenPlayed": 0.507343124165554,
-        "averageFlips": 0.3885180240320427,
-        "failedImpactRate": 0.5380952380952381,
-        "averageFlipMargin": 1.309278350515464,
-        "averageEffectAmount": 0.9986648865153538,
-        "averageDamageDealt": 0.3951935914552737,
-        "averageDamageTaken": 0.30040053404539385,
-        "averageNetDamage": 0.09479305740987987,
-        "lethalMoves": 6,
-        "roundClosers": 103,
+        "winRateWhenPlayed": 0.4919053549190536,
+        "averageFlips": 0.39476961394769616,
+        "failedImpactRate": 0.5365497076023392,
+        "averageFlipMargin": 1.3785488958990537,
+        "averageEffectAmount": 1,
+        "averageDamageDealt": 0.31008717310087175,
+        "averageDamageTaken": 0.21170610211706103,
+        "averageNetDamage": 0.09838107098381071,
+        "lethalMoves": 9,
+        "roundClosers": 95,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 352,
-            "winRate": 0.5255681818181818
+            "played": 385,
+            "winRate": 0.44675324675324674
           },
           {
             "modelId": "expert",
-            "played": 161,
-            "winRate": 0.6086956521739131
-          },
-          {
-            "modelId": "opportunist",
-            "played": 106,
-            "winRate": 0.39622641509433965
+            "played": 200,
+            "winRate": 0.6
           },
           {
             "modelId": "champion",
-            "played": 95,
-            "winRate": 0.5789473684210527
+            "played": 90,
+            "winRate": 0.7777777777777778
+          },
+          {
+            "modelId": "opportunist",
+            "played": 89,
+            "winRate": 0.3707865168539326
           },
           {
             "modelId": "beginner",
-            "played": 35,
+            "played": 39,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 261,
-            "winRate": 0.46360153256704983
+            "played": 290,
+            "winRate": 0.5
           },
           {
             "deckPresetId": "starter12",
-            "played": 253,
-            "winRate": 0.5454545454545454
+            "played": 272,
+            "winRate": 0.47794117647058826
           },
           {
             "deckPresetId": "starter14",
-            "played": 235,
-            "winRate": 0.5148936170212766
+            "played": 241,
+            "winRate": 0.4979253112033195
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "path-ranger",
+        "name": "Rodeuse du sentier",
+        "family": "human",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "attacker",
+          "boost-self",
+          "human"
+        ],
+        "preferredPositions": [],
+        "offered": 2445,
+        "played": 787,
+        "ignored": 1658,
+        "selectionRate": 0.32188139059304705,
+        "wins": 431,
+        "losses": 356,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5476493011435832,
+        "averageFlips": 0.48792884371029227,
+        "failedImpactRate": 0.37254901960784315,
+        "averageFlipMargin": 1.6015625,
+        "averageEffectAmount": 1,
+        "averageDamageDealt": 0.2121982210927573,
+        "averageDamageTaken": 0.1156289707750953,
+        "averageNetDamage": 0.09656925031766199,
+        "lethalMoves": 5,
+        "roundClosers": 47,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 382,
+            "winRate": 0.518324607329843
+          },
+          {
+            "modelId": "expert",
+            "played": 164,
+            "winRate": 0.6402439024390244
+          },
+          {
+            "modelId": "opportunist",
+            "played": 132,
+            "winRate": 0.5681818181818182
+          },
+          {
+            "modelId": "champion",
+            "played": 78,
+            "winRate": 0.6794871794871795
+          },
+          {
+            "modelId": "beginner",
+            "played": 31,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 289,
+            "winRate": 0.5847750865051903
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 261,
+            "winRate": 0.5287356321839081
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 237,
+            "winRate": 0.5232067510548524
           }
         ],
         "status": "healthy",
@@ -1436,65 +1349,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 2905,
-        "played": 736,
-        "ignored": 2169,
-        "selectionRate": 0.2533562822719449,
-        "wins": 354,
-        "losses": 382,
+        "offered": 3022,
+        "played": 772,
+        "ignored": 2250,
+        "selectionRate": 0.2554599602911979,
+        "wins": 403,
+        "losses": 369,
         "draws": 0,
-        "winRateWhenPlayed": 0.48097826086956524,
-        "averageFlips": 0.3736413043478261,
-        "failedImpactRate": 0.5895522388059702,
-        "averageFlipMargin": 1.4181818181818182,
-        "averageEffectAmount": 1.2418478260869565,
-        "averageDamageDealt": 0.5285326086956522,
-        "averageDamageTaken": 0.3546195652173913,
-        "averageNetDamage": 0.17391304347826092,
+        "winRateWhenPlayed": 0.522020725388601,
+        "averageFlips": 0.42487046632124353,
+        "failedImpactRate": 0.563249001331558,
+        "averageFlipMargin": 1.4329268292682926,
+        "averageEffectAmount": 1.2772020725388602,
+        "averageDamageDealt": 0.6101036269430051,
+        "averageDamageTaken": 0.2914507772020725,
+        "averageNetDamage": 0.3186528497409326,
         "lethalMoves": 12,
-        "roundClosers": 141,
+        "roundClosers": 154,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 353,
-            "winRate": 0.49291784702549574
+            "played": 368,
+            "winRate": 0.4701086956521739
           },
           {
             "modelId": "expert",
-            "played": 163,
-            "winRate": 0.5214723926380368
+            "played": 169,
+            "winRate": 0.621301775147929
           },
           {
             "modelId": "opportunist",
-            "played": 114,
-            "winRate": 0.41228070175438597
+            "played": 125,
+            "winRate": 0.512
           },
           {
             "modelId": "champion",
-            "played": 68,
-            "winRate": 0.7058823529411765
+            "played": 79,
+            "winRate": 0.7721518987341772
           },
           {
             "modelId": "beginner",
-            "played": 38,
+            "played": 31,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 274,
-            "winRate": 0.4562043795620438
+            "played": 285,
+            "winRate": 0.5298245614035088
           },
           {
             "deckPresetId": "starter12",
-            "played": 241,
-            "winRate": 0.5311203319502075
+            "played": 258,
+            "winRate": 0.5038759689922481
           },
           {
             "deckPresetId": "starter14",
-            "played": 221,
-            "winRate": 0.45701357466063347
+            "played": 229,
+            "winRate": 0.5327510917030568
           }
         ],
         "status": "healthy",
@@ -1521,65 +1434,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "human"
         ],
         "preferredPositions": [],
-        "offered": 2502,
-        "played": 729,
-        "ignored": 1773,
-        "selectionRate": 0.29136690647482016,
-        "wins": 362,
-        "losses": 367,
+        "offered": 2570,
+        "played": 759,
+        "ignored": 1811,
+        "selectionRate": 0.2953307392996109,
+        "wins": 390,
+        "losses": 369,
         "draws": 0,
-        "winRateWhenPlayed": 0.49657064471879286,
-        "averageFlips": 0.3223593964334705,
-        "failedImpactRate": 0.5549242424242424,
-        "averageFlipMargin": 1.6127659574468085,
+        "winRateWhenPlayed": 0.5138339920948617,
+        "averageFlips": 0.3069828722002635,
+        "failedImpactRate": 0.533066132264529,
+        "averageFlipMargin": 1.7210300429184548,
         "averageEffectAmount": 1,
-        "averageDamageDealt": 0.23593964334705075,
-        "averageDamageTaken": 0.1906721536351166,
-        "averageNetDamage": 0.045267489711934145,
+        "averageDamageDealt": 0.17918313570487485,
+        "averageDamageTaken": 0.11725955204216074,
+        "averageNetDamage": 0.06192358366271411,
         "lethalMoves": 9,
-        "roundClosers": 57,
+        "roundClosers": 45,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 365,
-            "winRate": 0.5342465753424658
-          },
-          {
-            "modelId": "opportunist",
-            "played": 124,
-            "winRate": 0.4435483870967742
+            "played": 374,
+            "winRate": 0.5294117647058824
           },
           {
             "modelId": "expert",
-            "played": 111,
-            "winRate": 0.6036036036036037
+            "played": 140,
+            "winRate": 0.6214285714285714
+          },
+          {
+            "modelId": "opportunist",
+            "played": 134,
+            "winRate": 0.43283582089552236
           },
           {
             "modelId": "champion",
-            "played": 77,
-            "winRate": 0.5844155844155844
+            "played": 69,
+            "winRate": 0.6811594202898551
           },
           {
             "modelId": "beginner",
-            "played": 52,
+            "played": 42,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 266,
-            "winRate": 0.462406015037594
+            "played": 275,
+            "winRate": 0.5345454545454545
           },
           {
             "deckPresetId": "starter12",
-            "played": 245,
-            "winRate": 0.4897959183673469
+            "played": 258,
+            "winRate": 0.4883720930232558
           },
           {
             "deckPresetId": "starter14",
-            "played": 218,
-            "winRate": 0.5458715596330275
+            "played": 226,
+            "winRate": 0.5176991150442478
           }
         ],
         "status": "healthy",
@@ -1606,219 +1519,43 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "human"
         ],
         "preferredPositions": [],
-        "offered": 2688,
-        "played": 712,
-        "ignored": 1976,
-        "selectionRate": 0.2648809523809524,
-        "wins": 384,
-        "losses": 328,
+        "offered": 2698,
+        "played": 748,
+        "ignored": 1950,
+        "selectionRate": 0.27724240177909565,
+        "wins": 376,
+        "losses": 372,
         "draws": 0,
-        "winRateWhenPlayed": 0.5393258426966292,
-        "averageFlips": 0.3651685393258427,
-        "failedImpactRate": 0.5289855072463768,
-        "averageFlipMargin": 1.396153846153846,
-        "averageEffectAmount": 0.9985955056179775,
-        "averageDamageDealt": 0.25842696629213485,
-        "averageDamageTaken": 0.24297752808988765,
-        "averageNetDamage": 0.015449438202247201,
-        "lethalMoves": 4,
-        "roundClosers": 76,
+        "winRateWhenPlayed": 0.5026737967914439,
+        "averageFlips": 0.3195187165775401,
+        "failedImpactRate": 0.5716845878136201,
+        "averageFlipMargin": 1.3598326359832635,
+        "averageEffectAmount": 1,
+        "averageDamageDealt": 0.3114973262032086,
+        "averageDamageTaken": 0.25668449197860965,
+        "averageNetDamage": 0.05481283422459893,
+        "lethalMoves": 9,
+        "roundClosers": 85,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 326,
-            "winRate": 0.5245398773006135
+            "played": 327,
+            "winRate": 0.4954128440366973
           },
           {
             "modelId": "expert",
-            "played": 182,
-            "winRate": 0.6428571428571429
-          },
-          {
-            "modelId": "champion",
-            "played": 89,
-            "winRate": 0.6741573033707865
+            "played": 205,
+            "winRate": 0.5853658536585366
           },
           {
             "modelId": "opportunist",
-            "played": 84,
-            "winRate": 0.42857142857142855
-          },
-          {
-            "modelId": "beginner",
-            "played": 31,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 267,
-            "winRate": 0.5318352059925093
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 228,
-            "winRate": 0.5789473684210527
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 217,
-            "winRate": 0.5069124423963134
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "little-abyss",
-        "name": "Petit abysse",
-        "family": "demon",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "attacker",
-          "behind-on-board",
-          "deal-damage",
-          "demon"
-        ],
-        "preferredPositions": [
-          "behind"
-        ],
-        "offered": 2621,
-        "played": 710,
-        "ignored": 1911,
-        "selectionRate": 0.27088897367417014,
-        "wins": 342,
-        "losses": 368,
-        "draws": 0,
-        "winRateWhenPlayed": 0.48169014084507045,
-        "averageFlips": 0.3,
-        "failedImpactRate": 0.5379609544468547,
-        "averageFlipMargin": 1.624413145539906,
-        "averageEffectAmount": 0.6309859154929578,
-        "averageDamageDealt": 0.8985915492957747,
-        "averageDamageTaken": 0.20985915492957746,
-        "averageNetDamage": 0.6887323943661972,
-        "lethalMoves": 12,
-        "roundClosers": 57,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 282,
-            "winRate": 0.4929078014184397
-          },
-          {
-            "modelId": "expert",
-            "played": 165,
-            "winRate": 0.6242424242424243
-          },
-          {
-            "modelId": "opportunist",
-            "played": 126,
-            "winRate": 0.35714285714285715
+            "played": 98,
+            "winRate": 0.30612244897959184
           },
           {
             "modelId": "champion",
-            "played": 85,
-            "winRate": 0.6470588235294118
-          },
-          {
-            "modelId": "beginner",
-            "played": 52,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 263,
-            "winRate": 0.41064638783269963
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 232,
-            "winRate": 0.521551724137931
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 215,
-            "winRate": 0.5255813953488372
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "sapling",
-        "name": "Floramie toxique",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "anchor",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "adjacent-ally",
-          "anchor",
-          "familiar",
-          "gain-shield"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 2941,
-        "played": 685,
-        "ignored": 2256,
-        "selectionRate": 0.2329139748384903,
-        "wins": 361,
-        "losses": 324,
-        "draws": 0,
-        "winRateWhenPlayed": 0.527007299270073,
-        "averageFlips": 0.3722627737226277,
-        "failedImpactRate": 0.5549738219895288,
-        "averageFlipMargin": 1.7450980392156863,
-        "averageEffectAmount": 0.5167883211678832,
-        "averageDamageDealt": 0.381021897810219,
-        "averageDamageTaken": 0.22627737226277372,
-        "averageNetDamage": 0.15474452554744528,
-        "lethalMoves": 8,
-        "roundClosers": 91,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 314,
-            "winRate": 0.5636942675159236
-          },
-          {
-            "modelId": "expert",
-            "played": 191,
-            "winRate": 0.6020942408376964
-          },
-          {
-            "modelId": "opportunist",
-            "played": 80,
-            "winRate": 0.375
-          },
-          {
-            "modelId": "champion",
-            "played": 63,
-            "winRate": 0.6190476190476191
+            "played": 81,
+            "winRate": 0.7901234567901234
           },
           {
             "modelId": "beginner",
@@ -1829,104 +1566,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 257,
-            "winRate": 0.5447470817120622
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 215,
-            "winRate": 0.5162790697674419
+            "played": 271,
+            "winRate": 0.5239852398523985
           },
           {
             "deckPresetId": "starter12",
-            "played": 213,
-            "winRate": 0.5164319248826291
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "field-knight",
-        "name": "Chevaliere des champs",
-        "family": "human",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "combo-2",
-          "gain-shield",
-          "human",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 3171,
-        "played": 679,
-        "ignored": 2492,
-        "selectionRate": 0.2141280353200883,
-        "wins": 373,
-        "losses": 306,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5493372606774669,
-        "averageFlips": 0.508100147275405,
-        "failedImpactRate": 0.48507462686567165,
-        "averageFlipMargin": 1.5739130434782609,
-        "averageEffectAmount": 1.840942562592047,
-        "averageDamageDealt": 0.49337260677466865,
-        "averageDamageTaken": 0.1796759941089838,
-        "averageNetDamage": 0.3136966126656848,
-        "lethalMoves": 5,
-        "roundClosers": 118,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 308,
-            "winRate": 0.5487012987012987
-          },
-          {
-            "modelId": "expert",
-            "played": 144,
-            "winRate": 0.6666666666666666
-          },
-          {
-            "modelId": "opportunist",
-            "played": 115,
-            "winRate": 0.5391304347826087
-          },
-          {
-            "modelId": "champion",
-            "played": 73,
-            "winRate": 0.6301369863013698
-          },
-          {
-            "modelId": "beginner",
-            "played": 39,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 254,
-            "winRate": 0.5236220472440944
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 230,
-            "winRate": 0.5434782608695652
+            "played": 255,
+            "winRate": 0.5215686274509804
           },
           {
             "deckPresetId": "starter14",
-            "played": 195,
-            "winRate": 0.5897435897435898
+            "played": 222,
+            "winRate": 0.45495495495495497
           }
         ],
         "status": "healthy",
@@ -1956,65 +1607,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 2952,
-        "played": 671,
-        "ignored": 2281,
-        "selectionRate": 0.22730352303523035,
-        "wins": 338,
-        "losses": 333,
+        "offered": 2891,
+        "played": 693,
+        "ignored": 2198,
+        "selectionRate": 0.2397094430992736,
+        "wins": 350,
+        "losses": 343,
         "draws": 0,
-        "winRateWhenPlayed": 0.503725782414307,
-        "averageFlips": 0.6527570789865872,
-        "failedImpactRate": 0.3661360347322721,
-        "averageFlipMargin": 2.8036529680365296,
-        "averageEffectAmount": 0.7868852459016393,
-        "averageDamageDealt": 0.4098360655737705,
-        "averageDamageTaken": 0.23845007451564829,
-        "averageNetDamage": 0.17138599105812222,
+        "winRateWhenPlayed": 0.5050505050505051,
+        "averageFlips": 0.6507936507936508,
+        "failedImpactRate": 0.39300134589502017,
+        "averageFlipMargin": 2.8558758314855877,
+        "averageEffectAmount": 0.7806637806637806,
+        "averageDamageDealt": 0.2698412698412698,
+        "averageDamageTaken": 0.23088023088023088,
+        "averageNetDamage": 0.038961038961038946,
         "lethalMoves": 7,
-        "roundClosers": 83,
+        "roundClosers": 79,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 306,
-            "winRate": 0.5359477124183006
+            "played": 320,
+            "winRate": 0.521875
           },
           {
             "modelId": "expert",
-            "played": 138,
-            "winRate": 0.5869565217391305
+            "played": 151,
+            "winRate": 0.6357615894039735
           },
           {
             "modelId": "opportunist",
-            "played": 107,
-            "winRate": 0.42990654205607476
+            "played": 123,
+            "winRate": 0.3902439024390244
           },
           {
             "modelId": "champion",
-            "played": 80,
-            "winRate": 0.5875
+            "played": 60,
+            "winRate": 0.65
           },
           {
             "modelId": "beginner",
-            "played": 40,
+            "played": 39,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 247,
-            "winRate": 0.5425101214574899
+            "played": 245,
+            "winRate": 0.5387755102040817
           },
           {
             "deckPresetId": "starter12",
-            "played": 224,
-            "winRate": 0.5223214285714286
+            "played": 237,
+            "winRate": 0.48945147679324896
           },
           {
             "deckPresetId": "starter14",
-            "played": 200,
-            "winRate": 0.435
+            "played": 211,
+            "winRate": 0.4834123222748815
           }
         ],
         "status": "healthy",
@@ -2023,85 +1674,84 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "cinder-grin",
-        "name": "Sourire de suie",
-        "family": "demon",
+        "cardId": "field-knight",
+        "name": "Chevaliere des champs",
+        "family": "human",
         "rarity": "common",
         "role": "payoff",
         "sourceType": "draft",
         "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
+        "maxSide": 4,
+        "minSide": 2,
         "effectKinds": [
-          "deal-damage"
+          "gain-shield"
         ],
         "buildTags": [
-          "combo-1",
-          "deal-damage",
-          "demon",
-          "flip-1",
+          "combo-2",
+          "gain-shield",
+          "human",
           "payoff"
         ],
         "preferredPositions": [],
-        "offered": 3050,
-        "played": 646,
-        "ignored": 2404,
-        "selectionRate": 0.21180327868852458,
-        "wins": 322,
-        "losses": 324,
+        "offered": 3195,
+        "played": 690,
+        "ignored": 2505,
+        "selectionRate": 0.215962441314554,
+        "wins": 392,
+        "losses": 298,
         "draws": 0,
-        "winRateWhenPlayed": 0.4984520123839009,
-        "averageFlips": 0.6269349845201239,
-        "failedImpactRate": 0.38821752265861026,
-        "averageFlipMargin": 1.7506172839506173,
-        "averageEffectAmount": 0.4179566563467492,
-        "averageDamageDealt": 0.8777089783281734,
-        "averageDamageTaken": 0.26625386996904027,
-        "averageNetDamage": 0.6114551083591331,
-        "lethalMoves": 9,
-        "roundClosers": 75,
+        "winRateWhenPlayed": 0.5681159420289855,
+        "averageFlips": 0.4652173913043478,
+        "failedImpactRate": 0.4984375,
+        "averageFlipMargin": 1.5202492211838006,
+        "averageEffectAmount": 1.9333333333333333,
+        "averageDamageDealt": 0.5217391304347826,
+        "averageDamageTaken": 0.17246376811594202,
+        "averageNetDamage": 0.3492753623188406,
+        "lethalMoves": 8,
+        "roundClosers": 124,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 280,
-            "winRate": 0.48214285714285715
+            "played": 304,
+            "winRate": 0.4934210526315789
           },
           {
             "modelId": "expert",
-            "played": 138,
-            "winRate": 0.6086956521739131
+            "played": 146,
+            "winRate": 0.726027397260274
           },
           {
             "modelId": "opportunist",
-            "played": 99,
-            "winRate": 0.5050505050505051
+            "played": 119,
+            "winRate": 0.5378151260504201
           },
           {
             "modelId": "champion",
-            "played": 79,
-            "winRate": 0.6708860759493671
+            "played": 87,
+            "winRate": 0.8275862068965517
           },
           {
             "modelId": "beginner",
-            "played": 50,
+            "played": 34,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 235,
-            "winRate": 0.5234042553191489
+            "played": 269,
+            "winRate": 0.5464684014869888
           },
           {
             "deckPresetId": "starter12",
-            "played": 216,
-            "winRate": 0.44907407407407407
+            "played": 231,
+            "winRate": 0.6363636363636364
           },
           {
             "deckPresetId": "starter14",
-            "played": 195,
-            "winRate": 0.5230769230769231
+            "played": 190,
+            "winRate": 0.5157894736842106
           }
         ],
         "status": "healthy",
@@ -2110,86 +1760,86 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "mole",
-        "name": "Ecureuil mineur",
-        "family": "familiar",
+        "cardId": "little-abyss",
+        "name": "Petit abysse",
+        "family": "demon",
         "rarity": "common",
-        "role": "connector",
+        "role": "attacker",
         "sourceType": "draft",
         "sideTotal": 12,
         "maxSide": 5,
         "minSide": 2,
         "effectKinds": [
-          "boost-self"
+          "deal-damage"
         ],
         "buildTags": [
-          "adjacent-ally",
-          "boost-self",
-          "connector",
-          "familiar"
+          "attacker",
+          "behind-on-board",
+          "deal-damage",
+          "demon"
         ],
         "preferredPositions": [
-          "adjacent"
+          "behind"
         ],
-        "offered": 3106,
-        "played": 644,
-        "ignored": 2462,
-        "selectionRate": 0.20734063103670317,
-        "wins": 295,
-        "losses": 349,
+        "offered": 2708,
+        "played": 688,
+        "ignored": 2020,
+        "selectionRate": 0.25406203840472674,
+        "wins": 345,
+        "losses": 343,
         "draws": 0,
-        "winRateWhenPlayed": 0.4580745341614907,
-        "averageFlips": 0.4767080745341615,
-        "failedImpactRate": 0.45080500894454384,
-        "averageFlipMargin": 1.6091205211726385,
-        "averageEffectAmount": 0.6024844720496895,
-        "averageDamageDealt": 0.38819875776397517,
-        "averageDamageTaken": 0.18322981366459629,
-        "averageNetDamage": 0.20496894409937888,
-        "lethalMoves": 4,
-        "roundClosers": 74,
+        "winRateWhenPlayed": 0.501453488372093,
+        "averageFlips": 0.3168604651162791,
+        "failedImpactRate": 0.46568627450980393,
+        "averageFlipMargin": 1.7844036697247707,
+        "averageEffectAmount": 0.6715116279069767,
+        "averageDamageDealt": 0.8938953488372093,
+        "averageDamageTaken": 0.19186046511627908,
+        "averageNetDamage": 0.7020348837209303,
+        "lethalMoves": 16,
+        "roundClosers": 47,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 335,
-            "winRate": 0.4507462686567164
+            "played": 283,
+            "winRate": 0.48056537102473496
           },
           {
             "modelId": "expert",
-            "played": 125,
-            "winRate": 0.576
+            "played": 149,
+            "winRate": 0.6510067114093959
           },
           {
             "modelId": "opportunist",
-            "played": 88,
-            "winRate": 0.375
+            "played": 123,
+            "winRate": 0.37398373983739835
           },
           {
             "modelId": "champion",
-            "played": 63,
-            "winRate": 0.6190476190476191
+            "played": 89,
+            "winRate": 0.7415730337078652
           },
           {
             "modelId": "beginner",
-            "played": 33,
+            "played": 44,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 253,
-            "winRate": 0.49407114624505927
+            "played": 254,
+            "winRate": 0.5039370078740157
           },
           {
             "deckPresetId": "starter12",
-            "played": 204,
-            "winRate": 0.46568627450980393
+            "played": 225,
+            "winRate": 0.48
           },
           {
             "deckPresetId": "starter14",
-            "played": 187,
-            "winRate": 0.40106951871657753
+            "played": 209,
+            "winRate": 0.5215311004784688
           }
         ],
         "status": "healthy",
@@ -2217,65 +1867,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "flip-1"
         ],
         "preferredPositions": [],
-        "offered": 2875,
-        "played": 637,
-        "ignored": 2238,
-        "selectionRate": 0.22156521739130436,
-        "wins": 283,
-        "losses": 354,
+        "offered": 2943,
+        "played": 666,
+        "ignored": 2277,
+        "selectionRate": 0.22629969418960244,
+        "wins": 321,
+        "losses": 345,
         "draws": 0,
-        "winRateWhenPlayed": 0.44427001569858715,
-        "averageFlips": 0.5274725274725275,
-        "failedImpactRate": 0.42759795570698467,
-        "averageFlipMargin": 1.5476190476190477,
-        "averageEffectAmount": 0.5274725274725275,
-        "averageDamageDealt": 0.20408163265306123,
-        "averageDamageTaken": 0.16483516483516483,
-        "averageNetDamage": 0.0392464678178964,
-        "lethalMoves": 2,
-        "roundClosers": 47,
+        "winRateWhenPlayed": 0.481981981981982,
+        "averageFlips": 0.506006006006006,
+        "failedImpactRate": 0.37822878228782286,
+        "averageFlipMargin": 1.5578635014836795,
+        "averageEffectAmount": 0.506006006006006,
+        "averageDamageDealt": 0.25075075075075076,
+        "averageDamageTaken": 0.21621621621621623,
+        "averageNetDamage": 0.03453453453453453,
+        "lethalMoves": 5,
+        "roundClosers": 57,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 298,
-            "winRate": 0.4597315436241611
+            "played": 316,
+            "winRate": 0.4778481012658228
           },
           {
             "modelId": "expert",
-            "played": 123,
-            "winRate": 0.5609756097560976
+            "played": 127,
+            "winRate": 0.5905511811023622
           },
           {
             "modelId": "opportunist",
-            "played": 113,
-            "winRate": 0.36283185840707965
+            "played": 111,
+            "winRate": 0.4594594594594595
           },
           {
             "modelId": "champion",
-            "played": 56,
-            "winRate": 0.6428571428571429
+            "played": 71,
+            "winRate": 0.6197183098591549
           },
           {
             "modelId": "beginner",
-            "played": 47,
+            "played": 41,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 240,
-            "winRate": 0.5041666666666667
+            "played": 252,
+            "winRate": 0.5476190476190477
           },
           {
             "deckPresetId": "starter12",
-            "played": 205,
-            "winRate": 0.3804878048780488
+            "played": 219,
+            "winRate": 0.4337899543378995
           },
           {
             "deckPresetId": "starter14",
-            "played": 192,
-            "winRate": 0.4375
+            "played": 195,
+            "winRate": 0.4512820512820513
           }
         ],
         "status": "healthy",
@@ -2284,171 +1934,86 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "gate-thief",
-        "name": "Voleuse des portes",
-        "family": "human",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "attacker",
-          "draw-next-turn",
-          "flip-1",
-          "human"
-        ],
-        "preferredPositions": [],
-        "offered": 3099,
-        "played": 613,
-        "ignored": 2486,
-        "selectionRate": 0.1978057437883188,
-        "wins": 294,
-        "losses": 319,
-        "draws": 0,
-        "winRateWhenPlayed": 0.4796084828711256,
-        "averageFlips": 0.8417618270799347,
-        "failedImpactRate": 0.25862068965517243,
-        "averageFlipMargin": 1.501937984496124,
-        "averageEffectAmount": 0.8417618270799347,
-        "averageDamageDealt": 0.23491027732463296,
-        "averageDamageTaken": 0.19575856443719414,
-        "averageNetDamage": 0.03915171288743882,
-        "lethalMoves": 2,
-        "roundClosers": 48,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 275,
-            "winRate": 0.509090909090909
-          },
-          {
-            "modelId": "opportunist",
-            "played": 136,
-            "winRate": 0.41911764705882354
-          },
-          {
-            "modelId": "expert",
-            "played": 115,
-            "winRate": 0.5826086956521739
-          },
-          {
-            "modelId": "champion",
-            "played": 51,
-            "winRate": 0.5882352941176471
-          },
-          {
-            "modelId": "beginner",
-            "played": 36,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter10",
-            "played": 228,
-            "winRate": 0.4605263157894737
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 210,
-            "winRate": 0.45714285714285713
-          },
-          {
-            "deckPresetId": "starter14",
-            "played": 175,
-            "winRate": 0.5314285714285715
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "foxfire",
-        "name": "Requin runefer",
+        "cardId": "sapling",
+        "name": "Floramie toxique",
         "family": "familiar",
         "rarity": "common",
-        "role": "payoff",
+        "role": "anchor",
         "sourceType": "draft",
         "sideTotal": 12,
         "maxSide": 5,
-        "minSide": 2,
+        "minSide": 1,
         "effectKinds": [
           "gain-shield"
         ],
         "buildTags": [
-          "combo-1",
+          "adjacent-ally",
+          "anchor",
           "familiar",
-          "flip-1",
-          "gain-shield",
-          "payoff"
+          "gain-shield"
         ],
-        "preferredPositions": [],
-        "offered": 3123,
-        "played": 612,
-        "ignored": 2511,
-        "selectionRate": 0.19596541786743515,
-        "wins": 332,
-        "losses": 280,
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 3134,
+        "played": 662,
+        "ignored": 2472,
+        "selectionRate": 0.21123165283982132,
+        "wins": 302,
+        "losses": 360,
         "draws": 0,
-        "winRateWhenPlayed": 0.5424836601307189,
-        "averageFlips": 0.7581699346405228,
-        "failedImpactRate": 0.3464788732394366,
-        "averageFlipMargin": 1.6293103448275863,
-        "averageEffectAmount": 1.1797385620915033,
-        "averageDamageDealt": 0.369281045751634,
-        "averageDamageTaken": 0.1388888888888889,
-        "averageNetDamage": 0.2303921568627451,
-        "lethalMoves": 9,
-        "roundClosers": 70,
+        "winRateWhenPlayed": 0.4561933534743202,
+        "averageFlips": 0.3580060422960725,
+        "failedImpactRate": 0.5760286225402504,
+        "averageFlipMargin": 1.7932489451476794,
+        "averageEffectAmount": 0.5302114803625377,
+        "averageDamageDealt": 0.3564954682779456,
+        "averageDamageTaken": 0.2930513595166163,
+        "averageNetDamage": 0.06344410876132928,
+        "lethalMoves": 3,
+        "roundClosers": 93,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 274,
-            "winRate": 0.5291970802919708
+            "played": 312,
+            "winRate": 0.4358974358974359
           },
           {
             "modelId": "expert",
-            "played": 145,
-            "winRate": 0.6620689655172414
+            "played": 172,
+            "winRate": 0.5697674418604651
           },
           {
             "modelId": "opportunist",
-            "played": 94,
-            "winRate": 0.5106382978723404
+            "played": 87,
+            "winRate": 0.3448275862068966
           },
           {
             "modelId": "champion",
-            "played": 69,
-            "winRate": 0.6231884057971014
+            "played": 56,
+            "winRate": 0.6785714285714286
           },
           {
             "modelId": "beginner",
-            "played": 30,
+            "played": 35,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 219,
-            "winRate": 0.5388127853881278
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 216,
-            "winRate": 0.5601851851851852
+            "played": 252,
+            "winRate": 0.39285714285714285
           },
           {
             "deckPresetId": "starter14",
-            "played": 177,
-            "winRate": 0.5254237288135594
+            "played": 208,
+            "winRate": 0.4951923076923077
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 202,
+            "winRate": 0.49504950495049505
           }
         ],
         "status": "healthy",
@@ -2478,65 +2043,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "center"
         ],
-        "offered": 2939,
-        "played": 612,
-        "ignored": 2327,
-        "selectionRate": 0.20823409322898945,
-        "wins": 309,
-        "losses": 303,
+        "offered": 3022,
+        "played": 655,
+        "ignored": 2367,
+        "selectionRate": 0.21674387822634017,
+        "wins": 317,
+        "losses": 338,
         "draws": 0,
-        "winRateWhenPlayed": 0.5049019607843137,
-        "averageFlips": 0.47549019607843135,
-        "failedImpactRate": 0.32325581395348835,
-        "averageFlipMargin": 1.4398625429553265,
-        "averageEffectAmount": 0.704248366013072,
-        "averageDamageDealt": 0.9656862745098039,
-        "averageDamageTaken": 0.1388888888888889,
-        "averageNetDamage": 0.826797385620915,
-        "lethalMoves": 22,
-        "roundClosers": 43,
+        "winRateWhenPlayed": 0.48396946564885496,
+        "averageFlips": 0.4549618320610687,
+        "failedImpactRate": 0.3618843683083512,
+        "averageFlipMargin": 1.4060402684563758,
+        "averageEffectAmount": 0.6778625954198473,
+        "averageDamageDealt": 0.8351145038167939,
+        "averageDamageTaken": 0.19541984732824427,
+        "averageNetDamage": 0.6396946564885496,
+        "lethalMoves": 23,
+        "roundClosers": 42,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 262,
-            "winRate": 0.5114503816793893
+            "played": 250,
+            "winRate": 0.452
           },
           {
             "modelId": "expert",
-            "played": 115,
-            "winRate": 0.6173913043478261
+            "played": 131,
+            "winRate": 0.6106870229007634
           },
           {
             "modelId": "opportunist",
-            "played": 112,
-            "winRate": 0.45535714285714285
+            "played": 129,
+            "winRate": 0.4108527131782946
           },
           {
             "modelId": "champion",
-            "played": 85,
-            "winRate": 0.6235294117647059
+            "played": 90,
+            "winRate": 0.7888888888888889
           },
           {
             "modelId": "beginner",
-            "played": 38,
+            "played": 55,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
-            "deckPresetId": "starter12",
-            "played": 213,
-            "winRate": 0.5633802816901409
+            "deckPresetId": "starter10",
+            "played": 242,
+            "winRate": 0.5661157024793388
           },
           {
-            "deckPresetId": "starter10",
-            "played": 210,
-            "winRate": 0.4714285714285714
+            "deckPresetId": "starter12",
+            "played": 223,
+            "winRate": 0.35874439461883406
           },
           {
             "deckPresetId": "starter14",
-            "played": 189,
-            "winRate": 0.47619047619047616
+            "played": 190,
+            "winRate": 0.5263157894736842
           }
         ],
         "status": "healthy",
@@ -2566,65 +2131,500 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 3040,
-        "played": 608,
-        "ignored": 2432,
-        "selectionRate": 0.2,
-        "wins": 279,
-        "losses": 329,
+        "offered": 3171,
+        "played": 645,
+        "ignored": 2526,
+        "selectionRate": 0.20340586565752128,
+        "wins": 293,
+        "losses": 352,
         "draws": 0,
-        "winRateWhenPlayed": 0.4588815789473684,
-        "averageFlips": 0.43256578947368424,
-        "failedImpactRate": 0.43073593073593075,
-        "averageFlipMargin": 1.5475285171102662,
-        "averageEffectAmount": 0.5707236842105263,
-        "averageDamageDealt": 0.33881578947368424,
-        "averageDamageTaken": 0.16776315789473684,
-        "averageNetDamage": 0.1710526315789474,
-        "lethalMoves": 5,
-        "roundClosers": 61,
+        "winRateWhenPlayed": 0.4542635658914729,
+        "averageFlips": 0.4201550387596899,
+        "failedImpactRate": 0.4623015873015873,
+        "averageFlipMargin": 1.5830258302583027,
+        "averageEffectAmount": 0.5503875968992248,
+        "averageDamageDealt": 0.30697674418604654,
+        "averageDamageTaken": 0.21395348837209302,
+        "averageNetDamage": 0.09302325581395351,
+        "lethalMoves": 7,
+        "roundClosers": 73,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 284,
-            "winRate": 0.4788732394366197
-          },
-          {
-            "modelId": "expert",
-            "played": 120,
-            "winRate": 0.5583333333333333
+            "played": 311,
+            "winRate": 0.4437299035369775
           },
           {
             "modelId": "opportunist",
-            "played": 108,
-            "winRate": 0.42592592592592593
+            "played": 118,
+            "winRate": 0.4067796610169492
+          },
+          {
+            "modelId": "expert",
+            "played": 116,
+            "winRate": 0.5603448275862069
           },
           {
             "modelId": "champion",
-            "played": 55,
-            "winRate": 0.5454545454545454
+            "played": 60,
+            "winRate": 0.7
           },
           {
             "modelId": "beginner",
-            "played": 41,
+            "played": 40,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter10",
-            "played": 231,
-            "winRate": 0.48917748917748916
-          },
-          {
-            "deckPresetId": "starter12",
-            "played": 199,
-            "winRate": 0.4371859296482412
+            "played": 250,
+            "winRate": 0.444
           },
           {
             "deckPresetId": "starter14",
-            "played": 178,
-            "winRate": 0.4438202247191011
+            "played": 198,
+            "winRate": 0.43434343434343436
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 197,
+            "winRate": 0.4873096446700508
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "mole",
+        "name": "Ecureuil mineur",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "adjacent-ally",
+          "boost-self",
+          "connector",
+          "familiar"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 3261,
+        "played": 643,
+        "ignored": 2618,
+        "selectionRate": 0.19717877951548604,
+        "wins": 327,
+        "losses": 316,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5085536547433903,
+        "averageFlips": 0.47900466562986005,
+        "failedImpactRate": 0.4634146341463415,
+        "averageFlipMargin": 1.6590909090909092,
+        "averageEffectAmount": 0.6080870917573873,
+        "averageDamageDealt": 0.3265940902021773,
+        "averageDamageTaken": 0.17573872472783825,
+        "averageNetDamage": 0.15085536547433903,
+        "lethalMoves": 6,
+        "roundClosers": 64,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 323,
+            "winRate": 0.541795665634675
+          },
+          {
+            "modelId": "expert",
+            "played": 122,
+            "winRate": 0.5573770491803278
+          },
+          {
+            "modelId": "opportunist",
+            "played": 85,
+            "winRate": 0.47058823529411764
+          },
+          {
+            "modelId": "champion",
+            "played": 67,
+            "winRate": 0.6567164179104478
+          },
+          {
+            "modelId": "beginner",
+            "played": 46,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 249,
+            "winRate": 0.5180722891566265
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 204,
+            "winRate": 0.5294117647058824
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 190,
+            "winRate": 0.47368421052631576
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "foxfire",
+        "name": "Requin runefer",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "combo-1",
+          "familiar",
+          "flip-1",
+          "gain-shield",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 3242,
+        "played": 637,
+        "ignored": 2605,
+        "selectionRate": 0.19648365206662555,
+        "wins": 316,
+        "losses": 321,
+        "draws": 0,
+        "winRateWhenPlayed": 0.49607535321821034,
+        "averageFlips": 0.750392464678179,
+        "failedImpactRate": 0.34877384196185285,
+        "averageFlipMargin": 1.6548117154811715,
+        "averageEffectAmount": 1.1444270015698588,
+        "averageDamageDealt": 0.3642072213500785,
+        "averageDamageTaken": 0.20251177394034536,
+        "averageNetDamage": 0.16169544740973313,
+        "lethalMoves": 4,
+        "roundClosers": 87,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 273,
+            "winRate": 0.48717948717948717
+          },
+          {
+            "modelId": "expert",
+            "played": 149,
+            "winRate": 0.5906040268456376
+          },
+          {
+            "modelId": "opportunist",
+            "played": 101,
+            "winRate": 0.46534653465346537
+          },
+          {
+            "modelId": "champion",
+            "played": 68,
+            "winRate": 0.7058823529411765
+          },
+          {
+            "modelId": "beginner",
+            "played": 46,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 232,
+            "winRate": 0.49137931034482757
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 213,
+            "winRate": 0.4835680751173709
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 192,
+            "winRate": 0.515625
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "gate-thief",
+        "name": "Voleuse des portes",
+        "family": "human",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "attacker",
+          "draw-next-turn",
+          "flip-1",
+          "human"
+        ],
+        "preferredPositions": [],
+        "offered": 3317,
+        "played": 633,
+        "ignored": 2684,
+        "selectionRate": 0.19083509195055773,
+        "wins": 304,
+        "losses": 329,
+        "draws": 0,
+        "winRateWhenPlayed": 0.4802527646129542,
+        "averageFlips": 0.8088467614533965,
+        "failedImpactRate": 0.2778561354019746,
+        "averageFlipMargin": 1.55078125,
+        "averageEffectAmount": 0.8088467614533965,
+        "averageDamageDealt": 0.3080568720379147,
+        "averageDamageTaken": 0.22432859399684044,
+        "averageNetDamage": 0.08372827804107427,
+        "lethalMoves": 7,
+        "roundClosers": 66,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 287,
+            "winRate": 0.47038327526132406
+          },
+          {
+            "modelId": "opportunist",
+            "played": 132,
+            "winRate": 0.4621212121212121
+          },
+          {
+            "modelId": "expert",
+            "played": 113,
+            "winRate": 0.5575221238938053
+          },
+          {
+            "modelId": "champion",
+            "played": 65,
+            "winRate": 0.6923076923076923
+          },
+          {
+            "modelId": "beginner",
+            "played": 36,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 223,
+            "winRate": 0.47533632286995514
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 223,
+            "winRate": 0.452914798206278
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 187,
+            "winRate": 0.5187165775401069
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "heron",
+        "name": "Oiselle aubeplume",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "combo-1",
+          "connector",
+          "draw-next-turn",
+          "familiar",
+          "flip-1"
+        ],
+        "preferredPositions": [],
+        "offered": 3293,
+        "played": 631,
+        "ignored": 2662,
+        "selectionRate": 0.19161858487701183,
+        "wins": 303,
+        "losses": 328,
+        "draws": 0,
+        "winRateWhenPlayed": 0.48019017432646594,
+        "averageFlips": 0.8003169572107766,
+        "failedImpactRate": 0.2507418397626113,
+        "averageFlipMargin": 1.3445544554455446,
+        "averageEffectAmount": 1.1315372424722663,
+        "averageDamageDealt": 0.2900158478605388,
+        "averageDamageTaken": 0.1600633914421553,
+        "averageNetDamage": 0.1299524564183835,
+        "lethalMoves": 4,
+        "roundClosers": 61,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 272,
+            "winRate": 0.46691176470588236
+          },
+          {
+            "modelId": "expert",
+            "played": 131,
+            "winRate": 0.5877862595419847
+          },
+          {
+            "modelId": "opportunist",
+            "played": 131,
+            "winRate": 0.4961832061068702
+          },
+          {
+            "modelId": "champion",
+            "played": 49,
+            "winRate": 0.6938775510204082
+          },
+          {
+            "modelId": "beginner",
+            "played": 48,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 242,
+            "winRate": 0.4793388429752066
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 201,
+            "winRate": 0.5124378109452736
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 188,
+            "winRate": 0.44680851063829785
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "cinder-grin",
+        "name": "Sourire de suie",
+        "family": "demon",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "deal-damage"
+        ],
+        "buildTags": [
+          "combo-1",
+          "deal-damage",
+          "demon",
+          "flip-1",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 3264,
+        "played": 620,
+        "ignored": 2644,
+        "selectionRate": 0.18995098039215685,
+        "wins": 314,
+        "losses": 306,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5064516129032258,
+        "averageFlips": 0.6387096774193548,
+        "failedImpactRate": 0.391705069124424,
+        "averageFlipMargin": 1.702020202020202,
+        "averageEffectAmount": 0.44193548387096776,
+        "averageDamageDealt": 0.8935483870967742,
+        "averageDamageTaken": 0.27741935483870966,
+        "averageNetDamage": 0.6161290322580646,
+        "lethalMoves": 5,
+        "roundClosers": 73,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 266,
+            "winRate": 0.46616541353383456
+          },
+          {
+            "modelId": "expert",
+            "played": 120,
+            "winRate": 0.6166666666666667
+          },
+          {
+            "modelId": "opportunist",
+            "played": 114,
+            "winRate": 0.49122807017543857
+          },
+          {
+            "modelId": "champion",
+            "played": 81,
+            "winRate": 0.7407407407407407
+          },
+          {
+            "modelId": "beginner",
+            "played": 39,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter10",
+            "played": 235,
+            "winRate": 0.44680851063829785
+          },
+          {
+            "deckPresetId": "starter12",
+            "played": 206,
+            "winRate": 0.5728155339805825
+          },
+          {
+            "deckPresetId": "starter14",
+            "played": 179,
+            "winRate": 0.5083798882681564
           }
         ],
         "status": "healthy",
@@ -2654,60 +2654,60 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 1532,
-        "played": 474,
-        "ignored": 1058,
-        "selectionRate": 0.3093994778067885,
-        "wins": 251,
-        "losses": 223,
+        "offered": 1580,
+        "played": 484,
+        "ignored": 1096,
+        "selectionRate": 0.30632911392405066,
+        "wins": 257,
+        "losses": 227,
         "draws": 0,
-        "winRateWhenPlayed": 0.5295358649789029,
-        "averageFlips": 0.2489451476793249,
-        "failedImpactRate": 0.5203252032520326,
-        "averageFlipMargin": 1.6355932203389831,
-        "averageEffectAmount": 1.6814345991561181,
-        "averageDamageDealt": 0.17088607594936708,
-        "averageDamageTaken": 0.08016877637130802,
-        "averageNetDamage": 0.09071729957805906,
-        "lethalMoves": 1,
-        "roundClosers": 30,
+        "winRateWhenPlayed": 0.53099173553719,
+        "averageFlips": 0.1962809917355372,
+        "failedImpactRate": 0.6346153846153846,
+        "averageFlipMargin": 1.7263157894736842,
+        "averageEffectAmount": 1.6632231404958677,
+        "averageDamageDealt": 0.22107438016528927,
+        "averageDamageTaken": 0.10537190082644628,
+        "averageNetDamage": 0.11570247933884299,
+        "lethalMoves": 6,
+        "roundClosers": 36,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 211,
-            "winRate": 0.5355450236966824
-          },
-          {
-            "modelId": "opportunist",
-            "played": 95,
-            "winRate": 0.4105263157894737
+            "played": 220,
+            "winRate": 0.5545454545454546
           },
           {
             "modelId": "expert",
-            "played": 93,
-            "winRate": 0.5913978494623656
+            "played": 96,
+            "winRate": 0.6145833333333334
+          },
+          {
+            "modelId": "opportunist",
+            "played": 80,
+            "winRate": 0.3875
           },
           {
             "modelId": "champion",
-            "played": 61,
-            "winRate": 0.7213114754098361
+            "played": 65,
+            "winRate": 0.6923076923076923
           },
           {
             "modelId": "beginner",
-            "played": 14,
+            "played": 23,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter12",
-            "played": 252,
-            "winRate": 0.5158730158730159
+            "played": 260,
+            "winRate": 0.5115384615384615
           },
           {
             "deckPresetId": "starter14",
-            "played": 222,
-            "winRate": 0.545045045045045
+            "played": 224,
+            "winRate": 0.5535714285714286
           }
         ],
         "status": "healthy",
@@ -2738,60 +2738,60 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 1680,
-        "played": 437,
-        "ignored": 1243,
-        "selectionRate": 0.26011904761904764,
-        "wins": 208,
-        "losses": 229,
+        "offered": 1759,
+        "played": 453,
+        "ignored": 1306,
+        "selectionRate": 0.25753268902785675,
+        "wins": 237,
+        "losses": 216,
         "draws": 0,
-        "winRateWhenPlayed": 0.4759725400457666,
-        "averageFlips": 0.43249427917620137,
-        "failedImpactRate": 0.3527397260273973,
-        "averageFlipMargin": 1.3756613756613756,
-        "averageEffectAmount": 0.8741418764302059,
-        "averageDamageDealt": 0.2036613272311213,
-        "averageDamageTaken": 0.11899313501144165,
-        "averageNetDamage": 0.08466819221967964,
-        "lethalMoves": 2,
-        "roundClosers": 29,
+        "winRateWhenPlayed": 0.5231788079470199,
+        "averageFlips": 0.4216335540838852,
+        "failedImpactRate": 0.3612040133779264,
+        "averageFlipMargin": 1.3455497382198953,
+        "averageEffectAmount": 0.8498896247240618,
+        "averageDamageDealt": 0.22737306843267108,
+        "averageDamageTaken": 0.152317880794702,
+        "averageNetDamage": 0.07505518763796909,
+        "lethalMoves": 3,
+        "roundClosers": 34,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 205,
-            "winRate": 0.4878048780487805
+            "played": 194,
+            "winRate": 0.5463917525773195
           },
           {
             "modelId": "expert",
-            "played": 94,
-            "winRate": 0.4787234042553192
+            "played": 119,
+            "winRate": 0.6134453781512605
           },
           {
             "modelId": "opportunist",
-            "played": 86,
-            "winRate": 0.4069767441860465
+            "played": 73,
+            "winRate": 0.3972602739726027
           },
           {
             "modelId": "champion",
-            "played": 38,
-            "winRate": 0.7368421052631579
+            "played": 44,
+            "winRate": 0.6590909090909091
           },
           {
             "modelId": "beginner",
-            "played": 14,
+            "played": 23,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
-            "deckPresetId": "starter14",
-            "played": 222,
-            "winRate": 0.481981981981982
+            "deckPresetId": "starter12",
+            "played": 231,
+            "winRate": 0.5411255411255411
           },
           {
-            "deckPresetId": "starter12",
-            "played": 215,
-            "winRate": 0.4697674418604651
+            "deckPresetId": "starter14",
+            "played": 222,
+            "winRate": 0.5045045045045045
           }
         ],
         "status": "healthy",
@@ -2819,60 +2819,60 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "human"
         ],
         "preferredPositions": [],
-        "offered": 1916,
-        "played": 383,
-        "ignored": 1533,
-        "selectionRate": 0.19989561586638832,
-        "wins": 203,
-        "losses": 180,
+        "offered": 2053,
+        "played": 401,
+        "ignored": 1652,
+        "selectionRate": 0.19532391622016562,
+        "wins": 198,
+        "losses": 203,
         "draws": 0,
-        "winRateWhenPlayed": 0.5300261096605744,
-        "averageFlips": 0.804177545691906,
-        "failedImpactRate": 0.2542372881355932,
-        "averageFlipMargin": 1.5129870129870129,
-        "averageEffectAmount": 0.3185378590078329,
-        "averageDamageDealt": 0.8433420365535248,
-        "averageDamageTaken": 0.2506527415143603,
-        "averageNetDamage": 0.5926892950391645,
-        "lethalMoves": 10,
-        "roundClosers": 55,
+        "winRateWhenPlayed": 0.4937655860349127,
+        "averageFlips": 0.7880299251870324,
+        "failedImpactRate": 0.28018223234624146,
+        "averageFlipMargin": 1.4936708860759493,
+        "averageEffectAmount": 0.2543640897755611,
+        "averageDamageDealt": 0.8154613466334164,
+        "averageDamageTaken": 0.24688279301745636,
+        "averageNetDamage": 0.56857855361596,
+        "lethalMoves": 6,
+        "roundClosers": 54,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 163,
-            "winRate": 0.5521472392638037
+            "played": 168,
+            "winRate": 0.4642857142857143
           },
           {
             "modelId": "expert",
-            "played": 88,
-            "winRate": 0.5340909090909091
+            "played": 100,
+            "winRate": 0.57
           },
           {
             "modelId": "opportunist",
-            "played": 61,
-            "winRate": 0.5081967213114754
+            "played": 59,
+            "winRate": 0.4576271186440678
           },
           {
             "modelId": "champion",
-            "played": 48,
-            "winRate": 0.7291666666666666
+            "played": 47,
+            "winRate": 0.7659574468085106
           },
           {
             "modelId": "beginner",
-            "played": 23,
+            "played": 27,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter12",
-            "played": 195,
-            "winRate": 0.5692307692307692
+            "played": 224,
+            "winRate": 0.5401785714285714
           },
           {
             "deckPresetId": "starter14",
-            "played": 188,
-            "winRate": 0.48936170212765956
+            "played": 177,
+            "winRate": 0.4350282485875706
           }
         ],
         "status": "healthy",
@@ -2899,133 +2899,55 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "stabilizer"
         ],
         "preferredPositions": [],
-        "offered": 730,
-        "played": 229,
-        "ignored": 501,
-        "selectionRate": 0.3136986301369863,
-        "wins": 115,
-        "losses": 114,
+        "offered": 734,
+        "played": 232,
+        "ignored": 502,
+        "selectionRate": 0.31607629427792916,
+        "wins": 123,
+        "losses": 109,
         "draws": 0,
-        "winRateWhenPlayed": 0.5021834061135371,
-        "averageFlips": 0.4410480349344978,
-        "failedImpactRate": 0.44505494505494503,
-        "averageFlipMargin": 1.4356435643564356,
+        "winRateWhenPlayed": 0.5301724137931034,
+        "averageFlips": 0.39655172413793105,
+        "failedImpactRate": 0.5053763440860215,
+        "averageFlipMargin": 1.4130434782608696,
         "averageEffectAmount": 1,
-        "averageDamageDealt": 0.2314410480349345,
-        "averageDamageTaken": 0.13973799126637554,
-        "averageNetDamage": 0.09170305676855897,
+        "averageDamageDealt": 0.49137931034482757,
+        "averageDamageTaken": 0.28448275862068967,
+        "averageNetDamage": 0.2068965517241379,
         "lethalMoves": 1,
-        "roundClosers": 19,
+        "roundClosers": 37,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 97,
-            "winRate": 0.5154639175257731
-          },
-          {
-            "modelId": "expert",
-            "played": 47,
-            "winRate": 0.723404255319149
-          },
-          {
-            "modelId": "opportunist",
-            "played": 47,
-            "winRate": 0.2553191489361702
-          },
-          {
-            "modelId": "champion",
-            "played": 25,
-            "winRate": 0.76
-          },
-          {
-            "modelId": "beginner",
-            "played": 13,
-            "winRate": 0
-          }
-        ],
-        "byDeck": [
-          {
-            "deckPresetId": "starter14",
-            "played": 229,
-            "winRate": 0.5021834061135371
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "spring-knave",
-        "name": "Valet ressort",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "automaton",
-          "behind-on-board",
-          "boost-self",
-          "connector"
-        ],
-        "preferredPositions": [
-          "behind"
-        ],
-        "offered": 814,
-        "played": 213,
-        "ignored": 601,
-        "selectionRate": 0.2616707616707617,
-        "wins": 106,
-        "losses": 107,
-        "draws": 0,
-        "winRateWhenPlayed": 0.49765258215962443,
-        "averageFlips": 0.4507042253521127,
-        "failedImpactRate": 0.48936170212765956,
-        "averageFlipMargin": 2.5416666666666665,
-        "averageEffectAmount": 0.8873239436619719,
-        "averageDamageDealt": 0.22065727699530516,
-        "averageDamageTaken": 0.15023474178403756,
-        "averageNetDamage": 0.0704225352112676,
-        "lethalMoves": 0,
-        "roundClosers": 15,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 110,
+            "played": 99,
             "winRate": 0.5454545454545454
           },
           {
             "modelId": "expert",
-            "played": 43,
-            "winRate": 0.5581395348837209
-          },
-          {
-            "modelId": "opportunist",
-            "played": 27,
-            "winRate": 0.3333333333333333
+            "played": 57,
+            "winRate": 0.5964912280701754
           },
           {
             "modelId": "champion",
-            "played": 20,
-            "winRate": 0.65
+            "played": 32,
+            "winRate": 0.71875
+          },
+          {
+            "modelId": "opportunist",
+            "played": 32,
+            "winRate": 0.375
           },
           {
             "modelId": "beginner",
-            "played": 13,
+            "played": 12,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter14",
-            "played": 213,
-            "winRate": 0.49765258215962443
+            "played": 232,
+            "winRate": 0.5301724137931034
           }
         ],
         "status": "healthy",
@@ -3056,55 +2978,133 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 835,
-        "played": 195,
-        "ignored": 640,
-        "selectionRate": 0.23353293413173654,
-        "wins": 79,
-        "losses": 116,
+        "offered": 824,
+        "played": 210,
+        "ignored": 614,
+        "selectionRate": 0.25485436893203883,
+        "wins": 100,
+        "losses": 110,
         "draws": 0,
-        "winRateWhenPlayed": 0.40512820512820513,
-        "averageFlips": 0.18461538461538463,
-        "failedImpactRate": 0.64,
-        "averageFlipMargin": 1.7777777777777777,
-        "averageEffectAmount": 1.0512820512820513,
-        "averageDamageDealt": 0.15384615384615385,
-        "averageDamageTaken": 0.14358974358974358,
-        "averageNetDamage": 0.010256410256410275,
-        "lethalMoves": 1,
-        "roundClosers": 12,
+        "winRateWhenPlayed": 0.47619047619047616,
+        "averageFlips": 0.19523809523809524,
+        "failedImpactRate": 0.6132075471698113,
+        "averageFlipMargin": 1.6585365853658536,
+        "averageEffectAmount": 0.919047619047619,
+        "averageDamageDealt": 0.10476190476190476,
+        "averageDamageTaken": 0.0761904761904762,
+        "averageNetDamage": 0.028571428571428567,
+        "lethalMoves": 2,
+        "roundClosers": 6,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 92,
-            "winRate": 0.4673913043478261
+            "played": 100,
+            "winRate": 0.51
           },
           {
             "modelId": "expert",
-            "played": 39,
-            "winRate": 0.48717948717948717
+            "played": 47,
+            "winRate": 0.5319148936170213
           },
           {
             "modelId": "opportunist",
-            "played": 31,
-            "winRate": 0.2903225806451613
-          },
-          {
-            "modelId": "beginner",
-            "played": 18,
-            "winRate": 0
+            "played": 33,
+            "winRate": 0.3939393939393939
           },
           {
             "modelId": "champion",
             "played": 15,
-            "winRate": 0.5333333333333333
+            "winRate": 0.7333333333333333
+          },
+          {
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter14",
-            "played": 195,
-            "winRate": 0.40512820512820513
+            "played": 210,
+            "winRate": 0.47619047619047616
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "spring-knave",
+        "name": "Valet ressort",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "automaton",
+          "behind-on-board",
+          "boost-self",
+          "connector"
+        ],
+        "preferredPositions": [
+          "behind"
+        ],
+        "offered": 782,
+        "played": 201,
+        "ignored": 581,
+        "selectionRate": 0.2570332480818414,
+        "wins": 116,
+        "losses": 85,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5771144278606966,
+        "averageFlips": 0.39800995024875624,
+        "failedImpactRate": 0.5121951219512195,
+        "averageFlipMargin": 2.225,
+        "averageEffectAmount": 0.9104477611940298,
+        "averageDamageDealt": 0.21393034825870647,
+        "averageDamageTaken": 0.14427860696517414,
+        "averageNetDamage": 0.06965174129353233,
+        "lethalMoves": 1,
+        "roundClosers": 16,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 93,
+            "winRate": 0.6451612903225806
+          },
+          {
+            "modelId": "expert",
+            "played": 47,
+            "winRate": 0.5957446808510638
+          },
+          {
+            "modelId": "champion",
+            "played": 28,
+            "winRate": 0.6785714285714286
+          },
+          {
+            "modelId": "opportunist",
+            "played": 21,
+            "winRate": 0.42857142857142855
+          },
+          {
+            "modelId": "beginner",
+            "played": 12,
+            "winRate": 0
+          }
+        ],
+        "byDeck": [
+          {
+            "deckPresetId": "starter14",
+            "played": 201,
+            "winRate": 0.5771144278606966
           }
         ],
         "status": "healthy",
@@ -3132,55 +3132,55 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "gain-shield"
         ],
         "preferredPositions": [],
-        "offered": 941,
-        "played": 188,
-        "ignored": 753,
-        "selectionRate": 0.1997874601487779,
-        "wins": 100,
-        "losses": 88,
+        "offered": 970,
+        "played": 182,
+        "ignored": 788,
+        "selectionRate": 0.18762886597938144,
+        "wins": 96,
+        "losses": 86,
         "draws": 0,
-        "winRateWhenPlayed": 0.5319148936170213,
-        "averageFlips": 0.6436170212765957,
-        "failedImpactRate": 0.37628865979381443,
-        "averageFlipMargin": 1.3140495867768596,
-        "averageEffectAmount": 1.2819148936170213,
-        "averageDamageDealt": 0.13829787234042554,
-        "averageDamageTaken": 0.047872340425531915,
-        "averageNetDamage": 0.09042553191489362,
+        "winRateWhenPlayed": 0.5274725274725275,
+        "averageFlips": 0.7252747252747253,
+        "failedImpactRate": 0.30158730158730157,
+        "averageFlipMargin": 1.3409090909090908,
+        "averageEffectAmount": 1.445054945054945,
+        "averageDamageDealt": 0.15384615384615385,
+        "averageDamageTaken": 0.23626373626373626,
+        "averageNetDamage": -0.0824175824175824,
         "lethalMoves": 1,
-        "roundClosers": 9,
+        "roundClosers": 16,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 80,
-            "winRate": 0.5875
+            "played": 74,
+            "winRate": 0.6081081081081081
           },
           {
             "modelId": "expert",
-            "played": 40,
-            "winRate": 0.625
+            "played": 42,
+            "winRate": 0.5952380952380952
           },
           {
             "modelId": "opportunist",
-            "played": 36,
-            "winRate": 0.4722222222222222
+            "played": 28,
+            "winRate": 0.35714285714285715
           },
           {
             "modelId": "champion",
             "played": 19,
-            "winRate": 0.5789473684210527
+            "winRate": 0.8421052631578947
           },
           {
             "modelId": "beginner",
-            "played": 13,
+            "played": 19,
             "winRate": 0
           }
         ],
         "byDeck": [
           {
             "deckPresetId": "starter14",
-            "played": 188,
-            "winRate": 0.5319148936170213
+            "played": 182,
+            "winRate": 0.5274725274725275
           }
         ],
         "status": "healthy",
@@ -3193,47 +3193,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "familiar",
         "label": "familiar",
-        "offered": 20377,
-        "played": 4663,
-        "ignored": 15714,
-        "selectionRate": 0.22883643323354763,
-        "wins": 2397,
-        "losses": 2266,
+        "offered": 20951,
+        "played": 4849,
+        "ignored": 16102,
+        "selectionRate": 0.231444799770894,
+        "wins": 2392,
+        "losses": 2457,
         "draws": 0,
-        "winRateWhenPlayed": 0.5140467510186575,
-        "averageFlips": 0.47244263349774823,
-        "averageDamageDealt": 0.3446279219386661,
-        "averageNetDamage": 0.13596397169204374,
+        "winRateWhenPlayed": 0.4932975871313673,
+        "averageFlips": 0.4772117962466488,
+        "averageDamageDealt": 0.30253660548566713,
+        "averageNetDamage": 0.10930088678077954,
         "topCards": [
           {
             "cardId": "badger",
             "name": "Poney runique",
-            "played": 785,
-            "winRateWhenPlayed": 0.5821656050955414
+            "played": 828,
+            "winRateWhenPlayed": 0.5507246376811594
           },
           {
             "cardId": "owl",
             "name": "Chaton des ronces",
-            "played": 749,
-            "winRateWhenPlayed": 0.507343124165554
+            "played": 803,
+            "winRateWhenPlayed": 0.4919053549190536
           },
           {
             "cardId": "sapling",
             "name": "Floramie toxique",
-            "played": 685,
-            "winRateWhenPlayed": 0.527007299270073
+            "played": 662,
+            "winRateWhenPlayed": 0.4561933534743202
+          },
+          {
+            "cardId": "stag",
+            "name": "Herisson lumisylve",
+            "played": 645,
+            "winRateWhenPlayed": 0.4542635658914729
           },
           {
             "cardId": "mole",
             "name": "Ecureuil mineur",
-            "played": 644,
-            "winRateWhenPlayed": 0.4580745341614907
-          },
-          {
-            "cardId": "foxfire",
-            "name": "Requin runefer",
-            "played": 612,
-            "winRateWhenPlayed": 0.5424836601307189
+            "played": 643,
+            "winRateWhenPlayed": 0.5085536547433903
           }
         ],
         "status": "healthy",
@@ -3244,47 +3244,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "human",
         "label": "human",
-        "offered": 18625,
-        "played": 4648,
-        "ignored": 13977,
-        "selectionRate": 0.24955704697986578,
-        "wins": 2389,
-        "losses": 2259,
+        "offered": 19300,
+        "played": 4790,
+        "ignored": 14510,
+        "selectionRate": 0.24818652849740933,
+        "wins": 2494,
+        "losses": 2296,
         "draws": 0,
-        "winRateWhenPlayed": 0.5139845094664371,
-        "averageFlips": 0.4987091222030981,
-        "averageDamageDealt": 0.367039586919105,
-        "averageNetDamage": 0.1417814113597246,
+        "winRateWhenPlayed": 0.5206680584551148,
+        "averageFlips": 0.4870563674321503,
+        "averageDamageDealt": 0.3943632567849687,
+        "averageNetDamage": 0.19457202505219207,
         "topCards": [
           {
             "cardId": "path-ranger",
             "name": "Rodeuse du sentier",
-            "played": 796,
-            "winRateWhenPlayed": 0.5263819095477387
+            "played": 787,
+            "winRateWhenPlayed": 0.5476493011435832
           },
           {
             "cardId": "banner-squire",
             "name": "Ecuyere banniere",
-            "played": 736,
-            "winRateWhenPlayed": 0.48097826086956524
+            "played": 772,
+            "winRateWhenPlayed": 0.522020725388601
           },
           {
             "cardId": "rune-mage",
             "name": "Mage des runes",
-            "played": 729,
-            "winRateWhenPlayed": 0.49657064471879286
+            "played": 759,
+            "winRateWhenPlayed": 0.5138339920948617
           },
           {
             "cardId": "quiet-monk",
             "name": "Moine du seuil",
-            "played": 712,
-            "winRateWhenPlayed": 0.5393258426966292
+            "played": 748,
+            "winRateWhenPlayed": 0.5026737967914439
           },
           {
             "cardId": "field-knight",
             "name": "Chevaliere des champs",
-            "played": 679,
-            "winRateWhenPlayed": 0.5493372606774669
+            "played": 690,
+            "winRateWhenPlayed": 0.5681159420289855
           }
         ],
         "status": "healthy",
@@ -3295,47 +3295,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "demon",
         "label": "demon",
-        "offered": 21169,
-        "played": 4395,
-        "ignored": 16774,
-        "selectionRate": 0.20761490859275356,
-        "wins": 2171,
-        "losses": 2224,
+        "offered": 21777,
+        "played": 4495,
+        "ignored": 17282,
+        "selectionRate": 0.20641043302566928,
+        "wins": 2229,
+        "losses": 2266,
         "draws": 0,
-        "winRateWhenPlayed": 0.4939704209328783,
-        "averageFlips": 0.5415244596131968,
-        "averageDamageDealt": 0.7337883959044369,
-        "averageNetDamage": 0.48759954493742896,
+        "winRateWhenPlayed": 0.49588431590656284,
+        "averageFlips": 0.539265850945495,
+        "averageDamageDealt": 0.7030033370411568,
+        "averageNetDamage": 0.4505005561735261,
         "topCards": [
-          {
-            "cardId": "little-abyss",
-            "name": "Petit abysse",
-            "played": 710,
-            "winRateWhenPlayed": 0.48169014084507045
-          },
           {
             "cardId": "pact-sprite",
             "name": "Lutin a pacte",
-            "played": 671,
-            "winRateWhenPlayed": 0.503725782414307
+            "played": 693,
+            "winRateWhenPlayed": 0.5050505050505051
           },
           {
-            "cardId": "cinder-grin",
-            "name": "Sourire de suie",
-            "played": 646,
-            "winRateWhenPlayed": 0.4984520123839009
+            "cardId": "little-abyss",
+            "name": "Petit abysse",
+            "played": 688,
+            "winRateWhenPlayed": 0.501453488372093
           },
           {
             "cardId": "ash-whisper",
             "name": "Murmure de cendre",
-            "played": 637,
-            "winRateWhenPlayed": 0.44427001569858715
+            "played": 666,
+            "winRateWhenPlayed": 0.481981981981982
           },
           {
             "cardId": "brimstone-tot",
             "name": "Bambin soufre",
-            "played": 612,
-            "winRateWhenPlayed": 0.5049019607843137
+            "played": 655,
+            "winRateWhenPlayed": 0.48396946564885496
+          },
+          {
+            "cardId": "cinder-grin",
+            "name": "Sourire de suie",
+            "played": 620,
+            "winRateWhenPlayed": 0.5064516129032258
           }
         ],
         "status": "healthy",
@@ -3346,47 +3346,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "automaton",
         "label": "automaton",
-        "offered": 8666,
-        "played": 2092,
-        "ignored": 6574,
-        "selectionRate": 0.24140318486037388,
-        "wins": 1034,
-        "losses": 1058,
+        "offered": 8876,
+        "played": 2135,
+        "ignored": 6741,
+        "selectionRate": 0.24053627760252366,
+        "wins": 1105,
+        "losses": 1030,
         "draws": 0,
-        "winRateWhenPlayed": 0.494263862332696,
-        "averageFlips": 0.37476099426386233,
-        "averageDamageDealt": 0.23852772466539196,
-        "averageNetDamage": 0.08891013384321222,
+        "winRateWhenPlayed": 0.5175644028103045,
+        "averageFlips": 0.3540983606557377,
+        "averageDamageDealt": 0.29227166276346606,
+        "averageNetDamage": 0.10023419203747075,
         "topCards": [
           {
             "cardId": "clock-sentinel",
             "name": "Sentinelle d'horloge",
-            "played": 474,
-            "winRateWhenPlayed": 0.5295358649789029
+            "played": 484,
+            "winRateWhenPlayed": 0.53099173553719
           },
           {
             "cardId": "brass-rook",
             "name": "Tour de laiton",
-            "played": 437,
-            "winRateWhenPlayed": 0.4759725400457666
+            "played": 453,
+            "winRateWhenPlayed": 0.5231788079470199
           },
           {
             "cardId": "gear-monk",
             "name": "Moine engrene",
-            "played": 356,
-            "winRateWhenPlayed": 0.49157303370786515
+            "played": 373,
+            "winRateWhenPlayed": 0.4718498659517426
           },
           {
             "cardId": "copper-beetle",
             "name": "Scarabee cuivre",
-            "played": 229,
-            "winRateWhenPlayed": 0.5021834061135371
+            "played": 232,
+            "winRateWhenPlayed": 0.5301724137931034
           },
           {
-            "cardId": "spring-knave",
-            "name": "Valet ressort",
-            "played": 213,
-            "winRateWhenPlayed": 0.49765258215962443
+            "cardId": "tin-oracle",
+            "name": "Oracle de fer-blanc",
+            "played": 210,
+            "winRateWhenPlayed": 0.47619047619047616
           }
         ],
         "status": "healthy",
@@ -3399,47 +3399,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "sans-role",
         "label": "sans role",
-        "offered": 40047,
-        "played": 9545,
-        "ignored": 30502,
-        "selectionRate": 0.23834494468998926,
-        "wins": 4896,
-        "losses": 4649,
+        "offered": 42246,
+        "played": 10002,
+        "ignored": 32244,
+        "selectionRate": 0.23675614259338162,
+        "wins": 5114,
+        "losses": 4888,
         "draws": 0,
-        "winRateWhenPlayed": 0.5129387113672079,
-        "averageFlips": 0.47700366684127815,
-        "averageDamageDealt": 0.464117338920901,
-        "averageNetDamage": 0.23939235201676273,
+        "winRateWhenPlayed": 0.5112977404519096,
+        "averageFlips": 0.47250549890022,
+        "averageDamageDealt": 0.45560887822435514,
+        "averageNetDamage": 0.23315336932613479,
         "topCards": [
-          {
-            "cardId": "path-ranger",
-            "name": "Rodeuse du sentier",
-            "played": 529,
-            "winRateWhenPlayed": 0.5614366729678639
-          },
           {
             "cardId": "badger",
             "name": "Poney runique",
-            "played": 517,
-            "winRateWhenPlayed": 0.6092843326885881
+            "played": 560,
+            "winRateWhenPlayed": 0.5357142857142857
           },
           {
             "cardId": "owl",
             "name": "Chaton des ronces",
-            "played": 485,
-            "winRateWhenPlayed": 0.5051546391752577
+            "played": 540,
+            "winRateWhenPlayed": 0.49444444444444446
+          },
+          {
+            "cardId": "path-ranger",
+            "name": "Rodeuse du sentier",
+            "played": 522,
+            "winRateWhenPlayed": 0.5593869731800766
           },
           {
             "cardId": "banner-squire",
             "name": "Ecuyere banniere",
-            "played": 473,
-            "winRateWhenPlayed": 0.46511627906976744
+            "played": 507,
+            "winRateWhenPlayed": 0.5266272189349113
           },
           {
-            "cardId": "rune-mage",
-            "name": "Mage des runes",
-            "played": 463,
-            "winRateWhenPlayed": 0.4946004319654428
+            "cardId": "quiet-monk",
+            "name": "Moine du seuil",
+            "played": 493,
+            "winRateWhenPlayed": 0.5557809330628803
           }
         ],
         "status": "healthy",
@@ -3450,47 +3450,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "attacker",
         "label": "attacker",
-        "offered": 10245,
-        "played": 2260,
-        "ignored": 7985,
-        "selectionRate": 0.22059541239629088,
-        "wins": 1112,
-        "losses": 1148,
+        "offered": 10024,
+        "played": 2274,
+        "ignored": 7750,
+        "selectionRate": 0.2268555466879489,
+        "wins": 1146,
+        "losses": 1128,
         "draws": 0,
-        "winRateWhenPlayed": 0.4920353982300885,
-        "averageFlips": 0.5163716814159292,
-        "averageDamageDealt": 0.45530973451327433,
-        "averageNetDamage": 0.2907079646017699,
+        "winRateWhenPlayed": 0.503957783641161,
+        "averageFlips": 0.5259454705364995,
+        "averageDamageDealt": 0.4542656112576957,
+        "averageNetDamage": 0.2669305189094108,
         "topCards": [
           {
             "cardId": "badger",
             "name": "Poney runique",
             "played": 268,
-            "winRateWhenPlayed": 0.5298507462686567
+            "winRateWhenPlayed": 0.582089552238806
+          },
+          {
+            "cardId": "ash-whisper",
+            "name": "Murmure de cendre",
+            "played": 266,
+            "winRateWhenPlayed": 0.5150375939849624
           },
           {
             "cardId": "path-ranger",
             "name": "Rodeuse du sentier",
-            "played": 267,
-            "winRateWhenPlayed": 0.45692883895131087
+            "played": 265,
+            "winRateWhenPlayed": 0.5245283018867924
           },
           {
             "cardId": "little-abyss",
             "name": "Petit abysse",
-            "played": 266,
-            "winRateWhenPlayed": 0.46616541353383456
+            "played": 265,
+            "winRateWhenPlayed": 0.5169811320754717
           },
           {
-            "cardId": "brimstone-tot",
-            "name": "Bambin soufre",
-            "played": 262,
-            "winRateWhenPlayed": 0.46564885496183206
-          },
-          {
-            "cardId": "gate-thief",
-            "name": "Voleuse des portes",
+            "cardId": "ember-imp",
+            "name": "Diablotin braise",
             "played": 261,
-            "winRateWhenPlayed": 0.5095785440613027
+            "winRateWhenPlayed": 0.4827586206896552
           }
         ],
         "status": "healthy",
@@ -3501,47 +3501,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "connector",
         "label": "connector",
-        "offered": 7542,
-        "played": 1550,
-        "ignored": 5992,
-        "selectionRate": 0.20551577830814108,
-        "wins": 744,
-        "losses": 806,
+        "offered": 7483,
+        "played": 1559,
+        "ignored": 5924,
+        "selectionRate": 0.20833890151008955,
+        "wins": 750,
+        "losses": 809,
         "draws": 0,
-        "winRateWhenPlayed": 0.48,
-        "averageFlips": 0.5058064516129033,
-        "averageDamageDealt": 0.2761290322580645,
-        "averageNetDamage": 0.09419354838709676,
+        "winRateWhenPlayed": 0.4810776138550353,
+        "averageFlips": 0.49839640795381657,
+        "averageDamageDealt": 0.2354073123797306,
+        "averageNetDamage": 0.06478511866581141,
         "topCards": [
           {
             "cardId": "rune-mage",
             "name": "Mage des runes",
             "played": 266,
-            "winRateWhenPlayed": 0.5
+            "winRateWhenPlayed": 0.462406015037594
           },
           {
             "cardId": "pact-sprite",
             "name": "Lutin a pacte",
-            "played": 260,
-            "winRateWhenPlayed": 0.5076923076923077
-          },
-          {
-            "cardId": "stag",
-            "name": "Herisson lumisylve",
-            "played": 258,
-            "winRateWhenPlayed": 0.4263565891472868
-          },
-          {
-            "cardId": "mole",
-            "name": "Ecureuil mineur",
-            "played": 257,
-            "winRateWhenPlayed": 0.45136186770428016
+            "played": 265,
+            "winRateWhenPlayed": 0.4716981132075472
           },
           {
             "cardId": "heron",
             "name": "Oiselle aubeplume",
-            "played": 256,
-            "winRateWhenPlayed": 0.5
+            "played": 260,
+            "winRateWhenPlayed": 0.5153846153846153
+          },
+          {
+            "cardId": "stag",
+            "name": "Herisson lumisylve",
+            "played": 259,
+            "winRateWhenPlayed": 0.4517374517374517
+          },
+          {
+            "cardId": "mole",
+            "name": "Ecureuil mineur",
+            "played": 255,
+            "winRateWhenPlayed": 0.4666666666666667
           }
         ],
         "status": "healthy",
@@ -3552,41 +3552,41 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "anchor",
         "label": "anchor",
-        "offered": 4529,
-        "played": 941,
-        "ignored": 3588,
-        "selectionRate": 0.2077721351291676,
-        "wins": 479,
-        "losses": 462,
+        "offered": 4652,
+        "played": 942,
+        "ignored": 3710,
+        "selectionRate": 0.20249355116079107,
+        "wins": 441,
+        "losses": 501,
         "draws": 0,
-        "winRateWhenPlayed": 0.5090329436769394,
-        "averageFlips": 0.4261424017003188,
-        "averageDamageDealt": 0.46971307120085015,
-        "averageNetDamage": 0.2210414452709883,
+        "winRateWhenPlayed": 0.4681528662420382,
+        "averageFlips": 0.3895966029723992,
+        "averageDamageDealt": 0.5159235668789809,
+        "averageNetDamage": 0.2611464968152866,
         "topCards": [
-          {
-            "cardId": "quiet-monk",
-            "name": "Moine du seuil",
-            "played": 257,
-            "winRateWhenPlayed": 0.5447470817120622
-          },
           {
             "cardId": "hornling",
             "name": "Cornu farceur",
-            "played": 256,
-            "winRateWhenPlayed": 0.47265625
+            "played": 260,
+            "winRateWhenPlayed": 0.5
+          },
+          {
+            "cardId": "quiet-monk",
+            "name": "Moine du seuil",
+            "played": 255,
+            "winRateWhenPlayed": 0.4
           },
           {
             "cardId": "sapling",
             "name": "Floramie toxique",
-            "played": 253,
-            "winRateWhenPlayed": 0.4743083003952569
+            "played": 251,
+            "winRateWhenPlayed": 0.450199203187251
           },
           {
             "cardId": "clock-sentinel",
             "name": "Sentinelle d'horloge",
-            "played": 175,
-            "winRateWhenPlayed": 0.56
+            "played": 176,
+            "winRateWhenPlayed": 0.5454545454545454
           }
         ],
         "status": "healthy",
@@ -3597,41 +3597,41 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "payoff",
         "label": "payoff",
-        "offered": 4143,
-        "played": 887,
-        "ignored": 3256,
-        "selectionRate": 0.2140960656529085,
-        "wins": 447,
-        "losses": 440,
+        "offered": 4167,
+        "played": 878,
+        "ignored": 3289,
+        "selectionRate": 0.21070314374850013,
+        "wins": 460,
+        "losses": 418,
         "draws": 0,
-        "winRateWhenPlayed": 0.503945885005637,
-        "averageFlips": 0.5941375422773394,
-        "averageDamageDealt": 0.5152198421645998,
-        "averageNetDamage": 0.3404735062006765,
+        "winRateWhenPlayed": 0.5239179954441914,
+        "averageFlips": 0.5831435079726651,
+        "averageDamageDealt": 0.4715261958997722,
+        "averageNetDamage": 0.31207289293849655,
         "topCards": [
           {
             "cardId": "cinder-grin",
             "name": "Sourire de suie",
-            "played": 269,
-            "winRateWhenPlayed": 0.4944237918215613
+            "played": 267,
+            "winRateWhenPlayed": 0.5056179775280899
           },
           {
             "cardId": "field-knight",
             "name": "Chevaliere des champs",
-            "played": 267,
-            "winRateWhenPlayed": 0.49812734082397003
+            "played": 263,
+            "winRateWhenPlayed": 0.5285171102661597
           },
           {
             "cardId": "foxfire",
             "name": "Requin runefer",
-            "played": 264,
-            "winRateWhenPlayed": 0.5568181818181818
+            "played": 259,
+            "winRateWhenPlayed": 0.5405405405405406
           },
           {
             "cardId": "tin-oracle",
             "name": "Oracle de fer-blanc",
-            "played": 87,
-            "winRateWhenPlayed": 0.39080459770114945
+            "played": 89,
+            "winRateWhenPlayed": 0.5168539325842697
           }
         ],
         "status": "healthy",
@@ -3642,29 +3642,29 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "stabilizer",
         "label": "stabilizer",
-        "offered": 1305,
-        "played": 352,
-        "ignored": 953,
-        "selectionRate": 0.2697318007662835,
-        "wins": 179,
-        "losses": 173,
+        "offered": 1269,
+        "played": 349,
+        "ignored": 920,
+        "selectionRate": 0.27501970055161545,
+        "wins": 173,
+        "losses": 176,
         "draws": 0,
-        "winRateWhenPlayed": 0.5085227272727273,
-        "averageFlips": 0.41761363636363635,
-        "averageDamageDealt": 0.33238636363636365,
-        "averageNetDamage": -0.03409090909090906,
+        "winRateWhenPlayed": 0.49570200573065903,
+        "averageFlips": 0.38968481375358166,
+        "averageDamageDealt": 0.35816618911174786,
+        "averageNetDamage": 0.1833810888252149,
         "topCards": [
           {
             "cardId": "owl",
             "name": "Chaton des ronces",
-            "played": 264,
-            "winRateWhenPlayed": 0.5113636363636364
+            "played": 263,
+            "winRateWhenPlayed": 0.4866920152091255
           },
           {
             "cardId": "copper-beetle",
             "name": "Scarabee cuivre",
-            "played": 88,
-            "winRateWhenPlayed": 0.5
+            "played": 86,
+            "winRateWhenPlayed": 0.5232558139534884
           }
         ],
         "status": "healthy",
@@ -3675,23 +3675,23 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "engine",
         "label": "engine",
-        "offered": 1026,
-        "played": 263,
-        "ignored": 763,
-        "selectionRate": 0.25633528265107214,
-        "wins": 134,
+        "offered": 1063,
+        "played": 265,
+        "ignored": 798,
+        "selectionRate": 0.24929444967074318,
+        "wins": 136,
         "losses": 129,
         "draws": 0,
-        "winRateWhenPlayed": 0.5095057034220533,
-        "averageFlips": 0.40304182509505704,
-        "averageDamageDealt": 0.5095057034220533,
-        "averageNetDamage": 0.13688212927756654,
+        "winRateWhenPlayed": 0.5132075471698113,
+        "averageFlips": 0.42641509433962266,
+        "averageDamageDealt": 0.5962264150943396,
+        "averageNetDamage": 0.29056603773584905,
         "topCards": [
           {
             "cardId": "banner-squire",
             "name": "Ecuyere banniere",
-            "played": 263,
-            "winRateWhenPlayed": 0.5095057034220533
+            "played": 265,
+            "winRateWhenPlayed": 0.5132075471698113
           }
         ],
         "status": "healthy",
@@ -3704,47 +3704,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "common",
         "label": "common",
-        "offered": 68837,
-        "played": 15798,
-        "ignored": 53039,
-        "selectionRate": 0.22949867077298547,
-        "wins": 7991,
-        "losses": 7807,
+        "offered": 70904,
+        "played": 16269,
+        "ignored": 54635,
+        "selectionRate": 0.2294510887961187,
+        "wins": 8220,
+        "losses": 8049,
         "draws": 0,
-        "winRateWhenPlayed": 0.5058235219648056,
-        "averageFlips": 0.4864539815166477,
-        "averageDamageDealt": 0.4454361311558425,
-        "averageNetDamage": 0.22926952778832765,
+        "winRateWhenPlayed": 0.5052553936935276,
+        "averageFlips": 0.48109902268117277,
+        "averageDamageDealt": 0.438871473354232,
+        "averageNetDamage": 0.22748786034790092,
         "topCards": [
-          {
-            "cardId": "path-ranger",
-            "name": "Rodeuse du sentier",
-            "played": 796,
-            "winRateWhenPlayed": 0.5263819095477387
-          },
           {
             "cardId": "badger",
             "name": "Poney runique",
-            "played": 785,
-            "winRateWhenPlayed": 0.5821656050955414
+            "played": 828,
+            "winRateWhenPlayed": 0.5507246376811594
           },
           {
             "cardId": "owl",
             "name": "Chaton des ronces",
-            "played": 749,
-            "winRateWhenPlayed": 0.507343124165554
+            "played": 803,
+            "winRateWhenPlayed": 0.4919053549190536
+          },
+          {
+            "cardId": "path-ranger",
+            "name": "Rodeuse du sentier",
+            "played": 787,
+            "winRateWhenPlayed": 0.5476493011435832
           },
           {
             "cardId": "banner-squire",
             "name": "Ecuyere banniere",
-            "played": 736,
-            "winRateWhenPlayed": 0.48097826086956524
+            "played": 772,
+            "winRateWhenPlayed": 0.522020725388601
           },
           {
             "cardId": "rune-mage",
             "name": "Mage des runes",
-            "played": 729,
-            "winRateWhenPlayed": 0.49657064471879286
+            "played": 759,
+            "winRateWhenPlayed": 0.5138339920948617
           }
         ],
         "status": "healthy",
@@ -3755,48 +3755,48 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     ],
     "comboAnalytics": [
       {
-        "id": "family-chain:human->human",
-        "kind": "family-chain",
-        "label": "human -> human",
-        "count": 1200,
-        "wins": 627,
-        "losses": 573,
-        "draws": 0,
-        "winRate": 0.5225,
-        "averageFlips": 0.59,
-        "averageDamageDealt": 0.4866666666666667,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
         "id": "family-chain:familiar->familiar",
         "kind": "family-chain",
         "label": "familiar -> familiar",
-        "count": 1158,
+        "count": 1229,
         "wins": 630,
-        "losses": 528,
+        "losses": 599,
         "draws": 0,
-        "winRate": 0.5440414507772021,
-        "averageFlips": 0.6113989637305699,
-        "averageDamageDealt": 0.48618307426597585,
+        "winRate": 0.5126118795768918,
+        "averageFlips": 0.6061838893409276,
+        "averageDamageDealt": 0.44914564686737185,
         "averageEffectAmount": 0,
         "notes": [
           "Produit beaucoup de flips."
         ]
       },
       {
+        "id": "family-chain:human->human",
+        "kind": "family-chain",
+        "label": "human -> human",
+        "count": 1219,
+        "wins": 680,
+        "losses": 539,
+        "draws": 0,
+        "winRate": 0.5578342904019689,
+        "averageFlips": 0.5512715340442986,
+        "averageDamageDealt": 0.55701394585726,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
         "id": "family-chain:demon->familiar",
         "kind": "family-chain",
         "label": "demon -> familiar",
-        "count": 1090,
-        "wins": 531,
-        "losses": 559,
+        "count": 1169,
+        "wins": 548,
+        "losses": 621,
         "draws": 0,
-        "winRate": 0.4871559633027523,
-        "averageFlips": 0.47522935779816516,
-        "averageDamageDealt": 0.363302752293578,
+        "winRate": 0.46877673224978617,
+        "averageFlips": 0.49615055603079555,
+        "averageDamageDealt": 0.32763045337895635,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3806,13 +3806,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:familiar->human",
         "kind": "family-chain",
         "label": "familiar -> human",
-        "count": 1073,
-        "wins": 557,
-        "losses": 516,
+        "count": 1118,
+        "wins": 573,
+        "losses": 545,
         "draws": 0,
-        "winRate": 0.5191053122087604,
-        "averageFlips": 0.5041938490214353,
-        "averageDamageDealt": 0.45013979496738116,
+        "winRate": 0.5125223613595706,
+        "averageFlips": 0.5196779964221825,
+        "averageDamageDealt": 0.501788908765653,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3822,13 +3822,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:demon->human",
         "kind": "family-chain",
         "label": "demon -> human",
-        "count": 1067,
-        "wins": 538,
-        "losses": 529,
+        "count": 1096,
+        "wins": 573,
+        "losses": 523,
         "draws": 0,
-        "winRate": 0.5042174320524836,
-        "averageFlips": 0.5126522961574508,
-        "averageDamageDealt": 0.38425492033739456,
+        "winRate": 0.5228102189781022,
+        "averageFlips": 0.5009124087591241,
+        "averageDamageDealt": 0.4023722627737226,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3838,13 +3838,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:human->familiar",
         "kind": "family-chain",
         "label": "human -> familiar",
-        "count": 1060,
-        "wins": 559,
-        "losses": 501,
+        "count": 1061,
+        "wins": 505,
+        "losses": 556,
         "draws": 0,
-        "winRate": 0.5273584905660378,
-        "averageFlips": 0.5226415094339623,
-        "averageDamageDealt": 0.47830188679245284,
+        "winRate": 0.4759660697455231,
+        "averageFlips": 0.5466540999057493,
+        "averageDamageDealt": 0.35721017907634306,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3854,13 +3854,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:familiar->demon",
         "kind": "family-chain",
         "label": "familiar -> demon",
-        "count": 947,
-        "wins": 467,
-        "losses": 480,
+        "count": 977,
+        "wins": 457,
+        "losses": 520,
         "draws": 0,
-        "winRate": 0.4931362196409715,
-        "averageFlips": 0.5934530095036958,
-        "averageDamageDealt": 0.7771911298838438,
+        "winRate": 0.4677584442169908,
+        "averageFlips": 0.5987717502558854,
+        "averageDamageDealt": 0.6499488229273286,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3870,29 +3870,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:demon->demon",
         "kind": "family-chain",
         "label": "demon -> demon",
-        "count": 883,
-        "wins": 432,
-        "losses": 451,
+        "count": 891,
+        "wins": 441,
+        "losses": 450,
         "draws": 0,
-        "winRate": 0.48924122310305773,
-        "averageFlips": 0.6274065685164213,
-        "averageDamageDealt": 0.8029445073612684,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Produit beaucoup de flips."
-        ]
-      },
-      {
-        "id": "family-chain:human->demon",
-        "kind": "family-chain",
-        "label": "human -> demon",
-        "count": 863,
-        "wins": 438,
-        "losses": 425,
-        "draws": 0,
-        "winRate": 0.507531865585168,
-        "averageFlips": 0.6164542294322132,
-        "averageDamageDealt": 0.7856315179606026,
+        "winRate": 0.494949494949495,
+        "averageFlips": 0.6464646464646465,
+        "averageDamageDealt": 0.8002244668911336,
         "averageEffectAmount": 0,
         "notes": [
           "Produit beaucoup de flips."
@@ -3902,13 +3886,29 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "friendly-adjacent:familiar+familiar",
         "kind": "friendly-adjacent",
         "label": "familiar allie + familiar",
-        "count": 862,
-        "wins": 543,
-        "losses": 319,
+        "count": 880,
+        "wins": 530,
+        "losses": 350,
         "draws": 0,
-        "winRate": 0.6299303944315545,
-        "averageFlips": 0.6334106728538283,
-        "averageDamageDealt": 0.8561484918793504,
+        "winRate": 0.6022727272727273,
+        "averageFlips": 0.675,
+        "averageDamageDealt": 0.8056818181818182,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Produit beaucoup de flips."
+        ]
+      },
+      {
+        "id": "family-chain:human->demon",
+        "kind": "family-chain",
+        "label": "human -> demon",
+        "count": 880,
+        "wins": 451,
+        "losses": 429,
+        "draws": 0,
+        "winRate": 0.5125,
+        "averageFlips": 0.6295454545454545,
+        "averageDamageDealt": 0.7761363636363636,
         "averageEffectAmount": 0,
         "notes": [
           "Produit beaucoup de flips."
@@ -3918,30 +3918,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "friendly-adjacent:human+human",
         "kind": "friendly-adjacent",
         "label": "human allie + human",
-        "count": 800,
-        "wins": 495,
-        "losses": 305,
+        "count": 824,
+        "wins": 535,
+        "losses": 289,
         "draws": 0,
-        "winRate": 0.61875,
-        "averageFlips": 0.58625,
-        "averageDamageDealt": 0.7975,
+        "winRate": 0.6492718446601942,
+        "averageFlips": 0.5691747572815534,
+        "averageDamageDealt": 0.9563106796116505,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
         ]
       },
       {
-        "id": "effect:path-ranger:boost-self",
-        "kind": "effect",
-        "label": "Rodeuse du sentier -> boost-self",
-        "count": 796,
-        "wins": 419,
-        "losses": 377,
+        "id": "friendly-adjacent:demon+human",
+        "kind": "friendly-adjacent",
+        "label": "demon allie + human",
+        "count": 815,
+        "wins": 499,
+        "losses": 316,
         "draws": 0,
-        "winRate": 0.5263819095477387,
-        "averageFlips": 0.47613065326633164,
-        "averageDamageDealt": 0.19974874371859297,
-        "averageEffectAmount": 1,
+        "winRate": 0.6122699386503068,
+        "averageFlips": 0.4233128834355828,
+        "averageDamageDealt": 0.898159509202454,
+        "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -3950,13 +3950,29 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:owl:gain-shield",
         "kind": "effect",
         "label": "Chaton des ronces -> gain-shield",
-        "count": 748,
-        "wins": 380,
-        "losses": 368,
+        "count": 803,
+        "wins": 395,
+        "losses": 408,
         "draws": 0,
-        "winRate": 0.5080213903743316,
-        "averageFlips": 0.3877005347593583,
-        "averageDamageDealt": 0.39438502673796794,
+        "winRate": 0.4919053549190536,
+        "averageFlips": 0.39476961394769616,
+        "averageDamageDealt": 0.31008717310087175,
+        "averageEffectAmount": 1,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:path-ranger:boost-self",
+        "kind": "effect",
+        "label": "Rodeuse du sentier -> boost-self",
+        "count": 787,
+        "wins": 431,
+        "losses": 356,
+        "draws": 0,
+        "winRate": 0.5476493011435832,
+        "averageFlips": 0.48792884371029227,
+        "averageDamageDealt": 0.2121982210927573,
         "averageEffectAmount": 1,
         "notes": [
           "Signal descriptif a confirmer."
@@ -3966,45 +3982,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:rune-mage:draw-next-turn",
         "kind": "effect",
         "label": "Mage des runes -> draw-next-turn",
-        "count": 729,
-        "wins": 362,
-        "losses": 367,
+        "count": 759,
+        "wins": 390,
+        "losses": 369,
         "draws": 0,
-        "winRate": 0.49657064471879286,
-        "averageFlips": 0.3223593964334705,
-        "averageDamageDealt": 0.23593964334705075,
-        "averageEffectAmount": 1,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:demon+human",
-        "kind": "friendly-adjacent",
-        "label": "demon allie + human",
-        "count": 717,
-        "wins": 417,
-        "losses": 300,
-        "draws": 0,
-        "winRate": 0.5815899581589958,
-        "averageFlips": 0.4714086471408647,
-        "averageDamageDealt": 0.8256624825662483,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:quiet-monk:gain-shield",
-        "kind": "effect",
-        "label": "Moine du seuil -> gain-shield",
-        "count": 711,
-        "wins": 383,
-        "losses": 328,
-        "draws": 0,
-        "winRate": 0.5386779184247539,
-        "averageFlips": 0.36427566807313644,
-        "averageDamageDealt": 0.2587904360056259,
+        "winRate": 0.5138339920948617,
+        "averageFlips": 0.3069828722002635,
+        "averageDamageDealt": 0.17918313570487485,
         "averageEffectAmount": 1,
         "notes": [
           "Signal descriptif a confirmer."
@@ -4014,13 +3998,45 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "friendly-adjacent:demon+familiar",
         "kind": "friendly-adjacent",
         "label": "demon allie + familiar",
-        "count": 705,
-        "wins": 373,
-        "losses": 332,
+        "count": 758,
+        "wins": 408,
+        "losses": 350,
         "draws": 0,
-        "winRate": 0.5290780141843971,
-        "averageFlips": 0.41702127659574467,
-        "averageDamageDealt": 0.8524822695035461,
+        "winRate": 0.5382585751978892,
+        "averageFlips": 0.44591029023746703,
+        "averageDamageDealt": 0.6292875989445911,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:quiet-monk:gain-shield",
+        "kind": "effect",
+        "label": "Moine du seuil -> gain-shield",
+        "count": 748,
+        "wins": 376,
+        "losses": 372,
+        "draws": 0,
+        "winRate": 0.5026737967914439,
+        "averageFlips": 0.3195187165775401,
+        "averageDamageDealt": 0.3114973262032086,
+        "averageEffectAmount": 1,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:familiar+human",
+        "kind": "friendly-adjacent",
+        "label": "familiar allie + human",
+        "count": 711,
+        "wins": 405,
+        "losses": 306,
+        "draws": 0,
+        "winRate": 0.569620253164557,
+        "averageFlips": 0.40646976090014064,
+        "averageDamageDealt": 0.9774964838255977,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
@@ -4030,14 +4046,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:little-abyss:deal-damage",
         "kind": "effect",
         "label": "Petit abysse -> deal-damage",
-        "count": 685,
-        "wins": 323,
-        "losses": 362,
+        "count": 678,
+        "wins": 339,
+        "losses": 339,
         "draws": 0,
-        "winRate": 0.47153284671532847,
-        "averageFlips": 0.2875912408759124,
-        "averageDamageDealt": 0.8759124087591241,
-        "averageEffectAmount": 0.654014598540146,
+        "winRate": 0.5,
+        "averageFlips": 0.31563421828908556,
+        "averageDamageDealt": 0.9026548672566371,
+        "averageEffectAmount": 0.6814159292035398,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -4046,46 +4062,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:badger:gain-shield",
         "kind": "effect",
         "label": "Poney runique -> gain-shield",
-        "count": 637,
-        "wins": 379,
-        "losses": 258,
+        "count": 669,
+        "wins": 383,
+        "losses": 286,
         "draws": 0,
-        "winRate": 0.5949764521193093,
-        "averageFlips": 0.12244897959183673,
-        "averageDamageDealt": 0.19937205651491366,
-        "averageEffectAmount": 1.9984301412872842,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:familiar+human",
-        "kind": "friendly-adjacent",
-        "label": "familiar allie + human",
-        "count": 618,
-        "wins": 361,
-        "losses": 257,
-        "draws": 0,
-        "winRate": 0.5841423948220065,
-        "averageFlips": 0.3786407766990291,
-        "averageDamageDealt": 0.9951456310679612,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:human+familiar",
-        "kind": "friendly-adjacent",
-        "label": "human allie + familiar",
-        "count": 592,
-        "wins": 369,
-        "losses": 223,
-        "draws": 0,
-        "winRate": 0.6233108108108109,
-        "averageFlips": 0.44763513513513514,
-        "averageDamageDealt": 0.9510135135135135,
-        "averageEffectAmount": 0,
+        "winRate": 0.5724962630792227,
+        "averageFlips": 0.17189835575485798,
+        "averageDamageDealt": 0.17937219730941703,
+        "averageEffectAmount": 1.9970104633781764,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -4094,14 +4078,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:banner-squire:gain-shield",
         "kind": "effect",
         "label": "Ecuyere banniere -> gain-shield",
-        "count": 572,
-        "wins": 297,
-        "losses": 275,
+        "count": 608,
+        "wins": 331,
+        "losses": 277,
         "draws": 0,
-        "winRate": 0.5192307692307693,
-        "averageFlips": 0.34440559440559443,
-        "averageDamageDealt": 0.6555944055944056,
-        "averageEffectAmount": 1.597902097902098,
+        "winRate": 0.5444078947368421,
+        "averageFlips": 0.39144736842105265,
+        "averageDamageDealt": 0.75,
+        "averageEffectAmount": 1.6217105263157894,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:human+familiar",
+        "kind": "friendly-adjacent",
+        "label": "human allie + familiar",
+        "count": 559,
+        "wins": 313,
+        "losses": 246,
+        "draws": 0,
+        "winRate": 0.5599284436493739,
+        "averageFlips": 0.4418604651162791,
+        "averageDamageDealt": 0.7728085867620751,
+        "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -4110,29 +4110,29 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:hornling:deal-damage",
         "kind": "effect",
         "label": "Cornu farceur -> deal-damage",
-        "count": 540,
+        "count": 550,
         "wins": 290,
-        "losses": 250,
+        "losses": 260,
         "draws": 0,
-        "winRate": 0.5370370370370371,
-        "averageFlips": 0.5833333333333334,
-        "averageDamageDealt": 1.1851851851851851,
-        "averageEffectAmount": 0.3962962962962963,
+        "winRate": 0.5272727272727272,
+        "averageFlips": 0.6018181818181818,
+        "averageDamageDealt": 1.1927272727272726,
+        "averageEffectAmount": 0.4018181818181818,
         "notes": [
-          "Signal descriptif a confirmer."
+          "Produit beaucoup de flips."
         ]
       },
       {
         "id": "effect:pact-sprite:boost-self",
         "kind": "effect",
         "label": "Lutin a pacte -> boost-self",
-        "count": 528,
-        "wins": 277,
-        "losses": 251,
+        "count": 541,
+        "wins": 285,
+        "losses": 256,
         "draws": 0,
-        "winRate": 0.5246212121212122,
-        "averageFlips": 0.7840909090909091,
-        "averageDamageDealt": 0.48295454545454547,
+        "winRate": 0.5268022181146026,
+        "averageFlips": 0.7837338262476895,
+        "averageDamageDealt": 0.2975970425138632,
         "averageEffectAmount": 1,
         "notes": [
           "Produit beaucoup de flips."
@@ -4143,45 +4143,34 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "target": "card",
         "confidence": "high",
-        "sampleSize": 3385,
+        "sampleSize": 3591,
         "id": "card-hornling-ignored",
         "severity": "watch",
         "action": "buff",
         "title": "Cornu farceur est ignoree par les bots",
-        "detail": "3385 offres, 17% selection, 52% win quand jouee, role anchor.",
+        "detail": "3591 offres, 16% selection, 51% win quand jouee, role anchor.",
         "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
       },
       {
         "target": "card",
         "confidence": "high",
-        "sampleSize": 3347,
+        "sampleSize": 3358,
         "id": "card-ember-imp-ignored",
         "severity": "watch",
         "action": "buff",
         "title": "Diablotin braise est ignoree par les bots",
-        "detail": "3347 offres, 16% selection, 51% win quand jouee, role attacker.",
+        "detail": "3358 offres, 18% selection, 48% win quand jouee, role attacker.",
         "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
       },
       {
         "target": "card",
         "confidence": "high",
-        "sampleSize": 3327,
-        "id": "card-heron-ignored",
-        "severity": "watch",
-        "action": "buff",
-        "title": "Oiselle aubeplume est ignoree par les bots",
-        "detail": "3327 offres, 17% selection, 51% win quand jouee, role connector.",
-        "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 2134,
+        "sampleSize": 2227,
         "id": "card-gear-monk-ignored",
         "severity": "watch",
         "action": "buff",
         "title": "Moine engrene est ignoree par les bots",
-        "detail": "2134 offres, 17% selection, 49% win quand jouee, role connector.",
+        "detail": "2227 offres, 17% selection, 47% win quand jouee, role connector.",
         "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
       },
       {
@@ -4190,9 +4179,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 528,
+        "sampleSize": 541,
         "title": "Lutin a pacte -> boost-self ressort comme combo",
-        "detail": "528 occurrences, 52% win, 0.78 flips, 0.48 degats.",
+        "detail": "541 occurrences, 53% win, 0.78 flips, 0.30 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       }
     ]
@@ -4202,36 +4191,36 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "id": "deck-turn-spread",
       "severity": "watch",
       "title": "La taille de deck change fortement le rythme",
-      "detail": "Ecart de 8.61 tours moyens entre les presets.",
+      "detail": "Ecart de 6.61 tours moyens entre les presets.",
       "recommendation": "Comparer les reshuffles et les tours morts avant de choisir le deck par defaut."
     },
     {
       "id": "diagnostic-card-hornling-ignored",
       "severity": "watch",
       "title": "Cornu farceur est ignoree par les bots",
-      "detail": "3385 offres, 17% selection, 52% win quand jouee, role anchor. Confiance high, echantillon 3385.",
+      "detail": "3591 offres, 16% selection, 51% win quand jouee, role anchor. Confiance high, echantillon 3591.",
       "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
     },
     {
       "id": "diagnostic-card-ember-imp-ignored",
       "severity": "watch",
       "title": "Diablotin braise est ignoree par les bots",
-      "detail": "3347 offres, 16% selection, 51% win quand jouee, role attacker. Confiance high, echantillon 3347.",
-      "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
-    },
-    {
-      "id": "diagnostic-card-heron-ignored",
-      "severity": "watch",
-      "title": "Oiselle aubeplume est ignoree par les bots",
-      "detail": "3327 offres, 17% selection, 51% win quand jouee, role connector. Confiance high, echantillon 3327.",
+      "detail": "3358 offres, 18% selection, 48% win quand jouee, role attacker. Confiance high, echantillon 3358.",
       "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
     },
     {
       "id": "diagnostic-card-gear-monk-ignored",
       "severity": "watch",
       "title": "Moine engrene est ignoree par les bots",
-      "detail": "2134 offres, 17% selection, 49% win quand jouee, role connector. Confiance high, echantillon 2134.",
+      "detail": "2227 offres, 17% selection, 47% win quand jouee, role connector. Confiance high, echantillon 2227.",
       "recommendation": "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee."
+    },
+    {
+      "id": "diagnostic-combo-effect:pact-sprite:boost-self",
+      "severity": "watch",
+      "title": "Lutin a pacte -> boost-self ressort comme combo",
+      "detail": "541 occurrences, 53% win, 0.78 flips, 0.30 degats. Confiance high, echantillon 541.",
+      "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
     }
   ]
 };
