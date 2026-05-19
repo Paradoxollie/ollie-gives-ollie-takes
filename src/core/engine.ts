@@ -630,7 +630,7 @@ function createSharedPresetDecks(
   };
 }
 
-function drawCardsForTurn(state: MatchState, playerId: PlayerId): {
+function drawCardsForTurn(state: MatchState, playerId: PlayerId, roundTurn: number): {
   drawPile: CardInstance[];
   discardPile: CardInstance[];
   choices: CardInstance[];
@@ -646,8 +646,10 @@ function drawCardsForTurn(state: MatchState, playerId: PlayerId): {
   const extraDraw =
     playerId === "enemy" && state.enemyProfile?.id === "swarm" ? 1 : 0;
   const combatDrawBonus = state.combat[playerId].nextTurnDrawBonus;
+  const responseDrawBonus =
+    roundTurn === 2 && playerId !== state.round.startingPlayer ? state.config.secondPlayerFirstTurnDrawBonus : 0;
   const isPlayerFirstTurnOfRound = playerId === "player" && state.playerCharmState.playerTurnsTakenThisRound === 0;
-  let cardsToDraw = state.config.cardsPerTurn + extraDraw + combatDrawBonus;
+  let cardsToDraw = state.config.cardsPerTurn + extraDraw + combatDrawBonus + responseDrawBonus;
 
   if (playerId === "player" && hasPlayerCharm(state, "spring-tear") && isPlayerFirstTurnOfRound) {
     cardsToDraw += 1;
@@ -692,6 +694,10 @@ function drawCardsForTurn(state: MatchState, playerId: PlayerId): {
     reshuffles,
     consumeFireflyReshufflePenalty,
   };
+}
+
+function isOpeningResponseTurn(state: MatchState, playerId: PlayerId, roundTurn: number): boolean {
+  return roundTurn === 2 && playerId !== state.round.startingPlayer;
 }
 
 function getNextPlayer(playerId: PlayerId): PlayerId {
@@ -960,8 +966,16 @@ function startTurn(
     return state;
   }
 
-  const draw = drawCardsForTurn(state, activePlayer);
+  const draw = drawCardsForTurn(state, activePlayer, roundTurn);
   const nextEmptyTurnStreak = draw.choices.length === 0 ? emptyTurnStreak + 1 : 0;
+  const responseShieldBonus = isOpeningResponseTurn(state, activePlayer, roundTurn)
+    ? state.config.secondPlayerFirstTurnShieldBonus
+    : 0;
+  const activeCombat: PlayerCombatState = {
+    ...state.combat[activePlayer],
+    shield: Math.min(state.config.maxShieldPerPlayer, state.combat[activePlayer].shield + responseShieldBonus),
+    nextTurnDrawBonus: 0,
+  };
   let nextState: MatchState = {
     ...state,
     rngState: draw.seed,
@@ -982,10 +996,7 @@ function startTurn(
     },
     combat: {
       ...cloneCombatState(state.combat),
-      [activePlayer]: {
-        ...state.combat[activePlayer],
-        nextTurnDrawBonus: 0,
-      },
+      [activePlayer]: activeCombat,
     },
     emptyTurnStreak: nextEmptyTurnStreak,
     playerCharmState:

@@ -521,14 +521,19 @@ function createCardRecommendation(card: AiLabCardAnalysis): AiLabBalanceRecommen
   }
 
   if (card.status === "ignored") {
+    const isLosingWhenPlayed = card.played >= 10 && (card.winRateWhenPlayed <= 0.46 || card.averageNetDamage <= -0.4);
     return {
       ...base,
       id: `card-${card.cardId}-ignored`,
-      severity: card.offered >= 18 ? "problem" : "watch",
+      severity: card.offered >= 18 && isLosingWhenPlayed ? "problem" : "watch",
       action: "buff",
       title: `${card.name} est ignoree par les bots`,
-      detail: `${card.offered} offres, ${Math.round(card.selectionRate * 100)}% selection, role ${card.role ?? "sans role"}.`,
-      recommendation: "Clarifier son usage: meilleure face d'ouverture, effet plus lisible, ou role plus specialise.",
+      detail: `${card.offered} offres, ${Math.round(card.selectionRate * 100)}% selection, ${Math.round(
+        card.winRateWhenPlayed * 100,
+      )}% win quand jouee, role ${card.role ?? "sans role"}.`,
+      recommendation: isLosingWhenPlayed
+        ? "Clarifier son usage: meilleure face d'ouverture, effet plus lisible, ou role plus specialise."
+        : "Surveiller sans buff immediat: la carte est niche, mais elle reste competitive quand elle est jouee.",
     };
   }
 

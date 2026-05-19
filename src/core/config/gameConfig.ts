@@ -16,6 +16,8 @@ export const POSITION_WEIGHTS = [
 export const GAME_CONFIG: MatchConfig = {
   boardSize: 3,
   cardsPerTurn: 4,
+  secondPlayerFirstTurnDrawBonus: 2,
+  secondPlayerFirstTurnShieldBonus: 1,
   aiDelayMs: 1200,
   defaultSeed: 12,
   startingPlayer: "player",

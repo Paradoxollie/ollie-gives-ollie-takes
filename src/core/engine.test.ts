@@ -130,6 +130,24 @@ describe("placement rules", () => {
     expect(starters).toEqual(new Set(["player", "enemy"]));
   });
 
+  it("gives the responding player opening resources to soften opening advantage", () => {
+    const state = createMatch({ deckPresetId: "starter10", seed: 5, startingPlayer: "player" });
+
+    expect(state.turn.activePlayer).toBe("player");
+    expect(state.turn.choices).toHaveLength(state.config.cardsPerTurn);
+
+    const responseTurn = applyMove(state, {
+      cardInstanceId: state.turn.choices[0]?.instanceId ?? "",
+      position: { row: 1, col: 1 },
+    });
+
+    expect(responseTurn.turn.activePlayer).toBe("enemy");
+    expect(responseTurn.turn.choices).toHaveLength(
+      state.config.cardsPerTurn + state.config.secondPlayerFirstTurnDrawBonus,
+    );
+    expect(responseTurn.combat.enemy.shield).toBe(state.config.secondPlayerFirstTurnShieldBonus);
+  });
+
   it("creates a 3x3 board and allows valid placements inside it", () => {
     const state = createMatch({ deckPresetId: "starter10", seed: 5 });
 
@@ -391,7 +409,12 @@ describe("flip combat resolution", () => {
     board[0][1] = makeBoardCard("enemy", "badger", "top", 0, 1);
     board[1][2] = makeBoardCard("enemy", "foxfire", "right", 1, 2);
     board[2][1] = makeBoardCard("enemy", "stag", "bottom", 2, 1);
-    const playerCard = makeCard("player", "heron", "hand");
+    const playerCard = withSides(makeCard("player", "hornling", "hand"), {
+      top: 4,
+      right: 4,
+      bottom: 4,
+      left: 1,
+    });
 
     const state = makeState({
       board,

@@ -271,6 +271,8 @@ export interface LastMoveSummary {
 export interface MatchConfig {
   boardSize: number;
   cardsPerTurn: number;
+  secondPlayerFirstTurnDrawBonus: number;
+  secondPlayerFirstTurnShieldBonus: number;
   aiDelayMs: number;
   defaultSeed: number;
   startingPlayer: PlayerId;

@@ -7,8 +7,8 @@ on:
     paths:
       - ".github/workflows/ai-training.yml"
   schedule:
-    # Standard continuous learning, four times per day.
-    - cron: "17 */6 * * *"
+    # Standard continuous learning, eight times per day.
+    - cron: "17 */3 * * *"
     # Daily deeper calibration pass, early morning in Europe/Paris.
     - cron: "47 2 * * *"
   workflow_dispatch:

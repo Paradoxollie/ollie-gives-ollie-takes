@@ -1193,3 +1193,9 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - reward cards now gain combo setup/scaling at uncommon and rare rarities, so run rewards push real archetypes instead of generic value
   - added a combo unit test proving no trigger before setup and scaled shield after enough same-family cards are on board
   - validation: `npx tsc --noEmit --pretty false`, `npm run test` (`100/100`), `npm run build`, `$develop-web-game` client at `output/web-game/v31-web-game-client/`, and focused tooltip screenshots at `output/web-game/v31-icons-tooltip/`; no browser console errors
+- 2026-05-19: Closed the AI balance pass from the continuous-training report:
+  - added opening-response compensation to the deterministic core: the non-starting player gets +2 first-response choices and 1 shield each round, offsetting the 3x3 fifth-placement advantage without changing board rules
+  - tuned underused starter/draft cards conservatively: Requin runefer, Chaton des ronces, Sourire de suie, Moine du seuil, Oracle de fer-blanc, Scarabee cuivre, Gardien de verre, Rodeuse du sentier, and Bambin soufre
+  - improved AI lab diagnostics so low-selection cards with healthy win rates are marked as watch/niche instead of false red problems
+  - refreshed `latestAiLabReport`: 0 problem signals, 5 watch signals; starter10/starter12/starter14 opening win rates are 50.0% / 55.6% / 44.4%, families sit around 49-51%, and Champion is 63.0% overall
+  - increased scheduled standard AI training cadence to every 3 hours, with the daily deep pass preserved
