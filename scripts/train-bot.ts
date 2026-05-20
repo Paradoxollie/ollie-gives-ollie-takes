@@ -17,6 +17,8 @@ interface CliArgs {
   eliteCount: number;
   matchesPerOpponent: number;
   promotionMatchesPerOpponent: number;
+  campaignTrainingRunsPerOpponent: number;
+  campaignPromotionRunsPerOpponent: number;
   searchDepth: number;
   beamWidth: number;
   apply: boolean;
@@ -35,6 +37,8 @@ function parseArgs(argv: string[]): CliArgs {
     eliteCount: BOT_TRAINING_CONFIG.eliteCount,
     matchesPerOpponent: BOT_TRAINING_CONFIG.matchesPerOpponent,
     promotionMatchesPerOpponent: BOT_TRAINING_CONFIG.promotionMatchesPerOpponent,
+    campaignTrainingRunsPerOpponent: BOT_TRAINING_CONFIG.campaignTrainingRunsPerOpponent,
+    campaignPromotionRunsPerOpponent: BOT_TRAINING_CONFIG.campaignPromotionRunsPerOpponent,
     searchDepth: TRAINED_BOT_PROFILE.searchDepth,
     beamWidth: TRAINED_BOT_PROFILE.beamWidth,
     apply: false,
@@ -81,6 +85,18 @@ function parseArgs(argv: string[]): CliArgs {
       continue;
     }
 
+    if ((arg === "--campaign-training-runs" || arg === "--campaign-runs-per-opponent") && value) {
+      args.campaignTrainingRunsPerOpponent = Number.parseInt(value, 10);
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--campaign-promotion-runs" && value) {
+      args.campaignPromotionRunsPerOpponent = Number.parseInt(value, 10);
+      index += 1;
+      continue;
+    }
+
     if (arg === "--search-depth" && value) {
       args.searchDepth = Number.parseInt(value, 10);
       index += 1;
@@ -100,6 +116,14 @@ function parseArgs(argv: string[]): CliArgs {
     if (arg === "--promote") {
       args.promote = true;
     }
+  }
+
+  if (!Number.isFinite(args.campaignTrainingRunsPerOpponent) || args.campaignTrainingRunsPerOpponent <= 0) {
+    throw new Error("Campaign training run count must be a positive integer.");
+  }
+
+  if (!Number.isFinite(args.campaignPromotionRunsPerOpponent) || args.campaignPromotionRunsPerOpponent <= 0) {
+    throw new Error("Campaign promotion run count must be a positive integer.");
   }
 
   return args;
@@ -135,6 +159,7 @@ async function main() {
     populationSize: args.populationSize,
     eliteCount: args.eliteCount,
     matchesPerOpponent: args.matchesPerOpponent,
+    campaignRunsPerOpponent: args.campaignTrainingRunsPerOpponent,
     searchDepth: args.searchDepth,
     beamWidth: args.beamWidth,
     onProgress(progress) {
@@ -209,6 +234,7 @@ async function main() {
     searchDepth: args.searchDepth,
     beamWidth: args.beamWidth,
     matchesPerOpponent: args.promotionMatchesPerOpponent,
+    campaignRunsPerOpponent: args.campaignPromotionRunsPerOpponent,
   });
   const promotionPayload = {
     reportId,
@@ -217,6 +243,7 @@ async function main() {
     reasons: promotionEvaluation.reasons,
     config: {
       matchesPerOpponent: args.promotionMatchesPerOpponent,
+      campaignRunsPerOpponent: args.campaignPromotionRunsPerOpponent,
       searchDepth: args.searchDepth,
       beamWidth: args.beamWidth,
     },

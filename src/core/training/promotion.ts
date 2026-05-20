@@ -37,8 +37,11 @@ export function evaluatePromotionCandidate(options: {
   searchDepth: number;
   beamWidth: number;
   matchesPerOpponent?: number;
+  campaignRunsPerOpponent?: number;
 }): PromotionEvaluationSummary {
   const matchesPerOpponent = options.matchesPerOpponent ?? BOT_TRAINING_CONFIG.promotionMatchesPerOpponent;
+  const campaignRunsPerOpponent =
+    options.campaignRunsPerOpponent ?? BOT_TRAINING_CONFIG.campaignPromotionRunsPerOpponent;
   const candidate: ConfiguredBotSpec = {
     id: "candidate",
     label: "Candidate",
@@ -98,7 +101,7 @@ export function evaluatePromotionCandidate(options: {
         beamWidth: options.beamWidth,
       },
     ],
-    runsPerOpponent: BOT_TRAINING_CONFIG.campaignPromotionRunsPerOpponent,
+    runsPerOpponent: campaignRunsPerOpponent,
   });
 
   const againstHeuristic = findOpponentSummary(benchmark, "heuristic");

@@ -1214,3 +1214,9 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - tightened benchmark tests so they still verify determinism without spending full training-run time
   - refreshed `latestAiLabReport`: 1 problem signal (`Oiselle aubeplume` ignored), 6 watch signals; 10 complete adventure runs, all starting at 10 cards with no legacy starter12/starter14 rows
   - validation so far: `npx tsc --noEmit --pretty false`, `npm run test` (107/107), `npm run build`, and local Playwright screenshots for `/lab/ai` full-run section with no console errors
+- 2026-05-20: Hardened scheduled GitHub AI training for more complete-run data:
+  - exposed campaign training/promotion run counts as `train-bot.ts` CLI arguments so GitHub Actions can control full-adventure training volume
+  - updated `.github/workflows/ai-training.yml`: standard still runs every 3 hours, deep still runs daily, and lab snapshots now pass explicit full-adventure counts (`8` per model standard, `24` per model deep)
+  - kept per-candidate campaign training volume bounded on standard runs and raised it on deep runs to avoid overlapping scheduled jobs
+  - validated the new CLI with a tiny dry training run using `--campaign-training-runs` and `--campaign-promotion-runs`
+  - validation: `npx tsc --noEmit --pretty false`, targeted Vitest, full `npm run test` (107/107), and `npm run build`

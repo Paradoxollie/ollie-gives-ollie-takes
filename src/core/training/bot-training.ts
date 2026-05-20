@@ -37,6 +37,7 @@ export interface TrainTrainedBotOptions {
   populationSize?: number;
   eliteCount?: number;
   matchesPerOpponent?: number;
+  campaignRunsPerOpponent?: number;
   searchDepth?: number;
   beamWidth?: number;
   onIterationComplete?: (summary: TrainingIterationSummary) => void;
@@ -210,6 +211,7 @@ function evaluateCandidate(options: {
   iteration: number;
   candidateIndex: number;
   matchesPerOpponent: number;
+  campaignRunsPerOpponent: number;
   searchDepth: number;
   beamWidth: number;
 }): WeightCandidateScore {
@@ -273,7 +275,7 @@ function evaluateCandidate(options: {
         beamWidth: options.beamWidth,
       },
     ],
-    runsPerOpponent: BOT_TRAINING_CONFIG.campaignTrainingRunsPerOpponent,
+    runsPerOpponent: options.campaignRunsPerOpponent,
   });
 
   const score =
@@ -345,6 +347,8 @@ export function trainTrainedBotWeights(
   const populationSize = options.populationSize ?? BOT_TRAINING_CONFIG.populationSize;
   const eliteCount = Math.min(options.eliteCount ?? BOT_TRAINING_CONFIG.eliteCount, populationSize);
   const matchesPerOpponent = options.matchesPerOpponent ?? BOT_TRAINING_CONFIG.matchesPerOpponent;
+  const campaignRunsPerOpponent =
+    options.campaignRunsPerOpponent ?? BOT_TRAINING_CONFIG.campaignTrainingRunsPerOpponent;
   const searchDepth = options.searchDepth ?? BOT_TRAINING_CONFIG.defaultSearchDepth;
   const beamWidth = options.beamWidth ?? BOT_TRAINING_CONFIG.defaultBeamWidth;
 
@@ -410,6 +414,7 @@ export function trainTrainedBotWeights(
         iteration,
         candidateIndex,
         matchesPerOpponent,
+        campaignRunsPerOpponent,
         searchDepth,
         beamWidth,
       });

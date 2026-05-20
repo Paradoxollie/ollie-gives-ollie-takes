@@ -80,6 +80,9 @@ jobs:
               echo "matches=2" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
               echo "lab_matches=6" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=1" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=2" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=2" >> "$GITHUB_OUTPUT"
               ;;
             deep)
               echo "iterations=10" >> "$GITHUB_OUTPUT"
@@ -88,6 +91,9 @@ jobs:
               echo "matches=12" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=32" >> "$GITHUB_OUTPUT"
               echo "lab_matches=32" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=8" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=12" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=24" >> "$GITHUB_OUTPUT"
               ;;
             standard)
               echo "iterations=4" >> "$GITHUB_OUTPUT"
@@ -96,6 +102,9 @@ jobs:
               echo "matches=6" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=16" >> "$GITHUB_OUTPUT"
               echo "lab_matches=18" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=4" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=6" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=8" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "iterations=1" >> "$GITHUB_OUTPUT"
@@ -104,6 +113,9 @@ jobs:
               echo "matches=2" >> "$GITHUB_OUTPUT"
               echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
               echo "lab_matches=6" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=1" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=2" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=2" >> "$GITHUB_OUTPUT"
               ;;
           esac
 
@@ -121,6 +133,8 @@ jobs:
             --elite-count "${{ steps.profile.outputs.elite_count }}" \
             --matches-per-opponent "${{ steps.profile.outputs.matches }}" \
             --promotion-matches-per-opponent "${{ steps.profile.outputs.promotion_matches }}" \
+            --campaign-training-runs "${{ steps.profile.outputs.campaign_training_runs }}" \
+            --campaign-promotion-runs "${{ steps.profile.outputs.campaign_promotion_runs }}" \
             --search-depth 3 \
             --beam-width 8
 
@@ -128,6 +142,7 @@ jobs:
         run: |
           npm run ai:lab:apply -- \
             --matches "${{ steps.profile.outputs.lab_matches }}" \
+            --adventure-runs "${{ steps.profile.outputs.lab_adventure_runs }}" \
             --seed "${{ github.run_number }}"
 
       - name: Typecheck generated files
