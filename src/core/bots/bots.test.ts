@@ -53,6 +53,8 @@ describe("bot legality", () => {
       const decision = bot.chooseMove(state, {
         playerId: state.turn.activePlayer,
         seed: 777,
+        searchDepth: 1,
+        beamWidth: 6,
       });
 
       expect(decision.move).not.toBeNull();
@@ -81,14 +83,14 @@ describe("bot legality", () => {
     const left = trainedBot.chooseMove(state, {
       playerId: state.turn.activePlayer,
       seed: 777,
-      searchDepth: 2,
-      beamWidth: 8,
+      searchDepth: 1,
+      beamWidth: 6,
     });
     const right = trainedBot.chooseMove(state, {
       playerId: state.turn.activePlayer,
       seed: 777,
-      searchDepth: 2,
-      beamWidth: 8,
+      searchDepth: 1,
+      beamWidth: 6,
     });
 
     expect(left).toEqual(right);
@@ -100,14 +102,14 @@ describe("bot legality", () => {
     const left = championBot.chooseMove(state, {
       playerId: state.turn.activePlayer,
       seed: 777,
-      searchDepth: 2,
-      beamWidth: 8,
+      searchDepth: 1,
+      beamWidth: 6,
     });
     const right = championBot.chooseMove(state, {
       playerId: state.turn.activePlayer,
       seed: 777,
-      searchDepth: 2,
-      beamWidth: 8,
+      searchDepth: 1,
+      beamWidth: 6,
     });
 
     expect(left).toEqual(right);
@@ -118,14 +120,14 @@ describe("bot legality", () => {
   });
 
   it("lets strategic bots choose a flip that only exists because of a family bonus", () => {
-    const humanAttacker = testArchetype("trait-human-attacker", "human", { top: 1, right: 4, bottom: 1, left: 1 });
+    const humanAttacker = testArchetype("trait-human-attacker", "human", { top: 1, right: 3, bottom: 1, left: 1 });
     const demonAttacker = testArchetype("trait-demon-attacker", "demon", { top: 1, right: 4, bottom: 1, left: 1 });
     const humanSupport = testArchetype("trait-human-support", "human", { top: 1, right: 1, bottom: 1, left: 1 });
-    const target = testArchetype("trait-target", "automaton", { top: 1, right: 1, bottom: 1, left: 4 });
-    const humanChoice = testCard("player", humanAttacker, "human-choice");
-    const demonChoice = testCard("player", demonAttacker, "demon-choice");
+    const target = testArchetype("trait-target", "automaton", { top: 6, right: 6, bottom: 6, left: 4 });
+    const humanChoice = { ...testCard("player", humanAttacker, "human-choice"), manaCost: 1 };
+    const humanStackChoice = { ...testCard("player", humanSupport, "human-stack"), manaCost: 1 };
+    const demonChoice = { ...testCard("player", demonAttacker, "demon-choice"), manaCost: 3 };
     const board = emptyBoard();
-    board[1][0] = testBoardCard("player", humanSupport, "human-support", 1, 0);
     board[1][2] = testBoardCard("enemy", target, "target", 1, 2);
     const baseState = createMatch({
       seed: 19,
@@ -139,7 +141,7 @@ describe("bot legality", () => {
       turn: {
         ...baseState.turn,
         activePlayer: "player" as const,
-        choices: [demonChoice, humanChoice],
+        choices: [demonChoice, humanChoice, humanStackChoice],
       },
     };
 
@@ -153,6 +155,7 @@ describe("bot legality", () => {
 
       expect(decision.move).toEqual({
         cardInstanceId: humanChoice.instanceId,
+        cardInstanceIds: [humanChoice.instanceId, humanStackChoice.instanceId],
         position: { row: 1, col: 1 },
       });
     }

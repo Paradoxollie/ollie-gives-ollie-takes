@@ -55,6 +55,7 @@ export interface AiLabCardSnapshot {
   rarity: CardRarity;
   role?: CardRole;
   sourceType: CardSourceType;
+  manaCost: number;
   sideTotal: number;
   maxSide: number;
   minSide: number;

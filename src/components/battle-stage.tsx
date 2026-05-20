@@ -12,7 +12,10 @@ interface BattleStageProps {
   match: MatchState;
   hand: CardInstance[];
   selectedCardId: string | null;
+  selectedCardIds: string[];
   selectedCard: CardInstance | null;
+  selectedManaCost: number;
+  availableMana: number;
   hoveredPosition: Position | null;
   hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
@@ -554,6 +557,11 @@ function BoardUnitToken({
       <div className="pointer-events-none absolute left-1/2 top-[79%] z-30 w-[68%] -translate-x-1/2">
         <FamilyNameBadge family={card.family} size="board" />
       </div>
+      {(card.stackSize ?? 1) > 1 ? (
+        <div className="pointer-events-none absolute right-[7%] top-[7%] z-30 grid h-7 min-w-7 place-items-center rounded-full border border-amber-100/80 bg-black/72 px-2 text-[0.72rem] font-black leading-none text-amber-100 shadow-[0_8px_18px_rgba(0,0,0,0.48)]">
+          x{card.stackSize ?? 1}
+        </div>
+      ) : null}
       {causedFlipMotion ? (
         <div className="absolute inset-[4%] rounded-[0.7rem] border-2 border-amber-200/84 shadow-[0_0_24px_rgba(253,230,138,0.38)]" />
       ) : null}
@@ -628,14 +636,14 @@ function SideHandColumn({
   owner,
   cards,
   hiddenCount,
-  selectedCardId,
+  selectedCardIds,
   canInteract,
   onSelectCard,
 }: {
   owner: PlayerId;
   cards: CardInstance[];
   hiddenCount: number;
-  selectedCardId: string | null;
+  selectedCardIds: string[];
   canInteract: boolean;
   onSelectCard: (cardInstanceId: string) => void;
 }) {
@@ -655,7 +663,7 @@ function SideHandColumn({
             <SideHandCard
               card={card}
               owner={owner}
-              selected={owner === "player" && selectedCardId === card.instanceId}
+              selected={owner === "player" && selectedCardIds.includes(card.instanceId)}
               canInteract={canInteract}
               onSelect={() => onSelectCard(card.instanceId)}
             />
@@ -681,7 +689,7 @@ function EnemyBench({
       owner="enemy"
       cards={cards}
       hiddenCount={hiddenCount}
-      selectedCardId={null}
+      selectedCardIds={[]}
       canInteract={false}
       onSelectCard={() => undefined}
     />
@@ -698,7 +706,7 @@ function HiddenPlayerReserve({
       owner="player"
       cards={[]}
       hiddenCount={hiddenCount}
-      selectedCardId={null}
+      selectedCardIds={[]}
       canInteract={false}
       onSelectCard={() => undefined}
     />
@@ -707,13 +715,13 @@ function HiddenPlayerReserve({
 
 function PlayerHandColumn({
   hand,
-  selectedCardId,
+  selectedCardIds,
   canInteract,
   onSelectCard,
   hiddenCount,
 }: {
   hand: CardInstance[];
-  selectedCardId: string | null;
+  selectedCardIds: string[];
   canInteract: boolean;
   onSelectCard: (cardInstanceId: string) => void;
   hiddenCount: number;
@@ -727,7 +735,7 @@ function PlayerHandColumn({
       owner="player"
       cards={hand}
       hiddenCount={0}
-      selectedCardId={selectedCardId}
+      selectedCardIds={selectedCardIds}
       canInteract={canInteract}
       onSelectCard={onSelectCard}
     />
@@ -738,6 +746,9 @@ function ArenaBattlefield({
   match,
   hand,
   selectedCardId,
+  selectedCardIds,
+  selectedManaCost,
+  availableMana,
   canHumanInteract,
   hoveredPosition,
   onCellHover,
@@ -747,6 +758,9 @@ function ArenaBattlefield({
   match: MatchState;
   hand: CardInstance[];
   selectedCardId: string | null;
+  selectedCardIds: string[];
+  selectedManaCost: number;
+  availableMana: number;
   canHumanInteract: boolean;
   hoveredPosition: Position | null;
   onCellHover: (position: Position | null) => void;
@@ -767,21 +781,28 @@ function ArenaBattlefield({
           draggable={false}
         />
 
-        <FamilyBadgeBench board={match.board} owner="enemy" />
-        <FamilyBadgeBench board={match.board} owner="player" />
         <PlayerHandColumn
           hand={hand}
           hiddenCount={playerHiddenCount}
-          selectedCardId={selectedCardId}
+          selectedCardIds={selectedCardIds}
           canInteract={canHumanInteract}
           onSelectCard={onSelectCard}
         />
+        {canHumanInteract && hand.length > 0 ? (
+          <div className="pointer-events-none absolute bottom-[3.4%] left-1/2 z-[52] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-100/24 bg-black/62 px-3 py-1.5 text-[0.72rem] font-black uppercase tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.42)] backdrop-blur-md">
+            <span className="text-sky-100">Mana {selectedManaCost}/{match.config.turnMana}</span>
+            <span className="text-white/35">|</span>
+            <span className={availableMana > 0 ? "text-white/78" : "text-amber-100"}>
+              Pile {selectedCardIds.length}/{match.config.maxCardsPerMove}
+            </span>
+          </div>
+        ) : null}
         <EnemyBench cards={enemyCards} hiddenCount={enemyHiddenCount} />
 
         {BOARD_CELLS.map((cell) => {
           const boardCard = match.board[cell.row][cell.col];
           const isHovered = hoveredPosition?.row === cell.row && hoveredPosition?.col === cell.col;
-          const canTarget = canHumanInteract && selectedCardId !== null && !boardCard;
+          const canTarget = canHumanInteract && selectedCardIds.length > 0 && !boardCard;
           const isLastMoveCell = match.lastMove?.position.row === cell.row && match.lastMove?.position.col === cell.col;
           const flippedImpacts = match.lastMove?.impacts.filter((impact) => impact.result === "flipped") ?? [];
           const didCauseFlip = Boolean(isLastMoveCell && flippedImpacts.length > 0);
@@ -847,6 +868,9 @@ export function BattleStage({
   match,
   hand,
   selectedCardId,
+  selectedCardIds,
+  selectedManaCost,
+  availableMana,
   hoveredPosition,
   canHumanInteract,
   sidePanel,
@@ -868,6 +892,9 @@ export function BattleStage({
         match={match}
         hand={hand}
         selectedCardId={selectedCardId}
+        selectedCardIds={selectedCardIds}
+        selectedManaCost={selectedManaCost}
+        availableMana={availableMana}
         canHumanInteract={canHumanInteract}
         hoveredPosition={hoveredPosition}
         onCellHover={onCellHover}

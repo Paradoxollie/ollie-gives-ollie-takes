@@ -1,5 +1,6 @@
 import { CARD_ARCHETYPE_LOOKUP } from "@/core/config/cardArchetypes";
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
+import { inferCardManaCost } from "@/core/card-costs";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 import { STARTER_DECK_PRESETS } from "@/core/config/decks";
 import { cloneCardEffects } from "@/core/card-effects";
@@ -66,6 +67,7 @@ export function getCardArchetype(cardId: string): CardArchetype {
   return {
     ...card,
     sides: cloneSides(card.sides),
+    manaCost: card.manaCost ?? inferCardManaCost(card),
     ...cloneCardMetadata(card),
     temporaryScope: card.temporaryScope ?? null,
     createdByCharmId: card.createdByCharmId ?? null,
@@ -80,6 +82,7 @@ export function createCardInstance(owner: PlayerId, archetype: CardArchetype, in
     owner,
     name: archetype.name,
     sides: cloneSides(archetype.sides),
+    manaCost: archetype.manaCost ?? inferCardManaCost(archetype),
     family: archetype.family,
     accent: archetype.accent,
     artSrc: archetype.artSrc,
@@ -100,6 +103,7 @@ export function createAdventureDeckCard(deckCardId: string, card: CardArchetype)
     card: {
       ...card,
       sides: cloneSides(card.sides),
+      manaCost: card.manaCost ?? inferCardManaCost(card),
       ...cloneCardMetadata(card),
       temporaryScope: card.temporaryScope ?? null,
       createdByCharmId: card.createdByCharmId ?? null,
@@ -200,6 +204,7 @@ export function createUpgradedAdventureCard(
       ...card.sides,
       [boostedDirection]: card.sides[boostedDirection] + 1,
     },
+    manaCost: Math.min(3, Math.max(card.manaCost ?? inferCardManaCost(card), inferCardManaCost({ ...card, sides: { ...card.sides, [boostedDirection]: card.sides[boostedDirection] + 1 } }))),
     sourceType: "upgrade",
     baseArchetypeId: card.baseArchetypeId ?? card.id,
     temporaryScope: null,
@@ -227,6 +232,7 @@ export function createFusionAdventureCard(options: {
     id: generatedCardId,
     name: "Fusion sylvestre",
     sides,
+    manaCost: Math.min(3, Math.max(1, (left.manaCost ?? inferCardManaCost(left)) + (right.manaCost ?? inferCardManaCost(right)) - 1)),
     family: left.family,
     accent: left.accent,
     artSrc: left.artSrc,
@@ -249,6 +255,7 @@ export function createLuckyCharmPenaltyCard(generatedCardId: string): CardArchet
       bottom: 2,
       left: 1,
     },
+    manaCost: 0,
     family: "familiar",
     accent: "ember",
     artSrc: getNeutralCardArtSrc("familiar"),
@@ -276,6 +283,7 @@ export function createTemporaryLuckyCharmCard(
   return {
     ...card,
     id: generatedCardId,
+    manaCost: card.manaCost ?? inferCardManaCost(card),
     sourceType: "charm",
     baseArchetypeId: card.baseArchetypeId ?? card.id,
     temporaryScope: scope,

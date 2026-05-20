@@ -232,6 +232,16 @@ export function CardView({
         </span>
       ))}
 
+      <span
+        className={[
+          "pointer-events-none absolute left-[7.5%] top-[7.5%] z-30 grid place-items-center rounded-full border border-sky-100/80 bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.42),rgba(56,189,248,0.58)_48%,rgba(5,18,34,0.96)_100%)] font-black leading-none text-sky-50 shadow-[0_8px_18px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.28)]",
+          isBoardLayout ? "h-6 w-6 text-[0.72rem]" : "h-8 w-8 text-[0.92rem]",
+        ].join(" ")}
+        title={`${card.manaCost} mana`}
+      >
+        {card.manaCost}
+      </span>
+
       {!isBoardLayout ? <EffectIconTray effects={effects} /> : null}
     </div>
   );

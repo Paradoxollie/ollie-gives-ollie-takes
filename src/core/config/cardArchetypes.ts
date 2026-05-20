@@ -1,4 +1,5 @@
 import type { BoardPositionTag, CardArchetype, CardEffect, CardFamily, CardRole, CardSides } from "@/core/types";
+import { inferCardManaCost } from "@/core/card-costs";
 import { ADVENTURE_REWARD_ARCHETYPES } from "@/core/config/adventureRewards";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 import { FAMILY_STARTER_DECKS } from "@/core/config/decks";
@@ -102,6 +103,7 @@ function draftCard(options: {
   accent: string;
   artSrc?: string;
   effects?: CardEffect[];
+  manaCost?: number;
   role?: CardRole;
   buildTags?: string[];
   preferredPositions?: BoardPositionTag[];
@@ -115,6 +117,7 @@ function draftCard(options: {
     id: options.id,
     name: options.name,
     sides: options.sides,
+    manaCost: options.manaCost ?? inferCardManaCost({ sides: options.sides, rarity: "common", role, effects: options.effects }),
     family: options.family,
     accent: options.accent,
     artSrc: options.artSrc ?? getNeutralCardArtSrc(options.family),

@@ -15,9 +15,15 @@ import {
   isInsideBoard,
   listEmptyPositions,
 } from "@/core/utils/board";
-import { cardCountsAsFamily, countBoardFamilies, getTraitBattleModifiers, getTraitControlBonus } from "@/core/traits";
+import {
+  cardCountsAsFamily,
+  countBoardFamilies,
+  getCardFamilyCount,
+  getTraitBattleModifiers,
+  getTraitControlBonus,
+} from "@/core/traits";
 import { mixSeed, nextRandom, shuffleWithSeed, pickWithSeed } from "@/core/utils/rng";
-import { DIRECTIONS } from "@/core/types";
+import { CARD_FAMILIES, DIRECTIONS } from "@/core/types";
 import type {
   BattleResult,
   BoardCard,
@@ -52,6 +58,15 @@ function cloneBoard(board: Array<Array<BoardCard | null>>): Array<Array<BoardCar
             ...cell,
             sides: { ...cell.sides },
             effects: cloneCardEffects(cell.effects),
+            stack: (cell.stack ?? []).map((stackCard) => ({
+              ...stackCard,
+              sides: { ...stackCard.sides },
+              effects: cloneCardEffects(stackCard.effects),
+              buildTags: stackCard.buildTags ? [...stackCard.buildTags] : undefined,
+              preferredPositions: stackCard.preferredPositions ? [...stackCard.preferredPositions] : undefined,
+              hybridLinks: stackCard.hybridLinks ? [...stackCard.hybridLinks] : undefined,
+            })),
+            stackFamilyCounts: { ...cell.stackFamilyCounts },
           }
         : null,
     ),
@@ -117,9 +132,23 @@ function cloneCardInstance(card: CardInstance): CardInstance {
   };
 }
 
-function applyDirectionalBoost(card: CardInstance, direction: Direction, amount: number): CardInstance {
+function cloneBoostableCard<T extends CardInstance>(card: T): T {
   return {
-    ...cloneCardInstance(card),
+    ...card,
+    sides: { ...card.sides },
+    effects: cloneCardEffects(card.effects),
+    buildTags: card.buildTags ? [...card.buildTags] : undefined,
+    preferredPositions: card.preferredPositions ? [...card.preferredPositions] : undefined,
+    hybridLinks: card.hybridLinks ? [...card.hybridLinks] : undefined,
+    temporaryScope: card.temporaryScope ?? null,
+    createdByCharmId: card.createdByCharmId ?? null,
+    corruptedBy: card.corruptedBy ?? null,
+  };
+}
+
+function applyDirectionalBoost<T extends CardInstance>(card: T, direction: Direction, amount: number): T {
+  return {
+    ...cloneBoostableCard(card),
     sides: {
       ...card.sides,
       [direction]: Math.max(1, card.sides[direction] + amount),
@@ -127,9 +156,9 @@ function applyDirectionalBoost(card: CardInstance, direction: Direction, amount:
   };
 }
 
-function applyUniversalBoost(card: CardInstance, amount: number): CardInstance {
+function applyUniversalBoost<T extends CardInstance>(card: T, amount: number): T {
   return {
-    ...cloneCardInstance(card),
+    ...cloneBoostableCard(card),
     sides: {
       top: card.sides.top + amount,
       right: card.sides.right + amount,
@@ -206,6 +235,126 @@ function clampValue(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function clampSideValueForState(state: MatchState, value: number): number {
+  return clampValue(value, 1, state.config.maxCardSideValue);
+}
+
+function createEmptyFamilyCounts(): Partial<Record<CardInstance["family"], number>> {
+  return Object.fromEntries(CARD_FAMILIES.map((family) => [family, 0])) as Partial<Record<CardInstance["family"], number>>;
+}
+
+export function getMoveCardInstanceIds(move: MoveInput): string[] {
+  const rawIds = move.cardInstanceIds && move.cardInstanceIds.length > 0
+    ? move.cardInstanceIds
+    : move.cardInstanceId
+      ? [move.cardInstanceId]
+      : [];
+  return rawIds.filter((id, index) => rawIds.indexOf(id) === index);
+}
+
+function getMovePrimaryCardId(move: MoveInput): string {
+  const ids = getMoveCardInstanceIds(move);
+  if (ids.length === 0) {
+    throw new Error("Move must contain at least one card.");
+  }
+
+  return ids[0];
+}
+
+function getMoveCards(state: MatchState, move: MoveInput): CardInstance[] {
+  const ids = getMoveCardInstanceIds(move);
+  if (ids.length === 0) {
+    throw new Error("Move must contain at least one card.");
+  }
+
+  if (ids.length > state.config.maxCardsPerMove) {
+    throw new Error(`Move uses ${ids.length} cards, but the limit is ${state.config.maxCardsPerMove}.`);
+  }
+
+  return ids.map((instanceId) => {
+    const card = state.turn.choices.find((choice) => choice.instanceId === instanceId);
+    if (!card) {
+      throw new Error(`Card ${instanceId} is not available this turn.`);
+    }
+
+    return card;
+  });
+}
+
+export function getMoveManaCost(state: MatchState, move: MoveInput): number {
+  return getMoveCards(state, move).reduce((sum, card) => sum + card.manaCost, 0);
+}
+
+function validateMoveMana(state: MatchState, cards: CardInstance[]): void {
+  const manaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
+  if (manaCost > state.config.turnMana) {
+    throw new Error(`Move costs ${manaCost} mana, but only ${state.config.turnMana} is available.`);
+  }
+}
+
+function combineBuildTags(cards: CardInstance[]): string[] | undefined {
+  const tags = new Set(cards.flatMap((card) => card.buildTags ?? []));
+  return tags.size > 0 ? [...tags].sort() : undefined;
+}
+
+function combinePreferredPositions(cards: CardInstance[]): CardInstance["preferredPositions"] {
+  const positions = new Set(cards.flatMap((card) => card.preferredPositions ?? []));
+  return positions.size > 0 ? [...positions].sort() as CardInstance["preferredPositions"] : undefined;
+}
+
+function combineHybridLinks(cards: CardInstance[]): CardInstance["hybridLinks"] {
+  const links = new Set(cards.flatMap((card) => card.hybridLinks ?? []));
+  return links.size > 0 ? [...links].sort() as CardInstance["hybridLinks"] : undefined;
+}
+
+function createStackFamilyCounts(cards: CardInstance[]): Partial<Record<CardInstance["family"], number>> {
+  const counts = createEmptyFamilyCounts();
+  for (const card of cards) {
+    counts[card.family] = (counts[card.family] ?? 0) + 1;
+  }
+
+  return counts;
+}
+
+function aggregateStackSides(state: MatchState, cards: CardInstance[]): CardInstance["sides"] {
+  return {
+    top: clampSideValueForState(state, cards.reduce((sum, card) => sum + card.sides.top, 0)),
+    right: clampSideValueForState(state, cards.reduce((sum, card) => sum + card.sides.right, 0)),
+    bottom: clampSideValueForState(state, cards.reduce((sum, card) => sum + card.sides.bottom, 0)),
+    left: clampSideValueForState(state, cards.reduce((sum, card) => sum + card.sides.left, 0)),
+  };
+}
+
+function createStackAggregateCard(state: MatchState, cards: CardInstance[], position: Position): BoardCard {
+  const leadCard = cards[0];
+  const stackManaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
+  const aggregateId = cards.length === 1
+    ? leadCard.instanceId
+    : `stack:${cards.map((card) => card.instanceId).join("+")}`;
+
+  return {
+    ...cloneCardInstance(leadCard),
+    instanceId: aggregateId,
+    name: cards.length === 1 ? leadCard.name : `${leadCard.name} +${cards.length - 1}`,
+    sides: aggregateStackSides(state, cards),
+    manaCost: stackManaCost,
+    effects: cards.flatMap((card) => cloneCardEffects(card.effects)),
+    buildTags: combineBuildTags(cards),
+    preferredPositions: combinePreferredPositions(cards),
+    hybridLinks: combineHybridLinks(cards),
+    row: position.row,
+    col: position.col,
+    corruptedBy: null,
+    stack: cards.map((card, index) => ({
+      ...cloneCardInstance(card),
+      stackIndex: index,
+    })),
+    stackSize: cards.length,
+    stackManaCost,
+    stackFamilyCounts: createStackFamilyCounts(cards),
+  };
+}
+
 function hasAdjacentOwner(
   board: Array<Array<BoardCard | null>>,
   position: Position,
@@ -235,9 +384,14 @@ function isBehindOnBoard(board: Array<Array<BoardCard | null>>, owner: PlayerId)
 
 function countEffectFamilySetup(
   board: Array<Array<BoardCard | null>>,
-  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId">,
+  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId"> & Partial<Pick<BoardCard, "stackFamilyCounts">>,
   position: Position,
 ): number {
+  const localFamilyCount = sourceCard.stackFamilyCounts?.[sourceCard.family];
+  if (localFamilyCount !== undefined) {
+    return localFamilyCount;
+  }
+
   const baseCount = countBoardFamilies(board, sourceCard.owner)[sourceCard.family];
   const boardCard = board[position.row]?.[position.col] ?? null;
   return boardCard?.instanceId === sourceCard.instanceId ? baseCount : baseCount + 1;
@@ -246,7 +400,7 @@ function countEffectFamilySetup(
 function getEffectFamilyScale(
   effect: CardEffect,
   state: MatchState,
-  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId">,
+  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId"> & Partial<Pick<BoardCard, "stackFamilyCounts">>,
   position: Position,
 ): number {
   const familyCount = countEffectFamilySetup(state.board, sourceCard, position);
@@ -268,7 +422,7 @@ function cardEffectConditionMet(
   state: MatchState,
   position: Position,
   owner: PlayerId,
-  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId">,
+  sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId"> & Partial<Pick<BoardCard, "stackFamilyCounts">>,
 ): boolean {
   if (getEffectFamilyScale(effect, state, sourceCard, position) <= 0) {
     return false;
@@ -322,15 +476,15 @@ function createCardEffectEvent(
   };
 }
 
-function applyCardBoostEffects(
+function applyCardBoostEffects<T extends CardInstance>(
   state: MatchState,
-  card: CardInstance,
+  card: T,
   position: Position,
 ): {
-  card: CardInstance;
+  card: T;
   effectEvents: CardEffectEvent[];
 } {
-  let nextCard = cloneCardInstance(card);
+  let nextCard = cloneBoostableCard(card);
   const effectEvents: CardEffectEvent[] = [];
 
   for (const effect of cloneCardEffects(nextCard.effects)) {
@@ -356,7 +510,7 @@ function applyCardBoostEffects(
     nextCard = {
       ...nextCard,
       sides: nextSides,
-    };
+    } as T;
     effectEvents.push(
       createCardEffectEvent(
         nextCard.owner,
@@ -1103,40 +1257,26 @@ function discardBoardCards(
         continue;
       }
 
-      if (isRoundTemporaryCard(card)) {
-        continue;
-      }
+      const stackCards = card.stack && card.stack.length > 0 ? card.stack : [card];
+      for (const stackedCard of stackCards) {
+        if (isRoundTemporaryCard(stackedCard)) {
+          continue;
+        }
 
-      nextPlayers[card.owner].discardPile.push({
-        instanceId: card.instanceId,
-        archetypeId: card.archetypeId,
-        owner: card.owner,
-        name: card.name,
-        sides: { ...card.sides },
-        family: card.family,
-        accent: card.accent,
-        artSrc: card.artSrc,
-        rarity: card.rarity,
-        sourceType: card.sourceType,
-        baseArchetypeId: card.baseArchetypeId,
-        temporaryScope: card.temporaryScope ?? null,
-        createdByCharmId: card.createdByCharmId ?? null,
-        corruptedBy: null,
-        effects: cloneCardEffects(card.effects),
-      });
+        nextPlayers[card.owner].discardPile.push({
+          ...cloneCardInstance(stackedCard),
+          owner: card.owner,
+          corruptedBy: null,
+        });
+      }
     }
   }
 
   return nextPlayers;
 }
 
-function createPlacedCard(card: CardInstance, position: Position): BoardCard {
-  return {
-    ...card,
-    row: position.row,
-    col: position.col,
-    corruptedBy: null,
-  };
+function createPlacedCard(state: MatchState, card: CardInstance, position: Position): BoardCard {
+  return createStackAggregateCard(state, [card], position);
 }
 
 function getEnemyControlBonus(state: MatchState, board: Array<Array<BoardCard | null>>, enemyPowerState?: EnemyPowerState | null): number {
@@ -1222,7 +1362,7 @@ function getPlayerControlBonus(state: MatchState, board: Array<Array<BoardCard |
 
 function preparePlacedCardForMove(
   state: MatchState,
-  card: CardInstance,
+  cards: CardInstance[],
   position: Position,
 ): {
   placedCard: BoardCard;
@@ -1230,7 +1370,8 @@ function preparePlacedCardForMove(
   enemyPowerState: EnemyPowerState | null;
   effectEvents: CardEffectEvent[];
 } {
-  let nextCard = cloneCardInstance(card);
+  let nextCard = createStackAggregateCard(state, cards, position);
+  const leadCard = cards[0];
   let attackerWinsTies = false;
   const nextEnemyPowerState = cloneEnemyPowerState(state.enemyPowerState);
 
@@ -1250,7 +1391,7 @@ function preparePlacedCardForMove(
     if (hasPlayerCharm(state, "balance-feather") && hasAtLeastTwoEqualSides(nextCard) && !isPolarizedCard(nextCard)) {
       const pickedDirection = pickWithSeed(
         [...DIRECTIONS],
-        mixSeed(state.rngState, `balance:${state.round.number}:${state.turn.index}:${card.instanceId}:${position.row}:${position.col}`),
+        mixSeed(state.rngState, `balance:${state.round.number}:${state.turn.index}:${leadCard.instanceId}:${position.row}:${position.col}`),
       );
       nextCard = applyDirectionalBoost(nextCard, pickedDirection.item, 1);
     }
@@ -1282,7 +1423,13 @@ function preparePlacedCardForMove(
   nextCard = boostEffects.card;
 
   return {
-    placedCard: createPlacedCard(nextCard, position),
+    placedCard: {
+      ...nextCard,
+      row: position.row,
+      col: position.col,
+      stack: (nextCard.stack ?? []).map((stackCard) => ({ ...stackCard })),
+      stackFamilyCounts: { ...nextCard.stackFamilyCounts },
+    },
     attackerWinsTies,
     enemyPowerState: nextEnemyPowerState,
     effectEvents: boostEffects.effectEvents,
@@ -1367,7 +1514,7 @@ function resolvePlacementCombat(
       ...target,
       owner: placedCard.owner,
       corruptedBy:
-        countBoardFamilies(nextBoard, placedCard.owner).demon >= 2 &&
+        getCardFamilyCount(placedCard, placedCard.owner, "demon") >= 2 &&
         cardCountsAsFamily(placedCard, placedCard.owner, "demon")
           ? placedCard.owner
           : target.corruptedBy ?? null,
@@ -1611,15 +1758,46 @@ export function canPlaceCard(state: MatchState, position: Position): boolean {
 /**
  * Returns every legal move for the active player's current turn choices.
  */
+function buildLegalCardStacks(state: MatchState): CardInstance[][] {
+  const stacks: CardInstance[][] = [];
+
+  function visit(startIndex: number, current: CardInstance[], manaCost: number): void {
+    if (current.length > 0) {
+      stacks.push([...current]);
+    }
+
+    if (current.length >= state.config.maxCardsPerMove) {
+      return;
+    }
+
+    for (let index = startIndex; index < state.turn.choices.length; index += 1) {
+      const card = state.turn.choices[index];
+      const nextManaCost = manaCost + card.manaCost;
+      if (nextManaCost > state.config.turnMana) {
+        continue;
+      }
+
+      current.push(card);
+      visit(index + 1, current, nextManaCost);
+      current.pop();
+    }
+  }
+
+  visit(0, [], 0);
+  return stacks;
+}
+
 export function listLegalMoves(state: MatchState): MoveInput[] {
   if (state.result) {
     return [];
   }
 
   const emptyPositions = listEmptyPositions(state.board);
-  return state.turn.choices.flatMap((card) =>
+  const stacks = buildLegalCardStacks(state);
+  return stacks.flatMap((stack) =>
     emptyPositions.map((position) => ({
-      cardInstanceId: card.instanceId,
+      cardInstanceId: stack[0].instanceId,
+      cardInstanceIds: stack.map((card) => card.instanceId),
       position,
     })),
   );
@@ -1633,22 +1811,21 @@ export function applyMove(state: MatchState, move: MoveInput): MatchState {
     throw new Error("Cannot apply a move after the battle has finished.");
   }
 
-  const chosenCard = state.turn.choices.find((card) => card.instanceId === move.cardInstanceId);
-  if (!chosenCard) {
-    throw new Error(`Card ${move.cardInstanceId} is not available this turn.`);
-  }
+  const chosenCards = getMoveCards(state, move);
+  validateMoveMana(state, chosenCards);
 
   if (!canPlaceCard(state, move.position)) {
     throw new Error(`Illegal placement at (${move.position.row}, ${move.position.col}).`);
   }
 
   const roundTriggered = didPlacementFillBoard(state);
-  const preparedMove = preparePlacedCardForMove(state, chosenCard, move.position);
+  const preparedMove = preparePlacedCardForMove(state, chosenCards, move.position);
   const resolution = resolvePlacementCombat(state, preparedMove.placedCard, {
     attackerWinsTies: preparedMove.attackerWinsTies,
   });
+  const playedIds = new Set(chosenCards.map((card) => card.instanceId));
   const unplayedCards = state.turn.choices.filter(
-    (card) => card.instanceId !== chosenCard.instanceId && !isRoundTemporaryCard(card),
+    (card) => !playedIds.has(card.instanceId) && !isRoundTemporaryCard(card),
   );
   let nextPlayers = {
     ...clonePlayerState(state.players),
@@ -1765,7 +1942,8 @@ export function applyMove(state: MatchState, move: MoveInput): MatchState {
     metrics: nextMetrics,
     lastMove: {
       playerId: state.turn.activePlayer,
-      cardInstanceId: chosenCard.instanceId,
+      cardInstanceId: preparedMove.placedCard.instanceId,
+      cardInstanceIds: chosenCards.map((card) => card.instanceId),
       position: move.position,
       impacts: resolution.impacts,
       effectEvents,
@@ -1843,12 +2021,10 @@ export function previewMove(state: MatchState, move: MoveInput): PreviewMove {
     throw new Error("Cannot preview an illegal move.");
   }
 
-  const chosenCard = state.turn.choices.find((card) => card.instanceId === move.cardInstanceId);
-  if (!chosenCard) {
-    throw new Error(`Card ${move.cardInstanceId} is not available this turn.`);
-  }
+  const chosenCards = getMoveCards(state, move);
+  validateMoveMana(state, chosenCards);
 
-  const preparedMove = preparePlacedCardForMove(state, chosenCard, move.position);
+  const preparedMove = preparePlacedCardForMove(state, chosenCards, move.position);
   const resolution = resolvePlacementCombat(state, preparedMove.placedCard, {
     attackerWinsTies: preparedMove.attackerWinsTies,
   });

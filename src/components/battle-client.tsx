@@ -66,7 +66,10 @@ export function BattleClient({
         match={controller.match}
         hand={controller.hand}
         selectedCardId={controller.selectedCardId}
+        selectedCardIds={controller.selectedCardIds}
         selectedCard={controller.selectedCard}
+        selectedManaCost={controller.selectedManaCost}
+        availableMana={controller.availableMana}
         hoveredPosition={controller.hoveredPosition}
         hoverPreview={controller.hoverPreview}
         canHumanInteract={controller.canHumanInteract}

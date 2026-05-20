@@ -43,6 +43,7 @@ function createHiddenCards(count: number): CardInstance[] {
     owner: "enemy",
     name: "Carte cachee",
     sides: { top: 0, right: 0, bottom: 0, left: 0 },
+    manaCost: 0,
     family: "automaton",
     accent: "#0f172a",
     artSrc: "/images/cards-hd/fallback-card.png",

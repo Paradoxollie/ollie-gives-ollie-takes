@@ -73,13 +73,13 @@ function makeState(overrides: MatchStateOverrides = {}): MatchState {
 }
 
 describe("placement rules", () => {
-  it("deals unique cards from a shared 10-card pool and draws 4", () => {
+  it("deals unique cards from a shared 10-card pool and draws 5", () => {
     const state = createMatch({ deckPresetId: "starter10", seed: 5 });
     const playerVisibleCards =
       state.turn.activePlayer === "player" ? [...state.turn.choices, ...state.players.player.drawPile] : state.players.player.drawPile;
     const enemyVisibleCards =
       state.turn.activePlayer === "enemy" ? [...state.turn.choices, ...state.players.enemy.drawPile] : state.players.enemy.drawPile;
-    const expectedPlayerDrawPile = state.turn.activePlayer === "player" ? 6 : 10;
+    const expectedPlayerDrawPile = state.turn.activePlayer === "player" ? 5 : 10;
     const uniqueArchetypes = new Set(playerVisibleCards.map((card) => card.archetypeId));
     const enemyArchetypes = new Set(enemyVisibleCards.map((card) => card.archetypeId));
 
@@ -87,7 +87,7 @@ describe("placement rules", () => {
     expect(enemyVisibleCards).toHaveLength(10);
     expect(uniqueArchetypes.size).toBe(10);
     expect([...uniqueArchetypes].some((cardId) => enemyArchetypes.has(cardId))).toBe(false);
-    expect(state.turn.choices).toHaveLength(4);
+    expect(state.turn.choices).toHaveLength(5);
     expect(state.players.player.drawPile).toHaveLength(expectedPlayerDrawPile);
   });
 
@@ -276,28 +276,34 @@ describe("player charms", () => {
 });
 
 describe("flip combat resolution", () => {
-  it("applies the familiar 2-piece attack bonus from adjacent familiar support", () => {
+  it("applies the familiar 2-piece attack bonus from a local stack", () => {
     const board = makeBoard();
-    board[1][0] = makeBoardCard("player", "sapling", "support", 1, 0);
-    board[1][2] = makeBoardCard("enemy", "owl", "target", 1, 2);
-    const playerCard = makeCard("player", "owl", "hand");
+    board[1][2] = withSides(makeBoardCard("enemy", "owl", "target", 1, 2), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 4,
+    });
+    const playerCard = { ...withSides(makeCard("player", "owl", "hand"), { top: 1, right: 2, bottom: 1, left: 1 }), manaCost: 1 };
+    const stackSupport = { ...withSides(makeCard("player", "sapling", "stack"), { top: 1, right: 2, bottom: 1, left: 1 }), manaCost: 1 };
 
     const state = makeState({
       board,
       turn: {
         activePlayer: "player",
-        choices: [playerCard],
+        choices: [playerCard, stackSupport],
       },
     });
 
     const nextState = applyMove(state, {
       cardInstanceId: playerCard.instanceId,
+      cardInstanceIds: [playerCard.instanceId, stackSupport.instanceId],
       position: { row: 1, col: 1 },
     });
 
     expect(nextState.lastMove?.impacts[0]).toMatchObject({
       attackerValue: 5,
-      defenderValue: 3,
+      defenderValue: 4,
       result: "flipped",
     });
     expect(nextState.board[1][2]?.owner).toBe("player");
@@ -305,25 +311,26 @@ describe("flip combat resolution", () => {
 
   it("marks cards flipped by an active demon pair as corrupted demon support", () => {
     const board = makeBoard();
-    board[0][0] = makeBoardCard("player", "ember-imp", "support", 0, 0);
     board[1][2] = withSides(makeBoardCard("enemy", "owl", "target", 1, 2), {
       top: 1,
       right: 1,
       bottom: 1,
       left: 1,
     });
-    const playerCard = makeCard("player", "pact-sprite", "hand");
+    const playerCard = { ...makeCard("player", "pact-sprite", "hand"), manaCost: 1 };
+    const demonSupport = { ...makeCard("player", "hornling", "stack"), manaCost: 1 };
 
     const state = makeState({
       board,
       turn: {
         activePlayer: "player",
-        choices: [playerCard],
+        choices: [playerCard, demonSupport],
       },
     });
 
     const nextState = applyMove(state, {
       cardInstanceId: playerCard.instanceId,
+      cardInstanceIds: [playerCard.instanceId, demonSupport.instanceId],
       position: { row: 1, col: 1 },
     });
 
@@ -561,7 +568,7 @@ describe("card effects", () => {
     });
 
     expect(nextState.lastMove?.roundEnded).toBe(true);
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 1, enemy: 7 });
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 1, enemy: 6 });
     expect(nextState.champions.player.health).toBe(23);
     expect(nextState.lastMove?.effectEvents).toContainEqual(
       expect.objectContaining({
@@ -669,7 +676,7 @@ describe("card effects", () => {
       trigger: "on-play",
       kind: "gain-shield",
       amount: 1,
-      requiredFamilyCount: 3,
+      requiredFamilyCount: 2,
       scaleWithFamilyCount: true,
       maxScale: 2,
     } as const;
@@ -696,23 +703,24 @@ describe("card effects", () => {
     expect(afterUnderbuilt.lastMove?.effectEvents).toHaveLength(0);
 
     const builtBoard = makeBoard();
-    builtBoard[0][0] = makeBoardCard("player", "field-knight", "support-a", 0, 0);
-    builtBoard[0][1] = makeBoardCard("player", "field-knight", "support-b", 0, 1);
-    builtBoard[2][2] = makeBoardCard("player", "field-knight", "support-c", 2, 2);
     const builtCard = {
       ...makeCard("player", "field-knight", "built"),
+      manaCost: 1,
       effects: [comboEffect],
     };
+    const builtSupportA = { ...makeCard("player", "field-knight", "built-a"), manaCost: 1 };
+    const builtSupportB = { ...makeCard("player", "field-knight", "built-b"), manaCost: 1 };
     const builtState = makeState({
       board: builtBoard,
       turn: {
         activePlayer: "player",
-        choices: [builtCard],
+        choices: [builtCard, builtSupportA, builtSupportB],
       },
     });
 
     const afterBuilt = applyMove(builtState, {
       cardInstanceId: builtCard.instanceId,
+      cardInstanceIds: [builtCard.instanceId, builtSupportA.instanceId, builtSupportB.instanceId],
       position: { row: 1, col: 1 },
     });
 
@@ -751,11 +759,11 @@ describe("round end on a full 3x3 board", () => {
     });
 
     expect(nextState.lastMove?.roundEnded).toBe(true);
-    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 7, enemy: 3 });
-    expect(nextState.lastMove?.roundEndSummary?.controlDifference).toBe(4);
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 3, enemy: 7 });
+    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 6, enemy: 3 });
+    expect(nextState.lastMove?.roundEndSummary?.controlDifference).toBe(3);
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 3, enemy: 6 });
     expect(nextState.champions.player.health).toBe(21);
-    expect(nextState.champions.enemy.health).toBe(17);
+    expect(nextState.champions.enemy.health).toBe(18);
   });
 
   it("clears the board after round end and moves all board cards to discard by current owner", () => {
@@ -883,7 +891,7 @@ describe("round end on a full 3x3 board", () => {
     expect(nextState.result?.winner).toBe("player");
     expect(nextState.result?.reason).toBe("double-ko");
     expect(nextState.champions.player.health).toBe(0);
-    expect(nextState.champions.enemy.health).toBe(-1);
+    expect(nextState.champions.enemy.health).toBe(0);
   });
 
   it("makes the side with the lower final health lose on a simultaneous knockout", () => {
@@ -915,7 +923,7 @@ describe("round end on a full 3x3 board", () => {
     expect(nextState.result?.winner).toBe("player");
     expect(nextState.result?.reason).toBe("double-ko");
     expect(nextState.champions.player.health).toBe(-1);
-    expect(nextState.champions.enemy.health).toBe(-3);
+    expect(nextState.champions.enemy.health).toBe(-2);
   });
 });
 
@@ -1014,10 +1022,10 @@ describe("control and persistence", () => {
 
     expect(nextState.turn.activePlayer).toBe("player");
     expect(nextState.turn.choices.map((card) => card.instanceId)).toEqual(
-      expected.items.slice(0, 4).map((card) => card.instanceId),
+      expected.items.slice(0, 5).map((card) => card.instanceId),
     );
     expect(nextState.players.player.drawPile.map((card) => card.instanceId)).toEqual(
-      expected.items.slice(4).map((card) => card.instanceId),
+      expected.items.slice(5).map((card) => card.instanceId),
     );
   });
 
@@ -1192,7 +1200,7 @@ describe("enemy profiles and powers", () => {
       name: "Swarm Weak",
       sides: { top: 1, right: 1, bottom: 1, left: 1 },
     };
-    const strongEnemyCards = Array.from({ length: 4 }, (_, index) => ({
+    const strongEnemyCards = Array.from({ length: 5 }, (_, index) => ({
       ...getCardArchetype("badger"),
       id: `swarm-strong-${index + 1}`,
       name: `Swarm Strong ${index + 1}`,
@@ -1208,7 +1216,7 @@ describe("enemy profiles and powers", () => {
     });
 
     expect(state.turn.activePlayer).toBe("enemy");
-    expect(state.turn.choices).toHaveLength(4);
+    expect(state.turn.choices).toHaveLength(5);
     expect(state.players.enemy.discardPile).toHaveLength(1);
     expect(state.players.enemy.discardPile[0]?.archetypeId).toBe("swarm-weak");
     expect(state.turn.choices.some((card) => card.archetypeId === "swarm-weak")).toBe(false);
@@ -1263,7 +1271,7 @@ describe("enemy profiles and powers", () => {
     });
 
     expect(nextState.lastMove?.roundEnded).toBe(true);
-    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 5, enemy: 9 });
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 9, enemy: 5 });
+    expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 4, enemy: 8 });
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 8, enemy: 4 });
   });
 });

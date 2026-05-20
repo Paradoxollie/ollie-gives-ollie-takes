@@ -53,8 +53,8 @@ export function cloneCardEffects(effects: CardEffect[] | undefined): CardEffect[
 export function formatCardEffect(effect: CardEffect): string {
   const trigger = effect.trigger === "on-play" ? "Pose" : `Flip${effect.minFlips ? ` ${effect.minFlips}+` : ""}`;
   const condition = effect.condition && effect.condition !== "always" ? ` ${CONDITION_COPY[effect.condition]}` : "";
-  const combo = effect.requiredFamilyCount ? ` Combo ${effect.requiredFamilyCount}${effect.scaleWithFamilyCount ? "+" : ""}` : "";
-  const scale = effect.scaleWithFamilyCount ? `, cumule avec la famille${effect.maxScale ? ` jusqu'a x${effect.maxScale}` : ""}` : "";
+  const combo = effect.requiredFamilyCount ? ` Pile ${effect.requiredFamilyCount}${effect.scaleWithFamilyCount ? "+" : ""}` : "";
+  const scale = effect.scaleWithFamilyCount ? `, compte les familles dans la pile${effect.maxScale ? ` jusqu'a x${effect.maxScale}` : ""}` : "";
   return `${trigger}${condition}${combo}: ${KIND_COPY[effect.kind]} ${effectAmountText(effect)}${scale}.`;
 }
 

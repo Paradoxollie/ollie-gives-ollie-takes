@@ -56,7 +56,11 @@ interface BattleController {
   match: MatchState | null;
   hand: CardInstance[];
   selectedCardId: string | null;
+  selectedCardIds: string[];
   selectedCard: CardInstance | null;
+  selectedCards: CardInstance[];
+  selectedManaCost: number;
+  availableMana: number;
   hoveredPosition: Position | null;
   hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
@@ -136,7 +140,7 @@ export function useBattleController({
   const [match, setMatch] = useState<MatchState | null>(() =>
     enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
   );
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  const [selectedCardIds, setSelectedCardIds] = useState<string[]>([]);
   const [hoveredPosition, setHoveredPosition] = useState<Position | null>(null);
   const [interactionLocked, setInteractionLocked] = useState(false);
   const [resolutionRecap, setResolutionRecap] = useState<BattleResolutionRecap | null>(null);
@@ -251,7 +255,7 @@ export function useBattleController({
       return decision.move ? applyMove(preparedState, decision.move) : passTurn(preparedState);
     });
     scheduleInteractionUnlock(POST_AI_RESOLUTION_LOCK_MS);
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
   });
 
@@ -259,7 +263,7 @@ export function useBattleController({
     setMatch(
       enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
     );
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
     setInteractionLocked(false);
     setResolutionRecap(null);
@@ -295,7 +299,7 @@ export function useBattleController({
         ? current
         : useFireflyReroll(current),
     );
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
   });
 
@@ -315,7 +319,7 @@ export function useBattleController({
     setMatch(
       enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
     );
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
     setInteractionLocked(false);
     setResolutionRecap(null);
@@ -351,7 +355,7 @@ export function useBattleController({
       return;
     }
 
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
     setInteractionLocked(false);
     clearInteractionLockTimer();
@@ -440,7 +444,7 @@ export function useBattleController({
     clearInteractionLockTimer();
     clearResolutionRevealTimer();
     setInteractionLocked(true);
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
     resolutionRevealTimerRef.current = window.setTimeout(() => {
       setResolutionRecap(nextRecap);
@@ -464,14 +468,20 @@ export function useBattleController({
 
     seenRoundCoinTossIdRef.current = nextRecap.id;
     clearInteractionLockTimer();
-    setSelectedCardId(null);
+    setSelectedCardIds([]);
     setHoveredPosition(null);
     setRoundCoinTossRecap(nextRecap);
     scheduleRoundCoinTossConfirmation(ROUND_COIN_TOSS_CONFIRM_DELAY_MS);
   }, [hasBlockingResolutionRecap, match]);
 
   const hand = match && match.turn.activePlayer === "player" ? getCurrentChoices(match) : [];
-  const selectedCard = hand.find((card) => card.instanceId === selectedCardId) ?? null;
+  const selectedCards = selectedCardIds
+    .map((instanceId) => hand.find((card) => card.instanceId === instanceId) ?? null)
+    .filter((card): card is CardInstance => card !== null);
+  const selectedCard = selectedCards[0] ?? null;
+  const selectedCardId = selectedCard?.instanceId ?? null;
+  const selectedManaCost = selectedCards.reduce((sum, card) => sum + card.manaCost, 0);
+  const availableMana = Math.max(0, (match?.config.turnMana ?? 0) - selectedManaCost);
   const canHumanInteract = Boolean(
     match &&
       !match.result &&
@@ -484,15 +494,16 @@ export function useBattleController({
   const control = useMemo(() => (match ? getControlTotals(match) : EMPTY_CONTROL), [match]);
 
   const hoverPreview = useMemo(() => {
-    if (!match || !canHumanInteract || !selectedCard || !hoveredPosition || !canPlaceCard(match, hoveredPosition)) {
+    if (!match || !canHumanInteract || selectedCards.length === 0 || !hoveredPosition || !canPlaceCard(match, hoveredPosition)) {
       return null;
     }
 
     return previewMove(match, {
-      cardInstanceId: selectedCard.instanceId,
+      cardInstanceId: selectedCards[0].instanceId,
+      cardInstanceIds: selectedCards.map((card) => card.instanceId),
       position: hoveredPosition,
     });
-  }, [canHumanInteract, hoveredPosition, match, selectedCard]);
+  }, [canHumanInteract, hoveredPosition, match, selectedCards]);
 
   const debugState = useMemo(
     () =>
@@ -526,16 +537,22 @@ export function useBattleController({
       return;
     }
 
-    if (!selectedCardId || !hand.some((card) => card.instanceId === selectedCardId)) {
-      setSelectedCardId(hand[0].instanceId);
+    setSelectedCardIds((current) => current.filter((instanceId) => hand.some((card) => card.instanceId === instanceId)));
+    if (selectedCardIds.length === 0 && hand.length > 0) {
+      const firstAffordable = hand.find((card) => card.manaCost <= (match?.config.turnMana ?? 0)) ?? hand[0];
+      setSelectedCardIds([firstAffordable.instanceId]);
     }
-  }, [canHumanInteract, hand, match, playerBot, resolutionRecap, selectedCardId]);
+  }, [canHumanInteract, hand, match, playerBot, resolutionRecap, selectedCardIds.length]);
 
   return {
     match,
     hand,
     selectedCardId,
+    selectedCardIds,
     selectedCard,
+    selectedCards,
+    selectedManaCost,
+    availableMana,
     hoveredPosition,
     hoverPreview,
     canHumanInteract,
@@ -554,11 +571,35 @@ export function useBattleController({
         return;
       }
 
-      setSelectedCardId((current) => (current === cardInstanceId ? null : cardInstanceId));
+      setSelectedCardIds((current) => {
+        const clickedCard = hand.find((card) => card.instanceId === cardInstanceId);
+        if (!clickedCard || !match) {
+          return current;
+        }
+
+        if (current.includes(cardInstanceId)) {
+          return current.filter((entry) => entry !== cardInstanceId);
+        }
+
+        if (current.length >= match.config.maxCardsPerMove) {
+          return current;
+        }
+
+        const nextCost = current.reduce((sum, instanceId) => {
+          const card = hand.find((entry) => entry.instanceId === instanceId);
+          return sum + (card?.manaCost ?? 0);
+        }, clickedCard.manaCost);
+
+        if (nextCost > match.config.turnMana) {
+          return current;
+        }
+
+        return [...current, cardInstanceId];
+      });
       setHoveredPosition(null);
     },
     hoverCell(position) {
-      if (!canHumanInteract || !selectedCard) {
+      if (!canHumanInteract || selectedCards.length === 0) {
         setHoveredPosition(null);
         return;
       }
@@ -566,21 +607,23 @@ export function useBattleController({
       setHoveredPosition(position);
     },
     placeCard(position) {
-      if (!canHumanInteract || !match || !selectedCard || !canPlaceCard(match, position)) {
+      if (!canHumanInteract || !match || selectedCards.length === 0 || !canPlaceCard(match, position)) {
         return;
       }
 
+      const cardInstanceIds = selectedCards.map((card) => card.instanceId);
       setMatch((current) => {
         if (!current) {
           return current;
         }
 
         return applyMove(current, {
-          cardInstanceId: selectedCard.instanceId,
+          cardInstanceId: cardInstanceIds[0],
+          cardInstanceIds,
           position,
         });
       });
-      setSelectedCardId(null);
+      setSelectedCardIds([]);
       setHoveredPosition(null);
     },
     advanceTime(ms) {

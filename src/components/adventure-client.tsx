@@ -272,6 +272,7 @@ function deckPreviewCard(
   owner: "player";
   name: string;
   sides: AdventureRunState["deck"]["cards"][number]["card"]["sides"];
+  manaCost: number;
   family: AdventureRunState["deck"]["cards"][number]["card"]["family"];
   accent: string;
   artSrc: string;
@@ -287,6 +288,7 @@ function deckPreviewCard(
     owner: "player",
     name: deckCard.card.name,
     sides: deckCard.card.sides,
+    manaCost: deckCard.card.manaCost,
     family: deckCard.card.family,
     accent: deckCard.card.accent,
     artSrc: deckCard.card.artSrc,
@@ -665,8 +667,8 @@ export function AdventureClient({
   if (isCombatEncounter && activeNode && battle.match) {
     const combatResult = battle.match.result;
     const battlePreviewBaseText = !battle.hoverPreview
-      ? battle.selectedCard
-        ? "Choisis maintenant une case vide du plateau."
+      ? battle.selectedCards.length > 0
+        ? `Pile ${battle.selectedCards.length} carte${battle.selectedCards.length > 1 ? "s" : ""}, ${battle.selectedManaCost}/${battle.match.config.turnMana} mana. Choisis une case vide.`
         : "Choisis une carte dans ta main, puis une case vide."
       : battle.hoverPreview.roundEndSummary
         ? `${battle.hoverPreview.flippedCount} flips. Fin ${battle.hoverPreview.roundEndSummary.control.player}/${battle.hoverPreview.roundEndSummary.control.enemy}.`
@@ -700,7 +702,10 @@ export function AdventureClient({
           match={battle.match}
           hand={battle.hand}
           selectedCardId={battle.selectedCardId}
+          selectedCardIds={battle.selectedCardIds}
           selectedCard={battle.selectedCard}
+          selectedManaCost={battle.selectedManaCost}
+          availableMana={battle.availableMana}
           hoveredPosition={battle.hoveredPosition}
           hoverPreview={battle.hoverPreview}
           canHumanInteract={battle.canHumanInteract}
@@ -717,7 +722,7 @@ export function AdventureClient({
                 enemyDeckCount={enemyLoadout.cardIds.length}
                 enemyMutations={enemyLoadout.replacements + enemyLoadout.additions}
                 spectatorMode={spectatorMode}
-                selectedCardName={battle.selectedCard ? battle.selectedCard.name : "Aucune carte"}
+                selectedCardName={battle.selectedCards.length > 0 ? battle.selectedCards.map((card) => card.name).join(" + ") : "Aucune carte"}
                 selectedCardHint={battlePreviewText}
                 playerShield={battle.match.combat.player.shield}
                 enemyShield={battle.match.combat.enemy.shield}
@@ -1047,6 +1052,7 @@ export function AdventureClient({
                                 owner: "player",
                                 name: forgeState.previewCard.name,
                                 sides: forgeState.previewCard.sides,
+                                manaCost: forgeState.previewCard.manaCost,
                                 family: forgeState.previewCard.family,
                                 accent: forgeState.previewCard.accent,
                                 artSrc: forgeState.previewCard.artSrc,

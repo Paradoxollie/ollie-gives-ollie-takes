@@ -9,6 +9,7 @@ import {
   getControlDelta,
   getEffectTempoValue,
   getEmptyAdjacentDirections,
+  listBotCandidateMoves,
   getOutcomePriority,
   getRoundEndControlAdvantage,
   getRoundEndDamageAdvantage,
@@ -37,21 +38,16 @@ function getPlacedCardStabilityScore(currentState: MatchState, nextState: MatchS
     return 0;
   }
 
-  const card = currentState.turn.choices.find((choice) => choice.instanceId === move.cardInstanceId);
-  if (!card) {
-    throw new Error(`Cannot score unknown move card ${move.cardInstanceId}.`);
-  }
-
   const placedCard = getBoardCard(nextState.board, move.position);
   if (!placedCard) {
     return 0;
   }
 
-  const sides = getCardSides(card);
+  const sides = getCardSides(placedCard);
   const emptyDirections = getEmptyAdjacentDirections(nextState.board, move.position);
   const exposurePenalty = emptyDirections.reduce((sum, direction) => sum + Math.max(0, 6 - sides[direction]), 0);
-  const friendlySupportBonus = countFriendlyAdjacency(nextState.board, move.position, card.owner) * 6;
-  const enemyPressurePenalty = countEnemyAdjacency(nextState.board, move.position, card.owner) * 5;
+  const friendlySupportBonus = countFriendlyAdjacency(nextState.board, move.position, placedCard.owner) * 6;
+  const enemyPressurePenalty = countEnemyAdjacency(nextState.board, move.position, placedCard.owner) * 5;
   const safetyBonus = getPositionSafetyBonus(move.position, nextState.board.length);
 
   return safetyBonus * 4 + friendlySupportBonus - exposurePenalty - enemyPressurePenalty;
@@ -62,7 +58,8 @@ function estimateOpponentThreat(nextState: MatchState, activePlayer: PlayerId): 
     return 0;
   }
 
-  const previews = listLegalMoves(nextState).map((move) => previewMove(nextState, move));
+  const previews = listBotCandidateMoves(nextState, 10)
+    .map((move) => previewMove(nextState, move));
   if (previews.length === 0) {
     return 0;
   }

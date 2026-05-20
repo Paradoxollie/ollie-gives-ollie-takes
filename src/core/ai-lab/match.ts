@@ -15,7 +15,7 @@ import type {
   AiLabScenarioId,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import { applyMove, createMatch, passTurn } from "@/core/engine";
+import { applyMove, createMatch, getMoveCardInstanceIds, passTurn } from "@/core/engine";
 import type { BoardCard, CardEffectKind, CardInstance, PlayerId, Position } from "@/core/types";
 import { getAdjacentPositions } from "@/core/utils/board";
 import { mixSeed } from "@/core/utils/rng";
@@ -82,6 +82,7 @@ function cardSnapshot(card: CardInstance): AiLabCardSnapshot {
     rarity: card.rarity,
     role: card.role,
     sourceType: card.sourceType,
+    manaCost: card.manaCost,
     sideTotal: sumSides(card),
     maxSide: Math.max(...sideValues),
     minSide: Math.min(...sideValues),
@@ -187,7 +188,9 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
       throw new Error(`AI model ${modelId} returned no move while choices were available.`);
     }
 
-    const chosenCard = state.turn.choices.find((card) => card.instanceId === decision.move?.cardInstanceId);
+    const moveCardIds = getMoveCardInstanceIds(decision.move);
+    const playedCardIds = new Set(moveCardIds);
+    const chosenCard = state.turn.choices.find((card) => card.instanceId === moveCardIds[0]);
     if (!chosenCard) {
       throw new Error(`AI model ${modelId} selected a card that is not in the current choices.`);
     }
@@ -226,7 +229,7 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
       card: cardSnapshot(chosenCard),
       offeredCards,
       ignoredCardIds: offeredCards
-        .filter((card) => card.instanceId !== chosenCard.instanceId)
+        .filter((card) => !playedCardIds.has(card.instanceId))
         .map((card) => card.cardId),
       adjacentFriendlyCount: adjacentCards.friendly.length,
       adjacentEnemyCount: adjacentCards.enemy.length,

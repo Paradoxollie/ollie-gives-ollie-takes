@@ -1,4 +1,5 @@
 import type { BoardPositionTag, CardArchetype, CardEffect, CardFamily, CardRarity, CardRole, CardSides } from "@/core/types";
+import { inferCardManaCost } from "@/core/card-costs";
 import { getNeutralCardArtSrc } from "@/core/config/cardArt";
 
 export interface AdventureRewardArchetype extends CardArchetype {
@@ -219,6 +220,7 @@ export const ADVENTURE_REWARD_ARCHETYPES: ReadonlyArray<AdventureRewardArchetype
       id: rewardId(rarity, index),
       name: rewardName(rarity, index),
       sides,
+      manaCost: inferCardManaCost({ sides, rarity, role, effects }),
       family,
       accent: rewardAccent(rarity),
       artSrc: getNeutralCardArtSrc(family),

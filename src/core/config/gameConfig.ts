@@ -15,7 +15,9 @@ export const POSITION_WEIGHTS = [
 
 export const GAME_CONFIG: MatchConfig = {
   boardSize: 3,
-  cardsPerTurn: 4,
+  cardsPerTurn: 5,
+  turnMana: 3,
+  maxCardsPerMove: 3,
   secondPlayerFirstTurnDrawBonus: 2,
   secondPlayerFirstTurnShieldBonus: 1,
   aiDelayMs: 1200,
@@ -26,7 +28,7 @@ export const GAME_CONFIG: MatchConfig = {
   maxShieldPerPlayer: 6,
   maxNextTurnDrawBonus: 2,
   maxDirectDamagePerMove: 4,
-  maxCardSideValue: 8,
+  maxCardSideValue: 12,
 };
 
 export const ADVENTURE_CONFIG: AdventureConfig = {

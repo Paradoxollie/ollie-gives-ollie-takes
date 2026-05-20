@@ -134,6 +134,7 @@ export interface CardArchetype {
   id: string;
   name: string;
   sides: CardSides;
+  manaCost: number;
   family: CardFamily;
   accent: string;
   artSrc: string;
@@ -157,6 +158,7 @@ export interface CardInstance {
   owner: PlayerId;
   name: string;
   sides: CardSides;
+  manaCost: number;
   family: CardFamily;
   accent: string;
   artSrc: string;
@@ -175,9 +177,17 @@ export interface CardInstance {
   effects?: CardEffect[];
 }
 
+export interface BoardStackCard extends CardInstance {
+  stackIndex: number;
+}
+
 export interface BoardCard extends CardInstance {
   row: number;
   col: number;
+  stack?: BoardStackCard[];
+  stackSize?: number;
+  stackManaCost?: number;
+  stackFamilyCounts?: Partial<Record<CardFamily, number>>;
 }
 
 export interface ChampionState {
@@ -257,6 +267,7 @@ export interface MatchMetrics {
 export interface LastMoveSummary {
   playerId: PlayerId;
   cardInstanceId: string;
+  cardInstanceIds: string[];
   position: Position;
   impacts: CombatImpact[];
   effectEvents: CardEffectEvent[];
@@ -271,6 +282,8 @@ export interface LastMoveSummary {
 export interface MatchConfig {
   boardSize: number;
   cardsPerTurn: number;
+  turnMana: number;
+  maxCardsPerMove: number;
   secondPlayerFirstTurnDrawBonus: number;
   secondPlayerFirstTurnShieldBonus: number;
   aiDelayMs: number;
@@ -668,7 +681,8 @@ export interface AdventureRunState {
 }
 
 export interface MoveInput {
-  cardInstanceId: string;
+  cardInstanceId?: string;
+  cardInstanceIds?: string[];
   position: Position;
 }
 
@@ -721,6 +735,7 @@ export interface SerializedMatchState {
   nextDrawPreview: Array<{
     name: string;
     sides: CardSides;
+    manaCost: number;
     family: CardFamily;
     rarity: CardRarity;
     sourceType: CardSourceType;
@@ -736,7 +751,18 @@ export interface SerializedMatchState {
           owner: PlayerId;
           cardName: string;
           sides: CardSides;
+          manaCost: number;
           family: CardFamily;
+          stackSize: number;
+          stackManaCost: number;
+          stackFamilies: Partial<Record<CardFamily, number>>;
+          stack: Array<{
+            instanceId: string;
+            name: string;
+            manaCost: number;
+            family: CardFamily;
+            sides: CardSides;
+          }>;
           corruptedBy: PlayerId | null;
           rarity: CardRarity;
           sourceType: CardSourceType;
@@ -748,6 +774,7 @@ export interface SerializedMatchState {
     instanceId: string;
     name: string;
     sides: CardSides;
+    manaCost: number;
     family: CardFamily;
     rarity: CardRarity;
     sourceType: CardSourceType;
@@ -824,6 +851,7 @@ export interface SerializedAdventureRunState {
           family: CardFamily;
           rarity: CardRarity;
           sides: CardSides;
+          manaCost: number;
           effects: CardEffect[];
         }>;
       }
@@ -880,6 +908,7 @@ export interface SerializedAdventureRunState {
             name: string;
             rarity: CardRarity;
             sides: CardSides;
+            manaCost: number;
             effects: CardEffect[];
             reason: string | null;
             rewardType: "steal" | "generated" | null;
@@ -914,6 +943,7 @@ export interface SerializedAdventureRunState {
         preview:
           | {
               sides: CardSides;
+              manaCost: number;
               rarity: CardRarity;
               effects: CardEffect[];
             }
@@ -925,6 +955,7 @@ export interface SerializedAdventureRunState {
         grantedCard: {
           rarity: CardRarity;
           sides: CardSides;
+          manaCost: number;
           sourceType: CardSourceType;
           effects: CardEffect[];
         };

@@ -1,4 +1,5 @@
-import { getCardSides, listLegalMoves, previewMove } from "@/core/engine";
+import { getCardSides, getMoveCardInstanceIds, listLegalMoves, previewMove } from "@/core/engine";
+import { POSITION_WEIGHTS } from "@/core/config/gameConfig";
 import { getAdjacentPositions } from "@/core/utils/board";
 import type { BoardCard, Direction, MatchOutcome, MatchState, MoveInput, PlayerId, Position, PreviewMove } from "@/core/types";
 
@@ -15,12 +16,58 @@ export function compareMoveCoordinates(left: MoveInput, right: MoveInput): numbe
     return left.position.col - right.position.col;
   }
 
-  return left.cardInstanceId.localeCompare(right.cardInstanceId);
+  return getMoveCardInstanceIds(left).join("|").localeCompare(getMoveCardInstanceIds(right).join("|"));
 }
 
 export function sumCardStrengthByInstanceId(state: MatchState, instanceId: string): number {
   const card = state.turn.choices.find((choice) => choice.instanceId === instanceId);
   return card ? Object.values(getCardSides(card)).reduce((sum, value) => sum + value, 0) : 0;
+}
+
+export function sumMoveCardStrength(state: MatchState, move: MoveInput): number {
+  return getMoveCardInstanceIds(move).reduce((sum, instanceId) => sum + sumCardStrengthByInstanceId(state, instanceId), 0);
+}
+
+function getMoveCards(state: MatchState, move: MoveInput) {
+  const ids = getMoveCardInstanceIds(move);
+  return ids
+    .map((instanceId) => state.turn.choices.find((choice) => choice.instanceId === instanceId) ?? null)
+    .filter((card): card is MatchState["turn"]["choices"][number] => card !== null);
+}
+
+function getMovePrePreviewScore(state: MatchState, move: MoveInput): number {
+  const cards = getMoveCards(state, move);
+  const familyCounts = new Map<string, number>();
+  for (const card of cards) {
+    familyCounts.set(card.family, (familyCounts.get(card.family) ?? 0) + 1);
+  }
+  const localFamilySynergy = [...familyCounts.values()].reduce((best, count) => Math.max(best, count), 0);
+  const manaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
+  const positionWeight = POSITION_WEIGHTS[move.position.row]?.[move.position.col] ?? 0;
+  const effectCount = cards.reduce((sum, card) => sum + (card.effects?.length ?? 0), 0);
+
+  return (
+    positionWeight * 14 +
+    sumMoveCardStrength(state, move) * 2 +
+    localFamilySynergy * 22 +
+    cards.length * 8 +
+    effectCount * 5 -
+    manaCost * 3
+  );
+}
+
+export function listBotCandidateMoves(state: MatchState, cap = 36): MoveInput[] {
+  return listLegalMoves(state)
+    .sort((left, right) => {
+      const leftScore = getMovePrePreviewScore(state, left);
+      const rightScore = getMovePrePreviewScore(state, right);
+      if (leftScore !== rightScore) {
+        return rightScore - leftScore;
+      }
+
+      return compareMoveCoordinates(left, right);
+    })
+    .slice(0, Math.max(1, cap));
 }
 
 export function getOutcomePriority(outcome: MatchOutcome | null, activePlayer: PlayerId): number {
@@ -117,8 +164,8 @@ export function comparePreviewMoves(left: PreviewMove, right: PreviewMove, state
     return right.positionWeight - left.positionWeight;
   }
 
-  const leftStrength = sumCardStrengthByInstanceId(state, left.move.cardInstanceId);
-  const rightStrength = sumCardStrengthByInstanceId(state, right.move.cardInstanceId);
+  const leftStrength = sumMoveCardStrength(state, left.move);
+  const rightStrength = sumMoveCardStrength(state, right.move);
   if (leftStrength !== rightStrength) {
     return rightStrength - leftStrength;
   }
@@ -127,7 +174,7 @@ export function comparePreviewMoves(left: PreviewMove, right: PreviewMove, state
 }
 
 export function buildMovePreviewTable(state: MatchState): PreviewMove[] {
-  return listLegalMoves(state)
+  return listBotCandidateMoves(state)
     .map((move) => previewMove(state, move))
     .sort((left, right) => comparePreviewMoves(left, right, state));
 }

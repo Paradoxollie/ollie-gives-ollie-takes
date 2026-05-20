@@ -61,6 +61,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
     nextDrawPreview: getPlayerNextDrawPreview(state).map((card) => ({
       name: getCardName(card),
       sides: getCardSides(card),
+      manaCost: card.manaCost,
       family: card.family,
       rarity: card.rarity,
       sourceType: card.sourceType,
@@ -86,7 +87,18 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
               owner: card.owner,
               cardName: getCardName(card),
               sides: getCardSides(card),
+              manaCost: card.manaCost,
               family: card.family,
+              stackSize: card.stackSize ?? 1,
+              stackManaCost: card.stackManaCost ?? card.manaCost,
+              stackFamilies: { ...(card.stackFamilyCounts ?? { [card.family]: 1 }) },
+              stack: (card.stack ?? [card]).map((stackCard) => ({
+                instanceId: stackCard.instanceId,
+                name: getCardName(stackCard),
+                manaCost: stackCard.manaCost,
+                family: stackCard.family,
+                sides: getCardSides(stackCard),
+              })),
               corruptedBy: card.corruptedBy ?? null,
               rarity: card.rarity,
               sourceType: card.sourceType,
@@ -101,6 +113,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
             instanceId: card.instanceId,
             name: getCardName(card),
             sides: getCardSides(card),
+            manaCost: card.manaCost,
             family: card.family,
             rarity: card.rarity,
             sourceType: card.sourceType,
@@ -266,6 +279,7 @@ export function serializeAdventureState(
               family: card.family,
               rarity: card.rarity,
               sides: { ...card.sides },
+              manaCost: card.manaCost,
               effects: cloneCardEffects(card.effects),
             };
           }),
@@ -332,6 +346,7 @@ export function serializeAdventureState(
               name: card.name,
               rarity: option.rarity,
               sides: { ...card.sides },
+              manaCost: card.manaCost,
               effects: cloneCardEffects(card.effects),
               reason: option.reason ?? null,
               rewardType: option.rewardType ?? null,
@@ -369,6 +384,7 @@ export function serializeAdventureState(
               preview: run.siteState.previewCard
                 ? {
                     sides: { ...run.siteState.previewCard.sides },
+                    manaCost: run.siteState.previewCard.manaCost,
                     rarity: run.siteState.previewCard.rarity,
                     effects: cloneCardEffects(run.siteState.previewCard.effects),
                   }
@@ -380,6 +396,7 @@ export function serializeAdventureState(
               grantedCard: {
                 rarity: run.siteState.grantedCard.card.rarity,
                 sides: { ...run.siteState.grantedCard.card.sides },
+                manaCost: run.siteState.grantedCard.card.manaCost,
                 sourceType: run.siteState.grantedCard.card.sourceType,
                 effects: cloneCardEffects(run.siteState.grantedCard.card.effects),
               },

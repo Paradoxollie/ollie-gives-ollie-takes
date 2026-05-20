@@ -9,14 +9,25 @@ function card(options: {
   family: CardFamily;
   row: number;
   col: number;
+  stackFamilies?: CardFamily[];
   corruptedBy?: PlayerId | null;
 }): BoardCard {
+  const stackFamilies = options.stackFamilies ?? [options.family];
+  const stackFamilyCounts = stackFamilies.reduce(
+    (counts, family) => ({
+      ...counts,
+      [family]: (counts[family] ?? 0) + 1,
+    }),
+    {} as Partial<Record<CardFamily, number>>,
+  );
+
   return {
     instanceId: options.id,
     archetypeId: options.id,
     owner: options.owner,
     name: options.id,
     sides: { top: 3, right: 3, bottom: 3, left: 3 },
+    manaCost: 1,
     family: options.family,
     accent: "test",
     artSrc: "/images/cards-hd/placeholder-card.png",
@@ -28,6 +39,9 @@ function card(options: {
     corruptedBy: options.corruptedBy ?? null,
     row: options.row,
     col: options.col,
+    stackSize: stackFamilies.length,
+    stackManaCost: stackFamilies.length,
+    stackFamilyCounts,
   };
 }
 
@@ -36,13 +50,11 @@ function emptyBoard(): Array<Array<BoardCard | null>> {
 }
 
 describe("family trait bonuses", () => {
-  it("gives humans attack from same row or column formations", () => {
+  it("gives humans attack from a local stack formation", () => {
     const board = emptyBoard();
-    const attacker = card({ id: "human-a", owner: "player", family: "human", row: 1, col: 1 });
-    const ally = card({ id: "human-b", owner: "player", family: "human", row: 1, col: 0 });
+    const attacker = card({ id: "human-a", owner: "player", family: "human", row: 1, col: 1, stackFamilies: ["human", "human"] });
     const defender = card({ id: "enemy", owner: "enemy", family: "demon", row: 1, col: 2 });
     board[1][1] = attacker;
-    board[1][0] = ally;
     board[1][2] = defender;
 
     const modifiers = getTraitBattleModifiers({
@@ -58,14 +70,12 @@ describe("family trait bonuses", () => {
     expect(modifiers.defenseBonus).toBe(0);
   });
 
-  it("stacks automaton corner and adjacent defense up to the cap", () => {
+  it("stacks automaton local defense up to the cap", () => {
     const board = emptyBoard();
     const attacker = card({ id: "enemy", owner: "enemy", family: "human", row: 1, col: 0 });
-    const defender = card({ id: "auto-a", owner: "player", family: "automaton", row: 0, col: 0 });
+    const defender = card({ id: "auto-a", owner: "player", family: "automaton", row: 0, col: 0, stackFamilies: ["automaton", "automaton", "automaton"] });
     board[1][0] = attacker;
     board[0][0] = defender;
-    board[0][1] = card({ id: "auto-b", owner: "player", family: "automaton", row: 0, col: 1 });
-    board[2][2] = card({ id: "auto-c", owner: "player", family: "automaton", row: 2, col: 2 });
 
     const modifiers = getTraitBattleModifiers({
       board,
@@ -81,10 +91,9 @@ describe("family trait bonuses", () => {
 
   it("activates revenant attack while its controller is not ahead", () => {
     const board = emptyBoard();
-    const attacker = card({ id: "rev-a", owner: "player", family: "revenant", row: 1, col: 1 });
+    const attacker = card({ id: "rev-a", owner: "player", family: "revenant", row: 1, col: 1, stackFamilies: ["revenant", "revenant"] });
     const defender = card({ id: "enemy-a", owner: "enemy", family: "human", row: 1, col: 2 });
     board[1][1] = attacker;
-    board[0][0] = card({ id: "rev-b", owner: "player", family: "revenant", row: 0, col: 0 });
     board[1][2] = defender;
     board[2][2] = card({ id: "enemy-b", owner: "enemy", family: "human", row: 2, col: 2 });
 
@@ -102,10 +111,9 @@ describe("family trait bonuses", () => {
 
   it("lets arcane cards break equal-value attacks", () => {
     const board = emptyBoard();
-    const attacker = card({ id: "arcane-a", owner: "player", family: "arcane", row: 1, col: 1 });
+    const attacker = card({ id: "arcane-a", owner: "player", family: "arcane", row: 1, col: 1, stackFamilies: ["arcane", "arcane"] });
     const defender = card({ id: "enemy", owner: "enemy", family: "automaton", row: 1, col: 2 });
     board[1][1] = attacker;
-    board[0][0] = card({ id: "arcane-b", owner: "player", family: "arcane", row: 0, col: 0 });
     board[1][2] = defender;
 
     const modifiers = getTraitBattleModifiers({
@@ -120,7 +128,7 @@ describe("family trait bonuses", () => {
     expect(modifiers.attackBonus).toBe(1);
   });
 
-  it("caps combined end-of-round family control bonuses", () => {
+  it("does not add board-wide family control bonuses", () => {
     const board = emptyBoard();
     board[0][0] = card({ id: "auto-a", owner: "player", family: "automaton", row: 0, col: 0 });
     board[0][1] = card({ id: "auto-b", owner: "player", family: "automaton", row: 0, col: 1 });
@@ -131,6 +139,6 @@ describe("family trait bonuses", () => {
     board[1][0] = card({ id: "auto-c", owner: "player", family: "automaton", row: 1, col: 0 });
     board[0][2] = card({ id: "auto-d", owner: "player", family: "automaton", row: 0, col: 2 });
 
-    expect(getTraitControlBonus(board, "player")).toBe(2);
+    expect(getTraitControlBonus(board, "player")).toBe(0);
   });
 });

@@ -35,6 +35,7 @@ function draftPreviewCard(card: CardArchetype): CardInstance {
     owner: "player",
     name: card.name,
     sides: card.sides,
+    manaCost: card.manaCost,
     family: card.family,
     accent: card.accent,
     artSrc: card.artSrc,
