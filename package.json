@@ -11,7 +11,6 @@
     "build:playtest": "node scripts/playtest-build.mjs",
     "start": "next start",
     "test": "vitest run",
-    "sim": "tsx scripts/simulate.ts",
     "ai:lab": "tsx scripts/ai-lab.ts",
     "ai:lab:apply": "tsx scripts/ai-lab.ts --apply",
     "ai:train": "tsx scripts/train-bot.ts --apply --promote",

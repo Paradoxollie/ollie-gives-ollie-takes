@@ -13,10 +13,19 @@ tmp/
 output/
 work/
 reports/
+public/images/cards-generated/**
+!public/images/cards-generated/
+!public/images/cards-generated/.gitkeep
 
 # Codex / Claude session traces
 .codex-*
 .codex-logs/
+.claude/settings.local.json
+*.err
+
+# Python cache
+__pycache__/
+*.pyc
 
 # Loose script artifacts at repo root
 /lab-scroll-actions.json
@@ -32,3 +41,5 @@ reports/
 Thumbs.db
 .vscode/
 .idea/
+
+.vercel

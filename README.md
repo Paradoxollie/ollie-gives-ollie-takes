@@ -89,29 +89,10 @@ npm run dev
 npm run build
 npm run start
 npm run test
-npm run sim -- --matches 100 --seed 700 --deck starter12 --matchup greedy:heuristic
 npm run ai:lab:apply -- --matches 24 --seed 1701
 npm run ai:train -- --seed 700 --iterations 8 --population 10 --elite-count 3 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8
 npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --matches-per-opponent 4 --promotion-matches-per-opponent 8 --search-depth 3 --beam-width 8 --apply --promote
 ```
-
-## CLI de simulation
-
-Ce CLI est le simulateur V1 historique du moteur. Il peut encore comparer les anciens presets techniques,
-mais il ne sert plus de reference pour l'equilibrage actuel. Pour les decisions design du jeu live, utiliser le Studio IA.
-
-Lance des batches deterministes avec :
-
-```bash
-npm run sim -- --matches 1000 --seed 700 --deck starter12 --matchup random:greedy
-```
-
-Options :
-
-- `--matches <number>` : nombre de matchs par serie
-- `--seed <number>` : seed deterministe de simulation
-- `--deck <starter10|starter12|starter14>` : preset technique V1, ignore par le Studio IA actuel
-- `--matchup <botA:botB>` : matchup entre `random`, `greedy`, `heuristic`, `trained` et `champion`
 
 ## CLI d'entrainement
 
@@ -140,15 +121,6 @@ Chaque execution ecrit :
 - `reports/training/latest-trained-bot.json`
 - `reports/training/latest-promotion-report.json`
 
-Chaque execution ecrit :
-
-- `reports/<report-id>.json`
-- `reports/<report-id>.md`
-- `reports/latest-simulation-report.json`
-- `reports/latest-simulation-report.md`
-
-Les rapports incluent les win rates par bot, le taux de draw, l'avantage du premier joueur, les tours et rounds moyens, les flips, les reshuffles, l'occupation de fin de round, l'ecart de controle, les degats de fin de round, le controle moyen par camp, la heatmap des poses et les raisons de fin.
-
 ## Studio IA
 
 Le studio IA separe trois besoins :
@@ -157,7 +129,7 @@ Le studio IA separe trois besoins :
 - `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8` entraine et promeut le champion si le benchmark passe.
 - `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage sur le depart actuel du jeu: choix de famille et starter fixe de 10 cartes.
 
-Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le runner principal du studio IA ne compare plus les anciens presets `starter10` / `starter12` / `starter14`, afin que les diagnostics restent alignes avec le jeu public actuel.
+Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le Studio IA reproduit le flux joueur actuel, afin que les diagnostics restent alignes avec le jeu public.
 
 ## Structure du projet
 
@@ -165,21 +137,20 @@ Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `
 src/
   app/           Routes Next.js et styles globaux
   components/    Rendu UI et glue d'interaction uniquement
-  core/          Moteur pur, bots, config, simulation, serialization
-  lib/           Helpers serveur pour lire les rapports generes
+  core/          Moteur pur, adventure, bots, config, training, Studio IA, serialization
+  lib/           Helpers serveur et passerelles locales
   types/         Declarations globales cote navigateur
 scripts/         Entrees CLI TypeScript
 docs/            Notes d'architecture
-reports/         Sorties de simulation generees
+reports/         Sorties generees localement, ignorees par Git
 ```
 
 ## Notes d'architecture
 
-- `src/core` porte toute la boucle de combat : PV des champions, flips de controle, rounds, piles, bots, previews et simulation.
-- `docs/combat-system-v2.md` detaille les nouvelles regles de pool partage et de familles.
+- `src/core` porte toute la boucle de combat : PV des champions, flips de controle, rounds, piles, bots, previews, aventure et entrainement IA.
 - Le bot `champion` est le bot live du jeu : il lit `src/core/bots/generated/liveChampion.ts` et retombe sur l'heuristique si aucun profil entraine n'a encore passe la promotion.
 - Les composants React consomment `createMatch`, `applyMove`, `previewMove`, `passTurn` et les types du moteur sans reimplementer les regles.
-- `/lab` reste un outil local pour lire les rapports generes et manipuler le meme moteur vivant que l'ecran principal.
+- `/lab` reste un outil local pour ouvrir le Studio IA, le studio personnages et manipuler le meme moteur vivant que l'ecran principal.
 - `window.render_game_to_text()` et `window.advanceTime(ms)` restent exposes pour l'automatisation locale.
 
 ## Notes d'equilibrage actuelles

@@ -20,7 +20,6 @@ export * from "@/core/config/luckyCharms";
 export * from "@/core/engine";
 export * from "@/core/player-charms";
 export * from "@/core/serialization";
-export * from "@/core/sim";
 export * from "@/core/training";
 export * from "@/core/traits";
 export * from "@/core/types";

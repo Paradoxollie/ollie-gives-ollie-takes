@@ -1,8 +1,8 @@
-# V1 Architecture
+# Architecture
 
 `Ollie Gives, Ollie Takes` is split into two layers:
 
-- `src/core/`: deterministic game state, config, deck data, flip-combat engine, bots, RNG helpers, simulation utilities, and serialization helpers.
+- `src/core/`: deterministic game state, config, deck data, flip-combat engine, adventure progression, bots, AI-lab runners, RNG helpers, and serialization helpers.
 - `src/components/` and `src/app/`: React UI, route entrypoints, and browser-only orchestration that consume `src/core` APIs.
 
 ## Core responsibilities
@@ -13,7 +13,7 @@
 - Draw cards, reshuffle discards, validate placements, resolve directional flip combat, apply round-end control-difference damage on a full board, clear the board into the next round, and stop immediately on champion KO or stalemate.
 - Expose reusable bot interfaces and move previews without duplicating battle rules.
 - Serialize readable state for debug tooling and browser automation.
-- Run self-play simulation batches and aggregate report metrics without touching React.
+- Run AI-lab and training batches without touching React.
 
 ## UI responsibilities
 
@@ -21,11 +21,11 @@
 - Let the human select a card, hover a cell for preview, and commit a placement.
 - Trigger AI turns by calling the engine, never by re-implementing rules.
 - Expose `window.render_game_to_text()` and `window.advanceTime(ms)` for automated inspection.
-- Read generated report files for `/lab` without embedding report logic into the rules engine.
+- Keep private lab pages as thin consumers of generated AI reports and core debug surfaces.
 
-## Simulation responsibilities
+## AI lab responsibilities
 
 - Reuse the same engine used by the playable UI.
-- Run bot-vs-bot match series deterministically from a seed.
-- Aggregate win rate, draw rate, rounds, flips, reshuffles, control-difference, round-end damage, and move heatmap metrics.
-- Export machine-readable JSON plus human-readable Markdown into `/reports`.
+- Reproduce the current player flow: family choice, fixed starter deck, map pathing, card rewards, charms, upgrades, removals, fusions, and boss progression.
+- Compare player models from beginner to champion with deterministic seeds.
+- Export machine-readable JSON, human-readable Markdown, and a deployable snapshot for `/lab/ai`.

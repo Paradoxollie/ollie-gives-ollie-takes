@@ -11,25 +11,16 @@ export default async function LabPage() {
 
   const [
     { BattleClient },
-    { LabReportDashboard },
     { loadResolvedLiveChampionProfile },
-    { loadSimulationReports },
   ] = await Promise.all([
     import("@/components/battle-client"),
-    import("@/components/lab-report-dashboard"),
     import("@/lib/live-champion"),
-    import("@/lib/simulation-reports"),
   ]);
 
-  const [reports, liveChampionProfile] = await Promise.all([
-    loadSimulationReports(),
-    loadResolvedLiveChampionProfile(),
-  ]);
+  const liveChampionProfile = await loadResolvedLiveChampionProfile();
 
   return (
     <div className="ogot-scroll mx-auto flex h-screen max-w-[92rem] flex-col gap-6 overflow-y-auto px-4 py-5 lg:px-6 lg:py-6">
-      <LabReportDashboard latestReport={reports.latestReport} recentReports={reports.recentReports} />
-
       <section className="rounded-[2.2rem] border border-cyan-200/12 bg-[linear-gradient(180deg,rgba(7,22,34,0.94),rgba(6,12,23,0.9))] p-6 text-white shadow-[0_28px_100px_rgba(5,12,24,0.42)] backdrop-blur-xl">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
@@ -76,7 +67,7 @@ export default async function LabPage() {
             <h2 className="mt-2 font-serif text-3xl text-white">Inspection manuelle du combat</h2>
           </div>
           <p className="max-w-xl text-sm leading-7 text-white/68">
-            Le combat ci-dessous utilise exactement le meme moteur deterministe que le simulateur. Sers-t-en pour verifier les cas limites a cote des rapports generes.
+            Le combat ci-dessous utilise exactement le meme moteur deterministe que le jeu public. Sers-t-en pour verifier les cas limites a cote du Studio IA.
           </p>
         </div>
 
