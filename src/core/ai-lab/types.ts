@@ -7,14 +7,15 @@ import type {
   CardRarity,
   CardRole,
   CardSourceType,
-  DeckPresetId,
   MatchOutcome,
   PlayerId,
 } from "@/core/types";
 
 export const AI_PLAYER_MODEL_IDS = ["beginner", "opportunist", "regular", "expert", "champion"] as const;
+export const AI_LAB_SCENARIO_IDS = ["current-family-start"] as const;
 
 export type AiPlayerModelId = (typeof AI_PLAYER_MODEL_IDS)[number];
+export type AiLabScenarioId = (typeof AI_LAB_SCENARIO_IDS)[number];
 
 export type AiLabInsightSeverity = "info" | "watch" | "problem";
 export type AiLabPositionKind = "corner" | "edge" | "center" | "inner";
@@ -37,7 +38,7 @@ export interface AiPlayerModel {
 export interface AiLabRunConfig {
   matchesPerPairing: number;
   seed: number;
-  deckPresetIds: DeckPresetId[];
+  scenarioIds: AiLabScenarioId[];
   modelIds: AiPlayerModelId[];
 }
 
@@ -97,7 +98,9 @@ export interface AiLabMoveRecord {
 
 export interface AiLabMatchResult {
   matchIndex: number;
-  deckPresetId: DeckPresetId;
+  scenarioId: AiLabScenarioId;
+  scenarioLabel: string;
+  startingDeckCardCount: number;
   matchup: [AiPlayerModelId, AiPlayerModelId];
   boardSize: number;
   modelBySeat: Record<PlayerId, AiPlayerModelId>;
@@ -143,7 +146,9 @@ export interface AiLabStartingPlayerSummary {
 }
 
 export interface AiLabPairingSummary {
-  deckPresetId: DeckPresetId;
+  scenarioId: AiLabScenarioId;
+  scenarioLabel: string;
+  startingDeckCardCount: number;
   matchup: [AiPlayerModelId, AiPlayerModelId];
   totalGames: number;
   drawRate: number;
@@ -162,7 +167,9 @@ export interface AiLabPairingSummary {
 }
 
 export interface AiLabDeckSummary {
-  deckPresetId: DeckPresetId;
+  scenarioId: AiLabScenarioId;
+  scenarioLabel: string;
+  startingDeckCardCount: number;
   mirrorModelId: AiPlayerModelId;
   totalGames: number;
   drawRate: number;
@@ -195,8 +202,10 @@ export interface AiLabUsageByModel {
   winRate: number;
 }
 
-export interface AiLabUsageByDeck {
-  deckPresetId: DeckPresetId;
+export interface AiLabUsageByScenario {
+  scenarioId: AiLabScenarioId;
+  scenarioLabel: string;
+  startingDeckCardCount: number;
   played: number;
   winRate: number;
 }
@@ -232,7 +241,7 @@ export interface AiLabCardAnalysis {
   lethalMoves: number;
   roundClosers: number;
   byModel: AiLabUsageByModel[];
-  byDeck: AiLabUsageByDeck[];
+  byScenario: AiLabUsageByScenario[];
   status: AiLabCardStatus;
   notes: string[];
 }

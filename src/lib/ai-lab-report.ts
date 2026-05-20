@@ -19,6 +19,7 @@ function isAiLabReport(value: unknown): value is AiLabReport {
       typeof report.generatedAt === "string" &&
       report.config &&
       typeof report.config.matchesPerPairing === "number" &&
+      Array.isArray(report.config.scenarioIds) &&
       Array.isArray(report.playerModels) &&
       Array.isArray(report.skillSummaries) &&
       Array.isArray(report.deckSummaries) &&

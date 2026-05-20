@@ -1,8 +1,8 @@
-import { DECK_PRESET_IDS } from "@/core/types";
 import { summarizeAiLabDeck, summarizeAiLabPairing } from "@/core/ai-lab/aggregate";
 import { summarizeAiLabDiagnostics } from "@/core/ai-lab/diagnostics";
 import { AI_PLAYER_MODELS, getAiPlayerModel, getDefaultAiLadderPairings } from "@/core/ai-lab/models";
 import { simulateAiLabSeries } from "@/core/ai-lab/match";
+import { getAiLabScenario, getDefaultAiLabScenarioIds } from "@/core/ai-lab/scenarios";
 import type {
   AiLabDeckSummary,
   AiLabInsight,
@@ -11,15 +11,15 @@ import type {
   AiLabPairingSummary,
   AiLabReport,
   AiLabRunConfig,
+  AiLabScenarioId,
   AiPlayerModel,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import type { DeckPresetId } from "@/core/types";
 
 export interface BuildAiLabReportOptions {
   matchesPerPairing?: number;
   seed?: number;
-  deckPresetIds?: DeckPresetId[];
+  scenarioIds?: AiLabScenarioId[];
   models?: AiPlayerModel[];
   reportId?: string;
   generatedAt?: string;
@@ -35,6 +35,10 @@ function formatPercent(value: number): string {
 
 function formatAverage(value: number): string {
   return value.toFixed(2);
+}
+
+function summaryLabel(summary: Pick<AiLabDeckSummary | AiLabPairingSummary, "scenarioLabel">): string {
+  return summary.scenarioLabel;
 }
 
 function getModelSummary(summary: AiLabPairingSummary, modelId: AiPlayerModelId): AiLabModelSummary {
@@ -102,33 +106,34 @@ export function createAiLabInsights(
   for (const deck of report.deckSummaries) {
     if (deck.status === "problem") {
       insights.push({
-        id: `deck-${deck.deckPresetId}-problem`,
+        id: `scenario-${deck.scenarioId}-problem`,
         severity: "problem",
-        title: `${deck.deckPresetId} sort de la zone saine`,
+        title: `${deck.scenarioLabel} sort de la zone saine`,
         detail: deck.notes.join(" "),
-        recommendation: "Tester ce preset avec plus de matchs, puis ajuster pioche, taille de deck ou valeurs faibles.",
+        recommendation: "Tester ce depart avec plus de matchs, puis ajuster familles, pioche ou valeurs faibles.",
       });
     } else if (deck.status === "watch") {
       insights.push({
-        id: `deck-${deck.deckPresetId}-watch`,
+        id: `scenario-${deck.scenarioId}-watch`,
         severity: "watch",
-        title: `${deck.deckPresetId} a un signal a surveiller`,
+        title: `${deck.scenarioLabel} a un signal a surveiller`,
         detail: deck.notes.join(" "),
         recommendation: "Relancer le rapport avec un echantillon plus grand avant de changer les cartes.",
       });
     }
   }
 
-  const turnSpread =
-    Math.max(...report.deckSummaries.map((entry) => entry.averages.turns)) -
-    Math.min(...report.deckSummaries.map((entry) => entry.averages.turns));
-  if (turnSpread >= 4) {
+  const turnSpread = report.deckSummaries.length > 1
+    ? Math.max(...report.deckSummaries.map((entry) => entry.averages.turns)) -
+      Math.min(...report.deckSummaries.map((entry) => entry.averages.turns))
+    : 0;
+  if (report.deckSummaries.length > 1 && turnSpread >= 4) {
     insights.push({
-      id: "deck-turn-spread",
+      id: "scenario-turn-spread",
       severity: "watch",
-      title: "La taille de deck change fortement le rythme",
-      detail: `Ecart de ${formatAverage(turnSpread)} tours moyens entre les presets.`,
-      recommendation: "Comparer les reshuffles et les tours morts avant de choisir le deck par defaut.",
+      title: "Les scenarios changent fortement le rythme",
+      detail: `Ecart de ${formatAverage(turnSpread)} tours moyens entre les scenarios.`,
+      recommendation: "Comparer les reshuffles et les tours morts avant de choisir le scenario de reference.",
     });
   }
 
@@ -143,10 +148,10 @@ export function createAiLabInsights(
 
     if (lowerSummary.winRate > higherSummary.winRate + 0.08) {
       insights.push({
-        id: `skill-inversion-${pairing.deckPresetId}-${lower.id}-vs-${higher.id}`,
+        id: `skill-inversion-${pairing.scenarioId}-${lower.id}-vs-${higher.id}`,
         severity: "problem",
         title: "Inversion de niveau detectee",
-        detail: `${lower.label} bat ${higher.label} sur ${pairing.deckPresetId} (${formatPercent(
+        detail: `${lower.label} bat ${higher.label} sur ${pairing.scenarioLabel} (${formatPercent(
           lowerSummary.winRate,
         )} contre ${formatPercent(higherSummary.winRate)}).`,
         recommendation: "Regarder les cartes ou situations qui recompensent trop le jeu immediat.",
@@ -155,10 +160,10 @@ export function createAiLabInsights(
 
     if (higher.id === "champion" && higherSummary.winRate < 0.5 && pairing.totalGames >= 8) {
       insights.push({
-        id: `champion-underperforms-${pairing.deckPresetId}`,
+        id: `champion-underperforms-${pairing.scenarioId}`,
         severity: "watch",
         title: "Le champion ne depasse pas l'expert",
-        detail: `${higher.label} gagne ${formatPercent(higherSummary.winRate)} contre ${lower.label} sur ${pairing.deckPresetId}.`,
+        detail: `${higher.label} gagne ${formatPercent(higherSummary.winRate)} contre ${lower.label} sur ${pairing.scenarioLabel}.`,
         recommendation: "Relancer `npm run ai:train` puis refaire un rapport AI lab pour verifier la promotion.",
       });
     }
@@ -179,7 +184,7 @@ export function createAiLabInsights(
       id: "baseline-healthy",
       severity: "info",
       title: "Aucun probleme fort sur cet echantillon",
-      detail: "Les presets restent dans les seuils de base du labo IA.",
+      detail: "Le depart reel actuel reste dans les seuils de base du labo IA.",
       recommendation: "Augmenter le nombre de matchs pour confirmer avant d'ajuster le design.",
     });
   }
@@ -211,7 +216,7 @@ function createReportId(generatedAt: string): string {
 export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabReport {
   const generatedAt = options.generatedAt ?? new Date().toISOString();
   const playerModels = [...(options.models ?? AI_PLAYER_MODELS)].sort((left, right) => left.rank - right.rank);
-  const deckPresetIds = options.deckPresetIds ?? [...DECK_PRESET_IDS];
+  const scenarioIds = options.scenarioIds ?? getDefaultAiLabScenarioIds();
   const matchesPerPairing = options.matchesPerPairing ?? 24;
   const seed = options.seed ?? 1701;
   const ladderPairs = getDefaultAiLadderPairings(playerModels);
@@ -219,21 +224,22 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
   const deckSummaries: AiLabDeckSummary[] = [];
   const allResults: AiLabMatchResult[] = [];
 
-  for (const deckPresetId of deckPresetIds) {
+  for (const scenarioId of scenarioIds) {
+    getAiLabScenario(scenarioId);
     const mirrorModelId = playerModels.find((model) => model.id === "regular")?.id ?? playerModels[0].id;
     const mirrorResults = simulateAiLabSeries({
-        deckPresetId,
+        scenarioId,
         seed,
         matchup: [mirrorModelId, mirrorModelId],
         matches: matchesPerPairing,
       });
     allResults.push(...mirrorResults);
     const mirrorSummary = summarizeAiLabPairing(mirrorResults);
-    deckSummaries.push(summarizeAiLabDeck(deckPresetId, mirrorModelId, mirrorSummary));
+    deckSummaries.push(summarizeAiLabDeck(mirrorModelId, mirrorSummary));
 
     for (const matchup of ladderPairs) {
       const pairingResults = simulateAiLabSeries({
-        deckPresetId,
+        scenarioId,
         seed,
         matchup,
         matches: matchesPerPairing,
@@ -246,7 +252,7 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
   const config: AiLabRunConfig = {
     matchesPerPairing,
     seed,
-    deckPresetIds,
+    scenarioIds,
     modelIds: playerModels.map((model) => model.id),
   };
   const diagnostics = summarizeAiLabDiagnostics(allResults);
@@ -287,7 +293,7 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
   const deckRows = report.deckSummaries
     .map(
       (deck) =>
-        `| ${deck.deckPresetId} | ${deck.status} | ${formatPercent(deck.startingPlayerWinRate)} | ${formatPercent(
+        `| ${summaryLabel(deck)} | ${deck.startingDeckCardCount} | ${deck.status} | ${formatPercent(deck.startingPlayerWinRate)} | ${formatPercent(
           deck.drawRate,
         )} | ${formatAverage(deck.averages.turns)} | ${formatAverage(deck.averages.flipsPerTurn)} | ${formatPercent(
           deck.deadTurnFrequency,
@@ -299,7 +305,7 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
       const [left, right] = pairing.matchup;
       const leftSummary = getModelSummary(pairing, left);
       const rightSummary = getModelSummary(pairing, right);
-      return `| ${pairing.deckPresetId} | ${getAiPlayerModel(left).label} vs ${getAiPlayerModel(right).label} | ${formatPercent(
+      return `| ${summaryLabel(pairing)} | ${getAiPlayerModel(left).label} vs ${getAiPlayerModel(right).label} | ${formatPercent(
         leftSummary.winRate,
       )} | ${formatPercent(rightSummary.winRate)} | ${formatPercent(pairing.drawRate)} | ${formatAverage(
         pairing.averages.flipsPerTurn,
@@ -348,6 +354,7 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
 - ID: \`${report.reportId}\`
 - Genere le: ${report.generatedAt}
 - Matchs par pairing: ${report.config.matchesPerPairing}
+- Scenarios: ${report.config.scenarioIds.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ")}
 - Seed: ${report.config.seed}
 
 ## Signaux
@@ -366,10 +373,10 @@ ${recommendationRows}
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 ${modelRows}
 
-## Decks
+## Scenario actuel
 
-| Deck | Statut | Premier joueur | Draw | Tours | Flips/tour | Tours morts | Notes |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Scenario | Cartes depart | Statut | Premier joueur | Draw | Tours | Flips/tour | Tours morts | Notes |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
 ${deckRows}
 
 ## Cartes
@@ -392,7 +399,7 @@ ${comboRows}
 
 ## Pairings de progression
 
-| Deck | Pairing | Gauche | Droite | Draw | Flips/tour |
+| Scenario | Pairing | Gauche | Droite | Draw | Flips/tour |
 | --- | --- | ---: | ---: | ---: | ---: |
 ${pairingRows}
 `;

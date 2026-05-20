@@ -30,6 +30,7 @@ import {
 } from "@/core/adventure-bot";
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { greedyBot, heuristicBot } from "@/core/bots";
+import { DEFAULT_DECK_PRESET_ID } from "@/core/config/decks";
 import { applyMove, createMatch, passTurn } from "@/core/engine";
 import { applyAutomatedPlayerCharmActions } from "@/core/player-charms";
 import type { BattleResult, MatchState, TrainedBotWeights } from "@/core/types";
@@ -111,7 +112,7 @@ function playAdventureCombat(options: {
 }): BattleResult {
   const enemySpec = resolveEncounterOpponentSpec(options.enemyLoadout, options.opponent);
   let state: MatchState = createMatch({
-    deckPresetId: "starter10",
+    deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed: options.seed,
     playerCards: options.playerCards.map((entry) => entry.card),
     playerCharmIds: options.playerCharmIds,

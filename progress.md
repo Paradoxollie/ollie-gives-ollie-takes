@@ -1199,3 +1199,11 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - improved AI lab diagnostics so low-selection cards with healthy win rates are marked as watch/niche instead of false red problems
   - refreshed `latestAiLabReport`: 0 problem signals, 5 watch signals; starter10/starter12/starter14 opening win rates are 50.0% / 55.6% / 44.4%, families sit around 49-51%, and Champion is 63.0% overall
   - increased scheduled standard AI training cadence to every 3 hours, with the daily deep pass preserved
+- 2026-05-20: Reworked the AI lab around the current live starter flow:
+  - removed the active AI-lab comparison against legacy `starter10` / `starter12` / `starter14` presets and replaced it with the real current start: family choice plus fixed 10-card starter
+  - made the AI report schema scenario-based, including per-card scenario diagnostics instead of legacy deck-preset rows, and updated `/lab/ai` to display the current scenario only
+  - aligned training scenarios and benchmark metadata with current family starter decks instead of hard-coded legacy presets
+  - stabilized Champion so the stale trained profile cannot override the heuristic guardrail unless it is massively better; the final lab snapshot has Expert vs Champion at 33.3% / 66.7%
+  - tuned weak or misleading starter cards from the report: Mage des runes, Chevalier veuf, Oiselle aubeplume, Enfant des tombes, Oracle de fer-blanc, Fantome phalene, Sentinelle d'horloge, and Moine engrene
+  - refreshed `latestAiLabReport`: 0 problem signals, 5 watch signals; current family start only, 10 starter cards, no visible legacy starter presets on `/lab/ai`
+  - validation: `npx tsc --noEmit --pretty false`, `npm run test` (107/107), `npm run build`, and Playwright check of `http://127.0.0.1:3000/lab/ai` with no console errors

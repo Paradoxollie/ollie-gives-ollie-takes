@@ -1,4 +1,5 @@
 import { getEnemyProfile } from "@/core/config/enemyProfiles";
+import { DEFAULT_DECK_PRESET_ID } from "@/core/config/decks";
 import { applyAutomatedPlayerCharmActions } from "@/core/player-charms";
 import { applyMove, createMatch, passTurn } from "@/core/engine";
 import { mixSeed } from "@/core/utils/rng";
@@ -95,7 +96,7 @@ function playConfiguredMatch(options: {
   const schedule = getSeatSchedule(options.candidate, options.opponent, options.matchIndex);
   const candidateSeat = schedule.playerSeat.bot.id === options.candidate.id ? "player" : "enemy";
   let state = createMatch({
-    deckPresetId: "starter10",
+    deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed: options.seed,
     startingPlayer: schedule.startingPlayer,
     playerCardIds: options.scenario.playerCardIds,

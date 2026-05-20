@@ -4,9 +4,13 @@ import { AI_PLAYER_MODELS } from "@/core/ai-lab/models";
 import { buildAiLabReport, createAiLabInsights, createAiLabMarkdownReport } from "@/core/ai-lab/report";
 import type { AiLabDeckSummary } from "@/core/ai-lab/types";
 
+const FAST_TEST_MODELS = AI_PLAYER_MODELS.filter((model) => model.id === "beginner" || model.id === "opportunist");
+
 function makeDeckSummary(overrides: Partial<AiLabDeckSummary> = {}): AiLabDeckSummary {
   return {
-    deckPresetId: "starter10",
+    scenarioId: "current-family-start",
+    scenarioLabel: "Depart actuel - famille 10 cartes",
+    startingDeckCardCount: 10,
     mirrorModelId: "regular",
     totalGames: 20,
     drawRate: 0.25,
@@ -32,7 +36,7 @@ describe("AI lab report", () => {
     const options = {
       seed: 404,
       matchesPerPairing: 1,
-      deckPresetIds: ["starter10" as const],
+      models: FAST_TEST_MODELS,
       generatedAt: "2026-05-18T00:00:00.000Z",
       reportId: "ai-lab-test",
     };
@@ -41,9 +45,11 @@ describe("AI lab report", () => {
     const right = buildAiLabReport(options);
 
     expect(left).toEqual(right);
-    expect(left.playerModels.map((model) => model.id)).toEqual(AI_PLAYER_MODELS.map((model) => model.id));
+    expect(left.playerModels.map((model) => model.id)).toEqual(FAST_TEST_MODELS.map((model) => model.id));
     expect(left.deckSummaries).toHaveLength(1);
-    expect(left.ladderPairings).toHaveLength(AI_PLAYER_MODELS.length - 1);
+    expect(left.config.scenarioIds).toEqual(["current-family-start"]);
+    expect(left.deckSummaries[0]?.startingDeckCardCount).toBe(10);
+    expect(left.ladderPairings).toHaveLength(FAST_TEST_MODELS.length - 1);
     expect(left.skillSummaries.find((summary) => summary.modelId === "beginner")?.games).toBeGreaterThan(0);
     expect(left.diagnostics.cardAnalytics.length).toBeGreaterThan(0);
     expect(left.diagnostics.familyAnalytics.length).toBeGreaterThan(0);
@@ -61,7 +67,7 @@ describe("AI lab report", () => {
 
     expect(insights[0]).toMatchObject({
       severity: "problem",
-      id: "deck-starter10-problem",
+      id: "scenario-current-family-start-problem",
     });
   });
 
@@ -69,7 +75,7 @@ describe("AI lab report", () => {
     const report = buildAiLabReport({
       seed: 405,
       matchesPerPairing: 1,
-      deckPresetIds: ["starter10" as const],
+      models: FAST_TEST_MODELS,
       generatedAt: "2026-05-18T00:00:00.000Z",
       reportId: "ai-lab-markdown-test",
     });

@@ -97,6 +97,9 @@ npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --
 
 ## CLI de simulation
 
+Ce CLI est le simulateur V1 historique du moteur. Il peut encore comparer les anciens presets techniques,
+mais il ne sert plus de reference pour l'equilibrage actuel. Pour les decisions design du jeu live, utiliser le Studio IA.
+
 Lance des batches deterministes avec :
 
 ```bash
@@ -107,7 +110,7 @@ Options :
 
 - `--matches <number>` : nombre de matchs par serie
 - `--seed <number>` : seed deterministe de simulation
-- `--deck <starter10|starter12|starter14>` : preset principal du rapport
+- `--deck <starter10|starter12|starter14>` : preset technique V1, ignore par le Studio IA actuel
 - `--matchup <botA:botB>` : matchup entre `random`, `greedy`, `heuristic`, `trained` et `champion`
 
 ## CLI d'entrainement
@@ -152,9 +155,9 @@ Le studio IA separe trois besoins :
 
 - `npm run ai:lab:apply -- --matches 24 --seed 1701` genere `reports/ai-lab/latest-ai-lab-report.*` et met a jour `src/core/ai-lab/generated/latestAiLabReport.ts` pour la page deployee.
 - `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8` entraine et promeut le champion si le benchmark passe.
-- `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage par deck et par niveau de joueur.
+- `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage sur le depart actuel du jeu: choix de famille et starter fixe de 10 cartes.
 
-Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle.
+Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le runner principal du studio IA ne compare plus les anciens presets `starter10` / `starter12` / `starter14`, afin que les diagnostics restent alignes avec le jeu public actuel.
 
 ## Structure du projet
 
@@ -185,4 +188,4 @@ reports/         Sorties de simulation generees
 - `heuristic` reste devant `greedy` sur les premiers echantillons.
 - Le jeu recompense bien les multi-flips, les coins et la protection des faces faibles.
 - Le plateau `3x3` donne des rounds courts et lisibles, utiles pour le prototypage d'interface.
-- Les presets `starter10`, `starter12` et `starter14` permettent de comparer la taille de deck sans reintroduire de doublons.
+- Le studio IA de reference teste le depart de run reel, pas une comparaison de tailles de deck historiques.

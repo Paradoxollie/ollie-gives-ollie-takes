@@ -4,31 +4,20 @@ import path from "node:path";
 import {
   buildAiLabReport,
   createAiLabMarkdownReport,
-  DECK_PRESET_IDS,
   formatAiLabReportModule,
+  getAiLabScenario,
 } from "@/core";
-import type { DeckPresetId } from "@/core/types";
 
 interface CliArgs {
   matchesPerPairing: number;
   seed: number;
-  deckPresetIds: DeckPresetId[];
   apply: boolean;
-}
-
-function parseDeckPresetId(value: string): DeckPresetId {
-  if (!DECK_PRESET_IDS.includes(value as DeckPresetId)) {
-    throw new Error(`Unknown deck preset "${value}". Expected one of: ${DECK_PRESET_IDS.join(", ")}`);
-  }
-
-  return value as DeckPresetId;
 }
 
 function parseArgs(argv: string[]): CliArgs {
   const args: CliArgs = {
     matchesPerPairing: 40,
     seed: 1701,
-    deckPresetIds: [...DECK_PRESET_IDS],
     apply: false,
   };
 
@@ -48,10 +37,8 @@ function parseArgs(argv: string[]): CliArgs {
       continue;
     }
 
-    if (arg === "--deck" && value) {
-      args.deckPresetIds = [parseDeckPresetId(value)];
-      index += 1;
-      continue;
+    if (arg === "--deck" || arg === "--preset") {
+      throw new Error("AI lab uses the current live start only. Legacy 10/12/14 preset comparison has been removed from this runner.");
     }
 
     if (arg === "--apply") {
@@ -75,7 +62,6 @@ async function main() {
   const report = buildAiLabReport({
     matchesPerPairing: args.matchesPerPairing,
     seed: args.seed,
-    deckPresetIds: args.deckPresetIds,
   });
   const reportsDirectory = path.join(process.cwd(), "reports", "ai-lab");
   await mkdir(reportsDirectory, { recursive: true });
@@ -107,7 +93,7 @@ async function main() {
   process.stdout.write(
     [
       `Generated ${report.reportId}`,
-      `Decks: ${report.config.deckPresetIds.join(", ")}`,
+      `Scenarios: ${report.config.scenarioIds.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ")}`,
       `Matches per pairing: ${report.config.matchesPerPairing}`,
       `Signals: ${problemCount} problem(s), ${watchCount} watch item(s)`,
       args.apply

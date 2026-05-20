@@ -5,7 +5,7 @@ import type {
   AiLabPairingSummary,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import type { DeckPresetId, PlayerId } from "@/core/types";
+import type { PlayerId } from "@/core/types";
 
 function safeRate(numerator: number, denominator: number): number {
   return denominator === 0 ? 0 : numerator / denominator;
@@ -121,7 +121,9 @@ export function summarizeAiLabPairing(results: AiLabMatchResult[]): AiLabPairing
   startingPlayer.overallStartingPlayerWinRate = safeRate(startingPlayerWins, results.length);
 
   return {
-    deckPresetId: first.deckPresetId,
+    scenarioId: first.scenarioId,
+    scenarioLabel: first.scenarioLabel,
+    startingDeckCardCount: first.startingDeckCardCount,
     matchup: first.matchup,
     totalGames: results.length,
     drawRate: safeRate(totalDraws, results.length),
@@ -160,19 +162,23 @@ function cleanNote(note: string): string {
  * Converts a mirror-match summary into a deck-balance row for the lab report.
  */
 export function summarizeAiLabDeck(
-  deckPresetId: DeckPresetId,
   mirrorModelId: AiPlayerModelId,
   mirrorSummary: AiLabPairingSummary,
 ): AiLabDeckSummary {
   const notes: string[] = [];
   const firstPlayerWinRate = mirrorSummary.startingPlayer.overallStartingPlayerWinRate;
+  const hasEnoughMirrorGamesForStrongOpeningCall = mirrorSummary.totalGames >= 12;
 
   if (firstPlayerWinRate >= 0.62 || firstPlayerWinRate <= 0.38) {
-    notes.push(`[problem] Avantage premier joueur tres marque (${Math.round(firstPlayerWinRate * 100)}%).`);
+    const severity =
+      hasEnoughMirrorGamesForStrongOpeningCall || firstPlayerWinRate >= 0.75 || firstPlayerWinRate <= 0.25
+        ? "problem"
+        : "watch";
+    notes.push(`[${severity}] Avantage premier joueur a confirmer (${Math.round(firstPlayerWinRate * 100)}%).`);
   } else if (firstPlayerWinRate >= 0.57 || firstPlayerWinRate <= 0.43) {
     notes.push(`[watch] Avantage premier joueur a surveiller (${Math.round(firstPlayerWinRate * 100)}%).`);
   } else {
-    notes.push("[ok] Ouverture stable sur ce deck.");
+    notes.push("[ok] Ouverture stable sur ce depart.");
   }
 
   if (mirrorSummary.drawRate >= 0.2) {
@@ -192,7 +198,9 @@ export function summarizeAiLabDeck(
   }
 
   return {
-    deckPresetId,
+    scenarioId: mirrorSummary.scenarioId,
+    scenarioLabel: mirrorSummary.scenarioLabel,
+    startingDeckCardCount: mirrorSummary.startingDeckCardCount,
     mirrorModelId,
     totalGames: mirrorSummary.totalGames,
     drawRate: mirrorSummary.drawRate,

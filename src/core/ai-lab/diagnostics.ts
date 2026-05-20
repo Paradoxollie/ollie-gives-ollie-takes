@@ -8,11 +8,12 @@ import type {
   AiLabGroupAnalysis,
   AiLabMatchResult,
   AiLabMoveRecord,
-  AiLabUsageByDeck,
+  AiLabScenarioId,
+  AiLabUsageByScenario,
   AiLabUsageByModel,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import type { DeckPresetId, PlayerId } from "@/core/types";
+import type { PlayerId } from "@/core/types";
 
 type MoveOutcome = "win" | "loss" | "draw";
 
@@ -24,6 +25,11 @@ interface OutcomeCounter {
 
 interface UseAccumulator extends OutcomeCounter {
   played: number;
+}
+
+interface ScenarioUseAccumulator extends UseAccumulator {
+  scenarioLabel: string;
+  startingDeckCardCount: number;
 }
 
 interface MetricAccumulator extends OutcomeCounter {
@@ -41,7 +47,7 @@ interface MetricAccumulator extends OutcomeCounter {
   lethalMoves: number;
   roundClosers: number;
   byModel: Map<AiPlayerModelId, UseAccumulator>;
-  byDeck: Map<DeckPresetId, UseAccumulator>;
+  byScenario: Map<AiLabScenarioId, ScenarioUseAccumulator>;
   cardBreakdown: Map<string, { name: string; played: number; wins: number; losses: number; draws: number }>;
 }
 
@@ -100,7 +106,7 @@ function createMetricAccumulator(): MetricAccumulator {
     lethalMoves: 0,
     roundClosers: 0,
     byModel: new Map(),
-    byDeck: new Map(),
+    byScenario: new Map(),
     cardBreakdown: new Map(),
   };
 }
@@ -135,6 +141,27 @@ function getOrCreateUse<Key extends string>(map: Map<Key, UseAccumulator>, key: 
 
   const next = { played: 0, wins: 0, losses: 0, draws: 0 };
   map.set(key, next);
+  return next;
+}
+
+function getOrCreateScenarioUse(
+  map: Map<AiLabScenarioId, ScenarioUseAccumulator>,
+  result: AiLabMatchResult,
+): ScenarioUseAccumulator {
+  const existing = map.get(result.scenarioId);
+  if (existing) {
+    return existing;
+  }
+
+  const next = {
+    played: 0,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    scenarioLabel: result.scenarioLabel,
+    startingDeckCardCount: result.startingDeckCardCount,
+  };
+  map.set(result.scenarioId, next);
   return next;
 }
 
@@ -231,9 +258,9 @@ function recordPlayedMove(
   modelUse.played += 1;
   addOutcome(modelUse, outcome);
 
-  const deckUse = getOrCreateUse(accumulator.byDeck, result.deckPresetId);
-  deckUse.played += 1;
-  addOutcome(deckUse, outcome);
+  const scenarioUse = getOrCreateScenarioUse(accumulator.byScenario, result);
+  scenarioUse.played += 1;
+  addOutcome(scenarioUse, outcome);
 }
 
 function recordPlayed(
@@ -258,6 +285,7 @@ function classifyStatus(stats: {
   winRateWhenPlayed: number;
   averageFlips: number;
   averageNetDamage: number;
+  averageEffectAmount: number;
 }): { status: AiLabCardStatus; notes: string[] } {
   if (stats.played >= 6 && stats.winRateWhenPlayed >= 0.68 && (stats.averageFlips >= 0.45 || stats.averageNetDamage >= 1.25)) {
     return { status: "overperformer", notes: ["Surperforme en victoire et impact immediat."] };
@@ -275,7 +303,7 @@ function classifyStatus(stats: {
     return { status: "risky", notes: ["Coute plus de PV qu'il n'en gagne."] };
   }
 
-  if (stats.played >= 6 && stats.averageFlips < 0.18 && stats.averageNetDamage <= 0.15) {
+  if (stats.played >= 6 && stats.averageFlips < 0.18 && stats.averageNetDamage <= 0.15 && stats.averageEffectAmount < 0.75) {
     return { status: "underperformer", notes: ["Impact tactique faible."] };
   }
 
@@ -292,10 +320,12 @@ function modelUsageRows(byModel: MetricAccumulator["byModel"]): AiLabUsageByMode
     .sort((left, right) => right.played - left.played || right.winRate - left.winRate);
 }
 
-function deckUsageRows(byDeck: MetricAccumulator["byDeck"]): AiLabUsageByDeck[] {
-  return Array.from(byDeck.entries())
-    .map(([deckPresetId, usage]) => ({
-      deckPresetId,
+function scenarioUsageRows(byScenario: MetricAccumulator["byScenario"]): AiLabUsageByScenario[] {
+  return Array.from(byScenario.entries())
+    .map(([scenarioId, usage]) => ({
+      scenarioId,
+      scenarioLabel: usage.scenarioLabel,
+      startingDeckCardCount: usage.startingDeckCardCount,
       played: usage.played,
       winRate: safeRate(usage.wins, usage.played),
     }))
@@ -328,6 +358,7 @@ function finalizeCard(accumulator: CardAccumulator): AiLabCardAnalysis {
     winRateWhenPlayed,
     averageFlips,
     averageNetDamage,
+    averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
   });
 
   return {
@@ -361,7 +392,7 @@ function finalizeCard(accumulator: CardAccumulator): AiLabCardAnalysis {
     lethalMoves: accumulator.lethalMoves,
     roundClosers: accumulator.roundClosers,
     byModel: modelUsageRows(accumulator.byModel),
-    byDeck: deckUsageRows(accumulator.byDeck),
+    byScenario: scenarioUsageRows(accumulator.byScenario),
     status: status.status,
     notes: status.notes,
   };
@@ -380,6 +411,7 @@ function finalizeGroup(accumulator: GroupAccumulator): AiLabGroupAnalysis {
     winRateWhenPlayed,
     averageFlips,
     averageNetDamage,
+    averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
   });
 
   return {
@@ -600,7 +632,7 @@ function createComboRecommendation(combo: AiLabComboAnalysis): AiLabBalanceRecom
 
   return {
     id: `combo-${combo.id}`,
-    severity: combo.winRate >= 0.8 && combo.count >= 8 ? "problem" : "watch",
+    severity: combo.kind === "effect" && combo.winRate >= 0.8 && combo.count >= 8 ? "problem" : "watch",
     target: "combo",
     action: "verify",
     confidence: recommendationConfidence(combo.count),

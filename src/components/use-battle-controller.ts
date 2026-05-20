@@ -21,6 +21,7 @@ import {
 } from "@/core";
 import { championBot } from "@/core/bots";
 import type { Bot } from "@/core/bots";
+import { DEFAULT_DECK_PRESET_ID } from "@/core/config/decks";
 import type {
   CardArchetype,
   CardInstance,
@@ -96,7 +97,7 @@ function createFreshMatch(
   playerCharmIds?: LuckyCharmId[],
 ): MatchState {
   return createMatch({
-    deckPresetId: "starter10",
+    deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed,
     playerCardIds,
     enemyCardIds,

@@ -1,4 +1,3 @@
-import { STARTER_DECK_PRESETS } from "@/core/config/decks";
 import type {
   AiLabBalanceRecommendation,
   AiLabCardAnalysis,
@@ -10,6 +9,7 @@ import type {
   AiLabReport,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
+import { getAiLabScenario } from "@/core/ai-lab/scenarios";
 import { AiTrainingControls } from "@/components/ai-training-controls";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
 import type { TrainingStatusPayload } from "@/lib/training-status-types";
@@ -45,8 +45,8 @@ function formatSigned(value: number | null | undefined): string {
   return `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
 }
 
-function deckLabel(deckPresetId: string): string {
-  return STARTER_DECK_PRESETS[deckPresetId as keyof typeof STARTER_DECK_PRESETS]?.label ?? deckPresetId;
+function summaryLabel(summary: { scenarioLabel: string }): string {
+  return summary.scenarioLabel;
 }
 
 function severityTone(severity: AiLabInsightSeverity): string {
@@ -303,6 +303,8 @@ export function AiLabDashboard({
   const problemCount = report?.insights.filter((insight) => insight.severity === "problem").length ?? 0;
   const watchCount = report?.insights.filter((insight) => insight.severity === "watch").length ?? 0;
   const recommendationRows = report?.diagnostics.balanceRecommendations.slice(0, 10) ?? [];
+  const scenarioLabels =
+    report?.config.scenarioIds?.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ") || "Depart actuel";
   const priorityCardRows =
     report?.diagnostics.cardAnalytics
       .filter((card) => card.status !== "healthy")
@@ -348,7 +350,11 @@ export function AiLabDashboard({
         <MetricCard
           label="Dernier rapport"
           value={report?.reportId ?? "Aucun"}
-          detail={report ? `${report.config.matchesPerPairing} matchs par pairing | seed ${report.config.seed}` : "Lance npm run ai:lab:apply"}
+          detail={
+            report
+              ? `${report.config.matchesPerPairing} matchs par pairing | ${scenarioLabels} | seed ${report.config.seed}`
+              : "Lance npm run ai:lab:apply"
+          }
         />
         <MetricCard
           label="Alertes"
@@ -439,13 +445,14 @@ export function AiLabDashboard({
             </div>
 
             <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
-              <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Deck-size balance</p>
-              <h2 className="mt-1 font-serif text-2xl text-white">10 / 12 / 14 cartes</h2>
+              <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Scenario actuel</p>
+              <h2 className="mt-1 font-serif text-2xl text-white">Depart de run reel</h2>
               <div className="mt-5 overflow-x-auto rounded-[1rem] border border-white/10 bg-black/16">
                 <table className="min-w-full text-left text-sm text-white/76">
                   <thead className="border-b border-white/10 text-[0.56rem] uppercase tracking-[0.2em] text-white/42">
                     <tr>
-                      <th className="px-4 py-3">Deck</th>
+                      <th className="px-4 py-3">Scenario</th>
+                      <th className="px-4 py-3">Cartes depart</th>
                       <th className="px-4 py-3">Statut</th>
                       <th className="px-4 py-3">1er joueur</th>
                       <th className="px-4 py-3">Draw</th>
@@ -456,8 +463,9 @@ export function AiLabDashboard({
                   </thead>
                   <tbody>
                     {report.deckSummaries.map((deck) => (
-                      <tr key={deck.deckPresetId} className="border-b border-white/6 last:border-b-0">
-                        <td className="px-4 py-3 font-semibold text-white">{deckLabel(deck.deckPresetId)}</td>
+                      <tr key={deck.scenarioId} className="border-b border-white/6 last:border-b-0">
+                        <td className="px-4 py-3 font-semibold text-white">{summaryLabel(deck)}</td>
+                        <td className="px-4 py-3">{deck.startingDeckCardCount}</td>
                         <td className="px-4 py-3">
                           <span className={["rounded-full border px-2.5 py-1 text-xs font-semibold", statusTone(deck.status)].join(" ")}>
                             {deck.status}
@@ -552,7 +560,7 @@ export function AiLabDashboard({
               <table className="min-w-full text-left text-sm text-white/76">
                 <thead className="border-b border-white/10 text-[0.56rem] uppercase tracking-[0.2em] text-white/42">
                   <tr>
-                    <th className="px-4 py-3">Deck</th>
+                    <th className="px-4 py-3">Scenario</th>
                     <th className="px-4 py-3">Pairing</th>
                     <th className="px-4 py-3">Gauche</th>
                     <th className="px-4 py-3">Droite</th>
@@ -569,8 +577,8 @@ export function AiLabDashboard({
                     const rightSummary = getPairingSummary(pairing, rightId);
 
                     return (
-                      <tr key={`${pairing.deckPresetId}-${leftId}-${rightId}`} className="border-b border-white/6 last:border-b-0">
-                        <td className="px-4 py-3">{deckLabel(pairing.deckPresetId)}</td>
+                      <tr key={`${pairing.scenarioId}-${leftId}-${rightId}`} className="border-b border-white/6 last:border-b-0">
+                        <td className="px-4 py-3">{summaryLabel(pairing)}</td>
                         <td className="px-4 py-3 font-semibold text-white">
                           {left?.label ?? leftId} vs {right?.label ?? rightId}
                         </td>

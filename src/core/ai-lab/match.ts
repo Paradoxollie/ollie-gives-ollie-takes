@@ -1,19 +1,27 @@
 import { getBot } from "@/core/bots";
 import { getAiPlayerModel } from "@/core/ai-lab/models";
+import {
+  CURRENT_FAMILY_START_SCENARIO,
+  getAiLabScenario,
+  getCurrentFamilyPairForAiLabMatch,
+  getCurrentFamilyStarterCardIdsForAiLab,
+} from "@/core/ai-lab/scenarios";
+import { DEFAULT_DECK_PRESET_ID } from "@/core/config/decks";
 import type {
   AiLabCardSnapshot,
   AiLabEffectTally,
   AiLabMatchResult,
   AiLabPositionKind,
+  AiLabScenarioId,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
 import { applyMove, createMatch, passTurn } from "@/core/engine";
-import type { BoardCard, CardEffectKind, CardInstance, DeckPresetId, PlayerId, Position } from "@/core/types";
+import type { BoardCard, CardEffectKind, CardInstance, PlayerId, Position } from "@/core/types";
 import { getAdjacentPositions } from "@/core/utils/board";
 import { mixSeed } from "@/core/utils/rng";
 
 interface AiLabMatchConfig {
-  deckPresetId: DeckPresetId;
+  scenarioId?: AiLabScenarioId;
   seed: number;
   matchup: [AiPlayerModelId, AiPlayerModelId];
 }
@@ -141,13 +149,18 @@ function tallyEffects(events: Array<{ kind: CardEffectKind; amount: number }>): 
  * Plays one deterministic AI-lab match with model-specific bot depth settings.
  */
 export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number): AiLabMatchResult {
+  const scenarioId = config.scenarioId ?? CURRENT_FAMILY_START_SCENARIO.id;
+  const scenario = getAiLabScenario(scenarioId);
   const schedule = getSchedule(config.matchup, matchIndex);
-  const matchSeed = mixSeed(config.seed, `${config.deckPresetId}:${config.matchup.join("-")}:match:${matchIndex}`);
-  let decisionSeed = mixSeed(config.seed, `${config.deckPresetId}:${config.matchup.join("-")}:decision:${matchIndex}`);
+  const familyPair = getCurrentFamilyPairForAiLabMatch(matchIndex);
+  const matchSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:match:${matchIndex}`);
+  let decisionSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:decision:${matchIndex}`);
   let state = createMatch({
-    deckPresetId: config.deckPresetId,
+    deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed: matchSeed,
     startingPlayer: schedule.startingPlayer,
+    playerCardIds: getCurrentFamilyStarterCardIdsForAiLab(familyPair.playerFamily),
+    enemyCardIds: getCurrentFamilyStarterCardIdsForAiLab(familyPair.enemyFamily),
   });
   const moveHistory: AiLabMatchResult["moveHistory"] = [];
 
@@ -239,7 +252,9 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
 
   return {
     matchIndex,
-    deckPresetId: config.deckPresetId,
+    scenarioId,
+    scenarioLabel: scenario.label,
+    startingDeckCardCount: scenario.startingDeckCardCount,
     matchup: config.matchup,
     boardSize: state.config.boardSize,
     modelBySeat: schedule.modelBySeat,
@@ -265,7 +280,7 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
 }
 
 /**
- * Plays a deterministic batch for one deck and one AI-model matchup.
+ * Plays a deterministic batch for the current game scenario and one AI-model matchup.
  */
 export function simulateAiLabSeries(config: AiLabMatchConfig & { matches: number }): AiLabMatchResult[] {
   return Array.from({ length: config.matches }, (_, index) => simulateAiLabMatch(config, index));

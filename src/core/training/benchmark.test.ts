@@ -10,9 +10,9 @@ describe("training benchmark", () => {
     const scenarios = getBotTrainingScenarios();
 
     expect(scenarios.length).toBeGreaterThanOrEqual(10);
-    expect(scenarios[0].playerCardIds).toHaveLength(12);
-    expect(scenarios[0].enemyCardIds).toHaveLength(12);
-    expect(scenarios[5].enemyCardIds.length).toBeGreaterThan(scenarios[0].enemyCardIds.length);
+    expect(scenarios[0].playerCardIds).toHaveLength(10);
+    expect(scenarios[0].enemyCardIds).toHaveLength(10);
+    expect(scenarios.some((scenario) => scenario.enemyCardIds.length > scenarios[0].enemyCardIds.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.playerCharmIds?.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.enemyProfileId)).toBe(true);
   });
