@@ -170,10 +170,7 @@ export function summarizeAiLabDeck(
   const hasEnoughMirrorGamesForStrongOpeningCall = mirrorSummary.totalGames >= 12;
 
   if (firstPlayerWinRate >= 0.62 || firstPlayerWinRate <= 0.38) {
-    const severity =
-      hasEnoughMirrorGamesForStrongOpeningCall || firstPlayerWinRate >= 0.75 || firstPlayerWinRate <= 0.25
-        ? "problem"
-        : "watch";
+    const severity = hasEnoughMirrorGamesForStrongOpeningCall ? "problem" : "watch";
     notes.push(`[${severity}] Avantage premier joueur a confirmer (${Math.round(firstPlayerWinRate * 100)}%).`);
   } else if (firstPlayerWinRate >= 0.57 || firstPlayerWinRate <= 0.43) {
     notes.push(`[watch] Avantage premier joueur a surveiller (${Math.round(firstPlayerWinRate * 100)}%).`);

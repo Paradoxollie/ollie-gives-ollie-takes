@@ -1207,3 +1207,10 @@ Original prompt: Build the first playable prototype for Ollie Gives, Ollie Takes
   - tuned weak or misleading starter cards from the report: Mage des runes, Chevalier veuf, Oiselle aubeplume, Enfant des tombes, Oracle de fer-blanc, Fantome phalene, Sentinelle d'horloge, and Moine engrene
   - refreshed `latestAiLabReport`: 0 problem signals, 5 watch signals; current family start only, 10 starter cards, no visible legacy starter presets on `/lab/ai`
   - validation: `npx tsc --noEmit --pretty false`, `npm run test` (107/107), `npm run build`, and Playwright check of `http://127.0.0.1:3000/lab/ai` with no console errors
+- 2026-05-20: Extended the AI lab to simulate the complete current adventure loop:
+  - added full-run AI lab simulations that use the same adventure APIs as the player: family selection, fixed 10-card starter, map pathing, combat, enemy-card reward offers, charms, camp upgrades/removals, forge fusions, and boss progression
+  - added adventure summaries and recent path rows to `/lab/ai`, plus CLI support for `--adventure-runs`
+  - aligned campaign training resolution with the UI by passing defeated enemy cards into `completeAdventureEncounter` for steal reward offers
+  - tightened benchmark tests so they still verify determinism without spending full training-run time
+  - refreshed `latestAiLabReport`: 1 problem signal (`Oiselle aubeplume` ignored), 6 watch signals; 10 complete adventure runs, all starting at 10 cards with no legacy starter12/starter14 rows
+  - validation so far: `npx tsc --noEmit --pretty false`, `npm run test` (107/107), `npm run build`, and local Playwright screenshots for `/lab/ai` full-run section with no console errors

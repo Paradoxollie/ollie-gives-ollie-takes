@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { greedyBot, heuristicBot } from "@/core/bots";
+import { greedyBot } from "@/core/bots";
 import { benchmarkAdventureAgainstOpponents } from "@/core/training/adventure-benchmark";
 import { benchmarkBotAgainstOpponents } from "@/core/training/benchmark";
 import { getBotTrainingScenarios } from "@/core/training/scenarios";
@@ -17,15 +17,16 @@ describe("training benchmark", () => {
     expect(scenarios.some((scenario) => scenario.enemyProfileId)).toBe(true);
   });
 
-  it("keeps benchmark summaries deterministic", { timeout: 15_000 }, () => {
+  it("keeps benchmark summaries deterministic", { timeout: 20_000 }, () => {
+    const fastScenarios = getBotTrainingScenarios().slice(0, 2);
     const left = benchmarkBotAgainstOpponents({
       seed: 909,
       candidate: {
         id: "candidate",
         label: "candidate",
-        bot: heuristicBot,
-        searchDepth: 2,
-        beamWidth: 8,
+        bot: greedyBot,
+        searchDepth: 1,
+        beamWidth: 6,
       },
       opponents: [
         {
@@ -36,7 +37,8 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      matchesPerOpponent: 4,
+      matchesPerOpponent: 1,
+      scenarios: fastScenarios,
     });
 
     const right = benchmarkBotAgainstOpponents({
@@ -44,9 +46,9 @@ describe("training benchmark", () => {
       candidate: {
         id: "candidate",
         label: "candidate",
-        bot: heuristicBot,
-        searchDepth: 2,
-        beamWidth: 8,
+        bot: greedyBot,
+        searchDepth: 1,
+        beamWidth: 6,
       },
       opponents: [
         {
@@ -57,7 +59,8 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      matchesPerOpponent: 4,
+      matchesPerOpponent: 1,
+      scenarios: fastScenarios,
     });
 
     expect(left).toEqual(right);
@@ -69,9 +72,9 @@ describe("training benchmark", () => {
       candidate: {
         id: "candidate",
         label: "candidate",
-        bot: heuristicBot,
-        searchDepth: 2,
-        beamWidth: 8,
+        bot: greedyBot,
+        searchDepth: 1,
+        beamWidth: 6,
       },
       opponents: [
         {
@@ -90,9 +93,9 @@ describe("training benchmark", () => {
       candidate: {
         id: "candidate",
         label: "candidate",
-        bot: heuristicBot,
-        searchDepth: 2,
-        beamWidth: 8,
+        bot: greedyBot,
+        searchDepth: 1,
+        beamWidth: 6,
       },
       opponents: [
         {

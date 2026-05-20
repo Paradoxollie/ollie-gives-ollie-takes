@@ -10,6 +10,7 @@ import {
 
 interface CliArgs {
   matchesPerPairing: number;
+  adventureRunsPerModel: number;
   seed: number;
   apply: boolean;
 }
@@ -17,6 +18,7 @@ interface CliArgs {
 function parseArgs(argv: string[]): CliArgs {
   const args: CliArgs = {
     matchesPerPairing: 40,
+    adventureRunsPerModel: 3,
     seed: 1701,
     apply: false,
   };
@@ -27,6 +29,12 @@ function parseArgs(argv: string[]): CliArgs {
 
     if ((arg === "--matches" || arg === "--matches-per-pairing") && value) {
       args.matchesPerPairing = Number.parseInt(value, 10);
+      index += 1;
+      continue;
+    }
+
+    if ((arg === "--adventure-runs" || arg === "--runs-per-model") && value) {
+      args.adventureRunsPerModel = Number.parseInt(value, 10);
       index += 1;
       continue;
     }
@@ -50,6 +58,10 @@ function parseArgs(argv: string[]): CliArgs {
     throw new Error("Match count must be a positive integer.");
   }
 
+  if (!Number.isFinite(args.adventureRunsPerModel) || args.adventureRunsPerModel <= 0) {
+    throw new Error("Adventure run count must be a positive integer.");
+  }
+
   if (!Number.isFinite(args.seed)) {
     throw new Error("Seed must be a finite integer.");
   }
@@ -61,6 +73,7 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const report = buildAiLabReport({
     matchesPerPairing: args.matchesPerPairing,
+    adventureRunsPerModel: args.adventureRunsPerModel,
     seed: args.seed,
   });
   const reportsDirectory = path.join(process.cwd(), "reports", "ai-lab");
@@ -95,6 +108,7 @@ async function main() {
       `Generated ${report.reportId}`,
       `Scenarios: ${report.config.scenarioIds.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ")}`,
       `Matches per pairing: ${report.config.matchesPerPairing}`,
+      `Adventure runs per model: ${report.config.adventureRunsPerModel}`,
       `Signals: ${problemCount} problem(s), ${watchCount} watch item(s)`,
       args.apply
         ? "Applied snapshot to src/core/ai-lab/generated/latestAiLabReport.ts"

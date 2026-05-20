@@ -232,7 +232,7 @@ function playAdventureRun(options: {
         candidate: options.candidate,
         opponent: options.opponent,
       });
-      run = completeAdventureEncounter(run, battleResult);
+      run = completeAdventureEncounter(run, battleResult, battleResult.winner === "player" ? loadout.cards : []);
       guard += 1;
       continue;
     }

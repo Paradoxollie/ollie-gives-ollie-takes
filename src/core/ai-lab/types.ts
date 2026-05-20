@@ -1,5 +1,7 @@
 import type { BotId } from "@/core/bots";
 import type {
+  AdventureNodeType,
+  AdventureOutcome,
   BattleResult,
   BoardPositionTag,
   CardEffectKind,
@@ -7,6 +9,7 @@ import type {
   CardRarity,
   CardRole,
   CardSourceType,
+  LuckyCharmId,
   MatchOutcome,
   PlayerId,
 } from "@/core/types";
@@ -37,6 +40,7 @@ export interface AiPlayerModel {
 
 export interface AiLabRunConfig {
   matchesPerPairing: number;
+  adventureRunsPerModel: number;
   seed: number;
   scenarioIds: AiLabScenarioId[];
   modelIds: AiPlayerModelId[];
@@ -188,6 +192,92 @@ export interface AiLabDeckSummary {
   notes: string[];
 }
 
+export interface AiLabAdventureNodeRecord {
+  nodeId: string;
+  depth: number;
+  lane: number;
+  kind: AdventureNodeType;
+  title: string;
+  playerDeckSizeBefore: number;
+  playerDeckSizeAfter: number;
+  combatWinner: MatchOutcome | null;
+  combatTurns: number;
+  combatFlips: number;
+  enemyProfileId: string | null;
+  enemyBotId: string | null;
+  rewardOffered: number;
+  rewardClaimed: boolean;
+  rewardSkipped: boolean;
+  charmOffered: number;
+  charmClaimed: LuckyCharmId | null;
+  siteAction: "none" | "camp-upgrade" | "camp-remove" | "forge-fusion" | "treasure" | "skip";
+}
+
+export interface AiLabAdventureRunRecord {
+  runIndex: number;
+  modelId: AiPlayerModelId;
+  seed: number;
+  selectedFamily: CardFamily | null;
+  startingDeckCardCount: number;
+  finalDeckCardCount: number;
+  deckDelta: number;
+  outcome: AdventureOutcome;
+  victory: boolean;
+  bossReached: boolean;
+  locationsCleared: number;
+  combatCount: number;
+  combatWins: number;
+  combatLosses: number;
+  totalCombatTurns: number;
+  totalCombatFlips: number;
+  totalDeadTurns: number;
+  totalReshuffles: number;
+  rewardOffersSeen: number;
+  rewardsClaimed: number;
+  rewardsSkipped: number;
+  rewardsClaimedByRarity: Record<CardRarity, number>;
+  stealRewardsOffered: number;
+  stealRewardsClaimed: number;
+  charmOffersSeen: number;
+  charmsClaimed: LuckyCharmId[];
+  campVisits: number;
+  upgrades: number;
+  removals: number;
+  forgeVisits: number;
+  fusions: number;
+  treasures: number;
+  nodeCounts: Record<AdventureNodeType, number>;
+  finalDeckFamilies: Record<CardFamily, number>;
+  finalDeckRarities: Record<CardRarity, number>;
+  path: AiLabAdventureNodeRecord[];
+}
+
+export interface AiLabAdventureModelSummary {
+  modelId: AiPlayerModelId;
+  runs: number;
+  victories: number;
+  bossReached: number;
+  victoryRate: number;
+  bossReachRate: number;
+  averageLocationsCleared: number;
+  averageFinalDeckSize: number;
+  averageDeckDelta: number;
+  averageCombatWinRate: number;
+  averageCombatTurns: number;
+  averageCombatFlips: number;
+  averageDeadTurns: number;
+  averageReshuffles: number;
+  averageRewardsClaimed: number;
+  averageRewardsSkipped: number;
+  averageCharms: number;
+  averageUpgrades: number;
+  averageRemovals: number;
+  averageFusions: number;
+  familyPickRates: Partial<Record<CardFamily, number>>;
+  nodeMix: Record<AdventureNodeType, number>;
+  notes: string[];
+}
+
 export interface AiLabInsight {
   id: string;
   severity: AiLabInsightSeverity;
@@ -314,6 +404,8 @@ export interface AiLabReport {
   skillSummaries: AiLabModelSummary[];
   deckSummaries: AiLabDeckSummary[];
   ladderPairings: AiLabPairingSummary[];
+  adventureSummaries: AiLabAdventureModelSummary[];
+  adventureRuns: AiLabAdventureRunRecord[];
   diagnostics: AiLabDesignDiagnostics;
   insights: AiLabInsight[];
 }

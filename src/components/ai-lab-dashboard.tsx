@@ -1,4 +1,6 @@
 import type {
+  AiLabAdventureModelSummary,
+  AiLabAdventureRunRecord,
   AiLabBalanceRecommendation,
   AiLabCardAnalysis,
   AiLabComboAnalysis,
@@ -7,6 +9,7 @@ import type {
   AiLabModelSummary,
   AiLabPairingSummary,
   AiLabReport,
+  AiPlayerModel,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
 import { getAiLabScenario } from "@/core/ai-lab/scenarios";
@@ -137,6 +140,25 @@ function actionTone(action: AiLabBalanceRecommendation["action"]): string {
 
 function shortNotes(notes: string[]): string {
   return notes.slice(0, 2).join(" ");
+}
+
+function familyPickText(summary: AiLabAdventureModelSummary): string {
+  return (
+    Object.entries(summary.familyPickRates)
+      .map(([family, rate]) => `${family} ${formatPercent(rate)}`)
+      .join(", ") || "--"
+  );
+}
+
+function nodeMixText(summary: AiLabAdventureModelSummary): string {
+  return Object.entries(summary.nodeMix)
+    .filter(([, rate]) => rate > 0)
+    .map(([kind, rate]) => `${kind} ${formatPercent(rate)}`)
+    .join(", ");
+}
+
+function modelLabel(models: AiPlayerModel[], modelId: AiPlayerModelId): string {
+  return models.find((model) => model.id === modelId)?.label ?? modelId;
 }
 
 function RecommendationRows({ recommendations }: { recommendations: AiLabBalanceRecommendation[] }) {
@@ -294,6 +316,108 @@ function ComboRows({ combos }: { combos: AiLabComboAnalysis[] }) {
   );
 }
 
+function AdventureSummaryRows({
+  summaries,
+  models,
+}: {
+  summaries: AiLabAdventureModelSummary[];
+  models: AiPlayerModel[];
+}) {
+  return (
+    <div className="overflow-x-auto rounded-[1rem] border border-white/10 bg-black/16">
+      <table className="min-w-full text-left text-sm text-white/76">
+        <thead className="border-b border-white/10 text-[0.56rem] uppercase tracking-[0.2em] text-white/42">
+          <tr>
+            <th className="px-4 py-3">Modele</th>
+            <th className="px-4 py-3">Runs</th>
+            <th className="px-4 py-3">Boss</th>
+            <th className="px-4 py-3">Victoire</th>
+            <th className="px-4 py-3">Lieux</th>
+            <th className="px-4 py-3">Deck final</th>
+            <th className="px-4 py-3">Combat</th>
+            <th className="px-4 py-3">Rewards</th>
+            <th className="px-4 py-3">Objets</th>
+            <th className="px-4 py-3">Camp</th>
+            <th className="px-4 py-3">Forge</th>
+            <th className="px-4 py-3">Familles</th>
+            <th className="px-4 py-3">Route</th>
+          </tr>
+        </thead>
+        <tbody>
+          {summaries.map((summary) => (
+            <tr key={summary.modelId} className="border-b border-white/6 last:border-b-0">
+              <td className="px-4 py-3 font-semibold text-white">{modelLabel(models, summary.modelId)}</td>
+              <td className="px-4 py-3">{summary.runs}</td>
+              <td className="px-4 py-3">{formatPercent(summary.bossReachRate)}</td>
+              <td className="px-4 py-3">{formatPercent(summary.victoryRate)}</td>
+              <td className="px-4 py-3">{formatAverage(summary.averageLocationsCleared)}</td>
+              <td className="px-4 py-3">{formatAverage(summary.averageFinalDeckSize)}</td>
+              <td className="px-4 py-3">{formatPercent(summary.averageCombatWinRate)}</td>
+              <td className="px-4 py-3">{formatAverage(summary.averageRewardsClaimed)}</td>
+              <td className="px-4 py-3">{formatAverage(summary.averageCharms)}</td>
+              <td className="px-4 py-3">
+                {formatAverage(summary.averageUpgrades)} / {formatAverage(summary.averageRemovals)}
+              </td>
+              <td className="px-4 py-3">{formatAverage(summary.averageFusions)}</td>
+              <td className="min-w-[14rem] px-4 py-3">{familyPickText(summary)}</td>
+              <td className="min-w-[18rem] px-4 py-3">{nodeMixText(summary)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function AdventureRunRows({
+  runs,
+  models,
+}: {
+  runs: AiLabAdventureRunRecord[];
+  models: AiPlayerModel[];
+}) {
+  return (
+    <div className="overflow-x-auto rounded-[1rem] border border-white/10 bg-black/16">
+      <table className="min-w-full text-left text-sm text-white/76">
+        <thead className="border-b border-white/10 text-[0.56rem] uppercase tracking-[0.2em] text-white/42">
+          <tr>
+            <th className="px-4 py-3">Modele</th>
+            <th className="px-4 py-3">Famille</th>
+            <th className="px-4 py-3">Issue</th>
+            <th className="px-4 py-3">Boss</th>
+            <th className="px-4 py-3">Deck</th>
+            <th className="px-4 py-3">Rewards</th>
+            <th className="px-4 py-3">Objets</th>
+            <th className="px-4 py-3">Camp/Forge</th>
+            <th className="px-4 py-3">Route</th>
+          </tr>
+        </thead>
+        <tbody>
+          {runs.map((run) => (
+            <tr key={`${run.modelId}-${run.seed}`} className="border-b border-white/6 last:border-b-0">
+              <td className="px-4 py-3 font-semibold text-white">{modelLabel(models, run.modelId)}</td>
+              <td className="px-4 py-3">{run.selectedFamily ?? "--"}</td>
+              <td className="px-4 py-3">{run.outcome}</td>
+              <td className="px-4 py-3">{run.bossReached ? "oui" : "non"}</td>
+              <td className="px-4 py-3">
+                {run.startingDeckCardCount} -&gt; {run.finalDeckCardCount}
+              </td>
+              <td className="px-4 py-3">
+                {run.rewardsClaimed}/{run.rewardOffersSeen}
+              </td>
+              <td className="px-4 py-3">{run.charmsClaimed.length}</td>
+              <td className="px-4 py-3">
+                {run.upgrades} up, {run.removals} rm, {run.fusions} fx
+              </td>
+              <td className="min-w-[20rem] px-4 py-3">{run.path.map((node) => node.kind).join(" > ")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function AiLabDashboard({
   report,
   trainingStatus,
@@ -302,6 +426,10 @@ export function AiLabDashboard({
 }: AiLabDashboardProps) {
   const problemCount = report?.insights.filter((insight) => insight.severity === "problem").length ?? 0;
   const watchCount = report?.insights.filter((insight) => insight.severity === "watch").length ?? 0;
+  const adventureRunCount = report?.adventureRuns.length ?? 0;
+  const adventureBossRate = report && report.adventureRuns.length > 0
+    ? report.adventureRuns.filter((run) => run.bossReached).length / report.adventureRuns.length
+    : 0;
   const recommendationRows = report?.diagnostics.balanceRecommendations.slice(0, 10) ?? [];
   const scenarioLabels =
     report?.config.scenarioIds?.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ") || "Depart actuel";
@@ -341,7 +469,7 @@ export function AiLabDashboard({
         </div>
       </header>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <MetricCard
           label="Champion live"
           value={liveChampion.source === "trained" ? "Entraine" : "Heuristique"}
@@ -360,6 +488,11 @@ export function AiLabDashboard({
           label="Alertes"
           value={`${problemCount}/${watchCount}`}
           detail="Problemes forts / signaux a surveiller dans le dernier benchmark"
+        />
+        <MetricCard
+          label="Runs complets"
+          value={String(adventureRunCount)}
+          detail={`Famille, route, rewards, objets et boss | boss ${formatPercent(adventureBossRate)}`}
         />
         <MetricCard
           label="Promotion"
@@ -481,6 +614,24 @@ export function AiLabDashboard({
                   </tbody>
                 </table>
               </div>
+            </div>
+          </section>
+
+          <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Run complet</p>
+                <h2 className="mt-1 font-serif text-2xl text-white">IA dans le meme parcours que le joueur</h2>
+              </div>
+              <p className="text-sm text-white/52">
+                {report.config.adventureRunsPerModel} run(s) par modele avec starter 10 cartes.
+              </p>
+            </div>
+            <div className="mt-5">
+              <AdventureSummaryRows summaries={report.adventureSummaries} models={report.playerModels} />
+            </div>
+            <div className="mt-5">
+              <AdventureRunRows runs={report.adventureRuns.slice(0, 10)} models={report.playerModels} />
             </div>
           </section>
 

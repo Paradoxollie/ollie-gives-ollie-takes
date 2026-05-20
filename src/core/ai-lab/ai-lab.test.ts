@@ -36,6 +36,7 @@ describe("AI lab report", () => {
     const options = {
       seed: 404,
       matchesPerPairing: 1,
+      adventureRunsPerModel: 1,
       models: FAST_TEST_MODELS,
       generatedAt: "2026-05-18T00:00:00.000Z",
       reportId: "ai-lab-test",
@@ -48,7 +49,13 @@ describe("AI lab report", () => {
     expect(left.playerModels.map((model) => model.id)).toEqual(FAST_TEST_MODELS.map((model) => model.id));
     expect(left.deckSummaries).toHaveLength(1);
     expect(left.config.scenarioIds).toEqual(["current-family-start"]);
+    expect(left.config.adventureRunsPerModel).toBe(1);
     expect(left.deckSummaries[0]?.startingDeckCardCount).toBe(10);
+    expect(left.adventureSummaries).toHaveLength(FAST_TEST_MODELS.length);
+    expect(left.adventureRuns).toHaveLength(FAST_TEST_MODELS.length);
+    expect(left.adventureRuns.every((run) => run.startingDeckCardCount === 10)).toBe(true);
+    expect(left.adventureRuns.every((run) => run.selectedFamily !== null)).toBe(true);
+    expect(left.adventureRuns.every((run) => run.path.length > 0)).toBe(true);
     expect(left.ladderPairings).toHaveLength(FAST_TEST_MODELS.length - 1);
     expect(left.skillSummaries.find((summary) => summary.modelId === "beginner")?.games).toBeGreaterThan(0);
     expect(left.diagnostics.cardAnalytics.length).toBeGreaterThan(0);
@@ -75,6 +82,7 @@ describe("AI lab report", () => {
     const report = buildAiLabReport({
       seed: 405,
       matchesPerPairing: 1,
+      adventureRunsPerModel: 1,
       models: FAST_TEST_MODELS,
       generatedAt: "2026-05-18T00:00:00.000Z",
       reportId: "ai-lab-markdown-test",
@@ -84,5 +92,6 @@ describe("AI lab report", () => {
     expect(markdown).toContain("## Cartes");
     expect(markdown).toContain("## Familles");
     expect(markdown).toContain("## Combos detectes");
+    expect(markdown).toContain("## Runs aventure complets");
   });
 });
