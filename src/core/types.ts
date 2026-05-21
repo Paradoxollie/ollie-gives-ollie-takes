@@ -688,6 +688,7 @@ export interface MoveInput {
 
 export interface PreviewMove {
   move: MoveInput;
+  placedCard: BoardCard;
   flippedCount: number;
   control: ControlTotals;
   positionWeight: number;

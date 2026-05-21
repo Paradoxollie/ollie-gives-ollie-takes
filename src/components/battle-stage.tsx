@@ -16,6 +16,8 @@ interface BattleStageProps {
   selectedCard: CardInstance | null;
   selectedManaCost: number;
   availableMana: number;
+  targetPosition: Position | null;
+  canConfirmPlacement: boolean;
   hoveredPosition: Position | null;
   hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
@@ -26,6 +28,7 @@ interface BattleStageProps {
   debugState?: string;
   onCellHover: (position: Position | null) => void;
   onCellClick: (position: Position) => void;
+  onConfirmPlacement: () => void;
   onSelectCard: (cardInstanceId: string) => void;
   onFireflyReroll?: () => void;
   onReflectionCopy?: (cardInstanceId: string) => void;
@@ -583,6 +586,7 @@ function SideHandCard({
   onSelect: () => void;
 }) {
   const isInteractive = owner === "player" && canInteract;
+  const isDisabledPlayerCard = owner === "player" && !canInteract && !selected;
   const wrapperClassName = [
     "ogot-hand-card relative h-full w-full min-w-0 overflow-visible rounded-[0.82rem] border p-[1.35%] transition duration-150",
     selected
@@ -590,7 +594,11 @@ function SideHandCard({
       : owner === "enemy"
         ? "border-rose-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]"
         : "border-cyan-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]",
-    isInteractive ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64" : "cursor-default opacity-92",
+    isInteractive
+      ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64"
+      : isDisabledPlayerCard
+        ? "cursor-not-allowed opacity-42 saturate-50"
+        : "cursor-default opacity-92",
   ].join(" ");
 
   const content = <CardView card={card} layout="hand" className="h-full w-full" selected={selected} />;
@@ -637,6 +645,9 @@ function SideHandColumn({
   cards,
   hiddenCount,
   selectedCardIds,
+  selectedManaCost = 0,
+  turnMana = 0,
+  maxSelectedCards = 1,
   canInteract,
   onSelectCard,
 }: {
@@ -644,6 +655,9 @@ function SideHandColumn({
   cards: CardInstance[];
   hiddenCount: number;
   selectedCardIds: string[];
+  selectedManaCost?: number;
+  turnMana?: number;
+  maxSelectedCards?: number;
   canInteract: boolean;
   onSelectCard: (cardInstanceId: string) => void;
 }) {
@@ -658,17 +672,25 @@ function SideHandColumn({
       aria-label={owner === "player" ? "Cartes piochees du joueur" : "Cartes piochees du rival"}
     >
       <div className={["ogot-hand-column-grid", cards.length > 4 ? "ogot-hand-column-grid--dense" : ""].join(" ")}>
-        {cards.map((card) => (
-          <div key={card.instanceId} className="ogot-side-card-frame">
-            <SideHandCard
-              card={card}
-              owner={owner}
-              selected={owner === "player" && selectedCardIds.includes(card.instanceId)}
-              canInteract={canInteract}
-              onSelect={() => onSelectCard(card.instanceId)}
-            />
-          </div>
-        ))}
+        {cards.map((card) => {
+          const selected = owner === "player" && selectedCardIds.includes(card.instanceId);
+          const canAddToPile =
+            selected ||
+            (selectedCardIds.length < maxSelectedCards &&
+              selectedManaCost + card.manaCost <= turnMana);
+
+          return (
+            <div key={card.instanceId} className="ogot-side-card-frame">
+              <SideHandCard
+                card={card}
+                owner={owner}
+                selected={selected}
+                canInteract={canInteract && canAddToPile}
+                onSelect={() => onSelectCard(card.instanceId)}
+              />
+            </div>
+          );
+        })}
         {Array.from({ length: placeholderCount }, (_, index) => (
           <SideHandBack key={`${owner}-hidden-${index}`} owner={owner} />
         ))}
@@ -716,12 +738,18 @@ function HiddenPlayerReserve({
 function PlayerHandColumn({
   hand,
   selectedCardIds,
+  selectedManaCost,
+  turnMana,
+  maxSelectedCards,
   canInteract,
   onSelectCard,
   hiddenCount,
 }: {
   hand: CardInstance[];
   selectedCardIds: string[];
+  selectedManaCost: number;
+  turnMana: number;
+  maxSelectedCards: number;
   canInteract: boolean;
   onSelectCard: (cardInstanceId: string) => void;
   hiddenCount: number;
@@ -736,6 +764,9 @@ function PlayerHandColumn({
       cards={hand}
       hiddenCount={0}
       selectedCardIds={selectedCardIds}
+      selectedManaCost={selectedManaCost}
+      turnMana={turnMana}
+      maxSelectedCards={maxSelectedCards}
       canInteract={canInteract}
       onSelectCard={onSelectCard}
     />
@@ -749,10 +780,14 @@ function ArenaBattlefield({
   selectedCardIds,
   selectedManaCost,
   availableMana,
+  targetPosition,
+  canConfirmPlacement,
+  hoverPreview,
   canHumanInteract,
   hoveredPosition,
   onCellHover,
   onCellClick,
+  onConfirmPlacement,
   onSelectCard,
 }: {
   match: MatchState;
@@ -761,10 +796,14 @@ function ArenaBattlefield({
   selectedCardIds: string[];
   selectedManaCost: number;
   availableMana: number;
+  targetPosition: Position | null;
+  canConfirmPlacement: boolean;
+  hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
   hoveredPosition: Position | null;
   onCellHover: (position: Position | null) => void;
   onCellClick: (position: Position) => void;
+  onConfirmPlacement: () => void;
   onSelectCard: (cardInstanceId: string) => void;
 }) {
   const enemyCards = match.turn.activePlayer === "enemy" ? match.turn.choices : [];
@@ -785,16 +824,37 @@ function ArenaBattlefield({
           hand={hand}
           hiddenCount={playerHiddenCount}
           selectedCardIds={selectedCardIds}
-          canInteract={canHumanInteract}
+          selectedManaCost={selectedManaCost}
+          turnMana={match.config.turnMana}
+          maxSelectedCards={match.config.maxCardsPerMove}
+          canInteract={canHumanInteract && Boolean(targetPosition)}
           onSelectCard={onSelectCard}
         />
         {canHumanInteract && hand.length > 0 ? (
-          <div className="pointer-events-none absolute bottom-[3.4%] left-1/2 z-[52] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-100/24 bg-black/62 px-3 py-1.5 text-[0.72rem] font-black uppercase tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.42)] backdrop-blur-md">
+          <div className="pointer-events-auto absolute bottom-[3.4%] left-1/2 z-[52] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-100/24 bg-black/68 px-3 py-1.5 text-[0.72rem] font-black uppercase tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.42)] backdrop-blur-md">
+            <span className={targetPosition ? "text-sky-100" : "text-amber-100"}>
+              {targetPosition ? `Case ${targetPosition.row + 1}-${targetPosition.col + 1}` : "Choisis une case vide"}
+            </span>
+            <span className="text-white/35">|</span>
             <span className="text-sky-100">Mana {selectedManaCost}/{match.config.turnMana}</span>
             <span className="text-white/35">|</span>
             <span className={availableMana > 0 ? "text-white/78" : "text-amber-100"}>
               Pile {selectedCardIds.length}/{match.config.maxCardsPerMove}
             </span>
+            <button
+              type="button"
+              data-testid="confirm-stack-button"
+              disabled={!canConfirmPlacement}
+              onClick={onConfirmPlacement}
+              className={[
+                "ml-1 rounded-full border px-3 py-1 text-[0.64rem] font-black uppercase tracking-[0.1em] transition",
+                canConfirmPlacement
+                  ? "border-amber-100/70 bg-amber-200/18 text-amber-50 hover:bg-amber-200/26"
+                  : "cursor-not-allowed border-white/12 bg-white/6 text-white/36",
+              ].join(" ")}
+            >
+              Jouer
+            </button>
           </div>
         ) : null}
         <EnemyBench cards={enemyCards} hiddenCount={enemyHiddenCount} />
@@ -802,7 +862,9 @@ function ArenaBattlefield({
         {BOARD_CELLS.map((cell) => {
           const boardCard = match.board[cell.row][cell.col];
           const isHovered = hoveredPosition?.row === cell.row && hoveredPosition?.col === cell.col;
-          const canTarget = canHumanInteract && selectedCardIds.length > 0 && !boardCard;
+          const isTargeted = targetPosition?.row === cell.row && targetPosition?.col === cell.col;
+          const pendingCard = !boardCard && isTargeted ? hoverPreview?.placedCard ?? null : null;
+          const canTarget = canHumanInteract && !boardCard;
           const isLastMoveCell = match.lastMove?.position.row === cell.row && match.lastMove?.position.col === cell.col;
           const flippedImpacts = match.lastMove?.impacts.filter((impact) => impact.result === "flipped") ?? [];
           const didCauseFlip = Boolean(isLastMoveCell && flippedImpacts.length > 0);
@@ -836,6 +898,7 @@ function ArenaBattlefield({
               className={[
                 "absolute rounded-[0.6rem] transition duration-150",
                 canTarget ? "cursor-pointer hover:bg-cyan-100/10" : "cursor-default",
+                canTarget && isTargeted ? "bg-amber-100/12 ring-2 ring-amber-100/90 shadow-[0_0_30px_rgba(253,230,138,0.48)]" : "",
                 canTarget && isHovered ? "ring-2 ring-cyan-100/80 shadow-[0_0_26px_rgba(125,247,255,0.5)]" : "",
               ].join(" ")}
               style={{
@@ -854,6 +917,16 @@ function ArenaBattlefield({
                   eventKey={boardEventKey}
                   eventDirection={boardEventDirection}
                 />
+              ) : pendingCard ? (
+                <div className="pointer-events-none opacity-72 saturate-125">
+                  <BoardUnitToken
+                    card={pendingCard}
+                    cell={cell}
+                    event={null}
+                    eventKey={null}
+                    eventDirection={null}
+                  />
+                </div>
               ) : null}
             </button>
           );
@@ -871,13 +944,17 @@ export function BattleStage({
   selectedCardIds,
   selectedManaCost,
   availableMana,
+  targetPosition,
+  canConfirmPlacement,
   hoveredPosition,
+  hoverPreview,
   canHumanInteract,
   sidePanel,
   labMode = false,
   embedded = false,
   onCellHover,
   onCellClick,
+  onConfirmPlacement,
   onSelectCard,
 }: BattleStageProps) {
   return (
@@ -895,10 +972,14 @@ export function BattleStage({
         selectedCardIds={selectedCardIds}
         selectedManaCost={selectedManaCost}
         availableMana={availableMana}
+        targetPosition={targetPosition}
+        canConfirmPlacement={canConfirmPlacement}
+        hoverPreview={hoverPreview}
         canHumanInteract={canHumanInteract}
         hoveredPosition={hoveredPosition}
         onCellHover={onCellHover}
         onCellClick={onCellClick}
+        onConfirmPlacement={onConfirmPlacement}
         onSelectCard={onSelectCard}
       />
 

@@ -2078,6 +2078,7 @@ export function previewMove(state: MatchState, move: MoveInput): PreviewMove {
 
   return {
     move,
+    placedCard: preparedMove.placedCard,
     flippedCount: resolution.flippedCount,
     control: resolution.controlAfterCombat,
     positionWeight: POSITION_WEIGHTS[move.position.row]?.[move.position.col] ?? 0,

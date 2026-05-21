@@ -61,6 +61,8 @@ interface BattleController {
   selectedCards: CardInstance[];
   selectedManaCost: number;
   availableMana: number;
+  targetPosition: Position | null;
+  canConfirmPlacement: boolean;
   hoveredPosition: Position | null;
   hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
@@ -75,8 +77,9 @@ interface BattleController {
   triggerFireflyReroll: () => void;
   triggerReflectionCopy: (cardInstanceId: string) => void;
   selectCard: (cardInstanceId: string) => void;
+  selectTargetCell: (position: Position) => void;
+  confirmPlacement: () => void;
   hoverCell: (position: Position | null) => void;
-  placeCard: (position: Position) => void;
   advanceTime: (ms: number) => void;
   renderText: () => string;
 }
@@ -141,6 +144,7 @@ export function useBattleController({
     enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
   );
   const [selectedCardIds, setSelectedCardIds] = useState<string[]>([]);
+  const [targetPosition, setTargetPosition] = useState<Position | null>(null);
   const [hoveredPosition, setHoveredPosition] = useState<Position | null>(null);
   const [interactionLocked, setInteractionLocked] = useState(false);
   const [resolutionRecap, setResolutionRecap] = useState<BattleResolutionRecap | null>(null);
@@ -256,6 +260,7 @@ export function useBattleController({
     });
     scheduleInteractionUnlock(POST_AI_RESOLUTION_LOCK_MS);
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
   });
 
@@ -264,6 +269,7 @@ export function useBattleController({
       enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
     );
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
     setInteractionLocked(false);
     setResolutionRecap(null);
@@ -300,6 +306,7 @@ export function useBattleController({
         : useFireflyReroll(current),
     );
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
   });
 
@@ -320,6 +327,7 @@ export function useBattleController({
       enabled ? createFreshMatch(seed, playerCardIds, enemyCardIds, playerCards, enemyCards, enemyProfile, playerCharmIds) : null,
     );
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
     setInteractionLocked(false);
     setResolutionRecap(null);
@@ -356,6 +364,7 @@ export function useBattleController({
     }
 
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
     setInteractionLocked(false);
     clearInteractionLockTimer();
@@ -445,6 +454,7 @@ export function useBattleController({
     clearResolutionRevealTimer();
     setInteractionLocked(true);
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
     resolutionRevealTimerRef.current = window.setTimeout(() => {
       setResolutionRecap(nextRecap);
@@ -469,6 +479,7 @@ export function useBattleController({
     seenRoundCoinTossIdRef.current = nextRecap.id;
     clearInteractionLockTimer();
     setSelectedCardIds([]);
+    setTargetPosition(null);
     setHoveredPosition(null);
     setRoundCoinTossRecap(nextRecap);
     scheduleRoundCoinTossConfirmation(ROUND_COIN_TOSS_CONFIRM_DELAY_MS);
@@ -492,18 +503,26 @@ export function useBattleController({
       !interactionLocked,
   );
   const control = useMemo(() => (match ? getControlTotals(match) : EMPTY_CONTROL), [match]);
+  const canConfirmPlacement = Boolean(
+    match &&
+      canHumanInteract &&
+      targetPosition &&
+      selectedCards.length > 0 &&
+      canPlaceCard(match, targetPosition),
+  );
 
   const hoverPreview = useMemo(() => {
-    if (!match || !canHumanInteract || selectedCards.length === 0 || !hoveredPosition || !canPlaceCard(match, hoveredPosition)) {
+    const previewPosition = targetPosition ?? hoveredPosition;
+    if (!match || !canHumanInteract || selectedCards.length === 0 || !previewPosition || !canPlaceCard(match, previewPosition)) {
       return null;
     }
 
     return previewMove(match, {
       cardInstanceId: selectedCards[0].instanceId,
       cardInstanceIds: selectedCards.map((card) => card.instanceId),
-      position: hoveredPosition,
+      position: previewPosition,
     });
-  }, [canHumanInteract, hoveredPosition, match, selectedCards]);
+  }, [canHumanInteract, hoveredPosition, match, selectedCards, targetPosition]);
 
   const debugState = useMemo(
     () =>
@@ -512,6 +531,10 @@ export function useBattleController({
             {
               ...serializeMatchState(match),
               ui: {
+                targetPosition,
+                selectedCardIds,
+                selectedManaCost,
+                availableMana,
                 resolutionRecap: resolutionRecap ? { id: resolutionRecap.id, phase: resolutionRecap.phase } : null,
                 pendingResolutionRecapId,
                 roundCoinToss: roundCoinTossRecap
@@ -528,7 +551,17 @@ export function useBattleController({
             2,
           )
         : JSON.stringify({ mode: "idle" }, null, 2),
-    [match, pendingResolutionRecapId, resolutionRecap, roundCoinTossCanConfirm, roundCoinTossRecap],
+    [
+      availableMana,
+      match,
+      pendingResolutionRecapId,
+      resolutionRecap,
+      roundCoinTossCanConfirm,
+      roundCoinTossRecap,
+      selectedCardIds,
+      selectedManaCost,
+      targetPosition,
+    ],
   );
 
   useEffect(() => {
@@ -537,12 +570,15 @@ export function useBattleController({
       return;
     }
 
-    setSelectedCardIds((current) => current.filter((instanceId) => hand.some((card) => card.instanceId === instanceId)));
-    if (selectedCardIds.length === 0 && hand.length > 0) {
-      const firstAffordable = hand.find((card) => card.manaCost <= (match?.config.turnMana ?? 0)) ?? hand[0];
-      setSelectedCardIds([firstAffordable.instanceId]);
+    setSelectedCardIds((current) => {
+      const next = current.filter((instanceId) => hand.some((card) => card.instanceId === instanceId));
+      return next.length === current.length ? current : next;
+    });
+
+    if (targetPosition && !canPlaceCard(match, targetPosition)) {
+      setTargetPosition(null);
     }
-  }, [canHumanInteract, hand, match, playerBot, resolutionRecap, selectedCardIds.length]);
+  }, [canHumanInteract, hand, match, playerBot, resolutionRecap, targetPosition]);
 
   return {
     match,
@@ -553,6 +589,8 @@ export function useBattleController({
     selectedCards,
     selectedManaCost,
     availableMana,
+    targetPosition,
+    canConfirmPlacement,
     hoveredPosition,
     hoverPreview,
     canHumanInteract,
@@ -567,7 +605,7 @@ export function useBattleController({
     triggerFireflyReroll,
     triggerReflectionCopy,
     selectCard(cardInstanceId) {
-      if (!canHumanInteract) {
+      if (!canHumanInteract || !targetPosition) {
         return;
       }
 
@@ -598,16 +636,16 @@ export function useBattleController({
       });
       setHoveredPosition(null);
     },
-    hoverCell(position) {
-      if (!canHumanInteract || selectedCards.length === 0) {
-        setHoveredPosition(null);
+    selectTargetCell(position) {
+      if (!canHumanInteract || !match || !canPlaceCard(match, position)) {
         return;
       }
 
+      setTargetPosition(position);
       setHoveredPosition(position);
     },
-    placeCard(position) {
-      if (!canHumanInteract || !match || selectedCards.length === 0 || !canPlaceCard(match, position)) {
+    confirmPlacement() {
+      if (!canConfirmPlacement || !match || !targetPosition || selectedCards.length === 0) {
         return;
       }
 
@@ -620,11 +658,20 @@ export function useBattleController({
         return applyMove(current, {
           cardInstanceId: cardInstanceIds[0],
           cardInstanceIds,
-          position,
+          position: targetPosition,
         });
       });
       setSelectedCardIds([]);
+      setTargetPosition(null);
       setHoveredPosition(null);
+    },
+    hoverCell(position) {
+      if (!canHumanInteract) {
+        setHoveredPosition(null);
+        return;
+      }
+
+      setHoveredPosition(position);
     },
     advanceTime(ms) {
       if (roundCoinTossRecap) {
@@ -661,6 +708,10 @@ export function useBattleController({
         ? JSON.stringify({
             ...serializeMatchState(match),
             ui: {
+              targetPosition,
+              selectedCardIds,
+              selectedManaCost,
+              availableMana,
               resolutionRecap: resolutionRecap ? { id: resolutionRecap.id, phase: resolutionRecap.phase } : null,
               pendingResolutionRecapId,
               roundCoinToss: roundCoinTossRecap

@@ -667,9 +667,11 @@ export function AdventureClient({
   if (isCombatEncounter && activeNode && battle.match) {
     const combatResult = battle.match.result;
     const battlePreviewBaseText = !battle.hoverPreview
-      ? battle.selectedCards.length > 0
-        ? `Pile ${battle.selectedCards.length} carte${battle.selectedCards.length > 1 ? "s" : ""}, ${battle.selectedManaCost}/${battle.match.config.turnMana} mana. Choisis une case vide.`
-        : "Choisis une carte dans ta main, puis une case vide."
+      ? !battle.targetPosition
+        ? "Choisis d'abord une case vide."
+        : battle.selectedCards.length > 0
+          ? `Pile ${battle.selectedCards.length} carte${battle.selectedCards.length > 1 ? "s" : ""}, ${battle.selectedManaCost}/${battle.match.config.turnMana} mana. Ajoute une carte ou joue la pile.`
+          : "Case choisie. Ajoute une carte depuis ta main."
       : battle.hoverPreview.roundEndSummary
         ? `${battle.hoverPreview.flippedCount} flips. Fin ${battle.hoverPreview.roundEndSummary.control.player}/${battle.hoverPreview.roundEndSummary.control.enemy}.`
         : `${battle.hoverPreview.flippedCount} flips attendus. Controle ${battle.hoverPreview.control.player}/${battle.hoverPreview.control.enemy}.`;
@@ -706,6 +708,8 @@ export function AdventureClient({
           selectedCard={battle.selectedCard}
           selectedManaCost={battle.selectedManaCost}
           availableMana={battle.availableMana}
+          targetPosition={battle.targetPosition}
+          canConfirmPlacement={battle.canConfirmPlacement}
           hoveredPosition={battle.hoveredPosition}
           hoverPreview={battle.hoverPreview}
           canHumanInteract={battle.canHumanInteract}
@@ -734,7 +738,8 @@ export function AdventureClient({
             ) : null
           }
           onCellHover={battle.hoverCell}
-          onCellClick={battle.placeCard}
+          onCellClick={battle.selectTargetCell}
+          onConfirmPlacement={battle.confirmPlacement}
           onSelectCard={battle.selectCard}
           onFireflyReroll={battle.triggerFireflyReroll}
           onReflectionCopy={battle.triggerReflectionCopy}

@@ -70,6 +70,8 @@ export function BattleClient({
         selectedCard={controller.selectedCard}
         selectedManaCost={controller.selectedManaCost}
         availableMana={controller.availableMana}
+        targetPosition={controller.targetPosition}
+        canConfirmPlacement={controller.canConfirmPlacement}
         hoveredPosition={controller.hoveredPosition}
         hoverPreview={controller.hoverPreview}
         canHumanInteract={controller.canHumanInteract}
@@ -91,7 +93,8 @@ export function BattleClient({
           />
         }
         onCellHover={controller.hoverCell}
-        onCellClick={controller.placeCard}
+        onCellClick={controller.selectTargetCell}
+        onConfirmPlacement={controller.confirmPlacement}
         onSelectCard={controller.selectCard}
         onFireflyReroll={controller.triggerFireflyReroll}
         onReflectionCopy={controller.triggerReflectionCopy}
