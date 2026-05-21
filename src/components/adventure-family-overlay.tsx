@@ -52,7 +52,7 @@ export function AdventureFamilyOverlay({
             </div>
 
             <div className="ogot-sheet-note max-w-[31rem] rounded-[1.2rem] px-4 py-3 text-sm leading-7 text-[#f8efdd]">
-              Chaque famille commence avec 10 cartes: 4 cartes uniques et des copies. Ton premier objectif de deck est deja la.
+              Chaque famille commence avec 12 cartes: 4 cartes uniques et des copies. Ton premier objectif de deck est deja la.
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { greedyBot } from "@/core/bots";
+import { FAMILY_STARTER_DECK_CARD_COUNT } from "@/core/config/decks";
 import { benchmarkAdventureAgainstOpponents } from "@/core/training/adventure-benchmark";
 import { benchmarkBotAgainstOpponents } from "@/core/training/benchmark";
 import { getBotTrainingScenarios } from "@/core/training/scenarios";
@@ -10,8 +11,8 @@ describe("training benchmark", () => {
     const scenarios = getBotTrainingScenarios();
 
     expect(scenarios.length).toBeGreaterThanOrEqual(10);
-    expect(scenarios[0].playerCardIds).toHaveLength(10);
-    expect(scenarios[0].enemyCardIds).toHaveLength(10);
+    expect(scenarios[0].playerCardIds).toHaveLength(FAMILY_STARTER_DECK_CARD_COUNT);
+    expect(scenarios[0].enemyCardIds).toHaveLength(FAMILY_STARTER_DECK_CARD_COUNT);
     expect(scenarios.some((scenario) => scenario.enemyCardIds.length > scenarios[0].enemyCardIds.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.playerCharmIds?.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.enemyProfileId)).toBe(true);

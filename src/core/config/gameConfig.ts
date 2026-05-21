@@ -26,7 +26,7 @@ export const GAME_CONFIG: MatchConfig = {
   championStartingHealth: 24,
   roundDamagePerControlledCard: 1,
   maxShieldPerPlayer: 6,
-  maxNextTurnDrawBonus: 2,
+  maxNextTurnDrawBonus: 3,
   maxDirectDamagePerMove: 4,
   maxCardSideValue: 12,
 };

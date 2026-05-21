@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { chooseAdventureFamily, createAdventureRun } from "@/core/adventure";
 import {
+  FAMILY_STARTER_DECK_CARD_COUNT,
   FAMILY_STARTER_DECKS,
   STARTER_DECK_FAMILIES,
   getFamilyStarterCardIds,
@@ -9,16 +10,16 @@ import {
 import { getCardArchetype, getCardStrength } from "@/core/cards";
 
 describe("V4 family starter decks", () => {
-  it("defines one 10-card duplicate starter deck for every playable family", () => {
+  it("defines one 12-card duplicate starter deck for every playable family", () => {
     for (const family of STARTER_DECK_FAMILIES) {
       const config = FAMILY_STARTER_DECKS[family];
       const cardIds = getFamilyStarterCardIds(family);
       const uniqueIds = new Set(cardIds);
       const copyCounts = [...uniqueIds].map((cardId) => cardIds.filter((entry) => entry === cardId).length).sort();
 
-      expect(cardIds).toHaveLength(10);
+      expect(cardIds).toHaveLength(FAMILY_STARTER_DECK_CARD_COUNT);
       expect(uniqueIds.size).toBe(4);
-      expect(copyCounts).toEqual([2, 2, 3, 3]);
+      expect(copyCounts).toEqual([3, 3, 3, 3]);
       expect(config.cards.map((entry) => entry.role).sort()).toEqual(["anchor", "attacker", "connector", "payoff"]);
     }
   });
@@ -36,6 +37,11 @@ describe("V4 family starter decks", () => {
         expect(Math.min(...Object.values(card.sides))).toBeGreaterThanOrEqual(1);
         expect(getCardStrength(card)).toBeGreaterThanOrEqual(10);
         expect(getCardStrength(card)).toBeLessThanOrEqual(12);
+        expect(card.manaCost).toBeGreaterThanOrEqual(1);
+        expect(card.manaCost).toBeLessThanOrEqual(2);
+        if (entry.role === "attacker" || entry.role === "payoff") {
+          expect(card.manaCost).toBe(2);
+        }
         expect(card.buildTags?.length).toBeGreaterThan(0);
         expect(card.deckbuildingObjective?.length).toBeGreaterThan(0);
       }

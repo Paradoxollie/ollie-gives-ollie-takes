@@ -46,6 +46,10 @@ export function inferCardManaCost(options: {
     cost = Math.max(cost, 2);
   }
 
+  if (options.role === "attacker" || options.role === "payoff") {
+    cost = Math.max(cost, 2);
+  }
+
   if (sideTotal >= 20 || options.role === "finisher") {
     cost = Math.max(cost, 3);
   }

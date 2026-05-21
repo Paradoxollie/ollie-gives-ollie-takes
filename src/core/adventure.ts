@@ -851,7 +851,7 @@ export function listAdventureFamilyStarterDecks(): FamilyStarterDeckConfig[] {
 }
 
 /**
- * Chooses the run family and creates its fixed 10-card starter deck with duplicates.
+ * Chooses the run family and creates its fixed family starter deck with duplicates.
  */
 export function chooseAdventureFamily(run: AdventureRunState, family: CardFamily): AdventureRunState {
   if (run.phase !== "family") {

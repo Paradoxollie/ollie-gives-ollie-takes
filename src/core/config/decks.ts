@@ -34,6 +34,7 @@ export const STARTER_DECK_FAMILIES = [
 ] as const satisfies ReadonlyArray<CardFamily>;
 
 export type StarterDeckFamily = (typeof STARTER_DECK_FAMILIES)[number];
+export const FAMILY_STARTER_DECK_CARD_COUNT = 12;
 
 export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckConfig> = {
   familiar: {
@@ -44,8 +45,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "sapling", copies: 3, role: "anchor" },
       { cardId: "badger", copies: 3, role: "attacker" },
-      { cardId: "heron", copies: 2, role: "connector" },
-      { cardId: "foxfire", copies: 2, role: "payoff" },
+      { cardId: "heron", copies: 3, role: "connector" },
+      { cardId: "foxfire", copies: 3, role: "payoff" },
     ],
   },
   demon: {
@@ -56,8 +57,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "hornling", copies: 3, role: "anchor" },
       { cardId: "ember-imp", copies: 3, role: "attacker" },
-      { cardId: "pact-sprite", copies: 2, role: "connector" },
-      { cardId: "cinder-grin", copies: 2, role: "payoff" },
+      { cardId: "pact-sprite", copies: 3, role: "connector" },
+      { cardId: "cinder-grin", copies: 3, role: "payoff" },
     ],
   },
   human: {
@@ -68,8 +69,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "quiet-monk", copies: 3, role: "anchor" },
       { cardId: "path-ranger", copies: 3, role: "attacker" },
-      { cardId: "rune-mage", copies: 2, role: "connector" },
-      { cardId: "field-knight", copies: 2, role: "payoff" },
+      { cardId: "rune-mage", copies: 3, role: "connector" },
+      { cardId: "field-knight", copies: 3, role: "payoff" },
     ],
   },
   automaton: {
@@ -80,8 +81,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "clock-sentinel", copies: 3, role: "anchor" },
       { cardId: "brass-rook", copies: 3, role: "attacker" },
-      { cardId: "gear-monk", copies: 2, role: "connector" },
-      { cardId: "tin-oracle", copies: 2, role: "payoff" },
+      { cardId: "gear-monk", copies: 3, role: "connector" },
+      { cardId: "tin-oracle", copies: 3, role: "payoff" },
     ],
   },
   revenant: {
@@ -92,8 +93,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "lantern-shade", copies: 3, role: "anchor" },
       { cardId: "widow-knight", copies: 3, role: "attacker" },
-      { cardId: "grave-child", copies: 2, role: "connector" },
-      { cardId: "moth-ghost", copies: 2, role: "payoff" },
+      { cardId: "grave-child", copies: 3, role: "connector" },
+      { cardId: "moth-ghost", copies: 3, role: "payoff" },
     ],
   },
   arcane: {
@@ -104,8 +105,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
     cards: [
       { cardId: "wandering-glyph", copies: 3, role: "anchor" },
       { cardId: "moon-scribe", copies: 3, role: "attacker" },
-      { cardId: "rune-adept", copies: 2, role: "connector" },
-      { cardId: "star-witch", copies: 2, role: "payoff" },
+      { cardId: "rune-adept", copies: 3, role: "connector" },
+      { cardId: "star-witch", copies: 3, role: "payoff" },
     ],
   },
 };

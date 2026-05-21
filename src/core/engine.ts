@@ -862,6 +862,18 @@ function getCoinFaceForPlayer(playerId: PlayerId) {
   return playerId === "player" ? "sun" : "moon";
 }
 
+function hasCardsAvailableForFutureTurn(player: MatchState["players"][PlayerId]): boolean {
+  return player.drawPile.length > 0 || player.discardPile.length > 0;
+}
+
+function areBothPlayersOutOfCards(state: MatchState): boolean {
+  return (
+    state.turn.choices.length === 0 &&
+    !hasCardsAvailableForFutureTurn(state.players.player) &&
+    !hasCardsAvailableForFutureTurn(state.players.enemy)
+  );
+}
+
 function pickWeakestChoice(choices: CardInstance[]): CardInstance | null {
   if (choices.length === 0) {
     return null;
@@ -1170,7 +1182,6 @@ function startTurn(
           },
     metrics: {
       ...state.metrics,
-      deadTurns: state.metrics.deadTurns + (draw.choices.length === 0 ? 1 : 0),
     },
   };
 
@@ -1182,18 +1193,17 @@ function startTurn(
     }
   }
 
-  if (nextEmptyTurnStreak >= 2) {
-    const control = calculateControl(nextState.board);
-    const winner = resolveNoDrawWinner({
-      champions: nextState.champions,
-      control,
-      board: nextState.board,
-      fallbackWinner: nextState.round.startingPlayer,
-    });
+  if (nextState.turn.choices.length === 0 && (nextState.emptyTurnStreak >= 2 || areBothPlayersOutOfCards(nextState))) {
+    return resolveNoDrawRoundEnd(nextState);
+  }
 
+  if (nextState.turn.choices.length === 0) {
     return {
       ...nextState,
-      result: createBattleResult(winner, "stalemate", nextState.champions, "stalemate"),
+      metrics: {
+        ...nextState.metrics,
+        deadTurns: nextState.metrics.deadTurns + 1,
+      },
     };
   }
 
@@ -1564,8 +1574,8 @@ function resolveRoundEnd(
 } {
   const expectedOccupancy = state.config.boardSize * state.config.boardSize;
   const boardOccupancy = countOccupiedCells(board);
-  if (boardOccupancy !== expectedOccupancy) {
-    throw new Error(`Cannot resolve round end on a non-full board: ${boardOccupancy}/${expectedOccupancy}.`);
+  if (boardOccupancy <= 0 || boardOccupancy > expectedOccupancy) {
+    throw new Error(`Cannot resolve round end with invalid board occupancy: ${boardOccupancy}/${expectedOccupancy}.`);
   }
 
   const rawControl = calculateControl(board);
@@ -1659,6 +1669,71 @@ function resolveRoundEnd(
     champions: nextChampions,
     result: createBattleResult(playerDead ? "enemy" : "player", "champion-ko", nextChampions, "round-end-control"),
   };
+}
+
+function resolveNoDrawRoundEnd(state: MatchState): MatchState {
+  const boardOccupancy = countOccupiedCells(state.board);
+  if (boardOccupancy === 0) {
+    const control = calculateControl(state.board);
+    const winner = resolveNoDrawWinner({
+      champions: state.champions,
+      control,
+      board: state.board,
+      fallbackWinner: state.round.startingPlayer,
+    });
+
+    return {
+      ...state,
+      result: createBattleResult(winner, "stalemate", state.champions, "stalemate"),
+    };
+  }
+
+  const roundEnd = resolveRoundEnd(state, state.board, state.champions, state.enemyPowerState);
+  const nextRoundNumber = state.round.number + 1;
+  const nextMetrics = {
+    ...state.metrics,
+    roundsCompleted: state.metrics.roundsCompleted + 1,
+    totalRoundEndControlDifference: state.metrics.totalRoundEndControlDifference + roundEnd.summary.controlDifference,
+    totalRoundEndDamage:
+      state.metrics.totalRoundEndDamage +
+      roundEnd.summary.damageApplied.player +
+      roundEnd.summary.damageApplied.enemy,
+    totalControlledCardsBySide: {
+      player: state.metrics.totalControlledCardsBySide.player + roundEnd.summary.control.player,
+      enemy: state.metrics.totalControlledCardsBySide.enemy + roundEnd.summary.control.enemy,
+    },
+    totalRoundEndOccupancy: state.metrics.totalRoundEndOccupancy + roundEnd.summary.boardOccupancy,
+  };
+  const nextStateBase: MatchState = {
+    ...state,
+    board: createBoard(state.config.boardSize),
+    players: discardBoardCards(state.board, state.players),
+    champions: roundEnd.champions,
+    metrics: nextMetrics,
+    lastMove: state.lastMove
+      ? {
+          ...state.lastMove,
+          championsAfterMove: cloneChampions(roundEnd.champions),
+          roundEnded: true,
+          roundNumberAfterMove: roundEnd.result ? state.round.number : nextRoundNumber,
+          roundEndSummary: roundEnd.summary,
+        }
+      : null,
+    emptyTurnStreak: 0,
+  };
+
+  if (roundEnd.result) {
+    return {
+      ...nextStateBase,
+      result: roundEnd.result,
+      turn: {
+        ...state.turn,
+        choices: [],
+      },
+    };
+  }
+
+  return startRound(nextStateBase, nextRoundNumber, state.turn.index + 1);
 }
 
 /**

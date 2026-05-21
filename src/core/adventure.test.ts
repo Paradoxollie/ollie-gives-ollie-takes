@@ -23,7 +23,7 @@ import {
   toggleAdventureForgeSelection,
 } from "@/core/adventure";
 import { getCardArchetype } from "@/core/cards";
-import { FAMILY_STARTER_DECKS } from "@/core/config/decks";
+import { FAMILY_STARTER_DECK_CARD_COUNT, FAMILY_STARTER_DECKS } from "@/core/config/decks";
 import type { AdventureRunState, BattleResult, MatchOutcome } from "@/core/types";
 
 function makeBattleResult(winner: MatchOutcome): BattleResult {
@@ -321,8 +321,8 @@ describe("adventure progression", () => {
 
     expect(familyRun.phase).toBe("charm");
     expect(familyRun.selectedFamily).toBe("familiar");
-    expect(familyRun.deck.cards).toHaveLength(10);
-    expect(Object.values(copyCounts).sort()).toEqual([2, 2, 3, 3]);
+    expect(familyRun.deck.cards).toHaveLength(FAMILY_STARTER_DECK_CARD_COUNT);
+    expect(Object.values(copyCounts).sort()).toEqual([3, 3, 3, 3]);
     expect(new Set(familyRun.deck.cards.map((entry) => entry.card.id)).size).toBe(4);
     expect(familyRun.deck.cards.every((entry) => entry.card.effects?.length === 1)).toBe(true);
     expect(run.charms).toHaveLength(0);

@@ -127,7 +127,7 @@ Le studio IA separe trois besoins :
 
 - `npm run ai:lab:apply -- --matches 24 --seed 1701` genere `reports/ai-lab/latest-ai-lab-report.*` et met a jour `src/core/ai-lab/generated/latestAiLabReport.ts` pour la page deployee.
 - `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8` entraine et promeut le champion si le benchmark passe.
-- `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage sur le depart actuel du jeu: choix de famille et starter fixe de 10 cartes.
+- `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage sur le depart actuel du jeu: choix de famille et starter fixe de 12 cartes.
 
 Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le Studio IA reproduit le flux joueur actuel, afin que les diagnostics restent alignes avec le jeu public.
 

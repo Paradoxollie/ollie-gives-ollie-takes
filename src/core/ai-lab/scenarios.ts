@@ -1,4 +1,4 @@
-import { getFamilyStarterCardIds, STARTER_DECK_FAMILIES } from "@/core/config/decks";
+import { FAMILY_STARTER_DECK_CARD_COUNT, getFamilyStarterCardIds, STARTER_DECK_FAMILIES } from "@/core/config/decks";
 import type { AiLabScenarioId } from "@/core/ai-lab/types";
 import type { CardFamily } from "@/core/types";
 
@@ -11,10 +11,10 @@ export interface AiLabScenario {
 
 export const CURRENT_FAMILY_START_SCENARIO: AiLabScenario = {
   id: "current-family-start",
-  label: "Depart actuel - famille 10 cartes",
+  label: `Depart actuel - famille ${FAMILY_STARTER_DECK_CARD_COUNT} cartes`,
   description:
-    "Reproduit le depart public actuel: le joueur choisit une famille, puis joue avec son starter fixe de 10 cartes.",
-  startingDeckCardCount: 10,
+    `Reproduit le depart public actuel: le joueur choisit une famille, puis joue avec son starter fixe de ${FAMILY_STARTER_DECK_CARD_COUNT} cartes.`,
+  startingDeckCardCount: FAMILY_STARTER_DECK_CARD_COUNT,
 };
 
 const FAMILY_PAIR_OFFSETS = [0, 1, 2, 3, 4, 5] as const;

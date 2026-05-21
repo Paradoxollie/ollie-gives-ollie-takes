@@ -3,6 +3,7 @@ import { ADVENTURE_ENEMY_CONFIG } from "@/core/config/gameConfig";
 import { listEnemyProfilesByTier } from "@/core/config/enemyProfiles";
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
 import {
+  FAMILY_STARTER_DECK_CARD_COUNT,
   STARTER_DECK_FAMILIES,
   getFamilyStarterCardIds,
   getFamilyStarterDeckConfig,
@@ -592,7 +593,7 @@ function buildEnemyFamilyDeck(run: AdventureRunState, node: AdventureNode): Enem
       ...cardIdsForFamilySlice(families.splashFamilies[0] ?? families.mainFamily, 2),
     ];
   } else {
-    cardIds = cardIdsForFamilySlice(families.mainFamily, 10);
+    cardIds = cardIdsForFamilySlice(families.mainFamily, FAMILY_STARTER_DECK_CARD_COUNT);
   }
 
   const mainConfig = getFamilyStarterDeckConfig(families.mainFamily);

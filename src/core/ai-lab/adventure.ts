@@ -35,7 +35,7 @@ import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { getBot } from "@/core/bots";
 import { LIVE_CHAMPION_PROFILE } from "@/core/bots/generated/liveChampion";
 import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
-import { DEFAULT_DECK_PRESET_ID, STARTER_DECK_FAMILIES } from "@/core/config/decks";
+import { DEFAULT_DECK_PRESET_ID, FAMILY_STARTER_DECK_CARD_COUNT, STARTER_DECK_FAMILIES } from "@/core/config/decks";
 import { applyMove, createMatch, passTurn } from "@/core/engine";
 import { applyAutomatedPlayerCharmActions } from "@/core/player-charms";
 import type {
@@ -408,8 +408,10 @@ function simulateAdventureRunForModel(options: {
     if (run.phase === "family") {
       run = chooseAdventureFamily(run, chooseFamilyForModel(run, options.model, spec.weights ?? null));
       startingDeckCardCount = run.deck.cards.length;
-      if (startingDeckCardCount !== 10) {
-        throw new Error(`AI lab expected the current starter deck to contain 10 cards, got ${startingDeckCardCount}.`);
+      if (startingDeckCardCount !== FAMILY_STARTER_DECK_CARD_COUNT) {
+        throw new Error(
+          `AI lab expected the current starter deck to contain ${FAMILY_STARTER_DECK_CARD_COUNT} cards, got ${startingDeckCardCount}.`,
+        );
       }
       guard += 1;
       continue;
@@ -687,11 +689,13 @@ function summarizeAdventureRunsForModel(modelId: AiPlayerModelId, runs: AiLabAdv
   if (runCount === 0) {
     notes.push("Aucun run complet simule.");
   } else {
-    notes.push("Flux complet: famille, deck 10 cartes, route, combats, recompenses, charmes, camp, forge et boss.");
+    notes.push(
+      `Flux complet: famille, deck ${FAMILY_STARTER_DECK_CARD_COUNT} cartes, route, combats, recompenses, charmes, camp, forge et boss.`,
+    );
   }
 
-  if (runCount > 0 && runs.some((run) => run.startingDeckCardCount !== 10)) {
-    notes.push("Probleme: au moins un run ne demarre pas avec le starter actuel de 10 cartes.");
+  if (runCount > 0 && runs.some((run) => run.startingDeckCardCount !== FAMILY_STARTER_DECK_CARD_COUNT)) {
+    notes.push(`Probleme: au moins un run ne demarre pas avec le starter actuel de ${FAMILY_STARTER_DECK_CARD_COUNT} cartes.`);
   }
 
   if (combatCount > 0 && averageCombatWinRate < 0.45) {

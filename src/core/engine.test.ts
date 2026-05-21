@@ -1098,10 +1098,45 @@ describe("control and persistence", () => {
     });
 
     const afterFirstPass = passTurn(state);
-    const afterSecondPass = passTurn(afterFirstPass);
 
-    expect(afterSecondPass.result?.winner).toBe("player");
-    expect(afterSecondPass.result?.reason).toBe("stalemate");
+    expect(afterFirstPass.result?.winner).toBe("player");
+    expect(afterFirstPass.result?.reason).toBe("stalemate");
+  });
+
+  it("ends the current round instead of the whole match when repeated dead turns have board state", () => {
+    const board = makeBoard();
+    board[0][0] = makeBoardCard("player", "sapling", "leader", 0, 0);
+    board[0][1] = makeBoardCard("player", "badger", "support", 0, 1);
+    board[1][1] = makeBoardCard("enemy", "ember-imp", "threat", 1, 1);
+
+    const state = makeState({
+      board,
+      champions: {
+        player: { health: 12, maxHealth: 20 },
+        enemy: { health: 12, maxHealth: 20 },
+      },
+      players: {
+        player: { id: "player", drawPile: [], discardPile: [], reshuffles: 0 },
+        enemy: { id: "enemy", drawPile: [], discardPile: [], reshuffles: 0 },
+      },
+      turn: {
+        index: 4,
+        roundTurn: 4,
+        activePlayer: "player",
+        choices: [],
+      },
+      emptyTurnStreak: 0,
+    });
+
+    const afterFirstPass = passTurn(state);
+
+    expect(afterFirstPass.result).toBeNull();
+    expect(afterFirstPass.round.number).toBe(state.round.number + 1);
+    expect(afterFirstPass.metrics.roundsCompleted).toBe(state.metrics.roundsCompleted + 1);
+    expect(afterFirstPass.metrics.totalRoundEndOccupancy).toBe(3);
+    expect(afterFirstPass.champions.player.health).toBe(11);
+    expect(afterFirstPass.champions.enemy.health).toBe(10);
+    expect(afterFirstPass.board.flat().every((cell) => cell === null)).toBe(true);
   });
 });
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { AI_PLAYER_MODELS } from "@/core/ai-lab/models";
 import { buildAiLabReport, createAiLabInsights, createAiLabMarkdownReport } from "@/core/ai-lab/report";
+import { FAMILY_STARTER_DECK_CARD_COUNT } from "@/core/config/decks";
 import type { AiLabDeckSummary } from "@/core/ai-lab/types";
 
 const FAST_TEST_MODELS = AI_PLAYER_MODELS.filter((model) => model.id === "beginner" || model.id === "opportunist");
@@ -9,8 +10,8 @@ const FAST_TEST_MODELS = AI_PLAYER_MODELS.filter((model) => model.id === "beginn
 function makeDeckSummary(overrides: Partial<AiLabDeckSummary> = {}): AiLabDeckSummary {
   return {
     scenarioId: "current-family-start",
-    scenarioLabel: "Depart actuel - famille 10 cartes",
-    startingDeckCardCount: 10,
+    scenarioLabel: `Depart actuel - famille ${FAMILY_STARTER_DECK_CARD_COUNT} cartes`,
+    startingDeckCardCount: FAMILY_STARTER_DECK_CARD_COUNT,
     mirrorModelId: "regular",
     totalGames: 20,
     drawRate: 0.25,
@@ -50,10 +51,10 @@ describe("AI lab report", () => {
     expect(left.deckSummaries).toHaveLength(1);
     expect(left.config.scenarioIds).toEqual(["current-family-start"]);
     expect(left.config.adventureRunsPerModel).toBe(1);
-    expect(left.deckSummaries[0]?.startingDeckCardCount).toBe(10);
+    expect(left.deckSummaries[0]?.startingDeckCardCount).toBe(FAMILY_STARTER_DECK_CARD_COUNT);
     expect(left.adventureSummaries).toHaveLength(FAST_TEST_MODELS.length);
     expect(left.adventureRuns).toHaveLength(FAST_TEST_MODELS.length);
-    expect(left.adventureRuns.every((run) => run.startingDeckCardCount === 10)).toBe(true);
+    expect(left.adventureRuns.every((run) => run.startingDeckCardCount === FAMILY_STARTER_DECK_CARD_COUNT)).toBe(true);
     expect(left.adventureRuns.every((run) => run.selectedFamily !== null)).toBe(true);
     expect(left.adventureRuns.every((run) => run.path.length > 0)).toBe(true);
     expect(left.ladderPairings).toHaveLength(FAST_TEST_MODELS.length - 1);

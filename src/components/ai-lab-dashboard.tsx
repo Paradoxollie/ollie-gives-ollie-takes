@@ -624,7 +624,7 @@ export function AiLabDashboard({
                 <h2 className="mt-1 font-serif text-2xl text-white">IA dans le meme parcours que le joueur</h2>
               </div>
               <p className="text-sm text-white/52">
-                {report.config.adventureRunsPerModel} run(s) par modele avec starter 10 cartes.
+                {report.config.adventureRunsPerModel} run(s) par modele avec starter 12 cartes.
               </p>
             </div>
             <div className="mt-5">
