@@ -592,6 +592,8 @@ function buildEnemyFamilyDeck(run: AdventureRunState, node: AdventureNode): Enem
       ...cardIdsForFamilySlice(families.mainFamily, 8),
       ...cardIdsForFamilySlice(families.splashFamilies[0] ?? families.mainFamily, 2),
     ];
+  } else if (node.kind === "combat" && clearedBeforeNode < 2) {
+    cardIds = cardIdsForFamilySlice(families.mainFamily, ADVENTURE_ENEMY_CONFIG.earlyNormalStarterCardCount);
   } else {
     cardIds = cardIdsForFamilySlice(families.mainFamily, FAMILY_STARTER_DECK_CARD_COUNT);
   }
@@ -679,14 +681,14 @@ function getEnemyBotId(run: AdventureRunState, node: AdventureNode, profile: Mat
   }
 
   // Progressive normal combat difficulty:
-  // First 2 combats: greedy (weakest AI)
-  // Combats 3-4: heuristic (medium AI)
-  // Combats 5+: champion (strongest AI)
-  if (combatsDone <= 1) {
+  // First 3 combats: greedy (weakest AI)
+  // Combats 4-6: heuristic (medium AI)
+  // Late combats and bosses: champion pressure
+  if (combatsDone <= 2) {
     return "greedy";
   }
 
-  if (combatsDone <= 3) {
+  if (combatsDone <= 5 || clearedBeforeNode < 7) {
     return "heuristic";
   }
 

@@ -353,6 +353,7 @@ export interface AdventureCharmConfig {
 }
 
 export interface AdventureEnemyConfig {
+  earlyNormalStarterCardCount: number;
   normalMaxReplacements: number;
   normalMaxAdds: number;
   eliteReplacementBonus: number;

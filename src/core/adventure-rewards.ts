@@ -1,12 +1,12 @@
 import { ADVENTURE_REWARD_POOLS } from "@/core/config/adventureRewards";
-import { ADVENTURE_REWARD_CONFIG } from "@/core/config/gameConfig";
+import { ADVENTURE_REWARD_CONFIG, ADVENTURE_REWARD_FIT_CONFIG } from "@/core/config/gameConfig";
 import {
   createAdventureDeckCard,
   createInitialAdventureDeck,
   createRarityRecord,
   getCardArchetype,
 } from "@/core/cards";
-import { explainRewardFit } from "@/core/deck-building";
+import { analyzeAdventureDeckBuildProfileV4, explainRewardFit } from "@/core/deck-building";
 import { pickWithSeed } from "@/core/utils/rng";
 import type {
   AdventureDeckCard,
@@ -17,6 +17,7 @@ import type {
   AdventureRewardState,
   CardArchetype,
   CardRarity,
+  CardRole,
 } from "@/core/types";
 
 function pickWeightedRarity(
@@ -104,6 +105,153 @@ function listAvailableRewardIds(
   });
 }
 
+function rewardCardBaseId(card: Pick<CardArchetype, "id" | "baseArchetypeId">): string {
+  return card.baseArchetypeId ?? card.id;
+}
+
+function cardRole(card: Pick<CardArchetype, "role">): CardRole {
+  return card.role ?? "engine";
+}
+
+function scoreRewardEffectFit(card: CardArchetype, playerDeck: AdventureDeckState): number {
+  const profile = analyzeAdventureDeckBuildProfileV4(playerDeck);
+  const familyCount = profile.familyCounts[card.family] ?? 0;
+
+  return (card.effects ?? []).reduce((score, effect) => {
+    let nextScore = score;
+
+    if (effect.requiredFamilyCount) {
+      nextScore +=
+        familyCount >= effect.requiredFamilyCount
+          ? ADVENTURE_REWARD_FIT_CONFIG.activeFamilyConditionScore
+          : -ADVENTURE_REWARD_FIT_CONFIG.inactiveFamilyConditionPenalty;
+    }
+
+    if (effect.condition === "adjacent-ally" || effect.condition === "adjacent-enemy") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.adjacentSetupScore;
+    }
+
+    if (effect.condition === "corner" || effect.condition === "center" || effect.condition === "behind-on-board") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.positionSetupScore;
+    }
+
+    if (effect.trigger === "on-flip" && (card.role === "attacker" || card.role === "payoff")) {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.onFlipAttackerScore;
+    }
+
+    if (effect.kind === "draw-next-turn") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.drawScore;
+    }
+
+    if (effect.kind === "gain-shield") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.shieldScore;
+    }
+
+    if (effect.kind === "boost-self") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.boostScore;
+    }
+
+    return nextScore;
+  }, 0);
+}
+
+function scoreRewardDeckFit(card: CardArchetype, playerDeck: AdventureDeckState | undefined): number {
+  if (!playerDeck) {
+    return 0;
+  }
+
+  const profile = analyzeAdventureDeckBuildProfileV4(playerDeck);
+  const role = cardRole(card);
+  const familyCount = profile.familyCounts[card.family] ?? 0;
+  const copies = profile.copyCountsByBaseId[rewardCardBaseId(card)] ?? 0;
+  let score = 0;
+
+  if (profile.dominantFamily === card.family) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.sameFamilyScore;
+  } else if (profile.dominantFamily && card.hybridLinks?.includes(profile.dominantFamily)) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.hybridFamilyScore;
+  }
+
+  if (familyCount > 0) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.familyPresenceScore;
+    score += Math.min(
+      ADVENTURE_REWARD_FIT_CONFIG.maxFamilyCardScore,
+      familyCount * ADVENTURE_REWARD_FIT_CONFIG.familyCardScore,
+    );
+  }
+
+  if (profile.hybridFamilies.includes(card.family)) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.hybridFamilyScore;
+  }
+
+  if (profile.missingRoles.includes(role)) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.missingRoleScore;
+  }
+
+  if (role === "attacker") {
+    score += ADVENTURE_REWARD_FIT_CONFIG.attackerScore;
+    if (profile.roleCounts.anchor >= 3) {
+      score += ADVENTURE_REWARD_FIT_CONFIG.attackerAnchorScore;
+    }
+  }
+
+  if (role === "payoff") {
+    score += ADVENTURE_REWARD_FIT_CONFIG.payoffScore;
+    if (profile.roleCounts.connector >= 3) {
+      score += ADVENTURE_REWARD_FIT_CONFIG.payoffConnectorScore;
+    }
+  }
+
+  if (copies === 1) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.firstCopyScore;
+  } else if (copies >= 3) {
+    score -= ADVENTURE_REWARD_FIT_CONFIG.duplicatePenalty;
+  }
+
+  if (card.rarity === "uncommon") {
+    score += ADVENTURE_REWARD_FIT_CONFIG.uncommonScore;
+  } else if (card.rarity === "rare") {
+    score += ADVENTURE_REWARD_FIT_CONFIG.rareScore;
+  }
+
+  return score + scoreRewardEffectFit(card, playerDeck);
+}
+
+function pickRewardArchetypeId(
+  availableRewardIds: string[],
+  playerDeck: AdventureDeckState | undefined,
+  seed: number,
+): { archetypeId: string; seed: number } {
+  if (!playerDeck) {
+    const picked = pickWithSeed(availableRewardIds, seed);
+    return {
+      archetypeId: picked.item,
+      seed: picked.seed,
+    };
+  }
+
+  const rankedRewardIds = availableRewardIds
+    .map((archetypeId) => ({
+      archetypeId,
+      score: scoreRewardDeckFit(getCardArchetype(archetypeId), playerDeck),
+    }))
+    .sort((left, right) => {
+      if (left.score !== right.score) {
+        return right.score - left.score;
+      }
+
+      return left.archetypeId.localeCompare(right.archetypeId);
+    })
+    .map((entry) => entry.archetypeId);
+  const finalistCount = Math.min(ADVENTURE_REWARD_FIT_CONFIG.finalistCount, rankedRewardIds.length);
+  const picked = pickWithSeed(rankedRewardIds.slice(0, finalistCount), seed);
+
+  return {
+    archetypeId: picked.item,
+    seed: picked.seed,
+  };
+}
+
 function pickRewardRarity(
   sourceNodeKind: AdventureNodeType,
   progress: AdventureRewardProgress,
@@ -155,12 +303,12 @@ function pickRewardOption(
     throw new Error(`No reward cards remain for rarity ${rarity}.`);
   }
 
-  const pickedReward = pickWithSeed(availableRewardIds, seed);
-  const archetypeId = pickedReward.item;
+  const pickedReward = pickRewardArchetypeId(availableRewardIds, playerDeck, seed);
+  const archetypeId = pickedReward.archetypeId;
   const card = getCardArchetype(archetypeId);
   usedArchetypeIds.add(archetypeId);
   const ownedCount =
-    playerDeck?.cards.filter((entry) => (entry.card.baseArchetypeId ?? entry.card.id) === (card.baseArchetypeId ?? card.id)).length ?? 0;
+    playerDeck?.cards.filter((entry) => rewardCardBaseId(entry.card) === rewardCardBaseId(card)).length ?? 0;
 
   return {
     option: {

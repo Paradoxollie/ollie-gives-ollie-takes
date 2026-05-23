@@ -228,7 +228,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "pact-sprite",
     name: "Lutin a pacte",
-    sides: { top: 3, right: 2, bottom: 2, left: 5 },
+    sides: { top: 3, right: 2, bottom: 3, left: 4 },
     family: "demon",
     accent: "demon",
     effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "adjacent-enemy" }],
@@ -264,7 +264,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 4, left: 2 },
     family: "human",
     accent: "steel",
-    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 3 }],
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "rune-mage",
@@ -280,7 +280,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 5, right: 2, bottom: 2, left: 3 },
     family: "human",
     accent: "grove",
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest" }],
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "quiet-monk",
@@ -326,10 +326,10 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "brass-rook",
     name: "Tour de laiton",
-    sides: { top: 2, right: 4, bottom: 2, left: 4 },
+    sides: { top: 3, right: 4, bottom: 2, left: 3 },
     family: "automaton",
     accent: "brass",
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "corner", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "gear-monk",
@@ -399,10 +399,10 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "widow-knight",
     name: "Chevalier veuf",
-    sides: { top: 2, right: 5, bottom: 4, left: 1 },
+    sides: { top: 3, right: 5, bottom: 3, left: 1 },
     family: "revenant",
     accent: "shadow",
-    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 2, minFlips: 1 }],
+    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "moth-ghost",
@@ -432,7 +432,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "star-witch",
     name: "Sorciere d'etoiles",
-    sides: { top: 2, right: 4, bottom: 4, left: 2 },
+    sides: { top: 3, right: 4, bottom: 3, left: 2 },
     family: "arcane",
     accent: "arcane",
     effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "center", requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],

@@ -124,7 +124,7 @@ describe("adventure map generation", () => {
     expect(mapSignature(first)).not.toEqual(mapSignature(third));
   });
 
-  it("keeps the boss fixed after 12 locations and ensures every node is connected forward", () => {
+  it("keeps the boss fixed after the configured route length and ensures every node is connected forward", () => {
     const run = startRun(17);
     const bossNode = getAdventureNode(run, run.map.bossNodeId);
 

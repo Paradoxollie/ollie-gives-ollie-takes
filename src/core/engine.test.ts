@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createCardInstance, getCardArchetype } from "@/core/cards";
+import { GAME_CONFIG } from "@/core/config/gameConfig";
 import { getEnemyProfile } from "@/core/config/enemyProfiles";
 import { applyMove, canPlaceCard, createMatch, getControlTotals, passTurn } from "@/core/engine";
 import { useFireflyReroll, useReflectionCopy } from "@/core/player-charms";
@@ -238,7 +239,7 @@ describe("player charms", () => {
     });
     const visibleCards = [...state.turn.choices, ...state.players.player.drawPile];
 
-    expect(state.champions.player.health).toBe(23);
+    expect(state.champions.player.health).toBe(GAME_CONFIG.championStartingHealth - 1);
     expect(visibleCards.some((card) => card.sourceType === "charm" && card.temporaryScope === "combat")).toBe(true);
   });
 
@@ -568,8 +569,13 @@ describe("card effects", () => {
     });
 
     expect(nextState.lastMove?.roundEnded).toBe(true);
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 1, enemy: 6 });
-    expect(nextState.champions.player.health).toBe(23);
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({
+      player: 3 * GAME_CONFIG.roundDamagePerControlledCard - 2,
+      enemy: 6 * GAME_CONFIG.roundDamagePerControlledCard,
+    });
+    expect(nextState.champions.player.health).toBe(
+      GAME_CONFIG.championStartingHealth - (3 * GAME_CONFIG.roundDamagePerControlledCard - 2),
+    );
     expect(nextState.lastMove?.effectEvents).toContainEqual(
       expect.objectContaining({
         kind: "gain-shield",
@@ -761,9 +767,16 @@ describe("round end on a full 3x3 board", () => {
     expect(nextState.lastMove?.roundEnded).toBe(true);
     expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 6, enemy: 3 });
     expect(nextState.lastMove?.roundEndSummary?.controlDifference).toBe(3);
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 3, enemy: 6 });
-    expect(nextState.champions.player.health).toBe(21);
-    expect(nextState.champions.enemy.health).toBe(18);
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({
+      player: 3 * GAME_CONFIG.roundDamagePerControlledCard,
+      enemy: 6 * GAME_CONFIG.roundDamagePerControlledCard,
+    });
+    expect(nextState.champions.player.health).toBe(
+      GAME_CONFIG.championStartingHealth - 3 * GAME_CONFIG.roundDamagePerControlledCard,
+    );
+    expect(nextState.champions.enemy.health).toBe(
+      GAME_CONFIG.championStartingHealth - 6 * GAME_CONFIG.roundDamagePerControlledCard,
+    );
   });
 
   it("clears the board after round end and moves all board cards to discard by current owner", () => {
@@ -872,8 +885,8 @@ describe("round end on a full 3x3 board", () => {
     const state = makeState({
       board,
       champions: {
-        player: { health: 3, maxHealth: 20 },
-        enemy: { health: 6, maxHealth: 20 },
+        player: { health: 3 * GAME_CONFIG.roundDamagePerControlledCard, maxHealth: 20 },
+        enemy: { health: 6 * GAME_CONFIG.roundDamagePerControlledCard, maxHealth: 20 },
       },
       turn: {
         index: 9,
@@ -904,8 +917,8 @@ describe("round end on a full 3x3 board", () => {
     const state = makeState({
       board,
       champions: {
-        player: { health: 2, maxHealth: 20 },
-        enemy: { health: 4, maxHealth: 20 },
+        player: { health: 5, maxHealth: 20 },
+        enemy: { health: 10, maxHealth: 20 },
       },
       turn: {
         index: 9,
@@ -1134,8 +1147,8 @@ describe("control and persistence", () => {
     expect(afterFirstPass.round.number).toBe(state.round.number + 1);
     expect(afterFirstPass.metrics.roundsCompleted).toBe(state.metrics.roundsCompleted + 1);
     expect(afterFirstPass.metrics.totalRoundEndOccupancy).toBe(3);
-    expect(afterFirstPass.champions.player.health).toBe(11);
-    expect(afterFirstPass.champions.enemy.health).toBe(10);
+    expect(afterFirstPass.champions.player.health).toBe(12 - GAME_CONFIG.roundDamagePerControlledCard);
+    expect(afterFirstPass.champions.enemy.health).toBe(12 - 2 * GAME_CONFIG.roundDamagePerControlledCard);
     expect(afterFirstPass.board.flat().every((cell) => cell === null)).toBe(true);
   });
 });
@@ -1307,6 +1320,9 @@ describe("enemy profiles and powers", () => {
 
     expect(nextState.lastMove?.roundEnded).toBe(true);
     expect(nextState.lastMove?.roundEndSummary?.control).toEqual({ player: 4, enemy: 8 });
-    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({ player: 8, enemy: 4 });
+    expect(nextState.lastMove?.roundEndSummary?.damageApplied).toEqual({
+      player: 8 * GAME_CONFIG.roundDamagePerControlledCard,
+      enemy: 4 * GAME_CONFIG.roundDamagePerControlledCard,
+    });
   });
 });

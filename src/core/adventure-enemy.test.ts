@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { chooseAdventureFamily, createAdventureRun, getAdventureNode } from "@/core/adventure";
 import { createAdventureDeckCard, getCardArchetype } from "@/core/cards";
+import { ADVENTURE_ENEMY_CONFIG } from "@/core/config/gameConfig";
 
 function createRunAtDepth(seed: number, activeNodeId: string, historyLength: number) {
   const run = createFamilyRun(seed);
@@ -25,7 +26,7 @@ function createFamilyRun(seed: number) {
 }
 
 describe("adventure enemy scaling", () => {
-  it("keeps the first normal combat on a fair mono-family starter deck", () => {
+  it("keeps the first normal combat on a readable light mono-family starter deck", () => {
     const run = createFamilyRun(5);
     const firstCombat = run.map.nodes.find((node) => node.depth === 0 && node.kind === "combat");
     if (!firstCombat) {
@@ -41,7 +42,7 @@ describe("adventure enemy scaling", () => {
 
     expect(loadout.replacements).toBe(0);
     expect(loadout.additions).toBe(0);
-    expect(loadout.cardIds).toHaveLength(run.deck.cards.length);
+    expect(loadout.cardIds).toHaveLength(ADVENTURE_ENEMY_CONFIG.earlyNormalStarterCardCount);
     expect(loadout.splashFamilies).toEqual([]);
     expect(loadout.deckPlan).toContain(`Mono-${loadout.mainFamily}`);
     expect(new Set(["greedy", "heuristic"]).has(loadout.botId)).toBe(true);
@@ -74,15 +75,15 @@ describe("adventure enemy scaling", () => {
   });
 
   it("adds stronger cards as the run progresses and makes elites stronger than normals", () => {
-    const run = createFamilyRun(8);
-    const normalNode = run.map.nodes.find((node) => node.depth >= 4 && node.kind === "combat");
-    const eliteNode = run.map.nodes.find((node) => node.depth >= 4 && node.kind === "elite");
+    const run = createFamilyRun(2);
+    const normalNode = run.map.nodes.find((node) => node.depth >= 3 && node.kind === "combat");
+    const eliteNode = run.map.nodes.find((node) => node.depth >= 3 && node.kind === "elite");
     if (!normalNode || !eliteNode) {
       throw new Error("Missing comparison nodes.");
     }
 
     const progressedRun = {
-      ...createRunAtDepth(8, normalNode.id, 7),
+      ...createRunAtDepth(2, normalNode.id, 6),
       deck: {
         cards: [
           ...run.deck.cards,

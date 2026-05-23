@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { chooseAdventureFamily, createAdventureRun } from "@/core/adventure";
 import {
   createAdventureRewardOffer,
   createAdventureStealRewardOffer,
@@ -52,12 +53,12 @@ describe("adventure reward generation", () => {
       seed: 77,
     });
 
-    expect(stealOffer.rewardOffer?.options).toHaveLength(3);
+    expect(stealOffer.rewardOffer?.options).toHaveLength(4);
     expect(stealOffer.rewardOffer?.options.some((option) => option.archetypeId === "sapling")).toBe(true);
     expect(stealOffer.rewardOffer?.options.find((option) => option.archetypeId === "sapling")?.alreadyOwnedCount).toBeGreaterThan(0);
   });
 
-  it("never offers more than one rare and more than three uncommon cards across a run sample", () => {
+  it("never offers more than two rare and more than five uncommon cards across a run sample", () => {
     let progress = createInitialAdventureRewardProgress();
     let seed = 17;
 
@@ -72,8 +73,24 @@ describe("adventure reward generation", () => {
       seed = nextOffer.seed;
     }
 
-    expect(progress.offeredByRarity.rare).toBeLessThanOrEqual(1);
-    expect(progress.offeredByRarity.uncommon).toBeLessThanOrEqual(3);
+    expect(progress.offeredByRarity.rare).toBeLessThanOrEqual(2);
+    expect(progress.offeredByRarity.uncommon).toBeLessThanOrEqual(5);
+  });
+
+  it("biases generated rewards toward the selected family and playable synergies", () => {
+    const run = chooseAdventureFamily(createAdventureRun({ seed: 42 }), "familiar");
+    const offer = createAdventureRewardOffer({
+      sourceNodeId: "depth-0-lane-1",
+      sourceNodeKind: "chest",
+      progress: createInitialAdventureRewardProgress(),
+      playerDeck: run.deck,
+      seed: 5,
+    });
+    const offeredCards = offer.rewardOffer.options.map((option) => getCardArchetype(option.archetypeId));
+
+    expect(offer.rewardOffer.options).toHaveLength(4);
+    expect(offeredCards.filter((card) => card.family === "familiar").length).toBeGreaterThanOrEqual(2);
+    expect(offeredCards.some((card) => card.role === "attacker" || card.role === "payoff")).toBe(true);
   });
 
   it("injects guaranteed uncommon cards when a long run has seen none yet", () => {
