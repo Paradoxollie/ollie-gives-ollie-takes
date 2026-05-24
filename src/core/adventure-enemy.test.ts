@@ -75,7 +75,17 @@ describe("adventure enemy scaling", () => {
   });
 
   it("adds stronger cards as the run progresses and makes elites stronger than normals", () => {
-    const run = createFamilyRun(2);
+    const seed = Array.from({ length: 80 }, (_, index) => index + 1).find((candidateSeed) => {
+      const candidateRun = createFamilyRun(candidateSeed);
+      return (
+        candidateRun.map.nodes.some((node) => node.depth >= 3 && node.kind === "combat") &&
+        candidateRun.map.nodes.some((node) => node.depth >= 3 && node.kind === "elite")
+      );
+    });
+    if (!seed) {
+      throw new Error("Missing a seed with normal and elite comparison nodes.");
+    }
+    const run = createFamilyRun(seed);
     const normalNode = run.map.nodes.find((node) => node.depth >= 3 && node.kind === "combat");
     const eliteNode = run.map.nodes.find((node) => node.depth >= 3 && node.kind === "elite");
     if (!normalNode || !eliteNode) {
@@ -83,7 +93,7 @@ describe("adventure enemy scaling", () => {
     }
 
     const progressedRun = {
-      ...createRunAtDepth(2, normalNode.id, 6),
+      ...createRunAtDepth(seed, normalNode.id, 6),
       deck: {
         cards: [
           ...run.deck.cards,

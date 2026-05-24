@@ -27,8 +27,8 @@ export const AI_PLAYER_MODELS: AiPlayerModel[] = [
     skillLabel: "Comprend le controle",
     rank: 3,
     botId: "heuristic",
-    searchDepth: 2,
-    beamWidth: 6,
+    searchDepth: 1,
+    beamWidth: 8,
     description: "Modele de joueur moyen qui valorise les coins, le controle et les fins de round.",
   },
   {
@@ -36,9 +36,9 @@ export const AI_PLAYER_MODELS: AiPlayerModel[] = [
     label: "Expert",
     skillLabel: "Anticipe les reponses",
     rank: 4,
-    botId: "heuristic",
-    searchDepth: 3,
-    beamWidth: 5,
+    botId: "champion",
+    searchDepth: 2,
+    beamWidth: 10,
     description: "Modele de joueur solide qui cherche plus loin et evite les contres evidents.",
   },
   {
@@ -48,7 +48,7 @@ export const AI_PLAYER_MODELS: AiPlayerModel[] = [
     rank: 5,
     botId: "champion",
     searchDepth: 3,
-    beamWidth: 8,
+    beamWidth: 14,
     description: "Modele live qui garde une recherche profonde stable et n'accepte le profil promu qu'en net progres.",
   },
 ];

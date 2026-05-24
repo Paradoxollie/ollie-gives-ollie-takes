@@ -2,7 +2,7 @@ import { buildMovePreviewTable, compareMoveCoordinates, opponentFor } from "@/co
 import { evaluateHeuristicState } from "@/core/bots/heuristicBot";
 import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
 import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
-import { applyMove, getCardSides, getControlTotals, listLegalMoves, passTurn } from "@/core/engine";
+import { applyMove, getCardSides, getControlTotals, passTurn } from "@/core/engine";
 import { countOccupiedCells } from "@/core/utils/board";
 import type { Bot } from "@/core/bots/types";
 import type { BoardCard, CardInstance, MatchState, PlayerId, TrainedBotWeights } from "@/core/types";
@@ -50,8 +50,9 @@ function getReserveStrength(state: MatchState, owner: PlayerId): number {
 }
 
 function getMobilityScore(state: MatchState, owner: PlayerId): number {
-  const legalMoves = listLegalMoves(state).length;
-  return state.turn.activePlayer === owner ? legalMoves : -legalMoves;
+  const emptyCells = state.config.boardSize * state.config.boardSize - countOccupiedCells(state.board);
+  const approximateMoves = state.turn.choices.length * emptyCells;
+  return state.turn.activePlayer === owner ? approximateMoves : -approximateMoves;
 }
 
 function getImminentRoundDamageDiff(state: MatchState, owner: PlayerId): number {
@@ -110,7 +111,7 @@ export function evaluateMatchStateForBot(
 }
 
 function getOrderedMoves(state: MatchState, beamWidth: number) {
-  return buildMovePreviewTable(state)
+  return buildMovePreviewTable(state, Math.max(12, Math.min(24, beamWidth * 2)))
     .slice(0, Math.max(1, beamWidth))
     .map((preview) => preview.move);
 }

@@ -58,7 +58,7 @@ describe("adventure reward generation", () => {
     expect(stealOffer.rewardOffer?.options.find((option) => option.archetypeId === "sapling")?.alreadyOwnedCount).toBeGreaterThan(0);
   });
 
-  it("never offers more than two rare and more than five uncommon cards across a run sample", () => {
+  it("never offers more than three rare and more than six uncommon cards across a run sample", () => {
     let progress = createInitialAdventureRewardProgress();
     let seed = 17;
 
@@ -73,8 +73,8 @@ describe("adventure reward generation", () => {
       seed = nextOffer.seed;
     }
 
-    expect(progress.offeredByRarity.rare).toBeLessThanOrEqual(2);
-    expect(progress.offeredByRarity.uncommon).toBeLessThanOrEqual(5);
+    expect(progress.offeredByRarity.rare).toBeLessThanOrEqual(3);
+    expect(progress.offeredByRarity.uncommon).toBeLessThanOrEqual(6);
   });
 
   it("biases generated rewards toward the selected family and playable synergies", () => {

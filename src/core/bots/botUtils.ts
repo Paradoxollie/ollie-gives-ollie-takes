@@ -1,7 +1,7 @@
 import { getCardSides, getMoveCardInstanceIds, listLegalMoves, previewMove } from "@/core/engine";
 import { POSITION_WEIGHTS } from "@/core/config/gameConfig";
-import { getAdjacentPositions } from "@/core/utils/board";
-import type { BoardCard, Direction, MatchOutcome, MatchState, MoveInput, PlayerId, Position, PreviewMove } from "@/core/types";
+import { calculateControl, getAdjacentPositions } from "@/core/utils/board";
+import type { BoardCard, CardInstance, Direction, MatchOutcome, MatchState, MoveInput, PlayerId, Position, PreviewMove } from "@/core/types";
 
 export function opponentFor(playerId: PlayerId): PlayerId {
   return playerId === "player" ? "enemy" : "player";
@@ -35,6 +35,83 @@ function getMoveCards(state: MatchState, move: MoveInput) {
     .filter((card): card is MatchState["turn"]["choices"][number] => card !== null);
 }
 
+function isCornerPosition(position: Position, boardSize: number): boolean {
+  return (
+    (position.row === 0 || position.row === boardSize - 1) &&
+    (position.col === 0 || position.col === boardSize - 1)
+  );
+}
+
+function isEdgePosition(position: Position, boardSize: number): boolean {
+  return (
+    position.row === 0 ||
+    position.row === boardSize - 1 ||
+    position.col === 0 ||
+    position.col === boardSize - 1
+  );
+}
+
+function isCenterPosition(position: Position, boardSize: number): boolean {
+  const center = Math.floor(boardSize / 2);
+  return position.row === center && position.col === center;
+}
+
+function isLinePosition(position: Position, boardSize: number): boolean {
+  const center = Math.floor(boardSize / 2);
+  return position.row === center || position.col === center;
+}
+
+function isBehindOnBoard(state: MatchState, owner: PlayerId): boolean {
+  const control = calculateControl(state.board);
+  const opponent = opponentFor(owner);
+  return control[owner] <= control[opponent];
+}
+
+function hasPositionSetup(state: MatchState, card: CardInstance, position: Position): boolean {
+  return (card.preferredPositions ?? []).some((tag) => {
+    switch (tag) {
+      case "corner":
+        return isCornerPosition(position, state.board.length);
+      case "edge":
+        return isEdgePosition(position, state.board.length);
+      case "center":
+        return isCenterPosition(position, state.board.length);
+      case "adjacent":
+        return getAdjacentCards(state.board, position).some((entry) => entry.card !== null);
+      case "line":
+        return isLinePosition(position, state.board.length);
+      case "behind":
+        return isBehindOnBoard(state, card.owner);
+    }
+  });
+}
+
+function scoreCardEffectPotential(card: CardInstance): number {
+  return (card.effects ?? []).reduce((sum, effect) => {
+    const conditionPenalty = effect.condition && effect.condition !== "always" ? 0.82 : 1;
+    const comboBonus = effect.requiredFamilyCount ? 1.22 : 1;
+    const scaleBonus = effect.scaleWithFamilyCount ? 1.16 : 1;
+    let base = 0;
+
+    switch (effect.kind) {
+      case "deal-damage":
+        base = effect.amount * (effect.trigger === "on-flip" ? 18 : 13);
+        break;
+      case "draw-next-turn":
+        base = effect.amount * 15;
+        break;
+      case "gain-shield":
+        base = effect.amount * 9;
+        break;
+      case "boost-self":
+        base = effect.amount * (effect.directions === "all" ? 14 : 10);
+        break;
+    }
+
+    return sum + base * conditionPenalty * comboBonus * scaleBonus;
+  }, 0);
+}
+
 function getMovePrePreviewScore(state: MatchState, move: MoveInput): number {
   const cards = getMoveCards(state, move);
   const familyCounts = new Map<string, number>();
@@ -44,29 +121,40 @@ function getMovePrePreviewScore(state: MatchState, move: MoveInput): number {
   const localFamilySynergy = [...familyCounts.values()].reduce((best, count) => Math.max(best, count), 0);
   const manaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
   const positionWeight = POSITION_WEIGHTS[move.position.row]?.[move.position.col] ?? 0;
-  const effectCount = cards.reduce((sum, card) => sum + (card.effects?.length ?? 0), 0);
+  const effectPotential = cards.reduce((sum, card) => sum + scoreCardEffectPotential(card), 0);
+  const positionSetupBonus = cards.filter((card) => hasPositionSetup(state, card, move.position)).length * 20;
+  const stackComboBonus = cards.length >= 2 ? localFamilySynergy * 18 + cards.length * 9 : 0;
+  const enemyContactBonus = countEnemyAdjacency(state.board, move.position, state.turn.activePlayer) * 34;
 
   return (
     positionWeight * 14 +
     sumMoveCardStrength(state, move) * 2 +
     localFamilySynergy * 22 +
     cards.length * 8 +
-    effectCount * 5 -
-    manaCost * 3
+    effectPotential +
+    positionSetupBonus +
+    stackComboBonus +
+    enemyContactBonus +
+    manaCost * 5
   );
 }
 
-export function listBotCandidateMoves(state: MatchState, cap = 36): MoveInput[] {
+export function listBotCandidateMoves(state: MatchState, cap = 24): MoveInput[] {
   return listLegalMoves(state)
+    .map((move) => ({
+      move,
+      score: getMovePrePreviewScore(state, move),
+    }))
     .sort((left, right) => {
-      const leftScore = getMovePrePreviewScore(state, left);
-      const rightScore = getMovePrePreviewScore(state, right);
+      const leftScore = left.score;
+      const rightScore = right.score;
       if (leftScore !== rightScore) {
         return rightScore - leftScore;
       }
 
-      return compareMoveCoordinates(left, right);
+      return compareMoveCoordinates(left.move, right.move);
     })
+    .map((entry) => entry.move)
     .slice(0, Math.max(1, cap));
 }
 
@@ -173,8 +261,8 @@ export function comparePreviewMoves(left: PreviewMove, right: PreviewMove, state
   return compareMoveCoordinates(left.move, right.move);
 }
 
-export function buildMovePreviewTable(state: MatchState): PreviewMove[] {
-  return listBotCandidateMoves(state)
+export function buildMovePreviewTable(state: MatchState, cap = 24): PreviewMove[] {
+  return listBotCandidateMoves(state, cap)
     .map((move) => previewMove(state, move))
     .sort((left, right) => comparePreviewMoves(left, right, state));
 }

@@ -221,6 +221,7 @@ function pickRewardArchetypeId(
   availableRewardIds: string[],
   playerDeck: AdventureDeckState | undefined,
   seed: number,
+  preferDominantFamily = false,
 ): { archetypeId: string; seed: number } {
   if (!playerDeck) {
     const picked = pickWithSeed(availableRewardIds, seed);
@@ -230,7 +231,13 @@ function pickRewardArchetypeId(
     };
   }
 
-  const rankedRewardIds = availableRewardIds
+  const profile = analyzeAdventureDeckBuildProfileV4(playerDeck);
+  const familyPreferredIds =
+    preferDominantFamily && profile.dominantFamily
+      ? availableRewardIds.filter((archetypeId) => getCardArchetype(archetypeId).family === profile.dominantFamily)
+      : [];
+  const candidateRewardIds = familyPreferredIds.length > 0 ? familyPreferredIds : availableRewardIds;
+  const rankedRewardIds = candidateRewardIds
     .map((archetypeId) => ({
       archetypeId,
       score: scoreRewardDeckFit(getCardArchetype(archetypeId), playerDeck),
@@ -297,13 +304,14 @@ function pickRewardOption(
   seed: number,
   rewardIndex: number,
   slotIndex: number,
+  preferDominantFamily = false,
 ): { option: AdventureRewardOption; seed: number } {
   const availableRewardIds = listAvailableRewardIds(rarity, usedArchetypeIds);
   if (availableRewardIds.length === 0) {
     throw new Error(`No reward cards remain for rarity ${rarity}.`);
   }
 
-  const pickedReward = pickRewardArchetypeId(availableRewardIds, playerDeck, seed);
+  const pickedReward = pickRewardArchetypeId(availableRewardIds, playerDeck, seed, preferDominantFamily);
   const archetypeId = pickedReward.archetypeId;
   const card = getCardArchetype(archetypeId);
   usedArchetypeIds.add(archetypeId);
@@ -436,7 +444,15 @@ export function createAdventureRewardOffer(options: {
       nextSeed = pickedRarity.seed;
     }
 
-    const pickedOption = pickRewardOption(rarity, usedArchetypeIds, options.playerDeck, nextSeed, offerIndex, slotIndex);
+    const pickedOption = pickRewardOption(
+      rarity,
+      usedArchetypeIds,
+      options.playerDeck,
+      nextSeed,
+      offerIndex,
+      slotIndex,
+      slotIndex < 2,
+    );
     rewardOptions.push(pickedOption.option);
     nextOfferedByRarity[rarity] += 1;
     nextSeed = pickedOption.seed;

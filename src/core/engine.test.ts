@@ -50,7 +50,10 @@ function makeState(overrides: MatchStateOverrides = {}): MatchState {
     board: overrides.board ?? state.board,
     players: overrides.players ?? state.players,
     champions: overrides.champions ?? state.champions,
-    combat: overrides.combat ?? state.combat,
+    combat: overrides.combat ?? {
+      player: { shield: 0, nextTurnDrawBonus: 0 },
+      enemy: { shield: 0, nextTurnDrawBonus: 0 },
+    },
     round: {
       ...state.round,
       ...overrides.round,
@@ -131,11 +134,12 @@ describe("placement rules", () => {
     expect(starters).toEqual(new Set(["player", "enemy"]));
   });
 
-  it("gives the responding player opening resources to soften opening advantage", () => {
+  it("uses configured opening resources for the starter and responding player", () => {
     const state = createMatch({ deckPresetId: "starter10", seed: 5, startingPlayer: "player" });
 
     expect(state.turn.activePlayer).toBe("player");
     expect(state.turn.choices).toHaveLength(state.config.cardsPerTurn);
+    expect(state.combat.player.shield).toBe(state.config.firstPlayerFirstTurnShieldBonus);
 
     const responseTurn = applyMove(state, {
       cardInstanceId: state.turn.choices[0]?.instanceId ?? "",
@@ -675,6 +679,57 @@ describe("card effects", () => {
         amount: 1,
       }),
     );
+  });
+
+  it("only triggers edge-conditioned effects on an edge cell", () => {
+    const edgeCard = {
+      ...withSides(makeCard("player", "path-ranger", "edge"), {
+        top: 2,
+        right: 2,
+        bottom: 2,
+        left: 2,
+      }),
+      effects: [
+        {
+          trigger: "on-play",
+          kind: "boost-self",
+          amount: 1,
+          directions: "all",
+          condition: "edge",
+        } as const,
+      ],
+    };
+    const centerCard = {
+      ...edgeCard,
+      instanceId: "player-path-ranger-center",
+    };
+
+    const edgeState = makeState({
+      turn: {
+        activePlayer: "player",
+        choices: [edgeCard],
+      },
+    });
+    const centerState = makeState({
+      turn: {
+        activePlayer: "player",
+        choices: [centerCard],
+      },
+    });
+
+    const afterEdge = applyMove(edgeState, {
+      cardInstanceId: edgeCard.instanceId,
+      position: { row: 0, col: 1 },
+    });
+    const afterCenter = applyMove(centerState, {
+      cardInstanceId: centerCard.instanceId,
+      position: { row: 1, col: 1 },
+    });
+
+    expect(afterEdge.board[0][1]?.sides).toEqual({ top: 3, right: 3, bottom: 3, left: 3 });
+    expect(afterEdge.lastMove?.effectEvents).toHaveLength(1);
+    expect(afterCenter.board[1][1]?.sides).toEqual({ top: 2, right: 2, bottom: 2, left: 2 });
+    expect(afterCenter.lastMove?.effectEvents).toHaveLength(0);
   });
 
   it("requires family setup before combo effects scale", () => {

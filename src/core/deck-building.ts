@@ -57,7 +57,7 @@ export function analyzeDeckBuildProfileFromCards(cards: ReadonlyArray<CardArchet
       return left.localeCompare(right);
     })[0] ?? null;
   const missingRoles = CARD_ROLES.filter((role) => {
-    if (role === "engine" || role === "finisher") {
+    if (role === "engine" || role === "stabilizer" || role === "finisher") {
       return false;
     }
 

@@ -5,6 +5,7 @@ const CONDITION_COPY: Record<CardEffectCondition, string> = {
   "adjacent-ally": "si un allie est adjacent",
   "adjacent-enemy": "si un ennemi est adjacent",
   corner: "dans un coin",
+  edge: "sur un bord",
   center: "au centre",
   "behind-on-board": "si tu n'es pas devant",
 };

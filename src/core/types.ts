@@ -93,10 +93,11 @@ export type CardEffectTrigger = "on-play" | "on-flip";
 export type CardEffectCondition =
   | "always"
   | "adjacent-ally"
-  | "adjacent-enemy"
-  | "corner"
-  | "center"
-  | "behind-on-board";
+    | "adjacent-enemy"
+    | "corner"
+    | "edge"
+    | "center"
+    | "behind-on-board";
 export type CardEffectKind = "gain-shield" | "deal-damage" | "draw-next-turn" | "boost-self";
 export type CardBoostDirectionMode = "all" | "strongest" | "weakest";
 
@@ -284,6 +285,7 @@ export interface MatchConfig {
   cardsPerTurn: number;
   turnMana: number;
   maxCardsPerMove: number;
+  firstPlayerFirstTurnShieldBonus: number;
   secondPlayerFirstTurnDrawBonus: number;
   secondPlayerFirstTurnShieldBonus: number;
   aiDelayMs: number;

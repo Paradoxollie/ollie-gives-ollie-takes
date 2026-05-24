@@ -373,21 +373,25 @@ function scoreNodeKind(run: AdventureRunState, node: AdventureNode, weights?: Tr
       );
     case "combat": {
       const rewardNeed =
-        Math.max(0, 3 - specialCount) * 1.9 +
+        Math.max(0, 3 - specialCount) * 1.6 +
         Math.max(0, 7 - deckSummary.weakestDirectionValue) * 0.55;
+      const combatFatiguePenalty =
+        Math.max(0, clearedLocations - specialCount - 1) * 0.75 +
+        Math.max(0, specialCount - 3) * 0.9;
       return (
-        25 +
+        20 +
         rewardNeed +
         specialCount * 0.4 +
         clearedLocations * 0.3 +
         deckSummary.averageBalance * 0.12 -
-        encounterThreat * threatPenaltyScale * 0.44
+        encounterThreat * threatPenaltyScale * 0.5 -
+        combatFatiguePenalty
       );
     }
     case "chest":
       return (
-        20 +
-        treasureRouteBias * 3 +
+        23 +
+        treasureRouteBias * 3.2 +
         Math.max(0, 3 - run.charms.length) * 2.2 +
         specialCount * 0.3 +
         riskTolerance * 0.15 +
@@ -403,9 +407,9 @@ function scoreNodeKind(run: AdventureRunState, node: AdventureNode, weights?: Tr
       );
     case "rest":
       return (
-        14 +
-        restRouteBias * 2.5 +
-        weakDraftCount * 1.75 +
+        17 +
+        restRouteBias * 2.8 +
+        weakDraftCount * 1.9 +
         extraCards * (0.7 + deckTrimValue * 0.08) +
         Math.max(0, 12 - deckSummary.averageStrength) * 0.4 +
         buildProfile.trimPressure * 0.38 +
@@ -413,9 +417,9 @@ function scoreNodeKind(run: AdventureRunState, node: AdventureNode, weights?: Tr
       );
     case "shop":
       return (
-        15 +
-        forgeRouteBias * 2.35 +
-        weakDraftCount * 1.15 +
+        18 +
+        forgeRouteBias * 2.6 +
+        weakDraftCount * 1.25 +
         extraCards * (0.8 + deckTrimValue * 0.06) +
         deckSummary.fusionPotential * 0.12 +
         intent.fusion * 0.16

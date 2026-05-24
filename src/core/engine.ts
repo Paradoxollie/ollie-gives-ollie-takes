@@ -437,6 +437,8 @@ function cardEffectConditionMet(
       return hasAdjacentEnemy(state.board, position, owner);
     case "corner":
       return isCornerPosition(position, state.config.boardSize);
+    case "edge":
+      return isEdgePosition(position, state.config.boardSize);
     case "center":
       return isCenterPosition(position, state.config.boardSize);
     case "behind-on-board":
@@ -1134,12 +1136,19 @@ function startTurn(
 
   const draw = drawCardsForTurn(state, activePlayer, roundTurn);
   const nextEmptyTurnStreak = draw.choices.length === 0 ? emptyTurnStreak + 1 : 0;
+  const openingShieldBonus =
+    roundTurn === 1 && activePlayer === state.round.startingPlayer
+      ? state.config.firstPlayerFirstTurnShieldBonus
+      : 0;
   const responseShieldBonus = isOpeningResponseTurn(state, activePlayer, roundTurn)
     ? state.config.secondPlayerFirstTurnShieldBonus
     : 0;
   const activeCombat: PlayerCombatState = {
     ...state.combat[activePlayer],
-    shield: Math.min(state.config.maxShieldPerPlayer, state.combat[activePlayer].shield + responseShieldBonus),
+    shield: Math.min(
+      state.config.maxShieldPerPlayer,
+      state.combat[activePlayer].shield + openingShieldBonus + responseShieldBonus,
+    ),
     nextTurnDrawBonus: 0,
   };
   let nextState: MatchState = {
