@@ -8,6 +8,7 @@ import {
   chooseAdventureForgeForBot,
   chooseAdventureNodeForBot,
   chooseAdventureRewardForBot,
+  chooseAdventureSiteModeForBot,
   createAdventureDeckCard,
   createAdventureRun,
   enterAdventureNode,
@@ -240,5 +241,42 @@ describe("adventure bot helpers", () => {
     );
 
     expect(pickedCharm?.charmId).toBe("double-knot-rune");
+  });
+
+  it("keeps pathological learned adventure weights inside playable bounds", () => {
+    const run = startRun(91);
+    const weakCards = Array.from({ length: 8 }, (_, index) =>
+      createAdventureDeckCard(`weak-${index}`, {
+        ...getCardArchetype("sapling"),
+        id: `weak-${index}`,
+        name: `Weak ${index}`,
+        sides: { top: 1, right: 1, bottom: 1, left: 1 },
+        sourceType: "draft",
+      }),
+    );
+    const campRun = {
+      ...run,
+      phase: "site" as const,
+      deck: {
+        ...run.deck,
+        cards: [...run.deck.cards, ...weakCards],
+      },
+      siteState: {
+        kind: "camp" as const,
+        sourceNodeId: "camp-node",
+        selectedMode: null,
+      },
+    };
+
+    const mode = chooseAdventureSiteModeForBot(
+      campRun,
+      createWeights({
+        specialCardValue: 100,
+        deckTrimValue: -100,
+        restRouteBias: -100,
+      }),
+    );
+
+    expect(mode).toBe("remove");
   });
 });

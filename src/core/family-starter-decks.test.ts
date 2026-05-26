@@ -32,7 +32,8 @@ describe("V4 family starter decks", () => {
         expect(card.family).toBe(family);
         expect(card.rarity).toBe("common");
         expect(card.role).toBe(entry.role);
-        expect(card.effects).toHaveLength(1);
+        expect(card.effects?.length).toBeGreaterThanOrEqual(1);
+        expect(card.effects?.length).toBeLessThanOrEqual(2);
         expect(Math.max(...Object.values(card.sides))).toBeLessThanOrEqual(5);
         expect(Math.min(...Object.values(card.sides))).toBeGreaterThanOrEqual(1);
         expect(getCardStrength(card)).toBeGreaterThanOrEqual(10);

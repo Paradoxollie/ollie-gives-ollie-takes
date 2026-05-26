@@ -1,6 +1,7 @@
 import { getAdventureCharmOptions, getAdventureNode, getAdventureRewardOptions, listAvailableAdventureNodes } from "@/core/adventure";
 import { getLuckyCharmDefinition } from "@/core/config/luckyCharms";
 import { STARTER_DECK_FAMILIES } from "@/core/config/decks";
+import { ADVENTURE_BOT_WEIGHT_LIMITS } from "@/core/config/gameConfig";
 import { buildAdventureEnemyLoadout } from "@/core/adventure-enemy";
 import { getCardArchetype, getCardStrength } from "@/core/cards";
 import {
@@ -68,7 +69,9 @@ function resolveAdventureWeight<Key extends keyof typeof DEFAULT_ADVENTURE_WEIGH
   weights: TrainedBotWeights | null | undefined,
   key: Key,
 ): number {
-  return weights?.[key] ?? DEFAULT_ADVENTURE_WEIGHTS[key];
+  const rawValue = weights?.[key] ?? DEFAULT_ADVENTURE_WEIGHTS[key];
+  const limits = ADVENTURE_BOT_WEIGHT_LIMITS[key];
+  return Math.min(limits.max, Math.max(limits.min, rawValue));
 }
 
 interface BuildIntentProfile {
@@ -163,20 +166,21 @@ function cardBuildIntent(card: AdventureDeckCard["card"]): BuildIntentProfile {
 
 function getCardEffectDraftValue(card: AdventureDeckCard["card"]): number {
   return (card.effects ?? []).reduce((sum, effect) => {
+    const hybridModifier = effect.requiredHybridFamily ? 0.85 : 1;
     if (effect.kind === "deal-damage") {
-      return sum + effect.amount * (effect.trigger === "on-flip" ? 2.8 : 1.9);
+      return sum + effect.amount * (effect.trigger === "on-flip" ? 2.8 : 1.9) * hybridModifier;
     }
 
     if (effect.kind === "draw-next-turn") {
-      return sum + effect.amount * 2.5;
+      return sum + effect.amount * 2.5 * hybridModifier;
     }
 
     if (effect.kind === "gain-shield") {
-      return sum + effect.amount * 1.7;
+      return sum + effect.amount * 1.7 * hybridModifier;
     }
 
     if (effect.kind === "boost-self") {
-      return sum + effect.amount * (effect.directions === "all" ? 2.2 : 1.4);
+      return sum + effect.amount * (effect.directions === "all" ? 2.2 : 1.4) * hybridModifier;
     }
 
     return sum;
@@ -189,6 +193,10 @@ function countDuplicateBaseIds(run: AdventureRunState, baseArchetypeId: string |
   }
 
   return run.deck.cards.filter((entry) => (entry.card.baseArchetypeId ?? entry.card.id) === baseArchetypeId).length;
+}
+
+function countDeckFamily(run: AdventureRunState, family: CardFamily): number {
+  return run.deck.cards.filter((entry) => entry.card.family === family).length;
 }
 
 function rarityBonus(option: { rarity: AdventureRewardOption["rarity"] }, weights?: TrainedBotWeights | null): number {
@@ -215,6 +223,14 @@ function scoreDeckFit(card: AdventureDeckCard["card"], run: AdventureRunState, w
     ...run.deck.cards,
     { deckCardId: "virtual", card },
   ]).trimPressure);
+  const hybridFit = (card.effects ?? []).reduce((score, effect) => {
+    if (!effect.requiredHybridFamily) {
+      return score;
+    }
+
+    const hybridCount = countDeckFamily(run, effect.requiredHybridFamily);
+    return score + (hybridCount > 0 ? 7 + hybridCount * 0.9 : -4);
+  }, 0);
 
   return (
     (nextDeck.weakestDirectionValue - currentDeck.weakestDirectionValue) * 1.35 +
@@ -226,6 +242,7 @@ function scoreDeckFit(card: AdventureDeckCard["card"], run: AdventureRunState, w
     getCardFusionValue(card) * 0.35 +
     specialCardValue * 0.18 +
     scoreIntentAlignment(intent, cardBuildIntent(card)) * 0.05 +
+    hybridFit +
     rarityBias * 1.1 +
     trimPressureRelief * resolveAdventureWeight(weights, "deckTrimValue") * 0.22 -
     duplicatePenalty

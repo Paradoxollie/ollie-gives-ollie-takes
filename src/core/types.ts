@@ -106,9 +106,14 @@ export type CardEffect =
       trigger: "on-play" | "on-flip";
       kind: "gain-shield" | "deal-damage" | "draw-next-turn";
       amount: number;
+      sourceFamily?: CardFamily;
+      sourceCardInstanceId?: string;
+      sourceCardArchetypeId?: string;
+      sourceCardName?: string;
       condition?: CardEffectCondition;
       minFlips?: number;
       requiredFamilyCount?: number;
+      requiredHybridFamily?: CardFamily;
       scaleWithFamilyCount?: boolean;
       maxScale?: number;
     }
@@ -117,8 +122,13 @@ export type CardEffect =
       kind: "boost-self";
       amount: number;
       directions: CardBoostDirectionMode;
+      sourceFamily?: CardFamily;
+      sourceCardInstanceId?: string;
+      sourceCardArchetypeId?: string;
+      sourceCardName?: string;
       condition?: CardEffectCondition;
       requiredFamilyCount?: number;
+      requiredHybridFamily?: CardFamily;
       scaleWithFamilyCount?: boolean;
       maxScale?: number;
     };
@@ -126,6 +136,9 @@ export type CardEffect =
 export interface CardEffectEvent {
   playerId: PlayerId;
   sourceCardInstanceId: string;
+  sourceCardArchetypeId: string;
+  sourceCardName: string;
+  sourceFamily: CardFamily;
   kind: CardEffectKind;
   amount: number;
   description: string;

@@ -66,6 +66,9 @@ export interface AiLabCardSnapshot {
 
 export interface AiLabEffectTally {
   kind: CardEffectKind;
+  sourceCardId: string;
+  sourceCardName: string;
+  sourceFamily: CardFamily;
   count: number;
   amount: number;
 }
@@ -80,12 +83,15 @@ export interface AiLabMoveRecord {
   col: number;
   positionKind: AiLabPositionKind;
   card: AiLabCardSnapshot;
+  playedCards: AiLabCardSnapshot[];
   offeredCards: AiLabCardSnapshot[];
   ignoredCardIds: string[];
   adjacentFriendlyCount: number;
   adjacentEnemyCount: number;
   adjacentFriendlyFamilies: CardFamily[];
   adjacentEnemyFamilies: CardFamily[];
+  stackSize: number;
+  stackFamilies: CardFamily[];
   flippedCount: number;
   failedImpactCount: number;
   flipMargins: number[];
@@ -363,7 +369,7 @@ export interface AiLabGroupAnalysis {
 
 export interface AiLabComboAnalysis {
   id: string;
-  kind: "family-chain" | "friendly-adjacent" | "effect";
+  kind: "family-chain" | "friendly-adjacent" | "stack-hybrid" | "effect";
   label: string;
   count: number;
   wins: number;

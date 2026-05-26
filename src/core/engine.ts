@@ -316,6 +316,16 @@ function createStackFamilyCounts(cards: CardInstance[]): Partial<Record<CardInst
   return counts;
 }
 
+function cloneEffectsWithSourceFamily(card: CardInstance): CardEffect[] {
+  return cloneCardEffects(card.effects).map((effect) => ({
+    ...effect,
+    sourceFamily: effect.sourceFamily ?? card.family,
+    sourceCardInstanceId: effect.sourceCardInstanceId ?? card.instanceId,
+    sourceCardArchetypeId: effect.sourceCardArchetypeId ?? (card.baseArchetypeId ?? card.archetypeId),
+    sourceCardName: effect.sourceCardName ?? card.name,
+  }));
+}
+
 function aggregateStackSides(state: MatchState, cards: CardInstance[]): CardInstance["sides"] {
   return {
     top: clampSideValueForState(state, cards.reduce((sum, card) => sum + card.sides.top, 0)),
@@ -338,7 +348,7 @@ function createStackAggregateCard(state: MatchState, cards: CardInstance[], posi
     name: cards.length === 1 ? leadCard.name : `${leadCard.name} +${cards.length - 1}`,
     sides: aggregateStackSides(state, cards),
     manaCost: stackManaCost,
-    effects: cards.flatMap((card) => cloneCardEffects(card.effects)),
+    effects: cards.flatMap(cloneEffectsWithSourceFamily),
     buildTags: combineBuildTags(cards),
     preferredPositions: combinePreferredPositions(cards),
     hybridLinks: combineHybridLinks(cards),
@@ -386,15 +396,17 @@ function countEffectFamilySetup(
   board: Array<Array<BoardCard | null>>,
   sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId"> & Partial<Pick<BoardCard, "stackFamilyCounts">>,
   position: Position,
+  family: CardInstance["family"],
 ): number {
-  const localFamilyCount = sourceCard.stackFamilyCounts?.[sourceCard.family];
+  const localFamilyCount = sourceCard.stackFamilyCounts?.[family];
   if (localFamilyCount !== undefined) {
     return localFamilyCount;
   }
 
-  const baseCount = countBoardFamilies(board, sourceCard.owner)[sourceCard.family];
+  const baseCount = countBoardFamilies(board, sourceCard.owner)[family];
   const boardCard = board[position.row]?.[position.col] ?? null;
-  return boardCard?.instanceId === sourceCard.instanceId ? baseCount : baseCount + 1;
+  const sourceContribution = sourceCard.family === family ? 1 : 0;
+  return boardCard?.instanceId === sourceCard.instanceId ? baseCount : baseCount + sourceContribution;
 }
 
 function getEffectFamilyScale(
@@ -403,9 +415,17 @@ function getEffectFamilyScale(
   sourceCard: Pick<CardInstance, "owner" | "family" | "instanceId"> & Partial<Pick<BoardCard, "stackFamilyCounts">>,
   position: Position,
 ): number {
-  const familyCount = countEffectFamilySetup(state.board, sourceCard, position);
+  const sourceFamily = effect.sourceFamily ?? sourceCard.family;
+  const familyCount = countEffectFamilySetup(state.board, sourceCard, position, sourceFamily);
   const requiredCount = effect.requiredFamilyCount ?? 0;
   if (requiredCount > 0 && familyCount < requiredCount) {
+    return 0;
+  }
+
+  if (
+    effect.requiredHybridFamily &&
+    countEffectFamilySetup(state.board, sourceCard, position, effect.requiredHybridFamily) <= 0
+  ) {
     return 0;
   }
 
@@ -464,14 +484,23 @@ function describeBoostDirections(effect: Extract<CardEffect, { kind: "boost-self
 
 function createCardEffectEvent(
   playerId: PlayerId,
-  sourceCard: Pick<CardInstance, "instanceId">,
+  sourceCard: Pick<CardInstance, "archetypeId" | "baseArchetypeId" | "family" | "instanceId" | "name">,
+  effect: CardEffect,
   kind: CardEffectEvent["kind"],
   amount: number,
   description: string,
 ): CardEffectEvent {
+  const sourceCardInstanceId = effect.sourceCardInstanceId ?? sourceCard.instanceId;
+  const sourceCardArchetypeId = effect.sourceCardArchetypeId ?? (sourceCard.baseArchetypeId ?? sourceCard.archetypeId);
+  const sourceCardName = effect.sourceCardName ?? sourceCard.name;
+  const sourceFamily = effect.sourceFamily ?? sourceCard.family;
+
   return {
     playerId,
-    sourceCardInstanceId: sourceCard.instanceId,
+    sourceCardInstanceId,
+    sourceCardArchetypeId,
+    sourceCardName,
+    sourceFamily,
     kind,
     amount,
     description,
@@ -517,9 +546,10 @@ function applyCardBoostEffects<T extends CardInstance>(
       createCardEffectEvent(
         nextCard.owner,
         nextCard,
+        effect,
         effect.kind,
         totalIncrease,
-        `${nextCard.name}: +${totalIncrease} sur ${describeBoostDirections(effect)}${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+        `${effect.sourceCardName ?? nextCard.name}: +${totalIncrease} sur ${describeBoostDirections(effect)}${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
       ),
     );
   }
@@ -611,9 +641,10 @@ function resolveCardResourceEffects(options: {
         createCardEffectEvent(
           sourceCard.owner,
           sourceCard,
+          effect,
           effect.kind,
           applied,
-          `${sourceCard.name}: +${applied} bouclier${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+          `${effect.sourceCardName ?? sourceCard.name}: +${applied} bouclier${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
         ),
       );
       continue;
@@ -637,9 +668,10 @@ function resolveCardResourceEffects(options: {
         createCardEffectEvent(
           sourceCard.owner,
           sourceCard,
+          effect,
           effect.kind,
           applied,
-          `${sourceCard.name}: +${applied} pioche au prochain tour${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+          `${effect.sourceCardName ?? sourceCard.name}: +${applied} pioche au prochain tour${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
         ),
       );
       continue;
@@ -660,9 +692,10 @@ function resolveCardResourceEffects(options: {
       createCardEffectEvent(
         sourceCard.owner,
         sourceCard,
+        effect,
         effect.kind,
         damage.damageApplied,
-        `${sourceCard.name}: ${damage.damageApplied} degat${damage.damageApplied > 1 ? "s" : ""} direct${damage.damageApplied > 1 ? "s" : ""}${blockedText}${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+        `${effect.sourceCardName ?? sourceCard.name}: ${damage.damageApplied} degat${damage.damageApplied > 1 ? "s" : ""} direct${damage.damageApplied > 1 ? "s" : ""}${blockedText}${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
       ),
     );
   }
@@ -1502,10 +1535,12 @@ function resolvePlacementCombat(
     const defenderValue = baseDefenderValue + traitModifiers.defenseBonus;
     const margin = attackerValue - defenderValue;
 
-    let attackerWins = options.attackerWinsTies ? attackerValue >= defenderValue : attackerValue > defenderValue;
+    const stackTieBreaker = (placedCard.stackSize ?? 1) > (target.stackSize ?? 1);
+    const attackerWinsTie = Boolean(options.attackerWinsTies || stackTieBreaker);
+    let attackerWins = attackerWinsTie ? attackerValue >= defenderValue : attackerValue > defenderValue;
     if (
       attackerWins &&
-      options.attackerWinsTies &&
+      attackerWinsTie &&
       attackerValue === defenderValue &&
       target.owner === "player" &&
       hasPlayerCharm(state, "refuge-bark") &&

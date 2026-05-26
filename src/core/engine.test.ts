@@ -392,6 +392,41 @@ describe("flip combat resolution", () => {
     expect(nextState.metrics.totalFlips).toBe(0);
   });
 
+  it("lets a larger placed stack win equal values against a smaller stack", () => {
+    const board = makeBoard();
+    board[1][1] = withSides(makeBoardCard("enemy", "badger", "target", 1, 1), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 4,
+    });
+    const playerCard = { ...withSides(makeCard("player", "rune-mage", "hand"), { top: 1, right: 3, bottom: 1, left: 1 }), manaCost: 1 };
+    const stackSupport = { ...withSides(makeCard("player", "sapling", "stack"), { top: 1, right: 1, bottom: 1, left: 1 }), manaCost: 1 };
+
+    const state = makeState({
+      turn: {
+        index: 3,
+        roundTurn: 3,
+        activePlayer: "player",
+        choices: [playerCard, stackSupport],
+      },
+      board,
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: playerCard.instanceId,
+      cardInstanceIds: [playerCard.instanceId, stackSupport.instanceId],
+      position: { row: 1, col: 0 },
+    });
+
+    expect(nextState.lastMove?.impacts[0]).toMatchObject({
+      attackerValue: 4,
+      defenderValue: 4,
+      result: "flipped",
+    });
+    expect(nextState.board[1][1]?.owner).toBe("player");
+  });
+
   it("does not flip when the placed side is lower", () => {
     const board = makeBoard();
     board[1][1] = makeBoardCard("enemy", "mole", "target", 1, 1);
@@ -503,6 +538,65 @@ describe("flip combat resolution", () => {
 });
 
 describe("card effects", () => {
+  it("keeps stacked effects tied to the family of their source card", () => {
+    const familiarLead = { ...makeCard("player", "sapling", "lead"), manaCost: 1 };
+    const familiarSupport = { ...makeCard("player", "badger", "support"), manaCost: 1 };
+    const humanEffectCard = {
+      ...makeCard("player", "rune-mage", "human-effect"),
+      manaCost: 1,
+      effects: [{ trigger: "on-play", kind: "gain-shield", amount: 3, requiredFamilyCount: 2 } as const],
+    };
+    const state = makeState({
+      turn: {
+        activePlayer: "player",
+        choices: [familiarLead, familiarSupport, humanEffectCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: familiarLead.instanceId,
+      cardInstanceIds: [familiarLead.instanceId, familiarSupport.instanceId, humanEffectCard.instanceId],
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.combat.player.shield).toBe(0);
+    expect(nextState.lastMove?.effectEvents).toEqual([]);
+  });
+
+  it("activates hybrid effects only when the required family is in the same stack", () => {
+    const hybridHuman = {
+      ...makeCard("player", "rune-mage", "hybrid-human"),
+      manaCost: 1,
+      effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, requiredHybridFamily: "familiar" } as const],
+    };
+    const familiarSupport = { ...makeCard("player", "sapling", "hybrid-familiar"), manaCost: 1 };
+    const soloState = makeState({
+      turn: {
+        activePlayer: "player",
+        choices: [hybridHuman],
+      },
+    });
+    const stackedState = makeState({
+      turn: {
+        activePlayer: "player",
+        choices: [hybridHuman, familiarSupport],
+      },
+    });
+
+    const afterSolo = applyMove(soloState, {
+      cardInstanceId: hybridHuman.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    const afterStack = applyMove(stackedState, {
+      cardInstanceId: hybridHuman.instanceId,
+      cardInstanceIds: [hybridHuman.instanceId, familiarSupport.instanceId],
+      position: { row: 0, col: 0 },
+    });
+
+    expect(afterSolo.combat.player.shield).toBe(0);
+    expect(afterStack.combat.player.shield).toBe(2);
+  });
+
   it("deals real direct champion damage after a flip effect", () => {
     const board = makeBoard();
     board[1][1] = withSides(makeBoardCard("enemy", "sapling", "target", 1, 1), {

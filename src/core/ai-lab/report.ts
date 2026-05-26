@@ -150,14 +150,17 @@ export function createAiLabInsights(
     const higherSummary = getModelSummary(pairing, higher.id);
 
     if (lowerSummary.winRate > higherSummary.winRate + 0.08) {
+      const hasStableSample = pairing.totalGames >= 8;
       insights.push({
         id: `skill-inversion-${pairing.scenarioId}-${lower.id}-vs-${higher.id}`,
-        severity: "problem",
+        severity: hasStableSample ? "problem" : "watch",
         title: "Inversion de niveau detectee",
         detail: `${lower.label} bat ${higher.label} sur ${pairing.scenarioLabel} (${formatPercent(
           lowerSummary.winRate,
         )} contre ${formatPercent(higherSummary.winRate)}).`,
-        recommendation: "Regarder les cartes ou situations qui recompensent trop le jeu immediat.",
+        recommendation: hasStableSample
+          ? "Regarder les cartes ou situations qui recompensent trop le jeu immediat."
+          : "Relancer avec au moins 8 matchs par pairing avant de conclure a un vrai probleme de niveau.",
       });
     }
 

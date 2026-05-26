@@ -16,7 +16,7 @@ import type {
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
 import { applyMove, createMatch, getMoveCardInstanceIds, passTurn } from "@/core/engine";
-import type { BoardCard, CardEffectKind, CardInstance, PlayerId, Position } from "@/core/types";
+import type { BoardCard, CardEffectEvent, CardInstance, PlayerId, Position } from "@/core/types";
 import { getAdjacentPositions } from "@/core/utils/board";
 import { mixSeed } from "@/core/utils/rng";
 
@@ -129,21 +129,27 @@ function collectAdjacentCards(
   };
 }
 
-function tallyEffects(events: Array<{ kind: CardEffectKind; amount: number }>): AiLabEffectTally[] {
-  const tallies = new Map<CardEffectKind, AiLabEffectTally>();
+function tallyEffects(events: CardEffectEvent[]): AiLabEffectTally[] {
+  const tallies = new Map<string, AiLabEffectTally>();
 
   for (const event of events) {
-    const tally = tallies.get(event.kind) ?? {
+    const key = `${event.sourceCardArchetypeId}:${event.kind}`;
+    const tally = tallies.get(key) ?? {
       kind: event.kind,
+      sourceCardId: event.sourceCardArchetypeId,
+      sourceCardName: event.sourceCardName,
+      sourceFamily: event.sourceFamily,
       count: 0,
       amount: 0,
     };
     tally.count += 1;
     tally.amount += event.amount;
-    tallies.set(event.kind, tally);
+    tallies.set(key, tally);
   }
 
-  return Array.from(tallies.values()).sort((left, right) => left.kind.localeCompare(right.kind));
+  return Array.from(tallies.values()).sort(
+    (left, right) => left.sourceCardId.localeCompare(right.sourceCardId) || left.kind.localeCompare(right.kind),
+  );
 }
 
 /**
@@ -190,6 +196,9 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
 
     const moveCardIds = getMoveCardInstanceIds(decision.move);
     const playedCardIds = new Set(moveCardIds);
+    const stackCards = moveCardIds
+      .map((instanceId) => state.turn.choices.find((card) => card.instanceId === instanceId) ?? null)
+      .filter((card): card is CardInstance => card !== null);
     const chosenCard = state.turn.choices.find((card) => card.instanceId === moveCardIds[0]);
     if (!chosenCard) {
       throw new Error(`AI model ${modelId} selected a card that is not in the current choices.`);
@@ -227,6 +236,7 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
       col: lastMove.position.col,
       positionKind: getPositionKind(lastMove.position, state.config.boardSize),
       card: cardSnapshot(chosenCard),
+      playedCards: stackCards.map(cardSnapshot),
       offeredCards,
       ignoredCardIds: offeredCards
         .filter((card) => !playedCardIds.has(card.instanceId))
@@ -235,6 +245,8 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
       adjacentEnemyCount: adjacentCards.enemy.length,
       adjacentFriendlyFamilies: adjacentCards.friendly.map((card) => card.family).sort(),
       adjacentEnemyFamilies: adjacentCards.enemy.map((card) => card.family).sort(),
+      stackSize: stackCards.length,
+      stackFamilies: stackCards.map((card) => card.family).sort(),
       flippedCount: flippedImpacts.length,
       failedImpactCount: noFlipImpacts.length,
       flipMargins,

@@ -67,6 +67,9 @@ function inferBuildTags(options: {
     if (effect.requiredFamilyCount) {
       tags.add(`combo-${effect.requiredFamilyCount}`);
     }
+    if (effect.requiredHybridFamily) {
+      tags.add(`hybrid-${effect.requiredHybridFamily}`);
+    }
     if ("minFlips" in effect && effect.minFlips) {
       tags.add(`flip-${effect.minFlips}`);
     }
@@ -147,7 +150,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "sapling",
     name: "Floramie toxique",
-    sides: { top: 2, right: 4, bottom: 4, left: 1 },
+    sides: { top: 2, right: 4, bottom: 4, left: 2 },
     family: "familiar",
     accent: "sprout",
     effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
@@ -212,10 +215,13 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "hornling",
     name: "Cornu farceur",
-    sides: { top: 3, right: 2, bottom: 4, left: 2 },
+    sides: { top: 3, right: 3, bottom: 4, left: 2 },
     family: "demon",
     accent: "demon",
-    effects: [{ trigger: "on-play", kind: "deal-damage", amount: 1, condition: "adjacent-enemy" }],
+    effects: [
+      { trigger: "on-play", kind: "deal-damage", amount: 1, condition: "adjacent-enemy" },
+      { trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "adjacent-enemy", requiredHybridFamily: "revenant" },
+    ],
   }),
   draftCard({
     id: "ash-whisper",
@@ -228,10 +234,10 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "pact-sprite",
     name: "Lutin a pacte",
-    sides: { top: 3, right: 2, bottom: 3, left: 3 },
+    sides: { top: 3, right: 3, bottom: 3, left: 3 },
     family: "demon",
     accent: "demon",
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "adjacent-enemy" }],
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "adjacent-enemy", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "little-abyss",
@@ -264,16 +270,19 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 4, left: 2 },
     family: "human",
     accent: "steel",
-    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "rune-mage",
     name: "Mage des runes",
-    sides: { top: 3, right: 5, bottom: 2, left: 2 },
+    sides: { top: 3, right: 4, bottom: 2, left: 2 },
     family: "human",
     accent: "mist",
     manaCost: 1,
-    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1 }],
+    effects: [
+      { trigger: "on-play", kind: "draw-next-turn", amount: 1 },
+      { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+    ],
   }),
   draftCard({
     id: "path-ranger",
@@ -346,11 +355,11 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "tin-oracle",
     name: "Oracle de fer-blanc",
-    sides: { top: 3, right: 5, bottom: 3, left: 1 },
+    sides: { top: 3, right: 4, bottom: 3, left: 2 },
     family: "automaton",
     accent: "arcane",
     preferredPositions: ["corner"],
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "all", condition: "corner" }],
+    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "all", condition: "corner", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
   }),
   draftCard({
     id: "copper-beetle",
@@ -404,18 +413,24 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
   draftCard({
     id: "widow-knight",
     name: "Chevalier veuf",
-    sides: { top: 3, right: 5, bottom: 2, left: 2 },
+    sides: { top: 4, right: 5, bottom: 2, left: 1 },
     family: "revenant",
     accent: "shadow",
-    effects: [{ trigger: "on-flip", kind: "deal-damage", amount: 2, minFlips: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [
+      { trigger: "on-flip", kind: "deal-damage", amount: 2, minFlips: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+      { trigger: "on-play", kind: "gain-shield", amount: 1, requiredHybridFamily: "demon" },
+    ],
   }),
   draftCard({
     id: "moth-ghost",
     name: "Fantome phalene",
-    sides: { top: 5, right: 2, bottom: 3, left: 2 },
+    sides: { top: 4, right: 3, bottom: 3, left: 2 },
     family: "revenant",
     accent: "glow",
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest" }],
+    effects: [
+      { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest" },
+      { trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+    ],
   }),
   draftCard({
     id: "hollow-page",

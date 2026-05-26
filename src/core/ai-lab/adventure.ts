@@ -114,7 +114,27 @@ function getModelAdventureWeights(modelId: AiPlayerModelId): TrainedBotWeights |
   }
 
   if (modelId === "expert") {
-    return cloneWeights(trainedWeights);
+    return {
+      ...trainedWeights,
+      specialCardValue: 8,
+      deckTrimValue: 7,
+      eliteRouteBias: -2,
+      restRouteBias: 6,
+      forgeRouteBias: 5,
+      treasureRouteBias: 7,
+      branchingRouteBias: 5,
+      riskTolerance: 2,
+      aggressionPlanBias: 4,
+      controlPlanBias: 8,
+      tempoPlanBias: 5,
+      fusionPlanBias: 5,
+      precisionPlanBias: 8,
+      uncommonCardBias: 4,
+      rareCardBias: 6,
+      charmSynergyBias: 5,
+      duplicateCardPenalty: 5,
+      enemyProfileRespect: 8,
+    };
   }
 
   if (modelId === "opportunist") {

@@ -53,6 +53,16 @@ const RARE_REWARD_TEMPLATES: CardSides[] = [
 ];
 
 const REWARD_FAMILY_ROTATION: CardFamily[] = ["familiar", "demon", "human", "automaton", "revenant", "arcane"];
+const REWARD_HYBRID_LINKS: Record<CardFamily, CardFamily[]> = {
+  familiar: ["human", "arcane", "automaton"],
+  demon: ["revenant", "arcane", "human"],
+  human: ["familiar", "automaton", "arcane"],
+  automaton: ["arcane", "human", "familiar"],
+  revenant: ["demon", "human", "arcane"],
+  arcane: ["automaton", "demon", "familiar"],
+  dragon: ["arcane", "demon"],
+  renegade: ["human", "revenant"],
+};
 
 function createRewardTemplates(rarity: CardRarity, templates: CardSides[]): RewardTemplate[] {
   return templates.map((sides, index) => ({
@@ -148,6 +158,9 @@ function rewardBuildTags(options: {
     if (effect.requiredFamilyCount) {
       tags.add(`combo-${effect.requiredFamilyCount}`);
     }
+    if (effect.requiredHybridFamily) {
+      tags.add(`hybrid-${effect.requiredHybridFamily}`);
+    }
   }
   return [...tags];
 }
@@ -174,36 +187,76 @@ function rewardComboSetup(rarity: CardRarity): Pick<CardEffect, "requiredFamilyC
   };
 }
 
+function rewardHybridFamily(family: CardFamily, index: number): CardFamily {
+  const links = REWARD_HYBRID_LINKS[family];
+  return links[(index - 1) % links.length];
+}
+
+function rewardHybridEffect(rarity: CardRarity, family: CardFamily, index: number): CardEffect | null {
+  if (rarity === "common" || index % 2 !== 0) {
+    return null;
+  }
+
+  const hybridFamily = rewardHybridFamily(family, index);
+  const amount = rarity === "rare" ? 2 : 1;
+  switch (family) {
+    case "familiar":
+      return { trigger: "on-play", kind: "gain-shield", amount, requiredHybridFamily: hybridFamily };
+    case "demon":
+      return { trigger: "on-play", kind: "deal-damage", amount: 1, condition: "adjacent-enemy", requiredHybridFamily: hybridFamily };
+    case "human":
+      return { trigger: "on-play", kind: "draw-next-turn", amount: 1, requiredHybridFamily: hybridFamily };
+    case "automaton":
+      return { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", requiredHybridFamily: hybridFamily };
+    case "revenant":
+      return { trigger: "on-play", kind: "gain-shield", amount, condition: "behind-on-board", requiredHybridFamily: hybridFamily };
+    case "arcane":
+      return { trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "center", requiredHybridFamily: hybridFamily };
+    default:
+      return null;
+  }
+}
+
 function rewardEffects(rarity: CardRarity, family: CardFamily, index: number): CardEffect[] {
   const amount = rarity === "rare" ? 2 : 1;
   const combo = rewardComboSetup(rarity);
+  let primaryEffects: CardEffect[];
 
   switch (family) {
     case "familiar":
-      return index % 2 === 0
+      primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "gain-shield", amount, condition: "adjacent-ally", ...combo }]
         : [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1, ...combo }];
+      break;
     case "demon":
-      return [{ trigger: "on-flip", kind: "deal-damage", amount, minFlips: 1, ...combo }];
+      primaryEffects = [{ trigger: "on-flip", kind: "deal-damage", amount, minFlips: 1, ...combo }];
+      break;
     case "human":
-      return index % 2 === 0
+      primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, ...combo }]
         : [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, ...combo }];
+      break;
     case "automaton":
-      return index % 2 === 0
+      primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "corner", ...combo }]
         : [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "corner", ...combo }];
+      break;
     case "revenant":
-      return index % 2 === 0
+      primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", ...combo }]
         : [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "behind-on-board", ...combo }];
+      break;
     case "arcane":
-      return index % 2 === 0
+      primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "center", ...combo }]
         : [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "center", ...combo }];
+      break;
     default:
-      return [];
+      primaryEffects = [];
   }
+
+  const hybridEffect = rewardHybridEffect(rarity, family, index);
+  return hybridEffect ? [...primaryEffects, hybridEffect] : primaryEffects;
 }
 
 const REWARD_TEMPLATES: RewardTemplate[] = [
@@ -229,17 +282,7 @@ export const ADVENTURE_REWARD_ARCHETYPES: ReadonlyArray<AdventureRewardArchetype
       buildTags: rewardBuildTags({ rarity, family, role, effects }),
       preferredPositions: rewardPreferredPositions(family, index),
       hybridLinks:
-        family === "familiar"
-          ? ["human", "automaton", "arcane"]
-          : family === "demon"
-            ? ["revenant", "arcane", "human"]
-            : family === "human"
-              ? ["familiar", "automaton", "arcane"]
-              : family === "automaton"
-                ? ["familiar", "human", "arcane"]
-                : family === "revenant"
-                  ? ["demon", "human", "arcane"]
-                  : ["familiar", "demon", "automaton"],
+        REWARD_HYBRID_LINKS[family],
       deckbuildingObjective: rewardObjective(rarity, family, role),
       counterplay: "Deny its setup condition or force it onto a weak side before the payoff turn.",
       sourceType: "reward",

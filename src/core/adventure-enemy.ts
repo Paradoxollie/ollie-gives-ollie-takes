@@ -354,7 +354,7 @@ function createSignaturePlan(
         ? 3
         : node.kind === "elite"
           ? 2
-          : totalUpgradeCards >= 3
+          : profile.id === "builder" || profile.id === "shaper" || totalUpgradeCards >= 3
             ? 1
             : 0;
 
@@ -631,7 +631,7 @@ function getSearchDepth(run: AdventureRunState, node: AdventureNode, profile: Ma
   if (node.kind === "boss") {
     depth = 3;
   } else if (node.kind === "elite") {
-    depth = clearedBeforeNode >= 6 ? 3 : 2;
+    depth = clearedBeforeNode >= 5 ? 3 : 2;
   } else {
     // Progressive: first 2 combats depth 1, then ramp up
     depth = combatsDone <= 1 ? 1 : clearedBeforeNode >= 5 ? 2 : 1;

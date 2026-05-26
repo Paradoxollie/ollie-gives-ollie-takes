@@ -10,3 +10,14 @@ Original prompt: ok fais les corrections. ameliore encore le jeu pour que ce soi
 - Browser verification on `http://localhost:3000`: `/lab/ai`, `/game`, and `/playtest` load. Manual Playwright flow confirmed: dismiss coin toss, pick a board cell, stack two cards within mana, confirm the move, then the AI responds with its own stack. No console errors were captured.
 - Follow-up applied after larger 12/6 AI-lab validation: opening initiative shield, stack side cap 10, softer adventure routing/enemy scaling, stronger reward fit, clearer Path Ranger/Star Witch/Mage/Monk roles, and calibrated AI-lab ladder widths. Latest applied snapshot is `ai-lab-20260524-081417`.
 - Remaining design signals to inspect next: first-player win rate is still only 33.3% on this sample, flips/turn remain low at 0.14, and Widow Knight / Tin Oracle / Pact Sprite are still under-selected.
+
+## 2026-05-26
+
+- Synced local branch to latest `origin/main` snapshot `ai-lab-20260526-165334`.
+- Current report signals: flips per turn still low (~0.17), champion trails expert, beginner/regular runs stall before boss too often, Field Knight overperforms, Moth Ghost / Widow Knight / Hornling underperform or get ignored.
+- Implemented source-family tracking for stacked effects so each card's own family thresholds resolve correctly inside mixed stacks.
+- Added explicit hybrid stack requirements for selected effects and AI-lab combo tracking for mixed-family stacks.
+- First targeted validation passed: `npm test -- src/core/engine.test.ts src/core/family-starter-decks.test.ts src/core/ai-lab/ai-lab.test.ts` and `npx tsc --noEmit --pretty false`.
+- Final pass: hybrid reward scoring, safer adventure-route weight bounds, stronger expert model separation, more contact-seeking bots, builder/shaper signature enemy cards, and clearer small-sample AI-lab severity.
+- Applied snapshot `ai-lab-20260526-184735`: 0 problem signals, all starter cards/families healthy, expert now clearly above regular on the local ladder; remaining watch signals are low-sample rhythm/route checks.
+- Full validation passed: `npm test` (18 files / 112 tests), `npx tsc --noEmit --pretty false`, `npm run build`, and Playwright smoke on `/lab/ai` + `/game` with a manual stacked move and AI response.

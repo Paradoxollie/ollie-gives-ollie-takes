@@ -238,6 +238,7 @@ function recordPlayedMove(
   accumulator: MetricAccumulator,
   result: AiLabMatchResult,
   move: AiLabMoveRecord,
+  card: AiLabCardSnapshot,
   outcome: MoveOutcome,
 ): void {
   accumulator.played += 1;
@@ -252,7 +253,7 @@ function recordPlayedMove(
   accumulator.totalDamageTaken += move.damageTaken;
   accumulator.lethalMoves += move.lethal ? 1 : 0;
   accumulator.roundClosers += move.roundEnded ? 1 : 0;
-  recordCardBreakdown(accumulator, move.card, outcome);
+  recordCardBreakdown(accumulator, card, outcome);
 
   const modelUse = getOrCreateUse(accumulator.byModel, move.modelId);
   modelUse.played += 1;
@@ -266,16 +267,17 @@ function recordPlayedMove(
 function recordPlayed(
   result: AiLabMatchResult,
   move: AiLabMoveRecord,
+  card: AiLabCardSnapshot,
   outcome: MoveOutcome,
   cards: Map<string, CardAccumulator>,
   families: Map<string, GroupAccumulator>,
   roles: Map<string, GroupAccumulator>,
   rarities: Map<string, GroupAccumulator>,
 ): void {
-  recordPlayedMove(getOrCreateCard(cards, move.card), result, move, outcome);
-  recordPlayedMove(getOrCreateGroup(families, move.card.family, move.card.family), result, move, outcome);
-  recordPlayedMove(getOrCreateGroup(roles, roleId(move.card), roleLabel(move.card)), result, move, outcome);
-  recordPlayedMove(getOrCreateGroup(rarities, move.card.rarity, move.card.rarity), result, move, outcome);
+  recordPlayedMove(getOrCreateCard(cards, card), result, move, card, outcome);
+  recordPlayedMove(getOrCreateGroup(families, card.family, card.family), result, move, card, outcome);
+  recordPlayedMove(getOrCreateGroup(roles, roleId(card), roleLabel(card)), result, move, card, outcome);
+  recordPlayedMove(getOrCreateGroup(rarities, card.rarity, card.rarity), result, move, card, outcome);
 }
 
 function classifyStatus(stats: {
@@ -632,7 +634,7 @@ function createComboRecommendation(combo: AiLabComboAnalysis): AiLabBalanceRecom
 
   return {
     id: `combo-${combo.id}`,
-    severity: combo.kind === "effect" && combo.winRate >= 0.8 && combo.count >= 8 ? "problem" : "watch",
+    severity: combo.kind === "effect" && combo.winRate >= 0.8 && combo.count >= 24 ? "problem" : "watch",
     target: "combo",
     action: "verify",
     confidence: recommendationConfidence(combo.count),
@@ -684,6 +686,26 @@ function recordCombosForMatch(result: AiLabMatchResult, combos: Map<string, Comb
     }
     lastMoveBySeat.set(move.playerId, move);
 
+    const stackFamilies = [...new Set(move.stackFamilies)].sort();
+    if (stackFamilies.length >= 2) {
+      for (let leftIndex = 0; leftIndex < stackFamilies.length; leftIndex += 1) {
+        for (let rightIndex = leftIndex + 1; rightIndex < stackFamilies.length; rightIndex += 1) {
+          const leftFamily = stackFamilies[leftIndex];
+          const rightFamily = stackFamilies[rightIndex];
+          recordCombo(
+            getOrCreateCombo(
+              combos,
+              `stack-hybrid:${leftFamily}+${rightFamily}`,
+              "stack-hybrid",
+              `${leftFamily} + ${rightFamily} dans la pile`,
+            ),
+            move,
+            outcome,
+          );
+        }
+      }
+    }
+
     for (const family of move.adjacentFriendlyFamilies) {
       recordCombo(
         getOrCreateCombo(
@@ -701,9 +723,9 @@ function recordCombosForMatch(result: AiLabMatchResult, combos: Map<string, Comb
       recordCombo(
         getOrCreateCombo(
           combos,
-          `effect:${move.card.cardId}:${effect.kind}`,
+          `effect:${effect.sourceCardId}:${effect.kind}`,
           "effect",
-          `${move.card.name} -> ${effect.kind}`,
+          `${effect.sourceCardName} -> ${effect.kind}`,
         ),
         move,
         outcome,
@@ -734,7 +756,9 @@ export function summarizeAiLabDiagnostics(results: AiLabMatchResult[]): AiLabDes
           recordIgnored(snapshot, cards, families, roles, rarities);
         }
       }
-      recordPlayed(result, move, outcome, cards, families, roles, rarities);
+      for (const playedCard of move.playedCards) {
+        recordPlayed(result, move, playedCard, outcome, cards, families, roles, rarities);
+      }
     }
   }
 

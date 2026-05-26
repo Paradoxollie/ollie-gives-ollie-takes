@@ -1,4 +1,4 @@
-import type { CardEffect, CardEffectCondition, CardEffectKind } from "@/core/types";
+import type { CardEffect, CardEffectCondition, CardEffectKind, CardFamily } from "@/core/types";
 
 const CONDITION_COPY: Record<CardEffectCondition, string> = {
   always: "",
@@ -22,6 +22,17 @@ const ICON_LABELS: Record<CardEffectKind, string> = {
   "deal-damage": "Attaque",
   "draw-next-turn": "Pioche",
   "boost-self": "Canalisation",
+};
+
+const FAMILY_COPY: Record<CardFamily, string> = {
+  familiar: "familier",
+  demon: "demon",
+  human: "humain",
+  automaton: "automate",
+  revenant: "revenant",
+  arcane: "arcane",
+  dragon: "dragon",
+  renegade: "renegat",
 };
 
 function effectAmountText(effect: CardEffect): string {
@@ -55,8 +66,9 @@ export function formatCardEffect(effect: CardEffect): string {
   const trigger = effect.trigger === "on-play" ? "Pose" : `Flip${effect.minFlips ? ` ${effect.minFlips}+` : ""}`;
   const condition = effect.condition && effect.condition !== "always" ? ` ${CONDITION_COPY[effect.condition]}` : "";
   const combo = effect.requiredFamilyCount ? ` Pile ${effect.requiredFamilyCount}${effect.scaleWithFamilyCount ? "+" : ""}` : "";
+  const hybrid = effect.requiredHybridFamily ? ` Pile avec ${FAMILY_COPY[effect.requiredHybridFamily]}` : "";
   const scale = effect.scaleWithFamilyCount ? `, compte les familles dans la pile${effect.maxScale ? ` jusqu'a x${effect.maxScale}` : ""}` : "";
-  return `${trigger}${condition}${combo}: ${KIND_COPY[effect.kind]} ${effectAmountText(effect)}${scale}.`;
+  return `${trigger}${condition}${combo}${hybrid}: ${KIND_COPY[effect.kind]} ${effectAmountText(effect)}${scale}.`;
 }
 
 /**

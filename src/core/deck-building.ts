@@ -64,7 +64,7 @@ export function analyzeDeckBuildProfileFromCards(cards: ReadonlyArray<CardArchet
     return roleCounts[role] === 0;
   });
   const hybridFamilies = CARD_FAMILIES.filter(
-    (family) => family !== dominantFamily && familyCounts[family] >= 3,
+    (family) => family !== dominantFamily && familyCounts[family] >= 2,
   );
 
   return {
@@ -90,9 +90,16 @@ export function analyzeAdventureDeckBuildProfileV4(deck: AdventureDeckState): De
 export function explainRewardFit(card: CardArchetype, deck: AdventureDeckState): string {
   const profile = analyzeAdventureDeckBuildProfileV4(deck);
   const copies = profile.copyCountsByBaseId[baseId(card)] ?? 0;
+  const requiredHybridFamilies = new Set((card.effects ?? []).flatMap((effect) => effect.requiredHybridFamily ? [effect.requiredHybridFamily] : []));
 
   if (copies > 0) {
     return `Copie ${copies + 1}: rend ${card.name} plus regulier dans le deck.`;
+  }
+
+  for (const hybridFamily of requiredHybridFamilies) {
+    if (profile.familyCounts[hybridFamily] > 0) {
+      return `Combo hybride: se declenche avec tes cartes ${hybridFamily}.`;
+    }
   }
 
   if (profile.missingRoles.includes(card.role ?? "engine")) {

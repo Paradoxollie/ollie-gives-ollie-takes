@@ -133,10 +133,10 @@ function scoreMove(state: MatchState, preview: PreviewMove): number {
   const roundClosingBonus = preview.roundEnds ? roundDamageAdvantage * 120 + roundControlAdvantage * 50 : 0;
   const effectTempoValue = getEffectTempoValue(preview, activePlayer);
   const boardProgressBonus = (preview.boardOccupancyAfterCombat / (state.config.boardSize * state.config.boardSize)) * 22;
-  const directFlipValue = preview.flippedCount * 150;
-  const controlValue = controlDelta * 42;
+  const directFlipValue = preview.flippedCount * 290;
+  const controlValue = controlDelta * 54;
   const drawPenalty = preview.resultingWinner === "draw" ? 160 : 0;
-  const exposedEnemyBonus = preview.impacts.filter((impact) => impact.result === "no-flip" && impact.targetOwnerBeforeImpact === opponent).length * 4;
+  const exposedEnemyBonus = preview.impacts.filter((impact) => impact.result === "no-flip" && impact.targetOwnerBeforeImpact === opponent).length * 8;
 
   return (
     outcomeBonus +
@@ -144,11 +144,11 @@ function scoreMove(state: MatchState, preview: PreviewMove): number {
     effectTempoValue +
     controlValue +
     roundClosingBonus +
-    stabilityScore * 5 +
+    stabilityScore * 2.6 +
     boardProgressBonus +
     preview.positionWeight * 9 +
     exposedEnemyBonus -
-    opponentThreatPenalty * 4 -
+    opponentThreatPenalty * 1.2 -
     drawPenalty
   );
 }
@@ -191,7 +191,7 @@ export function evaluateHeuristicState(state: MatchState, perspective: PlayerId)
 }
 
 function orderCandidatePreviews(state: MatchState, beamWidth: number): Array<{ preview: PreviewMove; score: number }> {
-  return buildMovePreviewTable(state, Math.max(12, Math.min(24, beamWidth * 2)))
+  return buildMovePreviewTable(state, Math.max(18, Math.min(24, beamWidth * 3)))
     .map((preview) => ({
       preview,
       score: scoreMove(state, preview),

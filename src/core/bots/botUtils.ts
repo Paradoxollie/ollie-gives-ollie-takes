@@ -86,10 +86,16 @@ function hasPositionSetup(state: MatchState, card: CardInstance, position: Posit
   });
 }
 
-function scoreCardEffectPotential(card: CardInstance): number {
+function scoreCardEffectPotential(card: CardInstance, stackFamilyCounts: Map<CardInstance["family"], number>): number {
   return (card.effects ?? []).reduce((sum, effect) => {
     const conditionPenalty = effect.condition && effect.condition !== "always" ? 0.82 : 1;
+    const sourceFamily = effect.sourceFamily ?? card.family;
+    const sourceCount = stackFamilyCounts.get(sourceFamily) ?? 0;
+    const sameFamilyReady = !effect.requiredFamilyCount || sourceCount >= effect.requiredFamilyCount;
+    const hybridReady = !effect.requiredHybridFamily || (stackFamilyCounts.get(effect.requiredHybridFamily) ?? 0) > 0;
+    const readiness = sameFamilyReady && hybridReady ? 1 : 0.38;
     const comboBonus = effect.requiredFamilyCount ? 1.22 : 1;
+    const hybridBonus = effect.requiredHybridFamily ? 1.18 : 1;
     const scaleBonus = effect.scaleWithFamilyCount ? 1.16 : 1;
     let base = 0;
 
@@ -108,23 +114,28 @@ function scoreCardEffectPotential(card: CardInstance): number {
         break;
     }
 
-    return sum + base * conditionPenalty * comboBonus * scaleBonus;
+    return sum + base * conditionPenalty * comboBonus * hybridBonus * scaleBonus * readiness;
   }, 0);
 }
 
 function getMovePrePreviewScore(state: MatchState, move: MoveInput): number {
   const cards = getMoveCards(state, move);
-  const familyCounts = new Map<string, number>();
+  const familyCounts = new Map<CardInstance["family"], number>();
   for (const card of cards) {
     familyCounts.set(card.family, (familyCounts.get(card.family) ?? 0) + 1);
   }
   const localFamilySynergy = [...familyCounts.values()].reduce((best, count) => Math.max(best, count), 0);
+  const distinctFamilies = familyCounts.size;
+  const hybridLinks = cards.reduce((sum, card) => {
+    return sum + cards.filter((candidate) => candidate.family !== card.family && card.hybridLinks?.includes(candidate.family)).length;
+  }, 0);
   const manaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
   const positionWeight = POSITION_WEIGHTS[move.position.row]?.[move.position.col] ?? 0;
-  const effectPotential = cards.reduce((sum, card) => sum + scoreCardEffectPotential(card), 0);
+  const effectPotential = cards.reduce((sum, card) => sum + scoreCardEffectPotential(card, familyCounts), 0);
   const positionSetupBonus = cards.filter((card) => hasPositionSetup(state, card, move.position)).length * 20;
   const stackComboBonus = cards.length >= 2 ? localFamilySynergy * 18 + cards.length * 9 : 0;
-  const enemyContactBonus = countEnemyAdjacency(state.board, move.position, state.turn.activePlayer) * 34;
+  const hybridStackBonus = cards.length >= 2 && distinctFamilies >= 2 ? hybridLinks * 10 + distinctFamilies * 7 : 0;
+  const enemyContactBonus = countEnemyAdjacency(state.board, move.position, state.turn.activePlayer) * 46;
 
   return (
     positionWeight * 14 +
@@ -134,6 +145,7 @@ function getMovePrePreviewScore(state: MatchState, move: MoveInput): number {
     effectPotential +
     positionSetupBonus +
     stackComboBonus +
+    hybridStackBonus +
     enemyContactBonus +
     manaCost * 5
   );

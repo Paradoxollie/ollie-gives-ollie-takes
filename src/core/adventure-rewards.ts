@@ -127,6 +127,14 @@ function scoreRewardEffectFit(card: CardArchetype, playerDeck: AdventureDeckStat
           : -ADVENTURE_REWARD_FIT_CONFIG.inactiveFamilyConditionPenalty;
     }
 
+    if (effect.requiredHybridFamily) {
+      const hybridCount = profile.familyCounts[effect.requiredHybridFamily] ?? 0;
+      nextScore +=
+        hybridCount > 0 || profile.dominantFamily === effect.requiredHybridFamily
+          ? ADVENTURE_REWARD_FIT_CONFIG.activeHybridConditionScore
+          : -ADVENTURE_REWARD_FIT_CONFIG.inactiveHybridConditionPenalty;
+    }
+
     if (effect.condition === "adjacent-ally" || effect.condition === "adjacent-enemy") {
       nextScore += ADVENTURE_REWARD_FIT_CONFIG.adjacentSetupScore;
     }
@@ -169,6 +177,10 @@ function scoreRewardDeckFit(card: CardArchetype, playerDeck: AdventureDeckState 
   if (profile.dominantFamily === card.family) {
     score += ADVENTURE_REWARD_FIT_CONFIG.sameFamilyScore;
   } else if (profile.dominantFamily && card.hybridLinks?.includes(profile.dominantFamily)) {
+    score += ADVENTURE_REWARD_FIT_CONFIG.hybridFamilyScore;
+  }
+
+  if ((card.effects ?? []).some((effect) => effect.requiredHybridFamily === profile.dominantFamily)) {
     score += ADVENTURE_REWARD_FIT_CONFIG.hybridFamilyScore;
   }
 
