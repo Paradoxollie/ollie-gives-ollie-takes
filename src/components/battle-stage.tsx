@@ -1,12 +1,27 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 
+import { CardMotionShell, type CardMotionKind } from "@/components/card-motion-shell";
 import { CardView } from "@/components/card-view";
-import { CARD_FAMILY_DEFINITIONS, countBoardFamilies } from "@/core";
+import { CharmBuffBar } from "@/components/charm-buff-bar";
+import { GameSigilIcon } from "@/components/game-sigil-icon";
+import { OllieAvatar } from "@/components/ollie-avatar";
+import { CARD_FAMILY_DEFINITIONS, countBoardFamilies, countCardFamilies } from "@/core";
 import { getFamilyCrestArtSrc } from "@/core/config/cardArt";
-import type { BoardCard, CardFamily, CardInstance, ControlTotals, MatchState, PlayerId, Position, PreviewMove } from "@/core/types";
-import { getUnitVisual, type UnitAnimationKey, type UnitVisualConfig } from "@/lib/unit-visuals";
+import type {
+  BoardCard,
+  CardFamily,
+  CardInstance,
+  CombatImpact,
+  ControlTotals,
+  Direction,
+  LastMoveSummary,
+  MatchState,
+  PlayerId,
+  Position,
+  PreviewMove,
+} from "@/core/types";
 
 interface BattleStageProps {
   match: MatchState;
@@ -34,906 +49,1034 @@ interface BattleStageProps {
   onReflectionCopy?: (cardInstanceId: string) => void;
 }
 
-type PointAnchor = {
-  x: number;
-  y: number;
-};
-
-type BoardCellLayout = {
-  row: 0 | 1 | 2;
-  col: 0 | 1 | 2;
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  unit: PointAnchor & { size: number };
-  points: {
-    top: PointAnchor;
-    right: PointAnchor;
-    bottom: PointAnchor;
-    left: PointAnchor;
-  };
-};
-
-type UnitAnimationState = UnitAnimationKey;
-type UnitBoardEvent = "causedFlip" | "wasFlipped";
-type BoardEventDirection = "left" | "right" | "up" | "down";
-
 const ACTIVE_FAMILIES = ["familiar", "demon", "human", "automaton", "revenant", "arcane"] satisfies CardFamily[];
 
-const FAMILY_BADGE_CLASS: Record<CardFamily, string> = {
-  familiar: "border-emerald-200/54 bg-emerald-300/14 text-emerald-50 shadow-[0_0_14px_rgba(110,231,183,0.14)]",
-  demon: "border-rose-300/58 bg-rose-500/16 text-rose-50 shadow-[0_0_14px_rgba(251,113,133,0.14)]",
-  human: "border-sky-200/56 bg-sky-300/14 text-sky-50 shadow-[0_0_14px_rgba(125,211,252,0.14)]",
-  automaton: "border-zinc-200/54 bg-zinc-200/14 text-zinc-50 shadow-[0_0_14px_rgba(228,228,231,0.12)]",
-  revenant: "border-violet-200/56 bg-violet-300/14 text-violet-50 shadow-[0_0_14px_rgba(196,181,253,0.14)]",
-  arcane: "border-cyan-200/56 bg-cyan-300/14 text-cyan-50 shadow-[0_0_14px_rgba(103,232,249,0.14)]",
-  dragon: "border-amber-200/58 bg-amber-300/14 text-amber-50 shadow-[0_0_14px_rgba(251,191,36,0.14)]",
-  renegade: "border-fuchsia-200/56 bg-fuchsia-300/14 text-fuchsia-50 shadow-[0_0_14px_rgba(240,171,252,0.14)]",
+const OWNER_LABEL: Record<PlayerId, string> = {
+  player: "Ollie",
+  enemy: "Rival",
 };
 
-function unitAnimationSrc(visual: UnitVisualConfig, state: UnitAnimationState): string {
-  return visual.animations?.[state] ?? visual.uiAnimationSrc ?? visual.spriteSrc;
+const OWNER_TONE: Record<PlayerId, string> = {
+  player: "player",
+  enemy: "enemy",
+};
+
+function keyFor(position: Position): string {
+  return `${position.row}-${position.col}`;
 }
 
-function unitAnimationFrameCount(visual: UnitVisualConfig, state: UnitAnimationState): number {
-  return visual.animationFrames?.[state] ?? visual.frameCount;
+function samePosition(left: Position | null | undefined, right: Position | null | undefined): boolean {
+  return Boolean(left && right && left.row === right.row && left.col === right.col);
 }
 
-function unitAnimationFrameRate(visual: UnitVisualConfig, state: UnitAnimationState): number {
-  return visual.animationFrameRates?.[state] ?? visual.frameRate;
+function buildImpactMap(impacts: CombatImpact[]): Map<string, CombatImpact> {
+  return new Map(impacts.map((impact) => [keyFor(impact.position), impact]));
 }
 
-function causedFlipAnimationState(visual: UnitVisualConfig, direction: BoardEventDirection | null): UnitAnimationState {
-  if (direction === "left" && visual.animations?.actionLeft) {
-    return "actionLeft";
+function getImpactLabel(impact: CombatImpact): string {
+  return impact.result === "flipped" ? "Capture" : "Tient";
+}
+
+function getImpactValueLabel(impact: CombatImpact): string {
+  return impact.result === "flipped"
+    ? `${impact.attackerValue} > ${impact.defenderValue}`
+    : `${impact.attackerValue} <= ${impact.defenderValue}`;
+}
+
+function createLastMoveSignature(lastMove: LastMoveSummary | null): string | null {
+  if (!lastMove) {
+    return null;
   }
 
-  if (visual.animations?.action) {
-    return "action";
-  }
+  const impacts = lastMove.impacts
+    .map((impact) =>
+      [
+        impact.position.row,
+        impact.position.col,
+        impact.targetCardInstanceId,
+        impact.result,
+        impact.targetOwnerBeforeImpact,
+        impact.targetOwnerAfterImpact,
+      ].join(":"),
+    )
+    .join("|");
 
-  return "happy";
+  return [
+    lastMove.playerId,
+    lastMove.cardInstanceId,
+    lastMove.position.row,
+    lastMove.position.col,
+    lastMove.roundNumberAfterMove,
+    lastMove.roundEnded ? "round-end" : "open",
+    impacts,
+  ].join("::");
 }
 
-function directionBetween(from: Position, to: Position): BoardEventDirection | null {
-  if (to.col < from.col) {
-    return "left";
+function getCardMotion(
+  cell: BoardCard,
+  lastMove: LastMoveSummary | null,
+  lastMoveSignature: string | null,
+): {
+  motionKind: CardMotionKind;
+  motionKey: string | null;
+  motionDirection: Direction | null;
+  motionDelayMs: number;
+} {
+  if (!lastMove || !lastMoveSignature) {
+    return {
+      motionKind: "idle",
+      motionKey: null,
+      motionDirection: null,
+      motionDelayMs: 0,
+    };
   }
-  if (to.col > from.col) {
-    return "right";
+
+  if (cell.instanceId === lastMove.cardInstanceId) {
+    return {
+      motionKind: "placed",
+      motionKey: `placed:${lastMoveSignature}`,
+      motionDirection: lastMove.playerId === "player" ? "bottom" : "top",
+      motionDelayMs: 0,
+    };
   }
-  if (to.row < from.row) {
-    return "up";
+
+  const impact = lastMove.impacts.find((entry) => entry.targetCardInstanceId === cell.instanceId);
+  if (!impact || impact.result !== "flipped") {
+    return {
+      motionKind: "idle",
+      motionKey: null,
+      motionDirection: null,
+      motionDelayMs: 0,
+    };
   }
-  if (to.row > from.row) {
-    return "down";
-  }
-  return null;
+
+  return {
+    motionKind: "flipped",
+    motionKey: `flipped:${cell.instanceId}:${lastMoveSignature}`,
+    motionDirection: impact.direction,
+    motionDelayMs: lastMove.playerId === "enemy" ? 120 : 0,
+  };
 }
 
-function familyShortLabel(family: CardFamily): string {
-  return CARD_FAMILY_DEFINITIONS[family].shortLabel;
+function getFlippedImpacts(lastMove: LastMoveSummary | null): CombatImpact[] {
+  return lastMove ? lastMove.impacts.filter((impact) => impact.result === "flipped") : [];
 }
 
-function FamilyNameBadge({
-  family,
-  size = "bench",
-}: {
-  family: CardFamily;
-  size?: "bench" | "board";
-}) {
-  return (
-    <span
-      className={[
-        "inline-flex max-w-full items-center justify-center rounded-full border font-black uppercase leading-none tracking-[0.13em]",
-        size === "board" ? "px-2 py-1 text-[clamp(0.42rem,0.56vw,0.58rem)]" : "px-2.5 py-1 text-[clamp(0.46rem,0.64vw,0.64rem)]",
-        FAMILY_BADGE_CLASS[family],
-      ].join(" ")}
-    >
-      <span className="truncate">{familyShortLabel(family)}</span>
-    </span>
-  );
+function boardOccupancy(match: MatchState): number {
+  return match.board.flat().filter(Boolean).length;
 }
 
-function getFamilyBonusCopy(family: CardFamily, count: number) {
+function getFamilyCountEntries(counts: Partial<Record<CardFamily, number>>) {
+  return ACTIVE_FAMILIES.map((family) => ({
+    family,
+    count: counts[family] ?? 0,
+    definition: CARD_FAMILY_DEFINITIONS[family],
+  })).filter((entry) => entry.count > 0);
+}
+
+function getSelectedFamilyCounts(cards: CardInstance[]): Partial<Record<CardFamily, number>> {
+  return cards.reduce<Partial<Record<CardFamily, number>>>((counts, card) => {
+    counts[card.family] = (counts[card.family] ?? 0) + 1;
+    return counts;
+  }, {});
+}
+
+function getBestThresholdLabel(family: CardFamily, count: number): string | null {
   const definition = CARD_FAMILY_DEFINITIONS[family];
   const activeThreshold = [...definition.thresholds].reverse().find((threshold) => count >= threshold.count);
+  return activeThreshold ? activeThreshold.label : null;
+}
+
+function getNextThresholdLabel(family: CardFamily, count: number): string {
+  const definition = CARD_FAMILY_DEFINITIONS[family];
   const nextThreshold = definition.thresholds.find((threshold) => count < threshold.count);
-
-  return {
-    definition,
-    activeThreshold,
-    nextThreshold,
-    activeCopy: activeThreshold
-      ? `${activeThreshold.label}: ${activeThreshold.effect}`
-      : "Aucun bonus actif.",
-    nextCopy: nextThreshold
-      ? `${nextThreshold.count} cartes - ${nextThreshold.label}: ${nextThreshold.effect}`
-      : "Bonus maximum atteint.",
-  };
+  return nextThreshold ? `${nextThreshold.label} x${nextThreshold.count}` : "Bonus max";
 }
 
-function FamilyBadgeBench({
-  board,
-  owner,
-}: {
-  board: MatchState["board"];
-  owner: PlayerId;
-}) {
-  const counts = countBoardFamilies(board, owner);
-  const totalControlled = board.flat().filter((card) => card?.owner === owner).length;
-  const ownerLabel = owner === "player" ? "joueur" : "rival";
+function countActiveFamilyStacks(match: MatchState, owner: PlayerId): Partial<Record<CardFamily, number>> {
+  const activeStacks: Partial<Record<CardFamily, number>> = {};
 
-  return (
-    <aside
-      className={[
-        "ogot-badge-bench pointer-events-auto absolute z-50 text-white",
-        owner === "player" ? "ogot-badge-bench--player" : "ogot-badge-bench--enemy",
-      ].join(" ")}
-      aria-label={`Badges ${ownerLabel}`}
-    >
-      {ACTIVE_FAMILIES.map((family) => {
-        const count = counts[family];
-        const { definition, activeThreshold, activeCopy, nextCopy } = getFamilyBonusCopy(family, count);
-        const isActive = Boolean(activeThreshold);
-        const badgeSrc = getFamilyCrestArtSrc(family);
-        const title = `${definition.label} (${ownerLabel}) - Controle ${count}, total ${totalControlled}/9. Actif: ${activeCopy} Prochain: ${nextCopy}`;
+  for (const row of match.board) {
+    for (const card of row) {
+      if (!card || card.owner !== owner) {
+        continue;
+      }
 
-        return (
-          <section
-            key={`${owner}-${family}`}
-            title={title}
-            tabIndex={0}
-            className={[
-              "ogot-family-badge group relative grid min-w-0 place-items-center outline-none transition-[filter,opacity,transform] duration-200",
-              isActive ? "saturate-125" : "grayscale-[24%]",
-            ].join(" ")}
-          >
-            <img
-              src={badgeSrc}
-              alt=""
-              className={[
-                "h-full w-full select-none object-contain drop-shadow-[0_0.45rem_0.35rem_rgba(0,0,0,0.48)]",
-                isActive ? "opacity-100" : "opacity-52",
-              ].join(" ")}
-              draggable={false}
-            />
-            <span
-              className={[
-                "absolute right-[6%] top-[8%] grid place-items-center rounded-full border px-[0.22rem] font-black leading-none tabular-nums shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.5)]",
-                "h-[clamp(0.9rem,1.25vw,1.34rem)] min-w-[clamp(0.9rem,1.25vw,1.34rem)] text-[clamp(0.5rem,0.68vw,0.76rem)]",
-                isActive ? FAMILY_BADGE_CLASS[family] : "border-white/18 bg-black/62 text-white/72",
-              ].join(" ")}
-            >
-              {count}
-            </span>
-            <div
-              className={[
-                "ogot-tooltip ogot-badge-tooltip left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus:opacity-100",
-                owner === "player"
-                  ? "bottom-[calc(100%+0.55rem)] translate-y-1 group-hover:translate-y-0 group-focus:translate-y-0"
-                  : "top-[calc(100%+0.55rem)] -translate-y-1 group-hover:translate-y-0 group-focus:translate-y-0",
-              ].join(" ")}
-            >
-              <p className="font-serif text-[1.05rem] font-bold leading-none text-white">{definition.label}</p>
-              <p className="mt-2 text-white/62">{definition.identity}</p>
-              <p className="mt-3">
-                <span className="font-semibold text-white/86">Actif: </span>
-                {activeCopy}
-              </p>
-              <p className="mt-1.5">
-                <span className="font-semibold text-white/86">Prochain: </span>
-                {nextCopy}
-              </p>
-              <p className="mt-2 text-white/48">
-                {count} {count > 1 ? "cartes controlees" : "carte controlee"} par le {ownerLabel}
-              </p>
-            </div>
-          </section>
-        );
-      })}
-    </aside>
-  );
+      const counts = countCardFamilies(card);
+      for (const family of ACTIVE_FAMILIES) {
+        if ((counts[family] ?? 0) >= 2) {
+          activeStacks[family] = (activeStacks[family] ?? 0) + 1;
+        }
+      }
+    }
+  }
+
+  return activeStacks;
 }
 
-function useSpriteFrame(frameCount: number, frameRate: number, animationKey: string): number {
-  const safeFrameCount = Math.max(1, frameCount);
-  const safeFrameRate = Math.max(1, frameRate);
-  const [frame, setFrame] = useState(0);
+function getVisibleEnemyCards(match: MatchState): CardInstance[] {
+  const cardsToShow = Math.max(match.config.cardsPerTurn, match.turn.activePlayer === "enemy" ? match.turn.choices.length : 0);
 
-  useEffect(() => {
-    setFrame(0);
-    if (safeFrameCount <= 1) {
-      return;
+  if (match.turn.activePlayer === "enemy") {
+    return match.turn.choices.slice(0, cardsToShow);
+  }
+
+  const drawPreview = match.players.enemy.drawPile.slice(0, cardsToShow);
+  if (drawPreview.length >= cardsToShow) {
+    return drawPreview;
+  }
+
+  return [...drawPreview, ...match.players.enemy.discardPile.slice(0, cardsToShow - drawPreview.length)];
+}
+
+function healthPercent(match: MatchState, owner: PlayerId): number {
+  const champion = match.champions[owner];
+  return champion.maxHealth <= 0 ? 0 : Math.max(0, Math.min(100, (champion.health / champion.maxHealth) * 100));
+}
+
+function activeTurnLabel(match: MatchState): string {
+  if (match.result) {
+    if (match.result.winner === "draw") {
+      return "Egalite";
     }
 
-    const interval = window.setInterval(() => {
-      setFrame((currentFrame) => (currentFrame + 1) % safeFrameCount);
-    }, Math.max(42, Math.round(1000 / safeFrameRate)));
+    return `${OWNER_LABEL[match.result.winner]} gagne`;
+  }
 
-    return () => window.clearInterval(interval);
-  }, [animationKey, safeFrameCount, safeFrameRate]);
-
-  return frame;
+  return match.turn.activePlayer === "player" ? "A toi de jouer" : "Tour du rival";
 }
 
-function AnimatedUnitSprite({
-  visual,
-  state,
-  className = "",
-  mirrored = false,
+function actionButtonLabel({
+  selectedCount,
+  hasTarget,
+  canConfirm,
 }: {
-  visual: UnitVisualConfig;
-  state: UnitAnimationState;
-  className?: string;
-  mirrored?: boolean;
-}) {
-  const src = unitAnimationSrc(visual, state);
-  const frameCount = Math.max(1, unitAnimationFrameCount(visual, state));
-  const frameRate = unitAnimationFrameRate(visual, state);
-  const frame = useSpriteFrame(frameCount, frameRate, `${src}:${state}`);
-  const visibleFrame = frame % frameCount;
-  const viewportStyle: CSSProperties = mirrored ? { transform: "scaleX(-1)" } : {};
-  const stripStyle: CSSProperties = {
-    width: `${frameCount * 100}%`,
-    height: "100%",
-    maxWidth: "none",
-    transform: `translateX(-${(visibleFrame / frameCount) * 100}%)`,
-    imageRendering: visual.pixelated ? "pixelated" : "auto",
-  };
+  selectedCount: number;
+  hasTarget: boolean;
+  canConfirm: boolean;
+}): string {
+  if (canConfirm) {
+    return selectedCount > 1 ? "Fusionner et poser" : "Poser la carte";
+  }
 
-  return (
-    <div className={["relative h-full w-full overflow-hidden", className].join(" ")} style={viewportStyle}>
-      <img
-        src={src}
-        alt=""
-        className="block select-none"
-        style={stripStyle}
-        draggable={false}
-      />
-    </div>
-  );
+  if (selectedCount === 0) {
+    return "Choisis une carte";
+  }
+
+  if (!hasTarget) {
+    return "Choisis une case";
+  }
+
+  return "Placement impossible";
 }
 
-const ARENA_SOURCE_WIDTH = 1536;
-const ARENA_SOURCE_HEIGHT = 1024;
-
-function xPercent(pixel: number): number {
-  return (pixel / ARENA_SOURCE_WIDTH) * 100;
-}
-
-function yPercent(pixel: number): number {
-  return (pixel / ARENA_SOURCE_HEIGHT) * 100;
-}
-
-function boardCellFromPixels(
-  row: BoardCellLayout["row"],
-  col: BoardCellLayout["col"],
-  x0: number,
-  y0: number,
-  x1: number,
-  y1: number,
-  unit: PointAnchor & { size: number },
-  points: BoardCellLayout["points"],
-): BoardCellLayout {
-  return {
-    row,
-    col,
-    left: xPercent(x0),
-    top: yPercent(y0),
-    width: xPercent(x1 - x0),
-    height: yPercent(y1 - y0),
-    unit,
-    points,
-  };
-}
-
-const TOP_CELL_POINTS = {
-  top: { x: 50, y: 6 },
-  right: { x: 94, y: 49 },
-  bottom: { x: 50, y: 94 },
-  left: { x: 6, y: 49 },
-} satisfies BoardCellLayout["points"];
-
-const MIDDLE_CELL_POINTS = {
-  top: { x: 50, y: 6 },
-  right: { x: 94, y: 50 },
-  bottom: { x: 50, y: 94 },
-  left: { x: 6, y: 50 },
-} satisfies BoardCellLayout["points"];
-
-const BOTTOM_CELL_POINTS = {
-  top: { x: 50, y: 7 },
-  right: { x: 94, y: 49 },
-  bottom: { x: 50, y: 93 },
-  left: { x: 6, y: 49 },
-} satisfies BoardCellLayout["points"];
-
-const BOARD_CELLS = [
-  boardCellFromPixels(0, 0, 423, 154, 627, 357, { x: 50, y: 53, size: 61 }, TOP_CELL_POINTS),
-  boardCellFromPixels(0, 1, 666, 154, 870, 357, { x: 50, y: 53, size: 61 }, TOP_CELL_POINTS),
-  boardCellFromPixels(0, 2, 909, 154, 1113, 357, { x: 50, y: 53, size: 61 }, TOP_CELL_POINTS),
-  boardCellFromPixels(1, 0, 423, 374, 627, 581, { x: 50, y: 51, size: 60 }, MIDDLE_CELL_POINTS),
-  boardCellFromPixels(1, 1, 665, 374, 870, 581, { x: 50, y: 51, size: 60 }, MIDDLE_CELL_POINTS),
-  boardCellFromPixels(1, 2, 909, 374, 1114, 581, { x: 50, y: 51, size: 60 }, MIDDLE_CELL_POINTS),
-  boardCellFromPixels(2, 0, 421, 604, 627, 814, { x: 44, y: 48, size: 59 }, BOTTOM_CELL_POINTS),
-  boardCellFromPixels(2, 1, 663, 604, 870, 814, { x: 50, y: 48, size: 59 }, BOTTOM_CELL_POINTS),
-  boardCellFromPixels(2, 2, 909, 604, 1115, 814, { x: 56, y: 48, size: 59 }, BOTTOM_CELL_POINTS),
-] satisfies readonly BoardCellLayout[];
-
-function FamilyCrestMark({
-  family,
-  tone = "player",
+function ResourcePips({
+  total,
+  spent,
+  available,
 }: {
-  family: CardFamily;
-  tone?: "player" | "enemy" | "neutral";
+  total: number;
+  spent: number;
+  available: number;
 }) {
-  const accentColor =
-    tone === "enemy"
-      ? "linear-gradient(135deg, rgba(255,228,230,0.96), rgba(251,113,133,0.86) 54%, rgba(254,215,170,0.74))"
-      : tone === "neutral"
-        ? "linear-gradient(135deg, rgba(254,243,199,0.96), rgba(190,242,100,0.7) 54%, rgba(165,243,252,0.72))"
-        : "linear-gradient(135deg, rgba(254,243,199,0.96), rgba(94,234,212,0.78) 54%, rgba(167,243,208,0.72))";
-  const glowColor =
-    tone === "enemy"
-      ? "0 0 22px rgba(251,113,133,0.26)"
-      : tone === "neutral"
-        ? "0 0 22px rgba(251,191,36,0.22)"
-        : "0 0 22px rgba(125,247,255,0.24)";
-  const crestSrc = getFamilyCrestArtSrc(family);
-
-  return (
-    <div className="relative grid h-full w-full place-items-center">
-      <div
-        className="absolute inset-[6%] rounded-full border-2 border-white/42"
-        style={{
-          background: `radial-gradient(circle at 35% 24%, rgba(255,255,255,0.86), transparent 24%), ${accentColor}`,
-          boxShadow: `${glowColor}, inset 0 1px 0 rgba(255,255,255,0.4)`,
-        }}
-      />
-      <div
-        className="absolute inset-[14%] rounded-full border border-black/35 bg-[radial-gradient(circle_at_50%_40%,rgba(8,12,18,0.22),rgba(4,6,10,0.72)_76%)]"
-        style={{ boxShadow: "inset 0 0 18px rgba(0,0,0,0.5)" }}
-      />
-      <img
-        src={crestSrc}
-        alt=""
-        className="relative z-10 h-[76%] w-[76%] select-none object-contain drop-shadow-[0_0.45rem_0.45rem_rgba(0,0,0,0.58)]"
-        draggable={false}
-      />
-      <div className="absolute left-1/2 top-[77%] h-[12%] w-[58%] -translate-x-1/2 rounded-full bg-black/34 blur-sm" />
-    </div>
-  );
-}
-
-function CombatPoint({
-  direction,
-  value,
-  tone = "player",
-  size = "bench",
-  className = "",
-}: {
-  direction: string;
-  value: number;
-  tone?: "player" | "enemy" | "neutral";
-  size?: "bench" | "board";
-  className?: string;
-}) {
-  const toneClass =
-    tone === "enemy"
-      ? "border-rose-100/80 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.28),rgba(244,63,94,0.44)_48%,rgba(24,5,11,0.96)_100%)] text-rose-50"
-      : tone === "player"
-        ? "border-cyan-100/82 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.28),rgba(34,211,238,0.44)_48%,rgba(3,14,25,0.96)_100%)] text-cyan-50"
-        : "border-amber-100/82 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.28),rgba(251,191,36,0.40)_48%,rgba(24,18,5,0.96)_100%)] text-amber-50";
-
-  return (
-    <span
-      className={[
-        "grid place-items-center rounded-full border shadow-[0_8px_18px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.2)]",
-        size === "board"
-          ? "h-[clamp(1.55rem,2.08vw,2.16rem)] w-[clamp(1.55rem,2.08vw,2.16rem)]"
-          : "h-[clamp(1.95rem,2.52vw,2.72rem)] w-[clamp(1.95rem,2.52vw,2.72rem)]",
-        toneClass,
-        className,
-      ].join(" ")}
-      aria-label={`${direction} ${value}`}
-    >
-      <span className={["font-black uppercase leading-none opacity-72", size === "board" ? "text-[clamp(0.36rem,0.46vw,0.46rem)]" : "text-[clamp(0.42rem,0.52vw,0.52rem)]"].join(" ")}>
-        {direction}
-      </span>
-      <span className={["-mt-1 font-black leading-none tabular-nums", size === "board" ? "text-[clamp(0.74rem,0.94vw,0.96rem)]" : "text-[clamp(0.86rem,1.08vw,1.08rem)]"].join(" ")}>
-        {value}
-      </span>
-    </span>
-  );
-}
-
-function BoardCombatPoint({
-  anchor,
-  direction,
-  value,
-  tone,
-}: {
-  anchor: PointAnchor;
-  direction: string;
-  value: number;
-  tone: "player" | "enemy" | "neutral";
-}) {
-  return (
-    <span
-      className="pointer-events-none absolute z-20"
-      style={{
-        left: `${anchor.x}%`,
-        top: `${anchor.y}%`,
-        transform: "translate(-50%, -50%)",
-      }}
-    >
-      <CombatPoint direction={direction} value={value} tone={tone} size="board" />
-    </span>
-  );
-}
-
-function BoardUnitToken({
-  card,
-  event,
-  eventKey,
-  eventDirection,
-  cell,
-}: {
-  card: BoardCard;
-  event: UnitBoardEvent | null;
-  eventKey: string | null;
-  eventDirection: BoardEventDirection | null;
-  cell: BoardCellLayout;
-}) {
-  const visual = getUnitVisual(card.archetypeId);
-  const tone = card.owner === "enemy" ? "enemy" : "player";
-  const [eventMotion, setEventMotion] = useState<UnitAnimationState | null>(null);
-  const motionState: UnitAnimationState = eventMotion ?? "idle";
-  const unitStyle = {
-    left: `${cell.unit.x}%`,
-    top: `${cell.unit.y}%`,
-    width: `${cell.unit.size}%`,
-    height: `${cell.unit.size}%`,
-  };
-
-  useEffect(() => {
-    if (!visual) {
-      setEventMotion(null);
-      return;
-    }
-
-    if (event === "wasFlipped") {
-      setEventMotion("hit");
-      const timer = window.setTimeout(() => setEventMotion(null), 720);
-      return () => window.clearTimeout(timer);
-    }
-
-    if (event === "causedFlip") {
-      setEventMotion(causedFlipAnimationState(visual, eventDirection));
-      const timer = window.setTimeout(() => setEventMotion(null), visual.animations?.action ? 900 : 760);
-      return () => window.clearTimeout(timer);
-    }
-
-    setEventMotion(null);
-  }, [card.instanceId, event, eventDirection, eventKey, visual]);
-
-  const causedFlipMotion = eventMotion === "happy" || eventMotion === "action" || eventMotion === "actionLeft";
-
-  return (
-    <div className="absolute inset-0">
-      <div
-        className={[
-          "absolute -translate-x-1/2 -translate-y-[43%] rounded-full",
-          tone === "enemy"
-            ? "bg-rose-950/34 shadow-[0_0_24px_rgba(251,113,133,0.2)]"
-            : "bg-cyan-950/34 shadow-[0_0_24px_rgba(34,211,238,0.2)]",
-        ].join(" ")}
-        style={{
-          left: `${cell.unit.x}%`,
-          top: `${cell.unit.y + 5}%`,
-          width: `${cell.unit.size * 0.94}%`,
-          height: `${cell.unit.size * 0.55}%`,
-        }}
-      />
-      {visual ? (
-        <div
-          className={[
-            "ogot-board-unit absolute object-contain drop-shadow-[0_14px_16px_rgba(0,0,0,0.55)]",
-            causedFlipMotion ? "ogot-board-unit--recent" : "",
-            eventMotion === "hit" ? "ogot-board-unit--impact" : "",
-          ].join(" ")}
-          style={unitStyle}
-        >
-          <AnimatedUnitSprite visual={visual} state={motionState} />
-        </div>
-      ) : (
-        <div className="ogot-board-unit absolute" style={unitStyle}>
-          <FamilyCrestMark family={card.family} tone={tone} />
-        </div>
-      )}
-      <BoardCombatPoint anchor={cell.points.top} direction="N" value={card.sides.top} tone={tone} />
-      <BoardCombatPoint anchor={cell.points.right} direction="E" value={card.sides.right} tone={tone} />
-      <BoardCombatPoint anchor={cell.points.bottom} direction="S" value={card.sides.bottom} tone={tone} />
-      <BoardCombatPoint anchor={cell.points.left} direction="O" value={card.sides.left} tone={tone} />
-      <div className="pointer-events-none absolute left-1/2 top-[79%] z-30 w-[68%] -translate-x-1/2">
-        <FamilyNameBadge family={card.family} size="board" />
-      </div>
-      {(card.stackSize ?? 1) > 1 ? (
-        <div className="pointer-events-none absolute right-[7%] top-[7%] z-30 grid h-7 min-w-7 place-items-center rounded-full border border-amber-100/80 bg-black/72 px-2 text-[0.72rem] font-black leading-none text-amber-100 shadow-[0_8px_18px_rgba(0,0,0,0.48)]">
-          x{card.stackSize ?? 1}
-        </div>
-      ) : null}
-      {causedFlipMotion ? (
-        <div className="absolute inset-[4%] rounded-[0.7rem] border-2 border-amber-200/84 shadow-[0_0_24px_rgba(253,230,138,0.38)]" />
-      ) : null}
-    </div>
-  );
-}
-
-function SideHandCard({
-  card,
-  owner,
-  selected,
-  canInteract,
-  onSelect,
-}: {
-  card: CardInstance;
-  owner: PlayerId;
-  selected: boolean;
-  canInteract: boolean;
-  onSelect: () => void;
-}) {
-  const isInteractive = owner === "player" && canInteract;
-  const isDisabledPlayerCard = owner === "player" && !canInteract && !selected;
-  const wrapperClassName = [
-    "ogot-hand-card relative h-full w-full min-w-0 overflow-visible rounded-[0.82rem] border p-[1.35%] transition duration-150",
-    selected
-      ? "ogot-hand-card--selected border-amber-100/88 bg-amber-200/10 shadow-[0_0_32px_rgba(253,230,138,0.28),0_12px_28px_rgba(0,0,0,0.42)]"
-      : owner === "enemy"
-        ? "border-rose-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]"
-        : "border-cyan-100/24 bg-black/16 shadow-[0_10px_24px_rgba(0,0,0,0.34)]",
-    isInteractive
-      ? "cursor-pointer hover:-translate-y-1 hover:border-cyan-100/64"
-      : isDisabledPlayerCard
-        ? "cursor-not-allowed opacity-42 saturate-50"
-        : "cursor-default opacity-92",
-  ].join(" ");
-
-  const content = <CardView card={card} layout="hand" className="h-full w-full" selected={selected} />;
-
-  if (!isInteractive) {
+  if (total > 10) {
+    const percent = Math.max(0, Math.min(100, (spent / total) * 100));
     return (
-      <div
-        className={wrapperClassName}
-        aria-label={`${card.name} ${card.sides.top}-${card.sides.right}-${card.sides.bottom}-${card.sides.left}`}
-      >
-        {content}
+      <div className="ogot-resource-meter" aria-label={`Energie ${available}/${total}`}>
+        <div className="ogot-resource-meter__bar" style={{ width: `${percent}%` }} />
       </div>
     );
   }
 
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      data-testid="player-bench-card"
-      className={wrapperClassName}
-      aria-label={`${card.name} ${card.sides.top}-${card.sides.right}-${card.sides.bottom}-${card.sides.left}`}
-    >
-      {content}
-    </button>
-  );
-}
-
-function SideHandBack({ owner }: { owner: PlayerId }) {
-  return (
-    <div
-      className={[
-        "ogot-side-card-frame relative overflow-hidden rounded-[0.78rem] border bg-black/26 shadow-[0_10px_24px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.1)]",
-        owner === "enemy" ? "border-rose-100/24" : "border-cyan-100/22",
-      ].join(" ")}
-    >
-      <img src="/images/ui/bench-card-back.png" alt="" className="h-full w-full select-none object-cover" draggable={false} />
+    <div className="ogot-energy-pips" aria-label={`Energie ${available}/${total}`}>
+      {Array.from({ length: total }, (_, index) => (
+        <span
+          key={`energy-${index}`}
+          className={[
+            "ogot-energy-pip",
+            index < spent ? "ogot-energy-pip--spent" : "ogot-energy-pip--ready",
+          ].join(" ")}
+        />
+      ))}
     </div>
   );
 }
 
-function SideHandColumn({
+function ChampionPlate({
   owner,
-  cards,
-  hiddenCount,
-  selectedCardIds,
-  selectedManaCost = 0,
-  turnMana = 0,
-  maxSelectedCards = 1,
-  canInteract,
-  onSelectCard,
+  match,
+  control,
 }: {
   owner: PlayerId;
-  cards: CardInstance[];
-  hiddenCount: number;
-  selectedCardIds: string[];
-  selectedManaCost?: number;
-  turnMana?: number;
-  maxSelectedCards?: number;
-  canInteract: boolean;
-  onSelectCard: (cardInstanceId: string) => void;
+  match: MatchState;
+  control: ControlTotals;
 }) {
-  const placeholderCount = cards.length > 0 ? 0 : hiddenCount;
+  const champion = match.champions[owner];
+  const combat = match.combat[owner];
+  const tone = OWNER_TONE[owner];
+  const percent = healthPercent(match, owner);
+  const active = !match.result && match.turn.activePlayer === owner;
 
   return (
-    <aside
-      className={[
-        "ogot-hand-column pointer-events-auto absolute z-[45]",
-        owner === "player" ? "ogot-hand-column--player" : "ogot-hand-column--enemy",
-      ].join(" ")}
-      aria-label={owner === "player" ? "Cartes piochees du joueur" : "Cartes piochees du rival"}
-    >
-      <div className={["ogot-hand-column-grid", cards.length > 4 ? "ogot-hand-column-grid--dense" : ""].join(" ")}>
-        {cards.map((card) => {
-          const selected = owner === "player" && selectedCardIds.includes(card.instanceId);
-          const canAddToPile =
-            selected ||
-            (selectedCardIds.length < maxSelectedCards &&
-              selectedManaCost + card.manaCost <= turnMana);
+    <section className={["ogot-champion-plate", `ogot-champion-plate--${tone}`, active ? "is-active" : ""].join(" ")}>
+      <div className="ogot-champion-portrait" aria-hidden="true">
+        {owner === "player" ? (
+          <OllieAvatar size="lg" className="h-full w-full" />
+        ) : (
+          <div className="ogot-rival-mark">
+            <GameSigilIcon id={match.enemyProfile?.id ?? "trickster"} className="h-9 w-9" />
+          </div>
+        )}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="ogot-champion-header flex items-center justify-between gap-2">
+          <p className="truncate text-[0.78rem] font-black uppercase tracking-[0.12em] text-white">
+            {OWNER_LABEL[owner]}
+          </p>
+          <span className="ogot-turn-chip">{active ? "Actif" : "Attente"}</span>
+        </div>
+        <div className="mt-2 flex items-end justify-between gap-3">
+          <p className="text-[1.55rem] font-black leading-none text-white">
+            {Math.max(0, champion.health)}
+            <span className="ml-1 text-[0.68rem] font-bold text-white/48">/{champion.maxHealth}</span>
+          </p>
+          <div className="ogot-champion-stats flex gap-1.5 text-[0.66rem] font-black uppercase tracking-[0.1em] text-white/70">
+            <span>Ctrl {control[owner]}</span>
+            <span>Bcl {combat.shield}</span>
+          </div>
+        </div>
+        <div className="ogot-health-track mt-2">
+          <div className="ogot-health-fill" style={{ width: `${percent}%` }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CombatTopStrip({
+  match,
+  control,
+  preview,
+}: {
+  match: MatchState;
+  control: ControlTotals;
+  preview: PreviewMove | null;
+}) {
+  const occupied = boardOccupancy(match);
+  const displayControl = preview ? preview.control : control;
+
+  return (
+    <section className="ogot-combat-strip">
+      <div>
+        <p className="text-[0.54rem] font-black uppercase tracking-[0.22em] text-amber-100/54">Round {match.round.number}</p>
+        <p className="mt-1 text-sm font-black text-white">{activeTurnLabel(match)}</p>
+      </div>
+      <div className="ogot-control-score" aria-label={`Controle Ollie ${displayControl.player}, Rival ${displayControl.enemy}`}>
+        <span className="ogot-control-score__player">{displayControl.player}</span>
+        <span className="text-white/30">/</span>
+        <span className="ogot-control-score__enemy">{displayControl.enemy}</span>
+      </div>
+      <div className="text-right">
+        <p className="text-[0.54rem] font-black uppercase tracking-[0.22em] text-amber-100/54">Plateau</p>
+        <p className="mt-1 text-sm font-black text-white">{occupied}/{match.config.boardSize * match.config.boardSize}</p>
+      </div>
+    </section>
+  );
+}
+
+function FamilyInventoryPanel({ match }: { match: MatchState }) {
+  const playerCounts = countBoardFamilies(match.board, "player");
+  const enemyCounts = countBoardFamilies(match.board, "enemy");
+  const playerActiveStacks = countActiveFamilyStacks(match, "player");
+  const enemyActiveStacks = countActiveFamilyStacks(match, "enemy");
+
+  return (
+    <section className="ogot-family-panel" aria-label="Familles sur le plateau">
+      <div className="ogot-panel-heading">
+        <span>Familles</span>
+        <span>Ollie / Rival</span>
+      </div>
+      <div className="ogot-family-grid">
+        {ACTIVE_FAMILIES.map((family) => {
+          const definition = CARD_FAMILY_DEFINITIONS[family];
+          const playerCount = playerCounts[family] ?? 0;
+          const enemyCount = enemyCounts[family] ?? 0;
+          const activeStacks = playerActiveStacks[family] ?? 0;
+          const rivalActiveStacks = enemyActiveStacks[family] ?? 0;
+          const bestThreshold = getBestThresholdLabel(family, playerCount);
+          const visibleThreshold = activeStacks > 0 && bestThreshold ? bestThreshold : getNextThresholdLabel(family, playerCount);
 
           return (
-            <div key={card.instanceId} className="ogot-side-card-frame">
-              <SideHandCard
-                card={card}
-                owner={owner}
-                selected={selected}
-                canInteract={canInteract && canAddToPile}
-                onSelect={() => onSelectCard(card.instanceId)}
-              />
+            <div
+              key={family}
+              className={[
+                "ogot-family-token",
+                playerCount > 0 || enemyCount > 0 ? "is-present" : "",
+                activeStacks > 0 ? "has-active-stack" : "",
+              ].join(" ")}
+              title={`${definition.label}: ${playerCount} pour Ollie, ${enemyCount} pour le rival. ${definition.identity}`}
+            >
+              <img src={getFamilyCrestArtSrc(family)} alt="" draggable={false} />
+              <div>
+                <p>{definition.shortLabel}</p>
+                <span>{visibleThreshold}</span>
+                {activeStacks > 0 || rivalActiveStacks > 0 ? (
+                  <em>
+                    {activeStacks} pile{activeStacks > 1 ? "s" : ""} active
+                    {rivalActiveStacks > 0 ? ` / ${rivalActiveStacks} rival` : ""}
+                  </em>
+                ) : null}
+              </div>
+              <strong>
+                {playerCount}
+                <small>{enemyCount}</small>
+              </strong>
             </div>
           );
         })}
-        {Array.from({ length: placeholderCount }, (_, index) => (
-          <SideHandBack key={`${owner}-hidden-${index}`} owner={owner} />
-        ))}
       </div>
-    </aside>
+    </section>
   );
 }
 
-function EnemyBench({
-  cards,
-  hiddenCount,
+function BuffShelf({
+  match,
+  selectedCard,
+  onFireflyReroll,
+  onReflectionCopy,
 }: {
-  cards: CardInstance[];
-  hiddenCount: number;
+  match: MatchState;
+  selectedCard: CardInstance | null;
+  onFireflyReroll?: () => void;
+  onReflectionCopy?: (cardInstanceId: string) => void;
 }) {
-  return (
-    <SideHandColumn
-      owner="enemy"
-      cards={cards}
-      hiddenCount={hiddenCount}
-      selectedCardIds={[]}
-      canInteract={false}
-      onSelectCard={() => undefined}
-    />
-  );
-}
+  const fireflyAction =
+    match.playerCharms.includes("firefly-wing") &&
+    !match.result &&
+    match.turn.activePlayer === "player" &&
+    match.turn.choices.length > 0 &&
+    !match.playerCharmState.fireflyRerollUsedThisRound;
+  const reflectionAction =
+    match.playerCharms.includes("reflection-ring") &&
+    !match.result &&
+    match.turn.activePlayer === "player" &&
+    match.turn.choices.length > 0 &&
+    !match.playerCharmState.reflectionCopyUsedThisCombat &&
+    Boolean(selectedCard);
 
-function HiddenPlayerReserve({
-  hiddenCount,
-}: {
-  hiddenCount: number;
-}) {
-  return (
-    <SideHandColumn
-      owner="player"
-      cards={[]}
-      hiddenCount={hiddenCount}
-      selectedCardIds={[]}
-      canInteract={false}
-      onSelectCard={() => undefined}
-    />
-  );
-}
-
-function PlayerHandColumn({
-  hand,
-  selectedCardIds,
-  selectedManaCost,
-  turnMana,
-  maxSelectedCards,
-  canInteract,
-  onSelectCard,
-  hiddenCount,
-}: {
-  hand: CardInstance[];
-  selectedCardIds: string[];
-  selectedManaCost: number;
-  turnMana: number;
-  maxSelectedCards: number;
-  canInteract: boolean;
-  onSelectCard: (cardInstanceId: string) => void;
-  hiddenCount: number;
-}) {
-  if (hand.length === 0) {
-    return <HiddenPlayerReserve hiddenCount={hiddenCount} />;
+  if (match.playerCharms.length === 0) {
+    return (
+      <section className="ogot-empty-buff-shelf" aria-label="Buffs">
+        <span>Buffs</span>
+        <div>
+          {Array.from({ length: 4 }, (_, index) => (
+            <i key={`empty-buff-${index}`} />
+          ))}
+        </div>
+      </section>
+    );
   }
 
   return (
-    <SideHandColumn
-      owner="player"
-      cards={hand}
-      hiddenCount={0}
-      selectedCardIds={selectedCardIds}
-      selectedManaCost={selectedManaCost}
-      turnMana={turnMana}
-      maxSelectedCards={maxSelectedCards}
-      canInteract={canInteract}
-      onSelectCard={onSelectCard}
+    <CharmBuffBar
+      charmIds={match.playerCharms}
+      title="Buffs"
+      emptyLabel="Aucun buff"
+      tooltipAlign="left"
+      className="ogot-buff-shelf"
+      actions={{
+        "firefly-wing": {
+          onClick: onFireflyReroll,
+          disabled: !fireflyAction,
+          statusLabel: fireflyAction ? "Pret" : "Utilise",
+        },
+        "reflection-ring": {
+          onClick: selectedCard ? () => onReflectionCopy?.(selectedCard.instanceId) : undefined,
+          disabled: !reflectionAction,
+          statusLabel: reflectionAction ? "Pret" : "Lie",
+        },
+      }}
     />
   );
 }
 
-function ArenaBattlefield({
+function FusionQueue({
+  selectedCards,
+  selectedManaCost,
+  turnMana,
+  maxCards,
+  targetPosition,
+}: {
+  selectedCards: CardInstance[];
+  selectedManaCost: number;
+  turnMana: number;
+  maxCards: number;
+  targetPosition: Position | null;
+}) {
+  const count = selectedCards.length;
+  const familyEntries = getFamilyCountEntries(getSelectedFamilyCounts(selectedCards));
+  const activeFamilyLabels = familyEntries
+    .map((entry) => getBestThresholdLabel(entry.family, entry.count))
+    .filter(Boolean);
+
+  return (
+    <section className={["ogot-fusion-queue", count > 1 ? "is-fusing" : "", count > 0 ? "has-cards" : ""].join(" ")}>
+      <div className="ogot-fusion-copy">
+        <p>{count > 1 ? `Fusion x${count}` : count === 1 ? "Carte prete" : `Pile 0/${maxCards}`}</p>
+        <span className="ogot-fusion-target-copy">
+          {targetPosition ? `Case ${targetPosition.row + 1}.${targetPosition.col + 1}` : "Selectionne une case"}
+        </span>
+        {familyEntries.length > 0 ? (
+          <div className="ogot-fusion-family-line" aria-label="Familles dans la fusion">
+            {familyEntries.slice(0, 4).map((entry) => (
+              <span
+                key={entry.family}
+                className={entry.count >= 2 ? "is-active" : ""}
+                title={`${entry.definition.label} x${entry.count}`}
+              >
+                <img src={getFamilyCrestArtSrc(entry.family)} alt="" draggable={false} />
+                <strong>x{entry.count}</strong>
+              </span>
+            ))}
+          </div>
+        ) : null}
+        {activeFamilyLabels.length > 0 ? <small>{activeFamilyLabels.join(" + ")}</small> : null}
+      </div>
+
+      <div className="ogot-fusion-stack" aria-label={`${count} cartes selectionnees`}>
+        {selectedCards.slice(0, 6).map((card, index) => (
+          <div
+            key={card.instanceId}
+            className="ogot-fusion-mini-card"
+            style={{
+              "--mini-x": `${(index - (Math.min(selectedCards.length, 6) - 1) / 2) * 1.05}rem`,
+              "--mini-rotate": `${(index - (Math.min(selectedCards.length, 6) - 1) / 2) * 5.5}deg`,
+            } as CSSProperties}
+          >
+            <CardView card={card} layout="board" className="h-full w-full" />
+          </div>
+        ))}
+        {count === 0 ? <div className="ogot-fusion-empty-core" /> : null}
+      </div>
+
+      <div className="ogot-fusion-mana">
+        <strong>{selectedManaCost}</strong>
+        <span>/{turnMana}</span>
+      </div>
+    </section>
+  );
+}
+
+function CommandPanel({
   match,
-  hand,
-  selectedCardId,
-  selectedCardIds,
+  selectedCards,
+  selectedCount,
   selectedManaCost,
   availableMana,
   targetPosition,
   canConfirmPlacement,
-  hoverPreview,
   canHumanInteract,
-  hoveredPosition,
-  onCellHover,
-  onCellClick,
+  hoverPreview,
   onConfirmPlacement,
-  onSelectCard,
 }: {
   match: MatchState;
-  hand: CardInstance[];
-  selectedCardId: string | null;
-  selectedCardIds: string[];
+  selectedCards: CardInstance[];
+  selectedCount: number;
   selectedManaCost: number;
   availableMana: number;
   targetPosition: Position | null;
   canConfirmPlacement: boolean;
-  hoverPreview: PreviewMove | null;
   canHumanInteract: boolean;
-  hoveredPosition: Position | null;
-  onCellHover: (position: Position | null) => void;
-  onCellClick: (position: Position) => void;
+  hoverPreview: PreviewMove | null;
   onConfirmPlacement: () => void;
-  onSelectCard: (cardInstanceId: string) => void;
 }) {
-  const enemyCards = match.turn.activePlayer === "enemy" ? match.turn.choices : [];
-  const enemyHiddenCount = enemyCards.length > 0 ? 0 : Math.max(2, match.config.cardsPerTurn);
-  const playerHiddenCount = hand.length > 0 ? 0 : Math.max(2, match.config.cardsPerTurn);
+  const label = canHumanInteract
+    ? actionButtonLabel({
+        selectedCount,
+        hasTarget: Boolean(targetPosition),
+        canConfirm: canConfirmPlacement,
+      })
+    : activeTurnLabel(match);
 
   return (
-    <div className="ogot-arena-stage absolute inset-0 grid place-items-center overflow-hidden bg-[#020418]">
-      <div className="ogot-arena-frame relative">
-        <img
-          src="/images/game/arena-ollie.png"
-          alt=""
-          className="absolute inset-0 h-full w-full select-none object-contain"
-          draggable={false}
-        />
-
-        <PlayerHandColumn
-          hand={hand}
-          hiddenCount={playerHiddenCount}
-          selectedCardIds={selectedCardIds}
+    <section className="ogot-command-panel">
+      <div className="ogot-panel-heading">
+        <span>Energie</span>
+        <span>{availableMana} dispo</span>
+      </div>
+      <ResourcePips total={match.config.turnMana} spent={selectedManaCost} available={availableMana} />
+      {selectedCount > 0 || targetPosition ? (
+        <CommandFusionSummary
+          selectedCards={selectedCards}
           selectedManaCost={selectedManaCost}
           turnMana={match.config.turnMana}
-          maxSelectedCards={match.config.maxCardsPerMove}
-          canInteract={canHumanInteract && Boolean(targetPosition)}
-          onSelectCard={onSelectCard}
+          maxCards={match.config.maxCardsPerMove}
+          targetPosition={targetPosition}
         />
-        {canHumanInteract && hand.length > 0 ? (
-          <div className="pointer-events-auto absolute bottom-[3.4%] left-1/2 z-[52] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-100/24 bg-black/68 px-3 py-1.5 text-[0.72rem] font-black uppercase tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.42)] backdrop-blur-md">
-            <span className={targetPosition ? "text-sky-100" : "text-amber-100"}>
-              {targetPosition ? `Case ${targetPosition.row + 1}-${targetPosition.col + 1}` : "Choisis une case vide"}
-            </span>
-            <span className="text-white/35">|</span>
-            <span className="text-sky-100">Mana {selectedManaCost}/{match.config.turnMana}</span>
-            <span className="text-white/35">|</span>
-            <span className={availableMana > 0 ? "text-white/78" : "text-amber-100"}>
-              Pile {selectedCardIds.length}/{match.config.maxCardsPerMove}
-            </span>
-            <button
-              type="button"
-              data-testid="confirm-stack-button"
-              disabled={!canConfirmPlacement}
-              onClick={onConfirmPlacement}
-              className={[
-                "ml-1 rounded-full border px-3 py-1 text-[0.64rem] font-black uppercase tracking-[0.1em] transition",
-                canConfirmPlacement
-                  ? "border-amber-100/70 bg-amber-200/18 text-amber-50 hover:bg-amber-200/26"
-                  : "cursor-not-allowed border-white/12 bg-white/6 text-white/36",
-              ].join(" ")}
-            >
-              Jouer
-            </button>
-          </div>
-        ) : null}
-        <EnemyBench cards={enemyCards} hiddenCount={enemyHiddenCount} />
+      ) : null}
+      <div className="ogot-command-readout">
+        <div>
+          <span>Cartes</span>
+          <strong>{selectedCount}/{match.config.maxCardsPerMove}</strong>
+        </div>
+        <div>
+          <span>Case</span>
+          <strong>{targetPosition ? `${targetPosition.row + 1}-${targetPosition.col + 1}` : "--"}</strong>
+        </div>
+        <div>
+          <span>Flip</span>
+          <strong>{hoverPreview ? hoverPreview.flippedCount : 0}</strong>
+        </div>
+      </div>
+      <button
+        type="button"
+        className="ogot-primary-command"
+        disabled={!canConfirmPlacement}
+        onClick={onConfirmPlacement}
+        data-testid="confirm-stack-button"
+      >
+        {label}
+      </button>
+    </section>
+  );
+}
 
-        {BOARD_CELLS.map((cell) => {
-          const boardCard = match.board[cell.row][cell.col];
-          const isHovered = hoveredPosition?.row === cell.row && hoveredPosition?.col === cell.col;
-          const isTargeted = targetPosition?.row === cell.row && targetPosition?.col === cell.col;
-          const pendingCard = !boardCard && isTargeted ? hoverPreview?.placedCard ?? null : null;
-          const canTarget = canHumanInteract && !boardCard;
-          const isLastMoveCell = match.lastMove?.position.row === cell.row && match.lastMove?.position.col === cell.col;
-          const flippedImpacts = match.lastMove?.impacts.filter((impact) => impact.result === "flipped") ?? [];
-          const didCauseFlip = Boolean(isLastMoveCell && flippedImpacts.length > 0);
-          const wasFlipped = flippedImpacts.some((impact) => impact.position.row === cell.row && impact.position.col === cell.col);
-          const boardEvent: UnitBoardEvent | null = wasFlipped ? "wasFlipped" : didCauseFlip ? "causedFlip" : null;
-          const boardEventDirection =
-            didCauseFlip && flippedImpacts[0]
-              ? directionBetween({ row: cell.row, col: cell.col }, flippedImpacts[0].position)
-              : null;
-          const boardEventKey = match.lastMove
-            ? `${match.lastMove.cardInstanceId}:${match.lastMove.position.row}:${match.lastMove.position.col}:${flippedImpacts
-                .map((impact) => `${impact.position.row},${impact.position.col},${impact.targetOwnerAfterImpact}`)
-                .join("|")}`
-            : null;
+function CommandFusionSummary({
+  selectedCards,
+  selectedManaCost,
+  turnMana,
+  maxCards,
+  targetPosition,
+}: {
+  selectedCards: CardInstance[];
+  selectedManaCost: number;
+  turnMana: number;
+  maxCards: number;
+  targetPosition: Position | null;
+}) {
+  const count = selectedCards.length;
+  const familyEntries = getFamilyCountEntries(getSelectedFamilyCounts(selectedCards));
+  const activeFamilyLabels = familyEntries
+    .map((entry) => getBestThresholdLabel(entry.family, entry.count))
+    .filter(Boolean);
+
+  return (
+    <div className={["ogot-command-fusion-summary", count > 1 ? "is-fusing" : ""].join(" ")}>
+      <div>
+        <p>{count > 1 ? `Fusion x${count}` : count === 1 ? "Carte prete" : `Pile 0/${maxCards}`}</p>
+        <span>{targetPosition ? `Case ${targetPosition.row + 1}.${targetPosition.col + 1}` : "Choisis une case"}</span>
+      </div>
+      <strong>
+        {selectedManaCost}
+        <small>/{turnMana}</small>
+      </strong>
+      {familyEntries.length > 0 ? (
+        <div className="ogot-command-family-preview" aria-label="Familles selectionnees">
+          {familyEntries.slice(0, 4).map((entry) => (
+            <span key={entry.family} className={entry.count >= 2 ? "is-active" : ""}>
+              <img src={getFamilyCrestArtSrc(entry.family)} alt="" draggable={false} />
+              <b>x{entry.count}</b>
+            </span>
+          ))}
+        </div>
+      ) : null}
+      {activeFamilyLabels.length > 0 ? <em>{activeFamilyLabels.join(" + ")}</em> : null}
+    </div>
+  );
+}
+
+function CardBack({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={["ogot-card-back", compact ? "ogot-card-back--compact" : ""].join(" ")}>
+      <img src="/images/ui/bench-card-back.png" alt="" draggable={false} />
+    </div>
+  );
+}
+
+function HandRack({
+  owner,
+  hand,
+  hiddenCount,
+  selectedCardIds,
+  selectedManaCost,
+  turnMana,
+  maxSelectedCards,
+  canHumanInteract,
+  onSelectCard,
+}: {
+  owner: PlayerId;
+  hand: CardInstance[];
+  hiddenCount: number;
+  selectedCardIds: string[];
+  selectedManaCost: number;
+  turnMana: number;
+  maxSelectedCards: number;
+  canHumanInteract: boolean;
+  onSelectCard: (cardInstanceId: string) => void;
+}) {
+  const isPlayer = owner === "player";
+  const cardsToShow = hand;
+  const backsToShow = isPlayer ? 0 : Math.max(0, hiddenCount - cardsToShow.length);
+  const count = cardsToShow.length + backsToShow;
+
+  return (
+    <section
+      className={[
+        "ogot-hand-rack",
+        isPlayer ? "ogot-hand-rack--player" : "ogot-hand-rack--enemy",
+        count > 5 ? "is-dense" : "",
+      ].join(" ")}
+      aria-label={isPlayer ? "Main du joueur" : "Main du rival"}
+    >
+      {!isPlayer ? (
+        <div className="ogot-hand-count-chip">
+          Rival <strong>{count}</strong>
+          <span>{cardsToShow.length > 0 ? "visibles" : "cartes"}</span>
+        </div>
+      ) : null}
+      <div className="ogot-hand-track">
+        {cardsToShow.map((card, index) => {
+          const selected = selectedCardIds.includes(card.instanceId);
+          const canAddToPile =
+            selected ||
+            (selectedCardIds.length < maxSelectedCards && selectedManaCost + card.manaCost <= turnMana);
+          const fanOffset = index - (cardsToShow.length - 1) / 2;
+          const interactive = isPlayer && canHumanInteract && canAddToPile;
 
           return (
             <button
-              key={`${cell.row}-${cell.col}`}
+              key={card.instanceId}
               type="button"
-              disabled={!canTarget}
-              data-testid="board-cell"
-              data-row={cell.row}
-              data-col={cell.col}
-              onClick={() => {
-                if (canTarget) {
-                  onCellClick({ row: cell.row, col: cell.col });
-                }
-              }}
-              onMouseEnter={() => onCellHover({ row: cell.row, col: cell.col })}
-              onMouseLeave={() => onCellHover(null)}
               className={[
-                "absolute rounded-[0.6rem] transition duration-150",
-                canTarget ? "cursor-pointer hover:bg-cyan-100/10" : "cursor-default",
-                canTarget && isTargeted ? "bg-amber-100/12 ring-2 ring-amber-100/90 shadow-[0_0_30px_rgba(253,230,138,0.48)]" : "",
-                canTarget && isHovered ? "ring-2 ring-cyan-100/80 shadow-[0_0_26px_rgba(125,247,255,0.5)]" : "",
+                "ogot-hand-card-button",
+                !isPlayer ? "is-enemy-revealed" : "",
+                selected ? "is-selected" : "",
+                isPlayer && !interactive ? "is-disabled" : "",
               ].join(" ")}
               style={{
-                left: `${cell.left}%`,
-                top: `${cell.top}%`,
-                width: `${cell.width}%`,
-                height: `${cell.height}%`,
+                "--fan-rotate": `${isPlayer ? fanOffset * 2.2 : fanOffset * -1.2}deg`,
+                "--fan-rotate-inverse": `${isPlayer ? fanOffset * -2.2 : fanOffset * 1.2}deg`,
+                "--fan-y": `${Math.abs(fanOffset) * (isPlayer ? 0.1 : 0.04)}rem`,
+                "--fan-z": index,
+              } as CSSProperties}
+              disabled={!interactive}
+              onClick={() => {
+                if (interactive) {
+                  onSelectCard(card.instanceId);
+                }
               }}
-              aria-label={`Case ${cell.row + 1}-${cell.col + 1}`}
+              data-testid={isPlayer ? "player-bench-card" : "enemy-bench-card"}
+              aria-pressed={selected}
             >
-              {boardCard ? (
-                <BoardUnitToken
-                  card={boardCard}
-                  cell={cell}
-                  event={boardEvent}
-                  eventKey={boardEventKey}
-                  eventDirection={boardEventDirection}
-                />
-              ) : pendingCard ? (
-                <div className="pointer-events-none opacity-72 saturate-125">
-                  <BoardUnitToken
-                    card={pendingCard}
-                    cell={cell}
-                    event={null}
-                    eventKey={null}
-                    eventDirection={null}
-                  />
-                </div>
-              ) : null}
+              <CardView card={card} layout="hand" selected={selected} className="h-full w-full" />
             </button>
           );
         })}
-
+        {Array.from({ length: backsToShow }, (_, index) => {
+          const fanOffset = index - (backsToShow - 1) / 2;
+          return (
+            <div
+              key={`${owner}-back-${index}`}
+              className="ogot-hand-card-button ogot-hand-card-button--back"
+              style={{
+                "--fan-rotate": `${fanOffset * -1.8}deg`,
+                "--fan-rotate-inverse": `${fanOffset * 1.8}deg`,
+                "--fan-y": `${Math.abs(fanOffset) * 0.08}rem`,
+                "--fan-z": index,
+              } as CSSProperties}
+            >
+              <CardBack />
+            </div>
+          );
+        })}
       </div>
+    </section>
+  );
+}
+
+function FusionBurst({ count, active }: { count: number; active: boolean }) {
+  if (!active || count <= 1) {
+    return null;
+  }
+
+  const particleCount = Math.min(10, Math.max(4, count * 2));
+
+  return (
+    <span className="ogot-fusion-burst" aria-hidden="true">
+      {Array.from({ length: particleCount }, (_, index) => (
+        <span
+          key={`fusion-particle-${index}`}
+          style={{
+            "--particle-angle": `${(360 / particleCount) * index}deg`,
+          } as CSSProperties}
+        />
+      ))}
+    </span>
+  );
+}
+
+function StackBadge({ card }: { card: BoardCard }) {
+  const stackSize = card.stackSize ?? 1;
+
+  if (stackSize <= 1) {
+    return null;
+  }
+
+  return (
+    <div className="ogot-stack-badge" aria-label={`${stackSize} cartes fusionnees`}>
+      <span>Fusion</span>
+      <strong>x{stackSize}</strong>
     </div>
+  );
+}
+
+function StackFamilyMeter({ card, active }: { card: BoardCard; active: boolean }) {
+  const entries = getFamilyCountEntries(countCardFamilies(card));
+
+  if (entries.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className={["ogot-stack-family-meter", active ? "is-active" : ""].join(" ")} aria-label="Familles de la pile">
+      {entries.slice(0, 4).map((entry) => {
+        const thresholdLabel = getBestThresholdLabel(entry.family, entry.count);
+        return (
+          <span
+            key={entry.family}
+            className={thresholdLabel ? "has-bonus" : ""}
+            title={`${entry.definition.shortLabel} x${entry.count}${thresholdLabel ? ` - ${thresholdLabel}` : ""}`}
+          >
+            <img src={getFamilyCrestArtSrc(entry.family)} alt="" draggable={false} />
+            <strong>{entry.count}</strong>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function StackBonusToast({ card, active }: { card: BoardCard; active: boolean }) {
+  if (!active) {
+    return null;
+  }
+
+  const labels = getFamilyCountEntries(countCardFamilies(card))
+    .map((entry) => getBestThresholdLabel(entry.family, entry.count))
+    .filter(Boolean);
+
+  if (labels.length === 0) {
+    return null;
+  }
+
+  return <div className="ogot-stack-bonus-toast">{labels.slice(0, 2).join(" + ")}</div>;
+}
+
+function BoardCardLayer({
+  card,
+  ownerOverride,
+  activeImpact,
+  lastMove,
+  lastMoveSignature,
+  isLastPlaced,
+}: {
+  card: BoardCard;
+  ownerOverride?: BoardCard["owner"];
+  activeImpact: CombatImpact | null;
+  lastMove: LastMoveSummary | null;
+  lastMoveSignature: string | null;
+  isLastPlaced: boolean;
+}) {
+  const { motionKind, motionKey, motionDirection, motionDelayMs } = getCardMotion(card, lastMove, lastMoveSignature);
+  const stackSize = card.stackSize ?? 1;
+  const highlightTone =
+    isLastPlaced ? "placed" : activeImpact?.result === "flipped" ? "flipped" : activeImpact ? "impact" : undefined;
+
+  return (
+    <div className={["ogot-board-card-wrap", stackSize > 1 ? "is-stacked" : "", isLastPlaced ? "is-just-placed" : ""].join(" ")}>
+      <CardMotionShell
+        owner={card.owner}
+        layout="board"
+        motionKind={motionKind}
+        motionKey={motionKey}
+        motionDirection={motionDirection}
+        motionDelayMs={motionDelayMs}
+      >
+        <CardView
+          card={card}
+          ownerOverride={ownerOverride}
+          layout="board"
+          className="h-full w-full"
+          highlightTone={highlightTone}
+          testId={`board-card-${card.instanceId}`}
+        />
+      </CardMotionShell>
+      <StackBadge card={card} />
+      <StackFamilyMeter card={card} active={isLastPlaced} />
+      <StackBonusToast card={card} active={isLastPlaced} />
+      <FusionBurst count={stackSize} active={isLastPlaced} />
+    </div>
+  );
+}
+
+function PendingPlacement({ preview }: { preview: PreviewMove }) {
+  const stackSize = preview.placedCard.stackSize ?? 1;
+
+  return (
+    <div className="ogot-pending-placement">
+      <CardView card={preview.placedCard} layout="board" className="h-full w-full" highlightTone="preview" />
+      <StackFamilyMeter card={preview.placedCard} active={stackSize > 1} />
+      <FusionBurst count={stackSize} active={stackSize > 1} />
+      {stackSize > 1 ? (
+        <div className="ogot-stack-badge">
+          <span>Fusion</span>
+          <strong>x{stackSize}</strong>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ImpactPill({ impact }: { impact: CombatImpact }) {
+  return (
+    <div className={["ogot-impact-pill", impact.result === "flipped" ? "is-flip" : ""].join(" ")}>
+      <span>{getImpactLabel(impact)}</span>
+      <strong>{getImpactValueLabel(impact)}</strong>
+    </div>
+  );
+}
+
+function BattleBoard({
+  match,
+  selectedCardId,
+  targetPosition,
+  hoveredPosition,
+  hoverPreview,
+  canHumanInteract,
+  onCellClick,
+  onCellHover,
+}: {
+  match: MatchState;
+  selectedCardId: string | null;
+  targetPosition: Position | null;
+  hoveredPosition: Position | null;
+  hoverPreview: PreviewMove | null;
+  canHumanInteract: boolean;
+  onCellClick: (position: Position) => void;
+  onCellHover: (position: Position | null) => void;
+}) {
+  const board = match.board;
+  const boardSize = board.length;
+  const previewImpactMap = hoverPreview ? buildImpactMap(hoverPreview.impacts) : new Map<string, CombatImpact>();
+  const lastImpactMap = match.lastMove ? buildImpactMap(match.lastMove.impacts) : new Map<string, CombatImpact>();
+  const lastMoveSignature = createLastMoveSignature(match.lastMove);
+  const flippedImpacts = useMemo(() => getFlippedImpacts(match.lastMove), [match.lastMove]);
+  const [revealedFlipIds, setRevealedFlipIds] = useState<Set<string>>(() => new Set());
+
+  useEffect(() => {
+    if (!lastMoveSignature || flippedImpacts.length === 0 || !match.lastMove) {
+      setRevealedFlipIds(new Set());
+      return;
+    }
+
+    const targetIds = flippedImpacts.map((impact) => impact.targetCardInstanceId);
+    if (match.lastMove.playerId !== "enemy") {
+      setRevealedFlipIds(new Set(targetIds));
+      return;
+    }
+
+    setRevealedFlipIds(new Set());
+    const revealTimer = window.setTimeout(() => {
+      setRevealedFlipIds(new Set(targetIds));
+    }, 185);
+
+    return () => window.clearTimeout(revealTimer);
+  }, [flippedImpacts, lastMoveSignature, match.lastMove]);
+
+  return (
+    <section className="ogot-board-table" aria-label="Plateau de combat">
+      <div className="ogot-board-table__rim" />
+      <div
+        className="ogot-board-grid"
+        style={{ gridTemplateColumns: `repeat(${boardSize}, minmax(0, 1fr))` }}
+        data-testid="board-grid"
+      >
+        {board.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            const position = { row: rowIndex, col: colIndex };
+            const cellKey = keyFor(position);
+            const isTargeted = samePosition(targetPosition, position);
+            const isHovered = samePosition(hoveredPosition, position);
+            const isPreviewCell = samePosition(hoverPreview?.move.position, position);
+            const isLastPlaced = samePosition(match.lastMove?.position, position);
+            const activeImpact = hoverPreview
+              ? previewImpactMap.get(cellKey) ?? null
+              : lastImpactMap.get(cellKey) ?? null;
+            const canTarget = canHumanInteract && !cell;
+            const pendingCard = !cell && isPreviewCell && hoverPreview ? hoverPreview : null;
+            const flipImpact = cell
+              ? match.lastMove?.impacts.find((impact) => impact.targetCardInstanceId === cell.instanceId)
+              : null;
+            const ownerOverride =
+              cell && flipImpact && flipImpact.result === "flipped" && !revealedFlipIds.has(cell.instanceId)
+                ? flipImpact.targetOwnerBeforeImpact
+                : undefined;
+            const visualOwner = ownerOverride ?? cell?.owner ?? null;
+
+            return (
+              <button
+                key={cellKey}
+                type="button"
+                className={[
+                  "ogot-board-cell",
+                  visualOwner ? `ogot-board-cell--${visualOwner}` : "",
+                  canTarget ? "can-target" : "",
+                  isTargeted ? "is-targeted" : "",
+                  isHovered ? "is-hovered" : "",
+                  isPreviewCell ? "is-preview" : "",
+                  isLastPlaced ? "is-last-placed" : "",
+                  selectedCardId && canTarget ? "has-selected-card" : "",
+                ].join(" ")}
+                disabled={!canTarget}
+                onClick={() => {
+                  if (canTarget) {
+                    onCellClick(position);
+                  }
+                }}
+                onMouseEnter={() => onCellHover(position)}
+                onMouseLeave={() => onCellHover(null)}
+                data-testid="board-cell"
+                data-row={rowIndex}
+                data-col={colIndex}
+                aria-label={`Case ${rowIndex + 1}-${colIndex + 1}`}
+              >
+                <span className="ogot-board-cell__inset" />
+                <span className="ogot-board-cell__slot" />
+                {cell ? (
+                  <BoardCardLayer
+                    card={cell}
+                    ownerOverride={ownerOverride}
+                    activeImpact={activeImpact}
+                    lastMove={match.lastMove}
+                    lastMoveSignature={lastMoveSignature}
+                    isLastPlaced={isLastPlaced}
+                  />
+                ) : pendingCard ? (
+                  <PendingPlacement preview={pendingCard} />
+                ) : (
+                  <span className="ogot-empty-slot-mark">
+                    <span />
+                  </span>
+                )}
+                {activeImpact ? <ImpactPill impact={activeImpact} /> : null}
+              </button>
+            );
+          }),
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -942,6 +1085,7 @@ export function BattleStage({
   hand,
   selectedCardId,
   selectedCardIds,
+  selectedCard,
   selectedManaCost,
   availableMana,
   targetPosition,
@@ -949,6 +1093,7 @@ export function BattleStage({
   hoveredPosition,
   hoverPreview,
   canHumanInteract,
+  control,
   sidePanel,
   labMode = false,
   embedded = false,
@@ -956,35 +1101,91 @@ export function BattleStage({
   onCellClick,
   onConfirmPlacement,
   onSelectCard,
+  onFireflyReroll,
+  onReflectionCopy,
 }: BattleStageProps) {
-  return (
-    <main
-      className={
-        embedded
-          ? "relative flex min-h-[42rem] flex-col overflow-hidden bg-[#020418]"
-          : "relative flex h-[100dvh] w-full overflow-hidden bg-[#020418]"
-      }
-    >
-      <ArenaBattlefield
-        match={match}
-        hand={hand}
-        selectedCardId={selectedCardId}
-        selectedCardIds={selectedCardIds}
-        selectedManaCost={selectedManaCost}
-        availableMana={availableMana}
-        targetPosition={targetPosition}
-        canConfirmPlacement={canConfirmPlacement}
-        hoverPreview={hoverPreview}
-        canHumanInteract={canHumanInteract}
-        hoveredPosition={hoveredPosition}
-        onCellHover={onCellHover}
-        onCellClick={onCellClick}
-        onConfirmPlacement={onConfirmPlacement}
-        onSelectCard={onSelectCard}
-      />
+  const selectedCards = hand.filter((card) => selectedCardIds.includes(card.instanceId));
+  const enemyVisibleCards = getVisibleEnemyCards(match);
 
-      {(labMode || embedded) ? (
-        <div className="pointer-events-auto absolute right-3 top-3 z-30 max-h-[28vh] w-[20rem] overflow-y-auto rounded-lg border border-white/10 bg-black/60 p-2 text-white shadow-xl backdrop-blur-md">
+  return (
+    <main className={["ogot-battle-shell", embedded ? "ogot-battle-shell--embedded" : ""].join(" ")}>
+      <div className="ogot-battle-backdrop" aria-hidden="true" />
+      <div className="ogot-battle-vignette" aria-hidden="true" />
+
+      <div className="ogot-battle-top-hand">
+        <HandRack
+          owner="enemy"
+          hand={enemyVisibleCards}
+          hiddenCount={enemyVisibleCards.length}
+          selectedCardIds={[]}
+          selectedManaCost={0}
+          turnMana={match.config.turnMana}
+          maxSelectedCards={match.config.maxCardsPerMove}
+          canHumanInteract={false}
+          onSelectCard={() => undefined}
+        />
+      </div>
+
+      <div className="ogot-battle-strip-slot">
+        <CombatTopStrip match={match} control={control} preview={hoverPreview} />
+      </div>
+
+      <aside className="ogot-battle-left-rail">
+        <BuffShelf
+          match={match}
+          selectedCard={selectedCard}
+          onFireflyReroll={onFireflyReroll}
+          onReflectionCopy={onReflectionCopy}
+        />
+        <ChampionPlate owner="player" match={match} control={control} />
+        <ChampionPlate owner="enemy" match={match} control={control} />
+      </aside>
+
+      <div className="ogot-battle-board-slot">
+        <BattleBoard
+          match={match}
+          selectedCardId={selectedCardId}
+          targetPosition={targetPosition}
+          hoveredPosition={hoveredPosition}
+          hoverPreview={hoverPreview}
+          canHumanInteract={canHumanInteract}
+          onCellClick={onCellClick}
+          onCellHover={onCellHover}
+        />
+      </div>
+
+      <aside className="ogot-battle-right-rail">
+        <FamilyInventoryPanel match={match} />
+        <CommandPanel
+          match={match}
+          selectedCards={selectedCards}
+          selectedCount={selectedCards.length}
+          selectedManaCost={selectedManaCost}
+          availableMana={availableMana}
+          targetPosition={targetPosition}
+          canConfirmPlacement={canConfirmPlacement}
+          canHumanInteract={canHumanInteract}
+          hoverPreview={hoverPreview}
+          onConfirmPlacement={onConfirmPlacement}
+        />
+      </aside>
+
+      <div className="ogot-battle-bottom-hand">
+        <HandRack
+          owner="player"
+          hand={hand}
+          hiddenCount={0}
+          selectedCardIds={selectedCardIds}
+          selectedManaCost={selectedManaCost}
+          turnMana={match.config.turnMana}
+          maxSelectedCards={match.config.maxCardsPerMove}
+          canHumanInteract={canHumanInteract}
+          onSelectCard={onSelectCard}
+        />
+      </div>
+
+      {labMode || embedded ? (
+        <div className="ogot-lab-side-panel">
           {sidePanel}
         </div>
       ) : null}

@@ -21,6 +21,10 @@ export function RoundCoinTossOverlay({ recap, canConfirm, onConfirm }: RoundCoin
 
   useEffect(() => {
     setMounted(true);
+    setLanded(false);
+    const fallbackTimer = window.setTimeout(() => setLanded(true), 1_700);
+
+    return () => window.clearTimeout(fallbackTimer);
   }, [recap.id]);
 
   const [intro] = useSpring(

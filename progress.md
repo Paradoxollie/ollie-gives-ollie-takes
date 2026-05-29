@@ -21,3 +21,14 @@ Original prompt: ok fais les corrections. ameliore encore le jeu pour que ce soi
 - Final pass: hybrid reward scoring, safer adventure-route weight bounds, stronger expert model separation, more contact-seeking bots, builder/shaper signature enemy cards, and clearer small-sample AI-lab severity.
 - Applied snapshot `ai-lab-20260526-184735`: 0 problem signals, all starter cards/families healthy, expert now clearly above regular on the local ladder; remaining watch signals are low-sample rhythm/route checks.
 - Full validation passed: `npm test` (18 files / 112 tests), `npx tsc --noEmit --pretty false`, `npm run build`, and Playwright smoke on `/lab/ai` + `/game` with a manual stacked move and AI response.
+
+## 2026-05-29
+
+- UI pass continued on `/game`: generated a cleaner stone arena background without a baked-in 3x3 board, then moved the DOM board to be the single readable tactical surface.
+- Improved combat HUD hierarchy: top status strip no longer covers the rival hand, rival card count is visible, and rival choices are revealed while the AI is taking its turn.
+- Added stack/family readability on board cards: family crests and counts stay attached to placed stacks, active family stacks highlight in the right panel, and same-family fusion shows an animated bonus toast.
+- Enlarged the fusion queue below the board, added family preview icons and active threshold labels, and made hand-card effect tooltips larger and unclipped.
+- Validation passed: `npx tsc --noEmit --pretty false`, `npm test` (18 files / 112 tests), `npm run build`, and Playwright desktop/mobile checks on `/game` with no console errors.
+- Restarted the local Next dev server on port 3000 after the user did not see changes. Added stricter responsive board sizing and compact portrait/landscape phone rules, then verified seven viewport captures: 1920x1080, 1366x768, 1024x768, 768x1024, 390x844, 844x390, and 360x740.
+- Final UI correction pass for the obstructive HUD: moved round/status fully into the side HUD, moved selected-fusion details into the command panel instead of a floating board bubble, kept rival cards visible outside the AI turn, tightened mobile champion/status text, and rebalanced board/hand spacing so no measured HUD or fusion element overlaps the board across the same seven viewport matrix.
+- Final validation passed after restarting the dev server with `allowedDevOrigins`: `npx tsc --noEmit --pretty false`, `npm test` (18 files / 112 tests), `npm run build`, HTTP 200 on `/game`, and Playwright desktop/phone smoke with no console errors.

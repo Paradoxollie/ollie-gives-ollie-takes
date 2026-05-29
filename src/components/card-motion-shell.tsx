@@ -96,31 +96,31 @@ function createPlacedState(direction: Direction) {
       return {
         x: -12,
         y: -6,
-        rotateX: 4,
-        rotateY: -10,
-        rotateZ: -2,
+        rotateX: 2,
+        rotateY: -6,
+        rotateZ: -1,
       };
     case "right":
       return {
         x: 12,
         y: -6,
-        rotateX: 4,
-        rotateY: 10,
-        rotateZ: 2,
+        rotateX: 2,
+        rotateY: 6,
+        rotateZ: 1,
       };
     case "top":
       return {
         x: 0,
-        y: -16,
-        rotateX: 10,
+        y: -12,
+        rotateX: 5,
         rotateY: 0,
         rotateZ: 0,
       };
     case "bottom":
       return {
         x: 0,
-        y: 12,
-        rotateX: -10,
+        y: 9,
+        rotateX: -5,
         rotateY: 0,
         rotateZ: 0,
       };

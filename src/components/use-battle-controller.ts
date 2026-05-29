@@ -605,7 +605,7 @@ export function useBattleController({
     triggerFireflyReroll,
     triggerReflectionCopy,
     selectCard(cardInstanceId) {
-      if (!canHumanInteract || !targetPosition) {
+      if (!canHumanInteract) {
         return;
       }
 
