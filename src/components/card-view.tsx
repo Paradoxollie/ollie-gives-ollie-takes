@@ -167,7 +167,7 @@ function EffectIconTray({ effects }: { effects: CardEffect[] }) {
                 {effect.minFlips}+
               </span>
             ) : null}
-            <span className="pointer-events-none absolute bottom-full left-1/2 mb-1 hidden w-36 -translate-x-1/2 rounded-md border border-[#f8e7b8]/35 bg-[#100b05]/92 px-2 py-1.5 text-center text-[0.52rem] font-semibold leading-tight text-[#fff3c7] shadow-[0_10px_24px_rgba(0,0,0,0.5)] group-hover/effect:block">
+            <span className="ogot-effect-tooltip pointer-events-none absolute bottom-full left-1/2 mb-2 hidden text-center font-semibold leading-snug group-hover/effect:block">
               {tooltip}
             </span>
           </span>
@@ -199,7 +199,7 @@ export function CardView({
   const effectText = formatCardEffects(card);
   const ariaLabel = `${card.name} ${sides.top}-${sides.right}-${sides.bottom}-${sides.left}${effectText ? `. ${effectText}` : ""}`;
   const cardClassName = [
-    "group relative h-full w-full overflow-hidden bg-transparent text-left transition-[box-shadow,filter,opacity] duration-200",
+    "group relative h-full w-full overflow-visible bg-transparent text-left transition-[box-shadow,filter,opacity] duration-200",
     isBoardLayout ? "rounded-[1.15rem]" : "rounded-[1.55rem]",
     "shadow-[0_16px_34px_rgba(0,0,0,0.3)]",
     selected
@@ -215,11 +215,11 @@ export function CardView({
   ].join(" ");
 
   const content = (
-    <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
+    <div className="absolute inset-0 overflow-visible rounded-[inherit]">
       <img
         src={artSrc}
         alt=""
-        className="ogot-card-art-image h-full w-full select-none object-cover"
+        className="ogot-card-art-image h-full w-full select-none rounded-[inherit] object-cover"
         draggable={false}
       />
 
