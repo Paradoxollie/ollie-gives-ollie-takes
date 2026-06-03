@@ -32,27 +32,27 @@ export const CARD_FAMILY_DEFINITIONS: Record<CardFamily, CardFamilyDefinition> =
     identity: "Pression agressive, forte quand plusieurs demons sont joues ensemble.",
     thresholds: [
       { count: 2, label: "Pacte", effect: "+1 attaque et les flips marquent la cible." },
-      { count: 3, label: "Brulure", effect: "Pile offensive capable de forcer les gros retours." },
+      { count: 3, label: "Brulure", effect: "+1 attaque supplementaire, soit +2 attaque au total." },
     ],
   },
   human: {
     id: "human",
     label: "Humains",
     shortLabel: "Humain",
-    identity: "Formation lisible, fiable quand les humains se couvrent dans une pile.",
+    identity: "Formation lisible aux roles distincts: deux humains tiennent la ligne, trois passent a l'offensive.",
     thresholds: [
-      { count: 2, label: "Escouade", effect: "+1 attaque et +1 defense dans cette pile." },
-      { count: 3, label: "Bastion", effect: "Pile polyvalente pour decks controle." },
+      { count: 2, label: "Escouade", effect: "+1 defense dans cette pile." },
+      { count: 3, label: "Bastion", effect: "+1 attaque en plus de la defense de l'escouade." },
     ],
   },
   automaton: {
     id: "automaton",
     label: "Automates",
     shortLabel: "Automate",
-    identity: "Ancrage defensif, excellent pour transformer une case en forteresse.",
+    identity: "Ancrage defensif qui devient une machine de riposte une fois complet.",
     thresholds: [
       { count: 2, label: "Blindage", effect: "+1 defense dans cette pile." },
-      { count: 3, label: "Module", effect: "+1 defense supplementaire dans un coin." },
+      { count: 3, label: "Module", effect: "+1 attaque, et +1 defense supplementaire dans un coin." },
     ],
   },
   revenant: {
@@ -69,10 +69,10 @@ export const CARD_FAMILY_DEFINITIONS: Record<CardFamily, CardFamilyDefinition> =
     id: "arcane",
     label: "Arcanes",
     shortLabel: "Arcane",
-    identity: "Precision et egalites, fort quand une pile arcane cree le bon timing.",
+    identity: "Precision et egalites: le centre lance un reseau qui se prolonge vers un noyau complet.",
     thresholds: [
       { count: 2, label: "Parite", effect: "+1 attaque quand les deux valeurs comparees sont egales." },
-      { count: 3, label: "Noyau", effect: "Pile technique pour decks pioche et precision." },
+      { count: 3, label: "Noyau", effect: "+1 defense pour conserver une case cle et alimenter les payoffs de pioche." },
     ],
   },
   dragon: {

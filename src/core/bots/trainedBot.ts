@@ -1,6 +1,6 @@
 import { buildMovePreviewTable, compareMoveCoordinates, opponentFor } from "@/core/bots/botUtils";
 import { evaluateHeuristicState } from "@/core/bots/heuristicBot";
-import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
+import { BOT_TRAINING_CONFIG, normalizeTrainedBotWeights } from "@/core/config/gameConfig";
 import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
 import { applyMove, getCardSides, getControlTotals, passTurn } from "@/core/engine";
 import { countOccupiedCells } from "@/core/utils/board";
@@ -24,6 +24,49 @@ function sumBoardStrength(board: Array<Array<BoardCard | null>>, owner: PlayerId
         }
 
         return rowTotal + Object.values(getCardSides(card)).reduce((sum, value) => sum + value, 0);
+      }, 0),
+    0,
+  );
+}
+
+function sumBoardMana(board: Array<Array<BoardCard | null>>, owner: PlayerId): number {
+  return board.reduce(
+    (total, row) =>
+      total +
+      row.reduce((rowTotal, card) => {
+        if (!card || card.owner !== owner) {
+          return rowTotal;
+        }
+
+        return rowTotal + (card.stackManaCost ?? card.manaCost);
+      }, 0),
+    0,
+  );
+}
+
+function getStackSynergyScore(board: Array<Array<BoardCard | null>>, owner: PlayerId): number {
+  return board.reduce(
+    (total, row) =>
+      total +
+      row.reduce((rowTotal, card) => {
+        if (!card || card.owner !== owner) {
+          return rowTotal;
+        }
+
+        const stackSize = card.stackSize ?? 1;
+        const familyCounts = Object.values(card.stackFamilyCounts ?? { [card.family]: 1 });
+        const sameFamilyLinks = familyCounts.reduce((sum, count) => sum + Math.max(0, (count ?? 0) - 1), 0);
+        const hybridLinks = Math.max(0, familyCounts.filter((count) => (count ?? 0) > 0).length - 1);
+        const activeConditionalEffects = (card.effects ?? []).filter((effect) => {
+          const sourceFamily = effect.sourceFamily ?? card.family;
+          const sourceCount = card.stackFamilyCounts?.[sourceFamily] ?? (card.family === sourceFamily ? 1 : 0);
+          const familyReady = !effect.requiredFamilyCount || sourceCount >= effect.requiredFamilyCount;
+          const hybridReady =
+            !effect.requiredHybridFamily || (card.stackFamilyCounts?.[effect.requiredHybridFamily] ?? 0) > 0;
+          return familyReady && hybridReady;
+        }).length;
+
+        return rowTotal + Math.max(0, stackSize - 1) + sameFamilyLinks + hybridLinks * 0.75 + activeConditionalEffects * 0.25;
       }, 0),
     0,
   );
@@ -83,8 +126,12 @@ export function evaluateMatchStateForBot(
 
   const control = getControlTotals(state);
   const hpDiff = state.champions[perspective].health - state.champions[opponent].health;
+  const shieldDiff = state.combat[perspective].shield - state.combat[opponent].shield;
+  const drawBonusDiff = state.combat[perspective].nextTurnDrawBonus - state.combat[opponent].nextTurnDrawBonus;
   const controlDiff = control[perspective] - control[opponent];
   const boardStrengthDiff = sumBoardStrength(state.board, perspective) - sumBoardStrength(state.board, opponent);
+  const boardManaDiff = sumBoardMana(state.board, perspective) - sumBoardMana(state.board, opponent);
+  const stackSynergyDiff = getStackSynergyScore(state.board, perspective) - getStackSynergyScore(state.board, opponent);
   const reserveStrengthDiff = getReserveStrength(state, perspective) - getReserveStrength(state, opponent);
   const handStrengthDiff =
     (state.turn.activePlayer === perspective ? sumCardListStrength(state.turn.choices) : 0) -
@@ -97,8 +144,12 @@ export function evaluateMatchStateForBot(
 
   return (
     hpDiff * weights.hpDiff +
+    shieldDiff * weights.shieldDiff +
+    drawBonusDiff * weights.drawBonusDiff +
     controlDiff * weights.controlDiff +
     boardStrengthDiff * weights.boardStrengthDiff +
+    boardManaDiff * weights.boardManaDiff +
+    stackSynergyDiff * weights.stackSynergyDiff +
     reserveStrengthDiff * weights.reserveStrengthDiff +
     handStrengthDiff * weights.handStrengthDiff +
     mobilityDiff * weights.mobilityDiff +
@@ -226,6 +277,8 @@ export function createConfiguredTrainedBot(
   searchDepth = TRAINED_BOT_PROFILE.searchDepth,
   beamWidth = TRAINED_BOT_PROFILE.beamWidth,
 ): Bot {
+  const normalizedWeights = normalizeTrainedBotWeights(weights);
+
   return {
     id: "trained",
     label: "Configured Trained Bot",
@@ -236,7 +289,7 @@ export function createConfiguredTrainedBot(
         move: chooseTrainedBotMove(
           state,
           context.playerId,
-          weights,
+          normalizedWeights,
           context.searchDepth ?? searchDepth,
           context.beamWidth ?? beamWidth,
         ),

@@ -5,6 +5,7 @@ import { FAMILY_STARTER_DECK_CARD_COUNT } from "@/core/config/decks";
 import { benchmarkAdventureAgainstOpponents } from "@/core/training/adventure-benchmark";
 import { benchmarkBotAgainstOpponents } from "@/core/training/benchmark";
 import { getBotTrainingScenarios } from "@/core/training/scenarios";
+import { getPublicGameTrainingScenarios } from "@/core/training/scenarios";
 
 describe("training benchmark", () => {
   it("builds a deterministic curriculum with stronger late scenarios", () => {
@@ -16,6 +17,7 @@ describe("training benchmark", () => {
     expect(scenarios.some((scenario) => scenario.enemyCardIds.length > scenarios[0].enemyCardIds.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.playerCharmIds?.length)).toBe(true);
     expect(scenarios.some((scenario) => scenario.enemyProfileId)).toBe(true);
+    expect(getPublicGameTrainingScenarios()).toHaveLength(7);
   });
 
   it("keeps benchmark summaries deterministic", { timeout: 20_000 }, () => {
@@ -38,7 +40,7 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      matchesPerOpponent: 1,
+      matchesPerOpponent: 4,
       scenarios: fastScenarios,
     });
 
@@ -60,11 +62,15 @@ describe("training benchmark", () => {
           beamWidth: 12,
         },
       ],
-      matchesPerOpponent: 1,
+      matchesPerOpponent: 4,
       scenarios: fastScenarios,
     });
 
     expect(left).toEqual(right);
+    expect(left.totalMatches).toBe(4);
+    expect(left.totalWins).toBe(left.totalLosses);
+    expect(left.opponents[0]?.scenarios.filter((scenario) => scenario.matches > 0)).toHaveLength(1);
+    expect(left.opponents[0]?.scenarios.find((scenario) => scenario.matches > 0)?.matches).toBe(4);
   });
 
   it("keeps adventure benchmark summaries deterministic", { timeout: 20_000 }, () => {
@@ -113,5 +119,26 @@ describe("training benchmark", () => {
     expect(left).toEqual(right);
     expect(left.totalRuns).toBe(1);
     expect(left.averageLocationsCleared).toBeGreaterThanOrEqual(0);
+  });
+
+  it("rejects combat benchmarks that cannot balance seats and starting player", () => {
+    expect(() =>
+      benchmarkBotAgainstOpponents({
+        seed: 909,
+        candidate: {
+          id: "candidate",
+          label: "candidate",
+          bot: greedyBot,
+        },
+        opponents: [
+          {
+            id: "greedy",
+            label: "greedy",
+            bot: greedyBot,
+          },
+        ],
+        matchesPerOpponent: 3,
+      }),
+    ).toThrowError("positive multiple of 4");
   });
 });

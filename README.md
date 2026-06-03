@@ -89,9 +89,9 @@ npm run dev
 npm run build
 npm run start
 npm run test
-npm run ai:lab:apply -- --matches 24 --seed 1701
-npm run ai:train -- --seed 700 --iterations 8 --population 10 --elite-count 3 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8
-npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --matches-per-opponent 4 --promotion-matches-per-opponent 8 --search-depth 3 --beam-width 8 --apply --promote
+npm run ai:lab:apply -- --matches 24 --adventure-runs 8 --seed 1701
+npm run ai:train -- --seed 700 --iterations 8 --population 10 --elite-count 3 --matches-per-opponent 8 --promotion-matches-per-opponent 28 --search-depth 3 --beam-width 12
+npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --matches-per-opponent 8 --promotion-matches-per-opponent 28 --search-depth 3 --beam-width 12 --apply --promote
 ```
 
 ## CLI d'entrainement
@@ -99,7 +99,7 @@ npm run train:bot -- --seed 700 --iterations 6 --population 8 --elite-count 3 --
 Lance un cycle d'entrainement auto-evalue avec :
 
 ```bash
-npm run train:bot -- --seed 700 --iterations 12 --population 10 --elite-count 3 --matches-per-opponent 4 --promotion-matches-per-opponent 10 --search-depth 3 --beam-width 8 --apply --promote
+npm run train:bot -- --seed 700 --iterations 12 --population 10 --elite-count 3 --matches-per-opponent 8 --promotion-matches-per-opponent 28 --search-depth 3 --beam-width 12 --apply --promote
 ```
 
 Options principales :
@@ -121,15 +121,19 @@ Chaque execution ecrit :
 - `reports/training/latest-trained-bot.json`
 - `reports/training/latest-promotion-report.json`
 
+Les nombres de matchs de combat doivent etre des multiples de `4` afin que chaque duel de decks et sa seed soient rejoues avec les deux sieges et les deux premiers joueurs. La promotion live utilise les six starters de famille et le miroir d'ouverture actuel.
+
+Le workflow GitHub Actions `AI Training` lance sept cycles standards et un cycle profond par jour. Un push qui modifie le moteur, les scripts ou le workflow declenche aussi un cycle standard. Les snapshots peuvent etre rafraichis a chaque cycle, mais un profil entraine ne devient le Champion live que s'il depasse les seuils de promotion contre l'heuristique stable, le Champion actuel et les runs aventure complets.
+
 ## Studio IA
 
 Le studio IA separe trois besoins :
 
-- `npm run ai:lab:apply -- --matches 24 --seed 1701` genere `reports/ai-lab/latest-ai-lab-report.*` et met a jour `src/core/ai-lab/generated/latestAiLabReport.ts` pour la page deployee.
-- `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 6 --promotion-matches-per-opponent 12 --search-depth 3 --beam-width 8` entraine et promeut le champion si le benchmark passe.
+- `npm run ai:lab:apply -- --matches 24 --adventure-runs 8 --seed 1701` genere `reports/ai-lab/latest-ai-lab-report.*` et met a jour `src/core/ai-lab/generated/latestAiLabReport.ts` pour la page deployee.
+- `npm run ai:train -- --seed 700 --iterations 8 --matches-per-opponent 8 --promotion-matches-per-opponent 28 --search-depth 3 --beam-width 12` entraine et promeut le champion si le benchmark passe.
 - `/lab/ai` lit le dernier rapport local quand il existe, sinon le snapshot versionne, et affiche les signaux d'equilibrage sur le depart actuel du jeu: choix de famille et starter fixe de 12 cartes.
 
-Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le Studio IA reproduit le flux joueur actuel, afin que les diagnostics restent alignes avec le jeu public.
+Les modeles de joueur sont `Debutant`, `Opportuniste`, `Regulier`, `Expert` et `Champion`. Ils utilisent tous le moteur deterministe dans `src/core` ; la page React ne reimplemente aucune regle. Le Studio IA reproduit le flux joueur actuel, afin que les diagnostics restent alignes avec le jeu public. Un rapport standard de 24 matchs par pairing couvre les 30 duels diriges entre starters avec les deux sieges et les deux initiatives; le rapport profond les repete avec davantage de seeds. Le laboratoire separe les statistiques des starters des cartes et combos construits pendant les runs complets, puis conserve une fenetre glissante de rapports de la meme version de regles pour distinguer les tendances durables du bruit de seed. Les recommandations de run complet restent exploratoires sous 8 runs par modele, et le runner affiche sa progression serie par serie dans les logs locaux et GitHub Actions.
 
 ## Structure du projet
 

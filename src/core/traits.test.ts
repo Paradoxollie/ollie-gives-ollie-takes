@@ -50,9 +50,29 @@ function emptyBoard(): Array<Array<BoardCard | null>> {
 }
 
 describe("family trait bonuses", () => {
-  it("gives humans attack from a local stack formation", () => {
+  it("lets a two-card human squad defend without receiving the attack bonus", () => {
     const board = emptyBoard();
-    const attacker = card({ id: "human-a", owner: "player", family: "human", row: 1, col: 1, stackFamilies: ["human", "human"] });
+    const attacker = card({ id: "enemy", owner: "enemy", family: "demon", row: 1, col: 0 });
+    const defender = card({ id: "human-a", owner: "player", family: "human", row: 1, col: 1, stackFamilies: ["human", "human"] });
+    board[1][0] = attacker;
+    board[1][1] = defender;
+
+    const modifiers = getTraitBattleModifiers({
+      board,
+      attacker,
+      defender,
+      direction: "right",
+      baseAttackerValue: 4,
+      baseDefenderValue: 3,
+    });
+
+    expect(modifiers.attackBonus).toBe(0);
+    expect(modifiers.defenseBonus).toBe(1);
+  });
+
+  it("gives humans attack only after completing a three-card formation", () => {
+    const board = emptyBoard();
+    const attacker = card({ id: "human-a", owner: "player", family: "human", row: 1, col: 1, stackFamilies: ["human", "human", "human"] });
     const defender = card({ id: "enemy", owner: "enemy", family: "demon", row: 1, col: 2 });
     board[1][1] = attacker;
     board[1][2] = defender;
@@ -67,6 +87,46 @@ describe("family trait bonuses", () => {
     });
 
     expect(modifiers.attackBonus).toBe(1);
+    expect(modifiers.defenseBonus).toBe(0);
+  });
+
+  it("lets a completed automaton machine attack as well as defend", () => {
+    const board = emptyBoard();
+    const attacker = card({ id: "auto-a", owner: "player", family: "automaton", row: 1, col: 1, stackFamilies: ["automaton", "automaton", "automaton"] });
+    const defender = card({ id: "enemy", owner: "enemy", family: "human", row: 1, col: 2 });
+    board[1][1] = attacker;
+    board[1][2] = defender;
+
+    const modifiers = getTraitBattleModifiers({
+      board,
+      attacker,
+      defender,
+      direction: "right",
+      baseAttackerValue: 3,
+      baseDefenderValue: 4,
+    });
+
+    expect(modifiers.attackBonus).toBe(1);
+    expect(modifiers.defenseBonus).toBe(0);
+  });
+
+  it("rewards a completed demon assault with a second attack bonus", () => {
+    const board = emptyBoard();
+    const attacker = card({ id: "demon-a", owner: "player", family: "demon", row: 1, col: 1, stackFamilies: ["demon", "demon", "demon"] });
+    const defender = card({ id: "enemy", owner: "enemy", family: "human", row: 1, col: 2 });
+    board[1][1] = attacker;
+    board[1][2] = defender;
+
+    const modifiers = getTraitBattleModifiers({
+      board,
+      attacker,
+      defender,
+      direction: "right",
+      baseAttackerValue: 3,
+      baseDefenderValue: 5,
+    });
+
+    expect(modifiers.attackBonus).toBe(2);
     expect(modifiers.defenseBonus).toBe(0);
   });
 
@@ -126,6 +186,26 @@ describe("family trait bonuses", () => {
     });
 
     expect(modifiers.attackBonus).toBe(1);
+  });
+
+  it("gives a completed arcane core a defensive bonus", () => {
+    const board = emptyBoard();
+    const attacker = card({ id: "enemy", owner: "enemy", family: "demon", row: 1, col: 0 });
+    const defender = card({ id: "arcane-a", owner: "player", family: "arcane", row: 1, col: 1, stackFamilies: ["arcane", "arcane", "arcane"] });
+    board[1][0] = attacker;
+    board[1][1] = defender;
+
+    const modifiers = getTraitBattleModifiers({
+      board,
+      attacker,
+      defender,
+      direction: "right",
+      baseAttackerValue: 4,
+      baseDefenderValue: 3,
+    });
+
+    expect(modifiers.attackBonus).toBe(0);
+    expect(modifiers.defenseBonus).toBe(1);
   });
 
   it("does not add board-wide family control bonuses", () => {

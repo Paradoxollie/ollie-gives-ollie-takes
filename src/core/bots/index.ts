@@ -26,6 +26,7 @@ export function getBot(botId: BotId): Bot {
 }
 
 export * from "@/core/bots/types";
-export { championBot, greedyBot, heuristicBot, randomBot, trainedBot };
+export { championBot, createConfiguredChampionBot } from "@/core/bots/championBot";
+export { greedyBot, heuristicBot, randomBot, trainedBot };
 export { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
 export { LIVE_CHAMPION_PROFILE } from "@/core/bots/generated/liveChampion";

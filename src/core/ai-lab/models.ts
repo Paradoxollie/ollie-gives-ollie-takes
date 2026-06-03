@@ -44,12 +44,12 @@ export const AI_PLAYER_MODELS: AiPlayerModel[] = [
   {
     id: "champion",
     label: "Champion",
-    skillLabel: "Profil entraine live",
+    skillLabel: "Modele live valide",
     rank: 5,
     botId: "champion",
     searchDepth: 3,
-    beamWidth: 14,
-    description: "Modele live qui garde une recherche profonde stable et n'accepte le profil promu qu'en net progres.",
+    beamWidth: 12,
+    description: "Modele live qui reste sur l'expert tant qu'un profil entraine n'a pas prouve un net progres.",
   },
 ];
 

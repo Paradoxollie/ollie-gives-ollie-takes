@@ -17,6 +17,16 @@ export async function POST(request: Request) {
     return labUnavailableResponse();
   }
 
+  if (process.env.NODE_ENV === "production" || process.platform !== "win32") {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Le controle d'entrainement est reserve au localhost Windows. Les entrainements en ligne passent par GitHub Actions.",
+      },
+      { status: 409 },
+    );
+  }
+
   const body = (await request.json().catch(() => ({}))) as TrainingControlRequest;
   const action = body.action;
 

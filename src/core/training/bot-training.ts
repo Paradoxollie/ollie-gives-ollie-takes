@@ -1,6 +1,5 @@
-import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
-import { createConfiguredTrainedBot } from "@/core/bots/trainedBot";
-import { greedyBot, heuristicBot } from "@/core/bots";
+import { BOT_TRAINING_CONFIG, normalizeTrainedBotWeights } from "@/core/config/gameConfig";
+import { createConfiguredChampionBot, greedyBot, heuristicBot } from "@/core/bots";
 import { benchmarkAdventureAgainstOpponents } from "@/core/training/adventure-benchmark";
 import { benchmarkBotAgainstOpponents } from "@/core/training/benchmark";
 import { nextRandom, mixSeed } from "@/core/utils/rng";
@@ -66,8 +65,12 @@ export interface TrainingProgressSnapshot {
 
 const WEIGHT_KEYS: Array<keyof TrainedBotWeights> = [
   "hpDiff",
+  "shieldDiff",
+  "drawBonusDiff",
   "controlDiff",
   "boardStrengthDiff",
+  "boardManaDiff",
+  "stackSynergyDiff",
   "reserveStrengthDiff",
   "handStrengthDiff",
   "mobilityDiff",
@@ -98,8 +101,12 @@ const WEIGHT_KEYS: Array<keyof TrainedBotWeights> = [
 function createZeroWeights(): TrainedBotWeights {
   return {
     hpDiff: 0,
+    shieldDiff: 0,
+    drawBonusDiff: 0,
     controlDiff: 0,
     boardStrengthDiff: 0,
+    boardManaDiff: 0,
+    stackSynergyDiff: 0,
     reserveStrengthDiff: 0,
     handStrengthDiff: 0,
     mobilityDiff: 0,
@@ -129,7 +136,7 @@ function createZeroWeights(): TrainedBotWeights {
 }
 
 function cloneWeights(weights: TrainedBotWeights): TrainedBotWeights {
-  return { ...weights };
+  return normalizeTrainedBotWeights(weights);
 }
 
 function averageWeights(weightsList: TrainedBotWeights[]): TrainedBotWeights {
@@ -142,10 +149,14 @@ function averageWeights(weightsList: TrainedBotWeights[]): TrainedBotWeights {
   }
 
   const count = weightsList.length || 1;
-  return {
+  return normalizeTrainedBotWeights({
     hpDiff: sums.hpDiff / count,
+    shieldDiff: sums.shieldDiff / count,
+    drawBonusDiff: sums.drawBonusDiff / count,
     controlDiff: sums.controlDiff / count,
     boardStrengthDiff: sums.boardStrengthDiff / count,
+    boardManaDiff: sums.boardManaDiff / count,
+    stackSynergyDiff: sums.stackSynergyDiff / count,
     reserveStrengthDiff: sums.reserveStrengthDiff / count,
     handStrengthDiff: sums.handStrengthDiff / count,
     mobilityDiff: sums.mobilityDiff / count,
@@ -171,7 +182,7 @@ function averageWeights(weightsList: TrainedBotWeights[]): TrainedBotWeights {
     charmSynergyBias: sums.charmSynergyBias / count,
     duplicateCardPenalty: sums.duplicateCardPenalty / count,
     enemyProfileRespect: sums.enemyProfileRespect / count,
-  };
+  });
 }
 
 function sampleNormal(seed: number): { value: number; seed: number } {
@@ -199,7 +210,7 @@ function mutateWeights(meanWeights: TrainedBotWeights, sigma: number, seed: numb
   }
 
   return {
-    weights: nextWeights,
+    weights: normalizeTrainedBotWeights(nextWeights),
     seed: nextSeed,
   };
 }
@@ -209,20 +220,20 @@ function evaluateCandidate(options: {
   championWeights: TrainedBotWeights;
   seed: number;
   iteration: number;
-  candidateIndex: number;
   matchesPerOpponent: number;
   campaignRunsPerOpponent: number;
   searchDepth: number;
   beamWidth: number;
 }): WeightCandidateScore {
   const benchmark = benchmarkBotAgainstOpponents({
-    seed: mixSeed(options.seed, `iter:${options.iteration}:candidate:${options.candidateIndex}`),
+    seed: mixSeed(options.seed, `iter:${options.iteration}:candidate-benchmark`),
     candidate: {
       id: "candidate",
       label: "candidate",
-      bot: createConfiguredTrainedBot(options.candidateWeights, options.searchDepth, options.beamWidth),
+      bot: createConfiguredChampionBot(options.candidateWeights, options.searchDepth, options.beamWidth),
       searchDepth: options.searchDepth,
       beamWidth: options.beamWidth,
+      weights: options.candidateWeights,
     },
     opponents: [
       {
@@ -242,19 +253,20 @@ function evaluateCandidate(options: {
       {
         id: "champion",
         label: "champion",
-        bot: createConfiguredTrainedBot(options.championWeights, options.searchDepth, options.beamWidth),
+        bot: createConfiguredChampionBot(options.championWeights, options.searchDepth, options.beamWidth),
         searchDepth: options.searchDepth,
         beamWidth: options.beamWidth,
+        weights: options.championWeights,
       },
     ],
     matchesPerOpponent: options.matchesPerOpponent,
   });
   const adventureBenchmark = benchmarkAdventureAgainstOpponents({
-    seed: mixSeed(options.seed, `adventure-iter:${options.iteration}:candidate:${options.candidateIndex}`),
+    seed: mixSeed(options.seed, `adventure-iter:${options.iteration}:candidate-benchmark`),
     candidate: {
       id: "candidate",
       label: "candidate",
-      bot: createConfiguredTrainedBot(options.candidateWeights, options.searchDepth, options.beamWidth),
+      bot: createConfiguredChampionBot(options.candidateWeights, options.searchDepth, options.beamWidth),
       searchDepth: options.searchDepth,
       beamWidth: options.beamWidth,
       weights: options.candidateWeights,
@@ -270,9 +282,10 @@ function evaluateCandidate(options: {
       {
         id: "champion",
         label: "champion",
-        bot: createConfiguredTrainedBot(options.championWeights, options.searchDepth, options.beamWidth),
+        bot: createConfiguredChampionBot(options.championWeights, options.searchDepth, options.beamWidth),
         searchDepth: options.searchDepth,
         beamWidth: options.beamWidth,
+        weights: options.championWeights,
       },
     ],
     runsPerOpponent: options.campaignRunsPerOpponent,
@@ -412,7 +425,6 @@ export function trainTrainedBotWeights(
         championWeights,
         seed: options.seed,
         iteration,
-        candidateIndex,
         matchesPerOpponent,
         campaignRunsPerOpponent,
         searchDepth,

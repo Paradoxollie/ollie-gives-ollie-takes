@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const localAssetExcludes = [
   "./public/**/*",
+  "./reports/**/*",
+  "./tmp/**/*",
+  "./docs/**/*",
   "./work/**/*",
   "./output/**/*",
   "./playwright-artifacts/**/*",

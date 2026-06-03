@@ -9,7 +9,7 @@ import {
 } from "@/core/config/decks";
 import { getCardArchetype, getCardStrength } from "@/core/cards";
 
-describe("V4 family starter decks", () => {
+describe("family starter decks", () => {
   it("defines one 12-card duplicate starter deck for every playable family", () => {
     for (const family of STARTER_DECK_FAMILIES) {
       const config = FAMILY_STARTER_DECKS[family];
@@ -59,5 +59,95 @@ describe("V4 family starter decks", () => {
       expect(started.draft).toBeNull();
       expect(started.deck.cards.map((entry) => entry.card.id)).toEqual(getFamilyStarterCardIds(family));
     }
+  });
+
+  it("gives starter engines real stack requirements instead of free solo value", () => {
+    const sapling = getCardArchetype("sapling");
+    const cinderGrin = getCardArchetype("cinder-grin");
+    const sentinel = getCardArchetype("clock-sentinel");
+    const monk = getCardArchetype("gear-monk");
+    const quietMonk = getCardArchetype("quiet-monk");
+    const ranger = getCardArchetype("path-ranger");
+    const mage = getCardArchetype("rune-mage");
+    const knight = getCardArchetype("field-knight");
+    const starWitch = getCardArchetype("star-witch");
+    const runeAdept = getCardArchetype("rune-adept");
+    const moonScribe = getCardArchetype("moon-scribe");
+
+    expect(
+      sapling.effects?.some((effect) => effect.kind === "gain-shield" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(
+      cinderGrin.effects?.some((effect) => effect.kind === "deal-damage" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(sentinel.preferredPositions).toContain("corner");
+    expect(
+      sentinel.effects?.some((effect) => effect.kind === "gain-shield" && effect.condition === "corner"),
+    ).toBe(true);
+    expect(monk.manaCost).toBe(1);
+    expect(
+      monk.effects?.some(
+        (effect) =>
+          effect.kind === "boost-self" &&
+          effect.requiredFamilyCount === 2 &&
+          effect.scaleWithFamilyCount,
+      ),
+    ).toBe(true);
+    expect(
+      quietMonk.effects?.some(
+        (effect) =>
+          effect.kind === "boost-self" &&
+          effect.requiredFamilyCount === 2 &&
+          effect.directions === "weakest",
+      ),
+    ).toBe(true);
+    expect(
+      ranger.effects?.some(
+        (effect) =>
+          effect.kind === "boost-self" &&
+          effect.requiredFamilyCount === 2 &&
+          effect.directions === "strongest" &&
+          !effect.scaleWithFamilyCount,
+      ),
+    ).toBe(true);
+    expect(
+      mage.effects?.some((effect) => effect.kind === "draw-next-turn" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(
+      mage.effects?.some(
+        (effect) =>
+          effect.kind === "boost-self" &&
+          effect.requiredFamilyCount === 2 &&
+          !effect.scaleWithFamilyCount,
+      ),
+    ).toBe(true);
+    expect(
+      knight.effects?.some((effect) => effect.kind === "gain-shield" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(
+      starWitch.effects?.some(
+        (effect) =>
+          effect.kind === "boost-self" &&
+          effect.amount === 2 &&
+          effect.requiredFamilyCount === 3 &&
+          !effect.condition &&
+          !effect.scaleWithFamilyCount,
+      ),
+    ).toBe(true);
+    expect(
+      starWitch.effects?.some(
+        (effect) => effect.kind === "draw-next-turn" && effect.requiredFamilyCount === 3,
+      ),
+    ).toBe(true);
+    expect(
+      runeAdept.effects?.some(
+        (effect) => effect.kind === "draw-next-turn" && effect.condition === "adjacent-ally",
+      ),
+    ).toBe(true);
+    expect(
+      moonScribe.effects?.some(
+        (effect) => effect.kind === "boost-self" && effect.condition === "adjacent-enemy",
+      ),
+    ).toBe(true);
   });
 });

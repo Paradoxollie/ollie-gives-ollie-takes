@@ -1,9 +1,9 @@
-import { championBot, greedyBot, heuristicBot } from "@/core/bots";
+import { championBot, createConfiguredChampionBot, greedyBot, heuristicBot } from "@/core/bots";
 import { LIVE_CHAMPION_PROFILE } from "@/core/bots/generated/liveChampion";
-import { createConfiguredTrainedBot } from "@/core/bots/trainedBot";
 import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
 import { benchmarkAdventureAgainstOpponents } from "@/core/training/adventure-benchmark";
 import { benchmarkBotAgainstOpponents } from "@/core/training/benchmark";
+import { getPublicGameTrainingScenarios } from "@/core/training/scenarios";
 import type { AdventureBenchmarkSummary, AdventureCampaignSummary } from "@/core/training/adventure-benchmark";
 import type { BotBenchmarkSummary, ConfiguredBotSpec, HeadToHeadSummary } from "@/core/training/benchmark";
 import type { LiveChampionProfile } from "@/core/bots/generated/liveChampion";
@@ -45,9 +45,10 @@ export function evaluatePromotionCandidate(options: {
   const candidate: ConfiguredBotSpec = {
     id: "candidate",
     label: "Candidate",
-    bot: createConfiguredTrainedBot(options.weights, options.searchDepth, options.beamWidth),
+    bot: createConfiguredChampionBot(options.weights, options.searchDepth, options.beamWidth),
     searchDepth: options.searchDepth,
     beamWidth: options.beamWidth,
+    weights: options.weights,
   };
   const opponents: ConfiguredBotSpec[] = [
     {
@@ -70,6 +71,7 @@ export function evaluatePromotionCandidate(options: {
       bot: championBot,
       searchDepth: options.searchDepth,
       beamWidth: options.beamWidth,
+      weights: LIVE_CHAMPION_PROFILE.weights,
     },
   ];
 
@@ -78,6 +80,7 @@ export function evaluatePromotionCandidate(options: {
     candidate,
     opponents,
     matchesPerOpponent,
+    scenarios: getPublicGameTrainingScenarios(),
   });
   const campaignBenchmark = benchmarkAdventureAgainstOpponents({
     seed: options.seed + 101,
@@ -99,6 +102,7 @@ export function evaluatePromotionCandidate(options: {
         bot: championBot,
         searchDepth: options.searchDepth,
         beamWidth: options.beamWidth,
+        weights: LIVE_CHAMPION_PROFILE.weights,
       },
     ],
     runsPerOpponent: campaignRunsPerOpponent,
@@ -232,8 +236,12 @@ export function formatLiveChampionProfileModule(options: {
     `  beamWidth: ${options.beamWidth},`,
     "  weights: {",
     `    hpDiff: ${options.weights.hpDiff},`,
+    `    shieldDiff: ${options.weights.shieldDiff},`,
+    `    drawBonusDiff: ${options.weights.drawBonusDiff},`,
     `    controlDiff: ${options.weights.controlDiff},`,
     `    boardStrengthDiff: ${options.weights.boardStrengthDiff},`,
+    `    boardManaDiff: ${options.weights.boardManaDiff},`,
+    `    stackSynergyDiff: ${options.weights.stackSynergyDiff},`,
     `    reserveStrengthDiff: ${options.weights.reserveStrengthDiff},`,
     `    handStrengthDiff: ${options.weights.handStrengthDiff},`,
     `    mobilityDiff: ${options.weights.mobilityDiff},`,

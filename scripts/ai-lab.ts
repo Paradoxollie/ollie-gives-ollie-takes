@@ -2,11 +2,13 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import {
+  attachAiLabTrend,
   buildAiLabReport,
   createAiLabMarkdownReport,
   formatAiLabReportModule,
   getAiLabScenario,
 } from "@/core";
+import { LATEST_AI_LAB_REPORT } from "@/core/ai-lab/generated/latestAiLabReport";
 
 interface CliArgs {
   matchesPerPairing: number;
@@ -54,8 +56,12 @@ function parseArgs(argv: string[]): CliArgs {
     }
   }
 
-  if (!Number.isFinite(args.matchesPerPairing) || args.matchesPerPairing <= 0) {
-    throw new Error("Match count must be a positive integer.");
+  if (
+    !Number.isInteger(args.matchesPerPairing) ||
+    args.matchesPerPairing <= 0 ||
+    args.matchesPerPairing % 4 !== 0
+  ) {
+    throw new Error("Match count must be a positive multiple of 4.");
   }
 
   if (!Number.isFinite(args.adventureRunsPerModel) || args.adventureRunsPerModel <= 0) {
@@ -71,11 +77,18 @@ function parseArgs(argv: string[]): CliArgs {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const report = buildAiLabReport({
-    matchesPerPairing: args.matchesPerPairing,
-    adventureRunsPerModel: args.adventureRunsPerModel,
-    seed: args.seed,
-  });
+  process.stdout.write(
+    `Starting AI lab: ${args.matchesPerPairing} matches per pairing, ${args.adventureRunsPerModel} adventure runs per model, seed ${args.seed}.\n`,
+  );
+  const report = attachAiLabTrend(
+    buildAiLabReport({
+      matchesPerPairing: args.matchesPerPairing,
+      adventureRunsPerModel: args.adventureRunsPerModel,
+      seed: args.seed,
+      onProgress: (message) => process.stdout.write(`${message}\n`),
+    }),
+    [LATEST_AI_LAB_REPORT],
+  );
   const reportsDirectory = path.join(process.cwd(), "reports", "ai-lab");
   await mkdir(reportsDirectory, { recursive: true });
 

@@ -9,7 +9,11 @@ import { loadResolvedLiveChampionProfile } from "@/lib/live-champion";
 import type { ActiveTrainingStatus, TrainingRecentRunStatus, TrainingStatusPayload } from "@/lib/training-status-types";
 
 const execFileAsync = promisify(execFile);
-const TRAINING_REPORTS_DIRECTORY = path.join(process.cwd(), "reports", "training");
+const TRAINING_REPORTS_DIRECTORY = path.join(
+  /* turbopackIgnore: true */ process.cwd(),
+  "reports",
+  "training",
+);
 
 interface TrainingReportFile {
   reportId: string;
@@ -83,7 +87,10 @@ interface TrainingLogProgress {
 
 async function readJsonFile<T>(filename: string): Promise<T | null> {
   try {
-    const raw = await readFile(path.join(TRAINING_REPORTS_DIRECTORY, filename), "utf8");
+    const raw = await readFile(
+      /* turbopackIgnore: true */ path.join(TRAINING_REPORTS_DIRECTORY, filename),
+      "utf8",
+    );
     return JSON.parse(raw) as T;
   } catch {
     return null;
@@ -114,7 +121,9 @@ async function readLatestLogFilePath(): Promise<string | null> {
     const logFiles = await Promise.all(
       logFilenames.map(async (filename) => ({
         filename,
-        modifiedAt: (await stat(path.join(TRAINING_REPORTS_DIRECTORY, filename))).mtimeMs,
+        modifiedAt: (
+          await stat(/* turbopackIgnore: true */ path.join(TRAINING_REPORTS_DIRECTORY, filename))
+        ).mtimeMs,
       })),
     );
 
@@ -174,7 +183,7 @@ async function readLatestLogSnapshot(): Promise<{
   }
 
   try {
-    const raw = await readFile(logPath, "utf8");
+    const raw = await readFile(/* turbopackIgnore: true */ logPath, "utf8");
     const parsed = parseStructuredLogLines(raw);
     return {
       logPath,

@@ -455,8 +455,12 @@ export interface EnemyPowerState {
 
 export interface TrainedBotWeights {
   hpDiff: number;
+  shieldDiff: number;
+  drawBonusDiff: number;
   controlDiff: number;
   boardStrengthDiff: number;
+  boardManaDiff: number;
+  stackSynergyDiff: number;
   reserveStrengthDiff: number;
   handStrengthDiff: number;
   mobilityDiff: number;
@@ -496,6 +500,8 @@ export interface BotTrainingConfig {
   defaultSearchDepth: number;
   defaultBeamWidth: number;
   heuristicBaselineBlend: number;
+  championHeuristicScoreTolerance: number;
+  championCandidateLimit: number;
   campaignTrainingRunsPerOpponent: number;
   campaignPromotionRunsPerOpponent: number;
   campaignScoreWeight: number;

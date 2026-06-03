@@ -119,3 +119,12 @@ export function getBotTrainingScenarios(): BotTrainingScenario[] {
     playerCharmIds: scenario.playerCharmIds ? [...scenario.playerCharmIds] : undefined,
   }));
 }
+
+/**
+ * Returns the exact current family-start curriculum used to approve a live Champion.
+ */
+export function getPublicGameTrainingScenarios(): BotTrainingScenario[] {
+  return getBotTrainingScenarios().filter(
+    (scenario) => scenario.id.startsWith("family-start-") || scenario.id === "opening-balance",
+  );
+}

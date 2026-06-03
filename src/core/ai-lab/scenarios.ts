@@ -1,6 +1,8 @@
 import { FAMILY_STARTER_DECK_CARD_COUNT, getFamilyStarterCardIds, STARTER_DECK_FAMILIES } from "@/core/config/decks";
-import type { AiLabScenarioId } from "@/core/ai-lab/types";
+import { getAiPlayerModel } from "@/core/ai-lab/models";
+import type { AiLabScenarioId, AiPlayerModelId } from "@/core/ai-lab/types";
 import type { CardFamily } from "@/core/types";
+import { mixSeed } from "@/core/utils/rng";
 
 export interface AiLabScenario {
   id: AiLabScenarioId;
@@ -8,6 +10,8 @@ export interface AiLabScenario {
   description: string;
   startingDeckCardCount: number;
 }
+
+export const AI_LAB_RULESET_VERSION = "v7-2026-06-03-arcane-core-payoff";
 
 export const CURRENT_FAMILY_START_SCENARIO: AiLabScenario = {
   id: "current-family-start",
@@ -17,7 +21,8 @@ export const CURRENT_FAMILY_START_SCENARIO: AiLabScenario = {
   startingDeckCardCount: FAMILY_STARTER_DECK_CARD_COUNT,
 };
 
-const FAMILY_PAIR_OFFSETS = [0, 1, 2, 3, 4, 5] as const;
+const FAMILY_PAIR_OFFSETS = [1, 2, 3, 4, 5] as const;
+export const AI_LAB_FAMILY_PAIR_COUNT = STARTER_DECK_FAMILIES.length * FAMILY_PAIR_OFFSETS.length;
 
 /**
  * Returns the AI-lab scenarios that represent the current public game flow.
@@ -40,18 +45,42 @@ export function getAiLabScenario(scenarioId: AiLabScenarioId): AiLabScenario {
 /**
  * Cycles through every current starter family so AI reports do not overfit one deck.
  */
-export function getCurrentFamilyPairForAiLabMatch(matchIndex: number): {
+export function getCurrentFamilyPairForAiLabMatch(familyPairIndex: number): {
   playerFamily: CardFamily;
   enemyFamily: CardFamily;
 } {
-  const playerFamily = STARTER_DECK_FAMILIES[matchIndex % STARTER_DECK_FAMILIES.length];
-  const offset = FAMILY_PAIR_OFFSETS[Math.floor(matchIndex / STARTER_DECK_FAMILIES.length) % FAMILY_PAIR_OFFSETS.length];
-  const enemyFamily = STARTER_DECK_FAMILIES[(matchIndex + offset) % STARTER_DECK_FAMILIES.length];
+  const playerFamily = STARTER_DECK_FAMILIES[familyPairIndex % STARTER_DECK_FAMILIES.length];
+  const offset = FAMILY_PAIR_OFFSETS[Math.floor(familyPairIndex / STARTER_DECK_FAMILIES.length) % FAMILY_PAIR_OFFSETS.length];
+  const enemyFamily = STARTER_DECK_FAMILIES[(familyPairIndex + offset) % STARTER_DECK_FAMILIES.length];
 
   return {
     playerFamily,
     enemyFamily,
   };
+}
+
+/**
+ * Assigns one circular family-distance group to a series.
+ * The regular mirror plus the default four-step ladder cover all 30 directed family duels.
+ */
+export function getCurrentFamilyPairForAiLabSeries(
+  matchup: [AiPlayerModelId, AiPlayerModelId],
+  matchIndex: number,
+  seed: number,
+): {
+  playerFamily: CardFamily;
+  enemyFamily: CardFamily;
+} {
+  const lowerRank = Math.min(getAiPlayerModel(matchup[0]).rank, getAiPlayerModel(matchup[1]).rank);
+  const groupIndex = matchup[0] === matchup[1]
+    ? (lowerRank + 2) % FAMILY_PAIR_OFFSETS.length
+    : lowerRank % FAMILY_PAIR_OFFSETS.length;
+  const matchupKey = [...matchup].sort().join("-");
+  const familyRotation = Math.abs(mixSeed(seed, `family-pair-rotation:${matchupKey}`)) % STARTER_DECK_FAMILIES.length;
+  const balanceBlock = Math.floor(matchIndex / 4);
+  const playerFamilyIndex = (balanceBlock + familyRotation) % STARTER_DECK_FAMILIES.length;
+
+  return getCurrentFamilyPairForAiLabMatch(groupIndex * STARTER_DECK_FAMILIES.length + playerFamilyIndex);
 }
 
 /**

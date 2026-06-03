@@ -42,6 +42,7 @@ export interface AiLabRunConfig {
   matchesPerPairing: number;
   adventureRunsPerModel: number;
   seed: number;
+  rulesetVersion?: string;
   scenarioIds: AiLabScenarioId[];
   modelIds: AiPlayerModelId[];
 }
@@ -109,9 +110,12 @@ export interface AiLabMoveRecord {
 
 export interface AiLabMatchResult {
   matchIndex: number;
+  source?: "ladder" | "adventure";
   scenarioId: AiLabScenarioId;
   scenarioLabel: string;
   startingDeckCardCount: number;
+  playerStarterFamily?: CardFamily;
+  enemyStarterFamily?: CardFamily;
   matchup: [AiPlayerModelId, AiPlayerModelId];
   boardSize: number;
   modelBySeat: Record<PlayerId, AiPlayerModelId>;
@@ -197,6 +201,18 @@ export interface AiLabDeckSummary {
   deadTurnFrequency: number;
   status: "healthy" | "watch" | "problem";
   notes: string[];
+}
+
+export interface AiLabStarterFamilyMatchupSummary {
+  id: string;
+  leftFamily: CardFamily;
+  rightFamily: CardFamily;
+  games: number;
+  leftWins: number;
+  rightWins: number;
+  draws: number;
+  leftWinRate: number;
+  rightWinRate: number;
 }
 
 export interface AiLabAdventureNodeRecord {
@@ -395,12 +411,51 @@ export interface AiLabBalanceRecommendation {
 }
 
 export interface AiLabDesignDiagnostics {
+  baselineWinRate?: number;
   cardAnalytics: AiLabCardAnalysis[];
   familyAnalytics: AiLabGroupAnalysis[];
   roleAnalytics: AiLabGroupAnalysis[];
   rarityAnalytics: AiLabGroupAnalysis[];
   comboAnalytics: AiLabComboAnalysis[];
   balanceRecommendations: AiLabBalanceRecommendation[];
+}
+
+export interface AiLabTrendCardSnapshot {
+  cardId: string;
+  name: string;
+  status: AiLabCardStatus;
+  winRateWhenPlayed: number;
+}
+
+export interface AiLabTrendSnapshot {
+  reportId: string;
+  generatedAt: string;
+  rulesetVersion: string;
+  startingPlayerWinRate: number;
+  deckStatus: AiLabDeckSummary["status"];
+  higherModelWinRates: Record<string, number>;
+  familyWinRates: Partial<Record<CardFamily, number>>;
+  starterFamilyMatchupWinRates?: Record<string, number>;
+  adventureBossReachRates: Partial<Record<AiPlayerModelId, number>>;
+  cardSignals: AiLabTrendCardSnapshot[];
+}
+
+export interface AiLabTrendSignal {
+  id: string;
+  kind: "initiative" | "skill" | "family" | "card" | "adventure";
+  severity: AiLabInsightSeverity;
+  title: string;
+  detail: string;
+  recommendation: string;
+  reports: number;
+  occurrences: number;
+  averageRate: number;
+}
+
+export interface AiLabTrendSummary {
+  windowSize: number;
+  snapshots: AiLabTrendSnapshot[];
+  signals: AiLabTrendSignal[];
 }
 
 export interface AiLabReport {
@@ -410,9 +465,12 @@ export interface AiLabReport {
   playerModels: AiPlayerModel[];
   skillSummaries: AiLabModelSummary[];
   deckSummaries: AiLabDeckSummary[];
+  starterFamilyMatchups?: AiLabStarterFamilyMatchupSummary[];
   ladderPairings: AiLabPairingSummary[];
   adventureSummaries: AiLabAdventureModelSummary[];
   adventureRuns: AiLabAdventureRunRecord[];
   diagnostics: AiLabDesignDiagnostics;
+  adventureDiagnostics?: AiLabDesignDiagnostics;
   insights: AiLabInsight[];
+  trend?: AiLabTrendSummary;
 }

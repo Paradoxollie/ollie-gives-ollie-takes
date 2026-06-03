@@ -1,23 +1,21 @@
 import { getBot } from "@/core/bots";
 import { getAiPlayerModel } from "@/core/ai-lab/models";
+import { LIVE_CHAMPION_PROFILE } from "@/core/bots/generated/liveChampion";
 import {
   CURRENT_FAMILY_START_SCENARIO,
   getAiLabScenario,
-  getCurrentFamilyPairForAiLabMatch,
+  getCurrentFamilyPairForAiLabSeries,
   getCurrentFamilyStarterCardIdsForAiLab,
 } from "@/core/ai-lab/scenarios";
+import { createAiLabMoveRecord } from "@/core/ai-lab/telemetry";
 import { DEFAULT_DECK_PRESET_ID } from "@/core/config/decks";
 import type {
-  AiLabCardSnapshot,
-  AiLabEffectTally,
   AiLabMatchResult,
-  AiLabPositionKind,
   AiLabScenarioId,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import { applyMove, createMatch, getMoveCardInstanceIds, passTurn } from "@/core/engine";
-import type { BoardCard, CardEffectEvent, CardInstance, PlayerId, Position } from "@/core/types";
-import { getAdjacentPositions } from "@/core/utils/board";
+import { applyMove, createMatch, passTurn } from "@/core/engine";
+import type { PlayerId } from "@/core/types";
 import { mixSeed } from "@/core/utils/rng";
 
 interface AiLabMatchConfig {
@@ -62,94 +60,45 @@ function getSchedule(
   };
 }
 
-function getStableCardId(card: Pick<CardInstance, "archetypeId" | "baseArchetypeId">): string {
-  return card.baseArchetypeId ?? card.archetypeId;
+function getDecisionPolicyKey(modelId: AiPlayerModelId): string {
+  const model = getAiPlayerModel(modelId);
+  const resolvedBotId =
+    model.botId === "champion" &&
+    !(
+      LIVE_CHAMPION_PROFILE.source === "trained" &&
+      LIVE_CHAMPION_PROFILE.approved &&
+      LIVE_CHAMPION_PROFILE.weights
+    )
+      ? "heuristic"
+      : model.botId;
+
+  return `${resolvedBotId}:d${model.searchDepth}:b${model.beamWidth}`;
 }
 
-function sumSides(card: Pick<CardInstance, "sides">): number {
-  return Object.values(card.sides).reduce((sum, value) => sum + value, 0);
+function usesSameDecisionPolicy(matchup: [AiPlayerModelId, AiPlayerModelId]): boolean {
+  return getDecisionPolicyKey(matchup[0]) === getDecisionPolicyKey(matchup[1]);
 }
 
-function cardSnapshot(card: CardInstance): AiLabCardSnapshot {
-  const sideValues = Object.values(card.sides);
+function remapEquivalentMatchResult(
+  result: AiLabMatchResult,
+  matchup: [AiPlayerModelId, AiPlayerModelId],
+  matchIndex: number,
+): AiLabMatchResult {
+  const schedule = getSchedule(matchup, matchIndex);
+  if (schedule.startingPlayer !== result.startingPlayer) {
+    throw new Error("Cannot remap an AI lab match to a different starting player.");
+  }
 
   return {
-    cardId: getStableCardId(card),
-    instanceId: card.instanceId,
-    archetypeId: card.archetypeId,
-    name: card.name,
-    family: card.family,
-    rarity: card.rarity,
-    role: card.role,
-    sourceType: card.sourceType,
-    manaCost: card.manaCost,
-    sideTotal: sumSides(card),
-    maxSide: Math.max(...sideValues),
-    minSide: Math.min(...sideValues),
-    effectKinds: Array.from(new Set(card.effects?.map((effect) => effect.kind) ?? [])).sort(),
-    buildTags: [...(card.buildTags ?? [])].sort(),
-    preferredPositions: [...(card.preferredPositions ?? [])].sort(),
+    ...result,
+    matchIndex,
+    modelBySeat: schedule.modelBySeat,
+    winnerModelId: result.winnerSeat === "draw" ? "draw" : schedule.modelBySeat[result.winnerSeat],
+    moveHistory: result.moveHistory.map((move) => ({
+      ...move,
+      modelId: schedule.modelBySeat[move.playerId],
+    })),
   };
-}
-
-function getPositionKind(position: Position, boardSize: number): AiLabPositionKind {
-  const isTopOrBottom = position.row === 0 || position.row === boardSize - 1;
-  const isLeftOrRight = position.col === 0 || position.col === boardSize - 1;
-
-  if (isTopOrBottom && isLeftOrRight) {
-    return "corner";
-  }
-
-  if (boardSize % 2 === 1 && position.row === Math.floor(boardSize / 2) && position.col === Math.floor(boardSize / 2)) {
-    return "center";
-  }
-
-  if (isTopOrBottom || isLeftOrRight) {
-    return "edge";
-  }
-
-  return "inner";
-}
-
-function collectAdjacentCards(
-  board: Array<Array<BoardCard | null>>,
-  position: Position,
-  activePlayer: PlayerId,
-): {
-  friendly: BoardCard[];
-  enemy: BoardCard[];
-} {
-  const adjacentCards = getAdjacentPositions(position, board.length)
-    .map((entry) => board[entry.position.row]?.[entry.position.col] ?? null)
-    .filter((card): card is BoardCard => card !== null);
-
-  return {
-    friendly: adjacentCards.filter((card) => card.owner === activePlayer),
-    enemy: adjacentCards.filter((card) => card.owner !== activePlayer),
-  };
-}
-
-function tallyEffects(events: CardEffectEvent[]): AiLabEffectTally[] {
-  const tallies = new Map<string, AiLabEffectTally>();
-
-  for (const event of events) {
-    const key = `${event.sourceCardArchetypeId}:${event.kind}`;
-    const tally = tallies.get(key) ?? {
-      kind: event.kind,
-      sourceCardId: event.sourceCardArchetypeId,
-      sourceCardName: event.sourceCardName,
-      sourceFamily: event.sourceFamily,
-      count: 0,
-      amount: 0,
-    };
-    tally.count += 1;
-    tally.amount += event.amount;
-    tallies.set(key, tally);
-  }
-
-  return Array.from(tallies.values()).sort(
-    (left, right) => left.sourceCardId.localeCompare(right.sourceCardId) || left.kind.localeCompare(right.kind),
-  );
 }
 
 /**
@@ -159,9 +108,10 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
   const scenarioId = config.scenarioId ?? CURRENT_FAMILY_START_SCENARIO.id;
   const scenario = getAiLabScenario(scenarioId);
   const schedule = getSchedule(config.matchup, matchIndex);
-  const familyPair = getCurrentFamilyPairForAiLabMatch(matchIndex);
-  const matchSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:match:${matchIndex}`);
-  let decisionSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:decision:${matchIndex}`);
+  const balanceBlock = Math.floor(matchIndex / 4);
+  const familyPair = getCurrentFamilyPairForAiLabSeries(config.matchup, matchIndex, config.seed);
+  const matchSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:block:${balanceBlock}`);
+  let decisionSeed = mixSeed(config.seed, `${scenarioId}:${config.matchup.join("-")}:decision-block:${balanceBlock}`);
   let state = createMatch({
     deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed: matchSeed,
@@ -194,82 +144,20 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
       throw new Error(`AI model ${modelId} returned no move while choices were available.`);
     }
 
-    const moveCardIds = getMoveCardInstanceIds(decision.move);
-    const playedCardIds = new Set(moveCardIds);
-    const stackCards = moveCardIds
-      .map((instanceId) => state.turn.choices.find((card) => card.instanceId === instanceId) ?? null)
-      .filter((card): card is CardInstance => card !== null);
-    const chosenCard = state.turn.choices.find((card) => card.instanceId === moveCardIds[0]);
-    if (!chosenCard) {
-      throw new Error(`AI model ${modelId} selected a card that is not in the current choices.`);
-    }
-
-    const turnNumber = state.turn.index;
-    const roundNumber = state.round.number;
-    const roundTurnNumber = state.turn.roundTurn;
-    const activeOpponent: PlayerId = activePlayer === "player" ? "enemy" : "player";
-    const healthBefore = {
-      player: state.champions.player.health,
-      enemy: state.champions.enemy.health,
-    };
-    const adjacentCards = collectAdjacentCards(state.board, decision.move.position, activePlayer);
-    const offeredCards = state.turn.choices.map(cardSnapshot);
     const nextState = applyMove(state, decision.move);
-    const lastMove = nextState.lastMove;
-    if (!lastMove) {
-      throw new Error("AI lab expected a lastMove summary after applying a move.");
-    }
-    const flippedImpacts = lastMove.impacts.filter((impact) => impact.result === "flipped");
-    const noFlipImpacts = lastMove.impacts.filter((impact) => impact.result === "no-flip");
-    const flipMargins = flippedImpacts.map((impact) => impact.margin);
-    const effectEvents = tallyEffects(lastMove.effectEvents);
-    const damageDealt = Math.max(0, healthBefore[activeOpponent] - lastMove.championsAfterMove[activeOpponent].health);
-    const damageTaken = Math.max(0, healthBefore[activePlayer] - lastMove.championsAfterMove[activePlayer].health);
-
-    moveHistory.push({
-      turn: turnNumber,
-      round: roundNumber,
-      roundTurn: roundTurnNumber,
-      modelId,
-      playerId: activePlayer,
-      row: lastMove.position.row,
-      col: lastMove.position.col,
-      positionKind: getPositionKind(lastMove.position, state.config.boardSize),
-      card: cardSnapshot(chosenCard),
-      playedCards: stackCards.map(cardSnapshot),
-      offeredCards,
-      ignoredCardIds: offeredCards
-        .filter((card) => !playedCardIds.has(card.instanceId))
-        .map((card) => card.cardId),
-      adjacentFriendlyCount: adjacentCards.friendly.length,
-      adjacentEnemyCount: adjacentCards.enemy.length,
-      adjacentFriendlyFamilies: adjacentCards.friendly.map((card) => card.family).sort(),
-      adjacentEnemyFamilies: adjacentCards.enemy.map((card) => card.family).sort(),
-      stackSize: stackCards.length,
-      stackFamilies: stackCards.map((card) => card.family).sort(),
-      flippedCount: flippedImpacts.length,
-      failedImpactCount: noFlipImpacts.length,
-      flipMargins,
-      averageFlipMargin: flipMargins.length === 0 ? 0 : flipMargins.reduce((sum, margin) => sum + margin, 0) / flipMargins.length,
-      effectEvents,
-      effectAmountTotal: effectEvents.reduce((sum, event) => sum + event.amount, 0),
-      damageDealt,
-      damageTaken,
-      roundWinner: lastMove.roundEndSummary?.roundWinner ?? null,
-      roundControlDifference: lastMove.roundEndSummary?.controlDifference ?? null,
-      roundEnded: lastMove.roundEnded,
-      matchEnded: nextState.result !== null,
-      lethal: nextState.result?.winner === activePlayer,
-    });
+    moveHistory.push(createAiLabMoveRecord({ state, nextState, move: decision.move, modelId }));
 
     state = nextState;
   }
 
   return {
     matchIndex,
+    source: "ladder",
     scenarioId,
     scenarioLabel: scenario.label,
     startingDeckCardCount: scenario.startingDeckCardCount,
+    playerStarterFamily: familyPair.playerFamily,
+    enemyStarterFamily: familyPair.enemyFamily,
     matchup: config.matchup,
     boardSize: state.config.boardSize,
     modelBySeat: schedule.modelBySeat,
@@ -298,5 +186,29 @@ export function simulateAiLabMatch(config: AiLabMatchConfig, matchIndex: number)
  * Plays a deterministic batch for the current game scenario and one AI-model matchup.
  */
 export function simulateAiLabSeries(config: AiLabMatchConfig & { matches: number }): AiLabMatchResult[] {
-  return Array.from({ length: config.matches }, (_, index) => simulateAiLabMatch(config, index));
+  if (!usesSameDecisionPolicy(config.matchup)) {
+    return Array.from({ length: config.matches }, (_, index) => simulateAiLabMatch(config, index));
+  }
+
+  const results: AiLabMatchResult[] = [];
+  for (let blockStart = 0; blockStart < config.matches; blockStart += 4) {
+    const remaining = config.matches - blockStart;
+    if (remaining < 4) {
+      for (let index = blockStart; index < config.matches; index += 1) {
+        results.push(simulateAiLabMatch(config, index));
+      }
+      continue;
+    }
+
+    const playerStarts = simulateAiLabMatch(config, blockStart);
+    const enemyStarts = simulateAiLabMatch(config, blockStart + 2);
+    results.push(
+      playerStarts,
+      remapEquivalentMatchResult(playerStarts, config.matchup, blockStart + 1),
+      enemyStarts,
+      remapEquivalentMatchResult(enemyStarts, config.matchup, blockStart + 3),
+    );
+  }
+
+  return results;
 }

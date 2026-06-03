@@ -5,6 +5,7 @@ import type {
   AdventureRewardConfig,
   BotTrainingConfig,
   MatchConfig,
+  TrainedBotWeights,
 } from "@/core/types";
 
 export const POSITION_WEIGHTS = [
@@ -31,6 +32,10 @@ export const GAME_CONFIG: MatchConfig = {
   maxDirectDamagePerMove: 4,
   maxCardSideValue: 8,
 };
+
+export const AI_LAB_DIAGNOSTIC_CONFIG = {
+  minStableAdventureRunsPerModel: 8,
+} as const;
 
 export const ADVENTURE_CONFIG: AdventureConfig = {
   draftOfferSize: 14,
@@ -122,6 +127,53 @@ export const ADVENTURE_BOT_WEIGHT_LIMITS = {
   enemyProfileRespect: { min: 0, max: 10 },
 } as const;
 
+export const TRAINED_BOT_WEIGHT_LIMITS = {
+  hpDiff: { min: 0, max: 140 },
+  shieldDiff: { min: 0, max: 120 },
+  drawBonusDiff: { min: 0, max: 180 },
+  controlDiff: { min: 0, max: 180 },
+  boardStrengthDiff: { min: 0, max: 80 },
+  boardManaDiff: { min: 0, max: 80 },
+  stackSynergyDiff: { min: 0, max: 120 },
+  reserveStrengthDiff: { min: -10, max: 30 },
+  handStrengthDiff: { min: -10, max: 50 },
+  mobilityDiff: { min: -10, max: 30 },
+  cornerControlDiff: { min: 0, max: 120 },
+  occupiedBoardDiff: { min: -50, max: 50 },
+  imminentRoundDamageDiff: { min: 0, max: 180 },
+  activeTurnTempo: { min: -60, max: 60 },
+  specialCardValue: ADVENTURE_BOT_WEIGHT_LIMITS.specialCardValue,
+  deckTrimValue: ADVENTURE_BOT_WEIGHT_LIMITS.deckTrimValue,
+  eliteRouteBias: ADVENTURE_BOT_WEIGHT_LIMITS.eliteRouteBias,
+  restRouteBias: ADVENTURE_BOT_WEIGHT_LIMITS.restRouteBias,
+  forgeRouteBias: ADVENTURE_BOT_WEIGHT_LIMITS.forgeRouteBias,
+  treasureRouteBias: ADVENTURE_BOT_WEIGHT_LIMITS.treasureRouteBias,
+  branchingRouteBias: ADVENTURE_BOT_WEIGHT_LIMITS.branchingRouteBias,
+  riskTolerance: ADVENTURE_BOT_WEIGHT_LIMITS.riskTolerance,
+  aggressionPlanBias: ADVENTURE_BOT_WEIGHT_LIMITS.aggressionPlanBias,
+  controlPlanBias: ADVENTURE_BOT_WEIGHT_LIMITS.controlPlanBias,
+  tempoPlanBias: ADVENTURE_BOT_WEIGHT_LIMITS.tempoPlanBias,
+  fusionPlanBias: ADVENTURE_BOT_WEIGHT_LIMITS.fusionPlanBias,
+  precisionPlanBias: ADVENTURE_BOT_WEIGHT_LIMITS.precisionPlanBias,
+  uncommonCardBias: ADVENTURE_BOT_WEIGHT_LIMITS.uncommonCardBias,
+  rareCardBias: ADVENTURE_BOT_WEIGHT_LIMITS.rareCardBias,
+  charmSynergyBias: ADVENTURE_BOT_WEIGHT_LIMITS.charmSynergyBias,
+  duplicateCardPenalty: ADVENTURE_BOT_WEIGHT_LIMITS.duplicateCardPenalty,
+  enemyProfileRespect: ADVENTURE_BOT_WEIGHT_LIMITS.enemyProfileRespect,
+} as const satisfies Record<keyof TrainedBotWeights, { min: number; max: number }>;
+
+/**
+ * Keeps learned profiles inside ranges that remain meaningful for the live game.
+ */
+export function normalizeTrainedBotWeights(weights: TrainedBotWeights): TrainedBotWeights {
+  return Object.fromEntries(
+    Object.entries(TRAINED_BOT_WEIGHT_LIMITS).map(([key, limits]) => {
+      const weightKey = key as keyof TrainedBotWeights;
+      return [weightKey, Math.min(limits.max, Math.max(limits.min, weights[weightKey]))];
+    }),
+  ) as unknown as TrainedBotWeights;
+}
+
 export const ADVENTURE_CHARM_CONFIG: AdventureCharmConfig = {
   offerSize: 3,
   starterOfferSize: 3,
@@ -176,21 +228,23 @@ export const BOT_TRAINING_CONFIG: BotTrainingConfig = {
   eliteCount: 3,
   iterations: 8,
   matchesPerOpponent: 8,
-  promotionMatchesPerOpponent: 12,
+  promotionMatchesPerOpponent: 28,
   initialSigma: 3.5,
   sigmaDecay: 0.84,
   minSigma: 0.45,
   defaultSearchDepth: 2,
-  defaultBeamWidth: 10,
+  defaultBeamWidth: 12,
   heuristicBaselineBlend: 0.14,
+  championHeuristicScoreTolerance: 40,
+  championCandidateLimit: 4,
   campaignTrainingRunsPerOpponent: 4,
   campaignPromotionRunsPerOpponent: 6,
   campaignScoreWeight: 0.11,
-  promotionMinimumWinRateVsHeuristic: 0.54,
-  promotionMinimumWinRateVsChampion: 0.5,
+  promotionMinimumWinRateVsHeuristic: 0.57,
+  promotionMinimumWinRateVsChampion: 0.54,
   promotionMinimumAverageHpEdge: 0.1,
-  promotionMinimumCampaignScoreVsHeuristic: 24,
-  promotionMinimumCampaignScoreVsChampion: 12,
-  promotionMinimumBossReachRateVsHeuristic: 0,
-  promotionMinimumBossReachRateVsChampion: 0,
+  promotionMinimumCampaignScoreVsHeuristic: 60,
+  promotionMinimumCampaignScoreVsChampion: 50,
+  promotionMinimumBossReachRateVsHeuristic: 0.25,
+  promotionMinimumBossReachRateVsChampion: 0.2,
 };

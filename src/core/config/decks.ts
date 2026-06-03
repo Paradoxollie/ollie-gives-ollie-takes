@@ -64,8 +64,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
   human: {
     family: "human",
     label: "Humains",
-    objective: "Former des lignes fiables, garder une main stable et gagner par controle propre plutot que par explosion.",
-    weakness: "Moins explosif que les decks combo, il doit conserver la discipline de placement pour rester fort.",
+    objective: "Former des lignes fiables avec un ancrage, une menace et un moteur de pioche clairement distincts.",
+    weakness: "Ses cartes sont moins efficaces seules et chaque role ne couvre plus toutes les directions a la fois.",
     cards: [
       { cardId: "quiet-monk", copies: 3, role: "anchor" },
       { cardId: "path-ranger", copies: 3, role: "attacker" },
@@ -76,8 +76,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
   automaton: {
     family: "automaton",
     label: "Automates",
-    objective: "Prendre les coins, fortifier les bords et construire un plateau difficile a retourner.",
-    weakness: "Plan previsible: un adversaire qui nie les coins force des placements moins efficaces.",
+    objective: "Prendre les coins, utiliser les cartes peu couteuses et completer des machines de trois cartes capables d'attaquer.",
+    weakness: "Plan previsible: les piles incompletes manquent de pression et un adversaire qui nie les coins ralentit la forteresse.",
     cards: [
       { cardId: "clock-sentinel", copies: 3, role: "anchor" },
       { cardId: "brass-rook", copies: 3, role: "attacker" },
@@ -100,8 +100,8 @@ export const FAMILY_STARTER_DECKS: Record<StarterDeckFamily, FamilyStarterDeckCo
   arcane: {
     family: "arcane",
     label: "Arcanes",
-    objective: "Contester le centre, enchainer les conditions precises et transformer le setup en boosts ou pioche.",
-    weakness: "Le deck perd beaucoup si le centre est refuse ou si les cartes moteur sont retournees trop tot.",
+    objective: "Ancrer le centre, prolonger le reseau vers les allies puis completer un noyau de trois cartes.",
+    weakness: "Le deck demande un ordre de placement precis et son payoff reste faible tant que le noyau n'est pas complet.",
     cards: [
       { cardId: "wandering-glyph", copies: 3, role: "anchor" },
       { cardId: "moon-scribe", copies: 3, role: "attacker" },

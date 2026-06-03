@@ -138,7 +138,7 @@ export function TrainingStatusWidget() {
   const [pendingAction, setPendingAction] = useState<"start" | "stop" | "restart" | null>(null);
   const [trainingIterations, setTrainingIterations] = useState(12);
   const [matchesPerOpponent, setMatchesPerOpponent] = useState(4);
-  const [promotionMatches, setPromotionMatches] = useState(12);
+  const [promotionMatches, setPromotionMatches] = useState(28);
 
   useEffect(() => {
     let cancelled = false;
@@ -286,8 +286,9 @@ export function TrainingStatusWidget() {
                   <span className="block text-[0.54rem] uppercase tracking-[0.22em] text-white/44">Matchs / opp.</span>
                   <input
                     type="number"
-                    min={2}
+                    min={4}
                     max={32}
+                    step={4}
                     value={matchesPerOpponent}
                     onChange={(event) => setMatchesPerOpponent(Number(event.target.value))}
                     className="w-full rounded-[0.95rem] border border-white/10 bg-black/18 px-3 py-2 text-sm text-white outline-none transition focus:border-cyan-200/50"
@@ -297,8 +298,9 @@ export function TrainingStatusWidget() {
                   <span className="block text-[0.54rem] uppercase tracking-[0.22em] text-white/44">Benchmark promo</span>
                   <input
                     type="number"
-                    min={2}
+                    min={4}
                     max={64}
+                    step={4}
                     value={promotionMatches}
                     onChange={(event) => setPromotionMatches(Number(event.target.value))}
                     className="w-full rounded-[0.95rem] border border-white/10 bg-black/18 px-3 py-2 text-sm text-white outline-none transition focus:border-cyan-200/50"
@@ -306,7 +308,7 @@ export function TrainingStatusWidget() {
                 </label>
               </div>
               <p className="mt-3 text-xs leading-5 text-white/48">
-                Plus tu montes ces valeurs, plus le run d&apos;entrainement est long, mais la mesure est plus fiable.
+                Les matchs sont arrondis par groupes de 4 pour equilibrer les places et le joueur qui commence.
               </p>
             </section>
 

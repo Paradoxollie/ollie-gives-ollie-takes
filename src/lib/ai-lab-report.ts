@@ -6,7 +6,12 @@ import path from "node:path";
 import { LATEST_AI_LAB_REPORT } from "@/core/ai-lab/generated/latestAiLabReport";
 import type { AiLabReport } from "@/core/ai-lab/types";
 
-const AI_LAB_REPORT_PATH = path.join(process.cwd(), "reports", "ai-lab", "latest-ai-lab-report.json");
+const AI_LAB_REPORT_PATH = path.join(
+  /* turbopackIgnore: true */ process.cwd(),
+  "reports",
+  "ai-lab",
+  "latest-ai-lab-report.json",
+);
 
 function isAiLabReport(value: unknown): value is AiLabReport {
   if (!value || typeof value !== "object") {
@@ -30,7 +35,7 @@ function isAiLabReport(value: unknown): value is AiLabReport {
 
 async function loadRuntimeReport(): Promise<AiLabReport | null> {
   try {
-    const raw = await readFile(AI_LAB_REPORT_PATH, "utf8");
+    const raw = await readFile(/* turbopackIgnore: true */ AI_LAB_REPORT_PATH, "utf8");
     const parsed = JSON.parse(raw) as unknown;
     return isAiLabReport(parsed) ? parsed : null;
   } catch {

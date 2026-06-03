@@ -36,12 +36,15 @@ import { getBot } from "@/core/bots";
 import { LIVE_CHAMPION_PROFILE } from "@/core/bots/generated/liveChampion";
 import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
 import { DEFAULT_DECK_PRESET_ID, FAMILY_STARTER_DECK_CARD_COUNT, STARTER_DECK_FAMILIES } from "@/core/config/decks";
+import { normalizeTrainedBotWeights } from "@/core/config/gameConfig";
 import { applyMove, createMatch, passTurn } from "@/core/engine";
 import { applyAutomatedPlayerCharmActions } from "@/core/player-charms";
+import { createAiLabMoveRecord } from "@/core/ai-lab/telemetry";
 import type {
   AiLabAdventureModelSummary,
   AiLabAdventureNodeRecord,
   AiLabAdventureRunRecord,
+  AiLabMatchResult,
   AiPlayerModel,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
@@ -73,12 +76,14 @@ interface AdventureCombatTelemetry {
   flips: number;
   deadTurns: number;
   reshuffles: number;
+  match: AiLabMatchResult;
 }
 
 interface AdventureReportOptions {
   seed: number;
   models: AiPlayerModel[];
   runsPerModel: number;
+  onProgress?: (message: string) => void;
 }
 
 function safeRate(numerator: number, denominator: number): number {
@@ -102,60 +107,86 @@ function createZeroRarityCounts(): Record<CardRarity, number> {
 }
 
 function cloneWeights(weights: TrainedBotWeights): TrainedBotWeights {
-  return { ...weights };
+  return normalizeTrainedBotWeights(weights);
 }
 
-function getModelAdventureWeights(modelId: AiPlayerModelId): TrainedBotWeights | null {
-  const trainedWeights = TRAINED_BOT_PROFILE.weights;
-  const championWeights = LIVE_CHAMPION_PROFILE.weights ?? trainedWeights;
+function getExpertAdventureWeights(trainedWeights: TrainedBotWeights): TrainedBotWeights {
+  return cloneWeights({
+    ...trainedWeights,
+    specialCardValue: 8,
+    deckTrimValue: 7,
+    eliteRouteBias: -2,
+    restRouteBias: 6,
+    forgeRouteBias: 5,
+    treasureRouteBias: 7,
+    branchingRouteBias: 5,
+    riskTolerance: 2,
+    aggressionPlanBias: 4,
+    controlPlanBias: 8,
+    tempoPlanBias: 5,
+    fusionPlanBias: 5,
+    precisionPlanBias: 8,
+    uncommonCardBias: 4,
+    rareCardBias: 6,
+    charmSynergyBias: 5,
+    duplicateCardPenalty: 5,
+    enemyProfileRespect: 8,
+  });
+}
+
+/**
+ * Resolves the full-run decision profile for an AI-lab player model.
+ */
+export function getAiLabAdventureModelWeights(modelId: AiPlayerModelId): TrainedBotWeights | null {
+  const trainedWeights = cloneWeights(TRAINED_BOT_PROFILE.weights);
+  const expertWeights = getExpertAdventureWeights(trainedWeights);
 
   if (modelId === "champion") {
-    return cloneWeights(championWeights);
+    return LIVE_CHAMPION_PROFILE.source === "trained" &&
+      LIVE_CHAMPION_PROFILE.approved &&
+      LIVE_CHAMPION_PROFILE.weights
+      ? cloneWeights(LIVE_CHAMPION_PROFILE.weights)
+      : expertWeights;
   }
 
   if (modelId === "expert") {
-    return {
-      ...trainedWeights,
-      specialCardValue: 8,
-      deckTrimValue: 7,
-      eliteRouteBias: -2,
-      restRouteBias: 6,
-      forgeRouteBias: 5,
-      treasureRouteBias: 7,
-      branchingRouteBias: 5,
-      riskTolerance: 2,
-      aggressionPlanBias: 4,
-      controlPlanBias: 8,
-      tempoPlanBias: 5,
-      fusionPlanBias: 5,
-      precisionPlanBias: 8,
-      uncommonCardBias: 4,
-      rareCardBias: 6,
-      charmSynergyBias: 5,
-      duplicateCardPenalty: 5,
-      enemyProfileRespect: 8,
-    };
+    return expertWeights;
   }
 
   if (modelId === "opportunist") {
-    return {
+    return cloneWeights({
       ...trainedWeights,
-      riskTolerance: trainedWeights.riskTolerance + 3,
-      aggressionPlanBias: trainedWeights.aggressionPlanBias + 4,
-      controlPlanBias: trainedWeights.controlPlanBias - 2,
-      tempoPlanBias: trainedWeights.tempoPlanBias + 2,
-      fusionPlanBias: trainedWeights.fusionPlanBias - 1,
-      rareCardBias: trainedWeights.rareCardBias + 3,
-      uncommonCardBias: trainedWeights.uncommonCardBias + 1,
-      deckTrimValue: trainedWeights.deckTrimValue - 2,
-      duplicateCardPenalty: trainedWeights.duplicateCardPenalty - 2,
-      eliteRouteBias: trainedWeights.eliteRouteBias + 2,
-    };
+      specialCardValue: 8,
+      deckTrimValue: 0,
+      eliteRouteBias: 4,
+      restRouteBias: 0,
+      forgeRouteBias: 1,
+      treasureRouteBias: 5,
+      branchingRouteBias: 1,
+      riskTolerance: 5,
+      aggressionPlanBias: 8,
+      controlPlanBias: 0,
+      tempoPlanBias: 5,
+      fusionPlanBias: 1,
+      precisionPlanBias: 0,
+      uncommonCardBias: 3,
+      rareCardBias: 7,
+      charmSynergyBias: 1,
+      duplicateCardPenalty: 0,
+      enemyProfileRespect: 1,
+    });
   }
 
   if (modelId === "regular") {
-    return {
+    return cloneWeights({
       ...trainedWeights,
+      specialCardValue: 6,
+      deckTrimValue: 3,
+      eliteRouteBias: 1,
+      restRouteBias: 3,
+      forgeRouteBias: 2,
+      treasureRouteBias: 3,
+      branchingRouteBias: 1,
       riskTolerance: 0,
       aggressionPlanBias: 0,
       controlPlanBias: 1,
@@ -166,7 +197,8 @@ function getModelAdventureWeights(modelId: AiPlayerModelId): TrainedBotWeights |
       rareCardBias: 0,
       charmSynergyBias: 0,
       duplicateCardPenalty: 0,
-    };
+      enemyProfileRespect: 2,
+    });
   }
 
   return null;
@@ -178,7 +210,7 @@ function createModelSpec(model: AiPlayerModel): AdventureLabBotSpec {
     bot: getBot(model.botId),
     searchDepth: model.searchDepth,
     beamWidth: model.beamWidth,
-    weights: getModelAdventureWeights(model.id),
+    weights: getAiLabAdventureModelWeights(model.id),
   };
 }
 
@@ -190,6 +222,22 @@ function createEnemySpec(loadout: ReturnType<typeof buildAdventureEnemyLoadout>)
     beamWidth: loadout.beamWidth,
     weights: loadout.botId === "champion" ? LIVE_CHAMPION_PROFILE.weights : null,
   };
+}
+
+function modelIdForBotSpec(spec: AdventureLabBotSpec): AiPlayerModelId {
+  if (spec.id === "random") {
+    return "beginner";
+  }
+
+  if (spec.id === "greedy") {
+    return "opportunist";
+  }
+
+  if (spec.id === "champion" || spec.id === "trained") {
+    return "champion";
+  }
+
+  return "expert";
 }
 
 function chooseBeginnerEntry<T>(entries: T[], seed: number, label: string): T | null {
@@ -315,12 +363,19 @@ function updateLastPathRecord(
 
 function playAdventureCombat(options: {
   seed: number;
+  matchIndex: number;
+  playerModelId: AiPlayerModelId;
   playerCards: ReturnType<typeof getAdventureDeckCards>;
   playerCharmIds: ReturnType<typeof createAdventureRun>["charms"];
   enemyLoadout: ReturnType<typeof buildAdventureEnemyLoadout>;
   playerSpec: AdventureLabBotSpec;
 }): AdventureCombatTelemetry {
   const enemySpec = createEnemySpec(options.enemyLoadout);
+  const enemyModelId = modelIdForBotSpec(enemySpec);
+  const modelBySeat = {
+    player: options.playerModelId,
+    enemy: enemyModelId,
+  } as const;
   let state: MatchState = createMatch({
     deckPresetId: DEFAULT_DECK_PRESET_ID,
     seed: options.seed,
@@ -329,6 +384,8 @@ function playAdventureCombat(options: {
     enemyCards: options.enemyLoadout.cards,
     enemyProfile: options.enemyLoadout.profile,
   });
+  const startingPlayer = state.turn.activePlayer;
+  const moveHistory: AiLabMatchResult["moveHistory"] = [];
 
   while (!state.result) {
     if (state.turn.activePlayer === "player") {
@@ -348,7 +405,20 @@ function playAdventureCombat(options: {
       beamWidth: activeSpec.beamWidth,
     });
 
-    state = decision.move ? applyMove(state, decision.move) : passTurn(state);
+    if (!decision.move) {
+      throw new Error(`AI lab adventure model ${activeSpec.id} returned no move while choices were available.`);
+    }
+
+    const nextState = applyMove(state, decision.move);
+    moveHistory.push(
+      createAiLabMoveRecord({
+        state,
+        nextState,
+        move: decision.move,
+        modelId: state.turn.activePlayer === "player" ? options.playerModelId : enemyModelId,
+      }),
+    );
+    state = nextState;
   }
 
   return {
@@ -358,6 +428,34 @@ function playAdventureCombat(options: {
     flips: state.metrics.totalFlips,
     deadTurns: state.metrics.deadTurns,
     reshuffles: state.players.player.reshuffles + state.players.enemy.reshuffles,
+    match: {
+      matchIndex: options.matchIndex,
+      source: "adventure",
+      scenarioId: "current-family-start",
+      scenarioLabel: "Combats de run complet apres deckbuilding",
+      startingDeckCardCount: FAMILY_STARTER_DECK_CARD_COUNT,
+      matchup: [options.playerModelId, enemyModelId],
+      boardSize: state.config.boardSize,
+      modelBySeat,
+      startingPlayer,
+      winnerSeat: state.result.winner,
+      winnerModelId: state.result.winner === "draw" ? "draw" : modelBySeat[state.result.winner],
+      reason: state.result.reason,
+      turns: state.turn.index,
+      rounds: state.round.number,
+      roundsCompleted: state.metrics.roundsCompleted,
+      totalFlips: state.metrics.totalFlips,
+      totalReshuffles: state.players.player.reshuffles + state.players.enemy.reshuffles,
+      deadTurns: state.metrics.deadTurns,
+      finalChampionHealth: {
+        player: state.champions.player.health,
+        enemy: state.champions.enemy.health,
+      },
+      finalHpDifference: Math.abs(state.champions.player.health - state.champions.enemy.health),
+      moveHistory,
+      matchSeed: options.seed,
+      decisionSeed: state.rngState,
+    },
   };
 }
 
@@ -387,12 +485,16 @@ function simulateAdventureRunForModel(options: {
   model: AiPlayerModel;
   runIndex: number;
   seed: number;
-}): AiLabAdventureRunRecord {
+}): {
+  run: AiLabAdventureRunRecord;
+  combatMatches: AiLabMatchResult[];
+} {
   const spec = createModelSpec(options.model);
   let run = createAdventureRun({ seed: options.seed });
   const nodeCounts = createZeroNodeCounts();
   const rewardsClaimedByRarity = createZeroRarityCounts();
   const path: AiLabAdventureNodeRecord[] = [];
+  const combatMatches: AiLabMatchResult[] = [];
   const countedSiteKeys = new Set<string>();
 
   let startingDeckCardCount = 0;
@@ -476,12 +578,15 @@ function simulateAdventureRunForModel(options: {
       const loadout = buildAdventureEnemyLoadout(run, node);
       const combat = playAdventureCombat({
         seed: run.encounter?.battleSeed ?? mixSeed(run.seed, `encounter:${node.id}`),
+        matchIndex: options.runIndex * 100 + combatCount,
+        playerModelId: options.model.id,
         playerCards: getAdventureDeckCards(run),
         playerCharmIds: run.charms,
         enemyLoadout: loadout,
         playerSpec: spec,
       });
 
+      combatMatches.push(combat.match);
       combatCount += 1;
       combatWins += combat.result.winner === "player" ? 1 : 0;
       combatLosses += combat.result.winner === "player" ? 0 : 1;
@@ -611,42 +716,45 @@ function simulateAdventureRunForModel(options: {
   const finalDeckCardCount = run.deck.cards.length;
 
   return {
-    runIndex: options.runIndex,
-    modelId: options.model.id,
-    seed: options.seed,
-    selectedFamily: run.selectedFamily,
-    startingDeckCardCount,
-    finalDeckCardCount,
-    deckDelta: finalDeckCardCount - startingDeckCardCount,
-    outcome: run.outcome,
-    victory: run.outcome === "victory",
-    bossReached: hasReachedBoss(run),
-    locationsCleared: getAdventureLocationsCleared(run),
-    combatCount,
-    combatWins,
-    combatLosses,
-    totalCombatTurns,
-    totalCombatFlips,
-    totalDeadTurns,
-    totalReshuffles,
-    rewardOffersSeen,
-    rewardsClaimed,
-    rewardsSkipped,
-    rewardsClaimedByRarity,
-    stealRewardsOffered,
-    stealRewardsClaimed,
-    charmOffersSeen,
-    charmsClaimed: [...run.charms],
-    campVisits,
-    upgrades,
-    removals,
-    forgeVisits,
-    fusions,
-    treasures,
-    nodeCounts,
-    finalDeckFamilies: countFinalDeckFamilies(run),
-    finalDeckRarities: countFinalDeckRarities(run),
-    path,
+    run: {
+      runIndex: options.runIndex,
+      modelId: options.model.id,
+      seed: options.seed,
+      selectedFamily: run.selectedFamily,
+      startingDeckCardCount,
+      finalDeckCardCount,
+      deckDelta: finalDeckCardCount - startingDeckCardCount,
+      outcome: run.outcome,
+      victory: run.outcome === "victory",
+      bossReached: hasReachedBoss(run),
+      locationsCleared: getAdventureLocationsCleared(run),
+      combatCount,
+      combatWins,
+      combatLosses,
+      totalCombatTurns,
+      totalCombatFlips,
+      totalDeadTurns,
+      totalReshuffles,
+      rewardOffersSeen,
+      rewardsClaimed,
+      rewardsSkipped,
+      rewardsClaimedByRarity,
+      stealRewardsOffered,
+      stealRewardsClaimed,
+      charmOffersSeen,
+      charmsClaimed: [...run.charms],
+      campVisits,
+      upgrades,
+      removals,
+      forgeVisits,
+      fusions,
+      treasures,
+      nodeCounts,
+      finalDeckFamilies: countFinalDeckFamilies(run),
+      finalDeckRarities: countFinalDeckRarities(run),
+      path,
+    },
+    combatMatches,
   };
 }
 
@@ -763,19 +871,24 @@ function summarizeAdventureRunsForModel(modelId: AiPlayerModelId, runs: AiLabAdv
 export function simulateAiLabAdventureRuns(options: AdventureReportOptions): {
   summaries: AiLabAdventureModelSummary[];
   runs: AiLabAdventureRunRecord[];
+  combatMatches: AiLabMatchResult[];
 } {
   const runs: AiLabAdventureRunRecord[] = [];
+  const combatMatches: AiLabMatchResult[] = [];
 
   for (const model of options.models) {
     for (let runIndex = 0; runIndex < options.runsPerModel; runIndex += 1) {
-      runs.push(
-        simulateAdventureRunForModel({
-          model,
-          runIndex,
-          seed: mixSeed(options.seed, `full-adventure:${model.id}:${runIndex}`),
-        }),
-      );
+      const simulation = simulateAdventureRunForModel({
+        model,
+        runIndex,
+        seed: mixSeed(options.seed, `full-adventure:${model.id}:${runIndex}`),
+      });
+      runs.push(simulation.run);
+      combatMatches.push(...simulation.combatMatches);
     }
+    options.onProgress?.(
+      `AI lab adventures: ${model.id} complete (${options.runsPerModel} run(s)).`,
+    );
   }
 
   return {
@@ -786,5 +899,6 @@ export function simulateAiLabAdventureRuns(options: AdventureReportOptions): {
       ),
     ),
     runs,
+    combatMatches,
   };
 }

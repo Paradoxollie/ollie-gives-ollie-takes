@@ -86,6 +86,23 @@ function getSeatSchedule(candidate: ConfiguredBotSpec, opponent: ConfiguredBotSp
   };
 }
 
+function validateBalancedMatchCount(matchesPerOpponent: number): void {
+  if (!Number.isInteger(matchesPerOpponent) || matchesPerOpponent <= 0 || matchesPerOpponent % 4 !== 0) {
+    throw new Error("Training benchmark match count must be a positive multiple of 4.");
+  }
+}
+
+function scenarioForMatch(
+  scenarios: BotTrainingScenario[],
+  seed: number,
+  opponentId: string,
+  matchIndex: number,
+): BotTrainingScenario {
+  const scenarioBlock = Math.floor(matchIndex / 4);
+  const offset = Math.abs(mixSeed(seed, `scenario-offset:${opponentId}`)) % scenarios.length;
+  return scenarios[(offset + scenarioBlock) % scenarios.length];
+}
+
 function playConfiguredMatch(options: {
   seed: number;
   scenario: BotTrainingScenario;
@@ -157,6 +174,10 @@ export function benchmarkBotAgainstOpponents(options: {
   scenarios?: BotTrainingScenario[];
 }): BotBenchmarkSummary {
   const scenarios = options.scenarios ?? getBotTrainingScenarios();
+  validateBalancedMatchCount(options.matchesPerOpponent);
+  if (scenarios.length === 0) {
+    throw new Error("Training benchmark requires at least one scenario.");
+  }
   const summaries: HeadToHeadSummary[] = [];
   let totalWins = 0;
   let totalDraws = 0;
@@ -173,11 +194,12 @@ export function benchmarkBotAgainstOpponents(options: {
     let hpEdge = 0;
 
     for (let matchIndex = 0; matchIndex < options.matchesPerOpponent; matchIndex += 1) {
-      const scenario = scenarios[matchIndex % scenarios.length];
+      const scenario = scenarioForMatch(scenarios, options.seed, opponent.id, matchIndex);
       const schedule = getSeatSchedule(options.candidate, opponent, matchIndex);
+      const balanceBlock = Math.floor(matchIndex / 4);
       const seed = mixSeed(
         options.seed,
-        `benchmark:${options.candidate.id}:vs:${opponent.id}:scenario:${scenario.id}:match:${matchIndex}`,
+        `benchmark:${options.candidate.id}:vs:${opponent.id}:scenario:${scenario.id}:block:${balanceBlock}`,
       );
       const result = playConfiguredMatch({
         seed,

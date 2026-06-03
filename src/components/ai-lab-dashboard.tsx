@@ -13,6 +13,7 @@ import type {
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
 import { getAiLabScenario } from "@/core/ai-lab/scenarios";
+import { AI_LAB_DIAGNOSTIC_CONFIG } from "@/core/config/gameConfig";
 import { AiTrainingControls } from "@/components/ai-training-controls";
 import type { RuntimeLiveChampionProfile } from "@/lib/live-champion-types";
 import type { TrainingStatusPayload } from "@/lib/training-status-types";
@@ -430,7 +431,26 @@ export function AiLabDashboard({
   const adventureBossRate = report && report.adventureRuns.length > 0
     ? report.adventureRuns.filter((run) => run.bossReached).length / report.adventureRuns.length
     : 0;
-  const recommendationRows = report?.diagnostics.balanceRecommendations.slice(0, 10) ?? [];
+  const hasStableAdventureSample = report
+    ? report.adventureSummaries.length > 0 &&
+      report.adventureSummaries.every(
+        (summary) => summary.runs >= AI_LAB_DIAGNOSTIC_CONFIG.minStableAdventureRunsPerModel,
+      )
+    : false;
+  const recommendationRows = report
+    ? [
+        ...report.diagnostics.balanceRecommendations,
+        ...(report.adventureDiagnostics?.balanceRecommendations ?? []).map((recommendation) => ({
+          ...recommendation,
+          id: `adventure-${recommendation.id}`,
+          severity: hasStableAdventureSample ? recommendation.severity : ("watch" as const),
+          title: `${hasStableAdventureSample ? "Run complet" : "Run complet a confirmer"}: ${recommendation.title}`,
+          recommendation: hasStableAdventureSample
+            ? recommendation.recommendation
+            : `Attendre au moins ${AI_LAB_DIAGNOSTIC_CONFIG.minStableAdventureRunsPerModel} runs par modele avant de modifier le jeu.`,
+        })),
+      ].slice(0, 10)
+    : [];
   const scenarioLabels =
     report?.config.scenarioIds?.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ") || "Depart actuel";
   const priorityCardRows =
@@ -438,7 +458,15 @@ export function AiLabDashboard({
       .filter((card) => card.status !== "healthy")
       .concat(report.diagnostics.cardAnalytics.filter((card) => card.status === "healthy"))
       .slice(0, 14) ?? [];
+  const adventurePriorityCardRows =
+    report?.adventureDiagnostics?.cardAnalytics
+      .filter((card) => card.status !== "healthy")
+      .concat(report.adventureDiagnostics.cardAnalytics.filter((card) => card.status === "healthy"))
+      .slice(0, 14) ?? [];
   const comboRows = report?.diagnostics.comboAnalytics.slice(0, 14) ?? [];
+  const adventureComboRows = report?.adventureDiagnostics?.comboAnalytics.slice(0, 14) ?? [];
+  const trendSignals = report?.trend?.signals ?? [];
+  const starterFamilyMatchups = report?.starterFamilyMatchups ?? [];
 
   return (
     <div className="ogot-scroll mx-auto flex h-screen max-w-[92rem] flex-col gap-5 overflow-y-auto px-4 py-5 text-white lg:px-6 lg:py-6">
@@ -480,7 +508,7 @@ export function AiLabDashboard({
           value={report?.reportId ?? "Aucun"}
           detail={
             report
-              ? `${report.config.matchesPerPairing} matchs par pairing | ${scenarioLabels} | seed ${report.config.seed}`
+              ? `${report.config.matchesPerPairing} matchs par pairing | ${scenarioLabels} | ${report.config.rulesetVersion ?? "legacy"} | seed ${report.config.seed}`
               : "Lance npm run ai:lab:apply"
           }
         />
@@ -620,6 +648,78 @@ export function AiLabDashboard({
           <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
+                <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Equilibrage des starters</p>
+                <h2 className="mt-1 font-serif text-2xl text-white">Duels de familles</h2>
+              </div>
+              <p className="text-sm text-white/52">Chaque ligne rejoue le meme duel avec les deux sieges et les deux initiatives.</p>
+            </div>
+            <div className="mt-5 overflow-x-auto rounded-[1rem] border border-white/10 bg-black/16">
+              {starterFamilyMatchups.length > 0 ? (
+                <table className="min-w-full text-left text-sm text-white/76">
+                  <thead className="border-b border-white/10 text-[0.56rem] uppercase tracking-[0.2em] text-white/42">
+                    <tr>
+                      <th className="px-4 py-3">Matchup</th>
+                      <th className="px-4 py-3">Matchs</th>
+                      <th className="px-4 py-3">Gauche</th>
+                      <th className="px-4 py-3">Droite</th>
+                      <th className="px-4 py-3">Draw</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {starterFamilyMatchups.map((matchup) => (
+                      <tr key={matchup.id} className="border-b border-white/6 last:border-b-0">
+                        <td className="px-4 py-3 font-semibold text-white">
+                          {matchup.leftFamily} vs {matchup.rightFamily}
+                        </td>
+                        <td className="px-4 py-3">{matchup.games}</td>
+                        <td className="px-4 py-3">{formatPercent(matchup.leftWinRate)}</td>
+                        <td className="px-4 py-3">{formatPercent(matchup.rightWinRate)}</td>
+                        <td className="px-4 py-3">{formatPercent(matchup.draws / matchup.games)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p className="p-4 text-sm text-white/62">Le prochain rapport mesurera les duels de starters.</p>
+              )}
+            </div>
+          </section>
+
+          <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Historique glissant</p>
+                <h2 className="mt-1 font-serif text-2xl text-white">Tendances stables</h2>
+              </div>
+              <p className="text-sm text-white/52">
+                {report.trend?.snapshots.length ?? 0}/{report.trend?.windowSize ?? 0} rapport(s) conserves.
+              </p>
+            </div>
+            <div className="mt-5 grid gap-3 lg:grid-cols-2">
+              {trendSignals.length > 0 ? (
+                trendSignals.map((signal) => (
+                  <div key={signal.id} className={["rounded-[1rem] border p-4", severityTone(signal.severity)].join(" ")}>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-semibold">{signal.title}</p>
+                      <span className="rounded-full border border-current/20 px-2 py-1 text-[0.62rem] uppercase tracking-[0.16em]">
+                        {signal.occurrences}/{signal.reports}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 opacity-80">{signal.detail}</p>
+                    <p className="mt-2 text-sm leading-6 opacity-70">{signal.recommendation}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="rounded-[1rem] border border-white/10 bg-black/16 p-4 text-sm text-white/62 lg:col-span-2">
+                  Il faut encore plusieurs rapports avant de distinguer les tendances durables du bruit de seed.
+                </p>
+              )}
+            </div>
+          </section>
+
+          <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
                 <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Run complet</p>
                 <h2 className="mt-1 font-serif text-2xl text-white">IA dans le meme parcours que le joueur</h2>
               </div>
@@ -667,6 +767,27 @@ export function AiLabDashboard({
             </div>
           </section>
 
+          <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Cartes de run</p>
+                <h2 className="mt-1 font-serif text-2xl text-white">Recompenses et cartes construites en aventure</h2>
+              </div>
+              <p className="text-sm text-white/52">
+                Base de comparaison: {formatPercent(report.adventureDiagnostics?.baselineWinRate ?? 0.5)} de victoire.
+              </p>
+            </div>
+            <div className="mt-5">
+              {adventurePriorityCardRows.length > 0 ? (
+                <CardRows cards={adventurePriorityCardRows} />
+              ) : (
+                <p className="rounded-[1rem] border border-white/10 bg-black/16 p-4 text-sm text-white/62">
+                  Le prochain rapport collectera les cartes jouees pendant les runs complets.
+                </p>
+              )}
+            </div>
+          </section>
+
           <section className="grid gap-5 xl:grid-cols-2">
             <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
               <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Familles</p>
@@ -689,12 +810,31 @@ export function AiLabDashboard({
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Combos</p>
-                <h2 className="mt-1 font-serif text-2xl text-white">Chaines, adjacences et effets detectes</h2>
+                <h2 className="mt-1 font-serif text-2xl text-white">Starter: chaines, adjacences et effets detectes</h2>
               </div>
               <p className="text-sm text-white/52">Un combo frequent n'est pas toujours un probleme, mais il devient testable.</p>
             </div>
             <div className="mt-5">
               <ComboRows combos={comboRows} />
+            </div>
+          </section>
+
+          <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[0.58rem] uppercase tracking-[0.24em] text-white/48">Deckbuilding</p>
+                <h2 className="mt-1 font-serif text-2xl text-white">Combos construits pendant les runs</h2>
+              </div>
+              <p className="text-sm text-white/52">Inclut les cartes gagnees, les fusions et les familles melangees.</p>
+            </div>
+            <div className="mt-5">
+              {adventureComboRows.length > 0 ? (
+                <ComboRows combos={adventureComboRows} />
+              ) : (
+                <p className="rounded-[1rem] border border-white/10 bg-black/16 p-4 text-sm text-white/62">
+                  Le prochain rapport collectera les combos des combats de run complet.
+                </p>
+              )}
             </div>
           </section>
 

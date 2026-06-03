@@ -14,7 +14,11 @@ import { TRAINED_BOT_PROFILE } from "@/core/bots/generated/trainedWeights";
 import { BOT_TRAINING_CONFIG } from "@/core/config/gameConfig";
 
 const execFileAsync = promisify(execFile);
-const TRAINING_REPORTS_DIRECTORY = path.join(process.cwd(), "reports", "training");
+const TRAINING_REPORTS_DIRECTORY = path.join(
+  /* turbopackIgnore: true */ process.cwd(),
+  "reports",
+  "training",
+);
 const ACTIVE_TRAINING_CHILDREN = new Map<number, ChildProcess>();
 
 export type TrainingControlAction = "start" | "stop" | "restart";
@@ -46,18 +50,23 @@ function clampInteger(value: number | undefined, fallback: number, min: number, 
   return Math.max(min, Math.min(max, Math.round(value)));
 }
 
+function clampBalancedMatchCount(value: number | undefined, fallback: number, min: number, max: number): number {
+  const clamped = clampInteger(value, fallback, min, max);
+  return Math.max(min, Math.min(max, Math.round(clamped / 4) * 4));
+}
+
 function normalizeLaunchOptions(options: TrainingLaunchOptions = {}) {
-  const matchesPerOpponent = clampInteger(
+  const matchesPerOpponent = clampBalancedMatchCount(
     options.matchesPerOpponent,
     Math.max(4, Math.round(BOT_TRAINING_CONFIG.matchesPerOpponent / 2)),
-    2,
+    4,
     32,
   );
 
   return {
     iterations: clampInteger(options.iterations, BOT_TRAINING_CONFIG.iterations + 4, 2, 64),
     matchesPerOpponent,
-    promotionMatchesPerOpponent: clampInteger(
+    promotionMatchesPerOpponent: clampBalancedMatchCount(
       options.promotionMatchesPerOpponent,
       BOT_TRAINING_CONFIG.promotionMatchesPerOpponent,
       matchesPerOpponent,
@@ -68,7 +77,12 @@ function normalizeLaunchOptions(options: TrainingLaunchOptions = {}) {
 
 function buildTrainingCliArgs(seed: number, launchOptions: TrainingLaunchOptions): string[] {
   const normalized = normalizeLaunchOptions(launchOptions);
-  const tsxDirectory = path.join(process.cwd(), "node_modules", "tsx", "dist");
+  const tsxDirectory = path.join(
+    /* turbopackIgnore: true */ process.cwd(),
+    "node_modules",
+    "tsx",
+    "dist",
+  );
   const preflightPath = path.join(tsxDirectory, "preflight.cjs");
   const loaderPath = pathToFileURL(path.join(tsxDirectory, "loader.mjs")).href;
 

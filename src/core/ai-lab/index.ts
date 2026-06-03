@@ -5,4 +5,5 @@ export * from "@/core/ai-lab/match";
 export * from "@/core/ai-lab/models";
 export * from "@/core/ai-lab/report";
 export * from "@/core/ai-lab/scenarios";
+export * from "@/core/ai-lab/trends";
 export * from "@/core/ai-lab/types";

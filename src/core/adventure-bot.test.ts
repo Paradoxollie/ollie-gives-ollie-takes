@@ -35,8 +35,12 @@ function startRun(seed: number) {
 function createWeights(overrides: Partial<TrainedBotWeights> = {}): TrainedBotWeights {
   return {
     hpDiff: 0,
+    shieldDiff: 0,
+    drawBonusDiff: 0,
     controlDiff: 0,
     boardStrengthDiff: 0,
+    boardManaDiff: 0,
+    stackSynergyDiff: 0,
     reserveStrengthDiff: 0,
     handStrengthDiff: 0,
     mobilityDiff: 0,

@@ -32,3 +32,24 @@ Original prompt: ok fais les corrections. ameliore encore le jeu pour que ce soi
 - Restarted the local Next dev server on port 3000 after the user did not see changes. Added stricter responsive board sizing and compact portrait/landscape phone rules, then verified seven viewport captures: 1920x1080, 1366x768, 1024x768, 768x1024, 390x844, 844x390, and 360x740.
 - Final UI correction pass for the obstructive HUD: moved round/status fully into the side HUD, moved selected-fusion details into the command panel instead of a floating board bubble, kept rival cards visible outside the AI turn, tightened mobile champion/status text, and rebalanced board/hand spacing so no measured HUD or fusion element overlaps the board across the same seven viewport matrix.
 - Final validation passed after restarting the dev server with `allowedDevOrigins`: `npx tsc --noEmit --pretty false`, `npm test` (18 files / 112 tests), `npm run build`, HTTP 200 on `/game`, and Playwright desktop/phone smoke with no console errors.
+
+## 2026-06-03
+
+- Audited 30 committed AI-lab snapshots and the recent GitHub Actions failures. Stable signals: Human cards overperform, Automaton cards underperform, and the previously promoted Champion is not reliably stronger than the Expert.
+- Reworked Champion training so learned weights only choose between tactically safe deep-heuristic moves. Training, promotion, and live play now use the same guarded behavior.
+- Added shield, future draw, controlled mana, and stack synergy to the learned evaluation, plus bounded weight normalization to prevent pathological profiles.
+- Rebuilt promotion measurements around balanced four-match blocks and the exact public mono-family 12-card starter decks. Local and workflow controls now only use valid multiples of four.
+- Revoked the old trained Champion approval because it was promoted under the obsolete benchmark. The live Champion temporarily falls back to the stable Expert until a new profile passes the stricter promotion gates.
+- Added same-ruleset rolling trends to AI-lab reports, increased minimum sample sizes for strong conclusions, and changed GitHub training to run after relevant core gameplay changes as well as on its regular schedule.
+- Added shared move telemetry for adventure combats and a separate deckbuilding diagnostic so reward cards, fusions, and mixed-family combos are measured instead of only the mono-family starter matches.
+- Applied targeted balance changes: Field Knight requires a real Human stack for shield scaling; Clock Sentinel gains a clear corner-defense role; Gear Monk becomes a cheap Automaton draw/fusion enabler.
+- Repaired benchmark noise: each four-match block now replays the same decks and seed across both seats and both starting players, candidates in one training iteration face the same exam, and starter-family matchups rotate with the report seed.
+- Replaced unapproved adventure-route weights with stable skill-model profiles, added pairwise starter matchup reporting, and made full-run card/combo diagnostics compare against their own sample win-rate baseline.
+- Updated the workflow schedule to avoid deep-run congestion, upgraded GitHub Actions to Node 24-based releases, and updated Next.js/PostCSS/Vitest to remove all high-severity dependency advisories.
+- Confirmed the old balance problem across multiple reports, then made Human starter roles distinct instead of universally strong: the final report moves Human from the earlier 86.5% signal to 50.2% while Automaton reaches 44.6%.
+- Reworked Arcane starter roles so only the Glyph anchors the center, the network can extend through ally/enemy contact, and Star Witch is a visible three-card pile payoff. Arcane reaches a healthy 43.5% in the final report while its full-run combo engine remains measurable.
+- Final applied snapshot: `ai-lab-20260603-110942`, ruleset `v7-2026-06-03-arcane-core-payoff`, 24 balanced matches per pairing and 4 full adventure runs per model. Remaining new signal: Revenant/Widow Knight overperformance must be confirmed by same-ruleset trends before another nerf.
+- Added deterministic result reuse for identical player policies and per-model adventure progress logs, reducing future report cost without changing results.
+- Repaired the Vercel serverless trace issue: production build has no Turbopack trace warnings, `/lab/ai` traces about 1.84 MiB, training routes trace about 1.58 MiB, and local report/public directories are excluded.
+- Final local validation passed: `npx tsc --noEmit --pretty false`, `npm run test` (18 files / 128 tests), `npm run build`, and `git diff --check`.
+- Final Playwright verification passed on `/lab/ai` and `/game`: the v7 report sections render, a three-card mixed-family stack consumes the expected four mana, the move resolves, and the AI answers without console errors.

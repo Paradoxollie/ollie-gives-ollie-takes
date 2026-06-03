@@ -61,11 +61,18 @@ interface ApprovedChampionCandidate {
   overallAverageHpEdge: number;
 }
 
-const TRAINING_REPORTS_DIRECTORY = path.join(process.cwd(), "reports", "training");
+const TRAINING_REPORTS_DIRECTORY = path.join(
+  /* turbopackIgnore: true */ process.cwd(),
+  "reports",
+  "training",
+);
 
 async function readJsonFile<T>(filename: string): Promise<T | null> {
   try {
-    const raw = await readFile(path.join(TRAINING_REPORTS_DIRECTORY, filename), "utf8");
+    const raw = await readFile(
+      /* turbopackIgnore: true */ path.join(TRAINING_REPORTS_DIRECTORY, filename),
+      "utf8",
+    );
     return JSON.parse(raw) as T;
   } catch {
     return null;

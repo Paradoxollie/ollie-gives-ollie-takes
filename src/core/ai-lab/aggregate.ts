@@ -3,12 +3,69 @@ import type {
   AiLabMatchResult,
   AiLabModelSummary,
   AiLabPairingSummary,
+  AiLabStarterFamilyMatchupSummary,
   AiPlayerModelId,
 } from "@/core/ai-lab/types";
-import type { PlayerId } from "@/core/types";
+import type { CardFamily, PlayerId } from "@/core/types";
 
 function safeRate(numerator: number, denominator: number): number {
   return denominator === 0 ? 0 : numerator / denominator;
+}
+
+/**
+ * Summarizes balanced starter-deck matchups independently from player-model strength.
+ */
+export function summarizeAiLabStarterFamilyMatchups(
+  results: AiLabMatchResult[],
+): AiLabStarterFamilyMatchupSummary[] {
+  const matchups = new Map<string, Omit<AiLabStarterFamilyMatchupSummary, "leftWinRate" | "rightWinRate">>();
+
+  for (const result of results) {
+    const playerFamily = result.playerStarterFamily;
+    const enemyFamily = result.enemyStarterFamily;
+    if (!playerFamily || !enemyFamily || playerFamily === enemyFamily) {
+      continue;
+    }
+
+    const [leftFamily, rightFamily] = [playerFamily, enemyFamily].sort() as [CardFamily, CardFamily];
+    const id = `${leftFamily}-vs-${rightFamily}`;
+    const matchup = matchups.get(id) ?? {
+      id,
+      leftFamily,
+      rightFamily,
+      games: 0,
+      leftWins: 0,
+      rightWins: 0,
+      draws: 0,
+    };
+    matchup.games += 1;
+
+    if (result.winnerSeat === "draw") {
+      matchup.draws += 1;
+    } else {
+      const winnerFamily = result.winnerSeat === "player" ? playerFamily : enemyFamily;
+      if (winnerFamily === leftFamily) {
+        matchup.leftWins += 1;
+      } else {
+        matchup.rightWins += 1;
+      }
+    }
+
+    matchups.set(id, matchup);
+  }
+
+  return Array.from(matchups.values())
+    .map((matchup) => ({
+      ...matchup,
+      leftWinRate: safeRate(matchup.leftWins, matchup.games),
+      rightWinRate: safeRate(matchup.rightWins, matchup.games),
+    }))
+    .sort(
+      (left, right) =>
+        right.games - left.games ||
+        Math.abs(right.leftWinRate - right.rightWinRate) - Math.abs(left.leftWinRate - left.rightWinRate) ||
+        left.id.localeCompare(right.id),
+    );
 }
 
 function getHpEdgeForModel(result: AiLabMatchResult, modelId: AiPlayerModelId): number {
@@ -167,7 +224,7 @@ export function summarizeAiLabDeck(
 ): AiLabDeckSummary {
   const notes: string[] = [];
   const firstPlayerWinRate = mirrorSummary.startingPlayer.overallStartingPlayerWinRate;
-  const hasEnoughMirrorGamesForStrongOpeningCall = mirrorSummary.totalGames >= 12;
+  const hasEnoughMirrorGamesForStrongOpeningCall = mirrorSummary.totalGames >= 32;
 
   if (firstPlayerWinRate >= 0.62 || firstPlayerWinRate <= 0.38) {
     const severity = hasEnoughMirrorGamesForStrongOpeningCall ? "problem" : "watch";

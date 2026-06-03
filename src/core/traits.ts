@@ -119,11 +119,16 @@ export function getTraitBattleModifiers(options: {
     defenseBonus += 1;
   }
 
-  if (getCardFamilyCount(attacker, attacker.owner, "demon") >= 2) {
+  const attackerDemonCount = getCardFamilyCount(attacker, attacker.owner, "demon");
+  if (attackerDemonCount >= 2) {
     attackBonus += 1;
   }
 
-  if (getCardFamilyCount(attacker, attacker.owner, "human") >= 2) {
+  if (attackerDemonCount >= 3) {
+    attackBonus += 1;
+  }
+
+  if (getCardFamilyCount(attacker, attacker.owner, "human") >= 3) {
     attackBonus += 1;
   }
 
@@ -133,6 +138,10 @@ export function getTraitBattleModifiers(options: {
 
   if (getCardFamilyCount(defender, defender.owner, "automaton") >= 2) {
     defenseBonus += 1;
+  }
+
+  if (getCardFamilyCount(attacker, attacker.owner, "automaton") >= 3) {
+    attackBonus += 1;
   }
 
   if (getCardFamilyCount(defender, defender.owner, "automaton") >= 3 && isCorner(defender, board.length)) {
@@ -158,6 +167,10 @@ export function getTraitBattleModifiers(options: {
     baseAttackerValue === baseDefenderValue
   ) {
     attackBonus += 1;
+  }
+
+  if (getCardFamilyCount(defender, defender.owner, "arcane") >= 3) {
+    defenseBonus += 1;
   }
 
   return {

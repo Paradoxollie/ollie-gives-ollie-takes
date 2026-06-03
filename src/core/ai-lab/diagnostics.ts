@@ -288,17 +288,30 @@ function classifyStatus(stats: {
   averageFlips: number;
   averageNetDamage: number;
   averageEffectAmount: number;
-}): { status: AiLabCardStatus; notes: string[] } {
-  if (stats.played >= 6 && stats.winRateWhenPlayed >= 0.68 && (stats.averageFlips >= 0.45 || stats.averageNetDamage >= 1.25)) {
-    return { status: "overperformer", notes: ["Surperforme en victoire et impact immediat."] };
+}, baselineWinRate = 0.5): { status: AiLabCardStatus; notes: string[] } {
+  const overperformerWinRate = Math.max(0.68, baselineWinRate + 0.12);
+  const underperformerWinRate = Math.max(0.35, baselineWinRate - 0.18);
+
+  if (
+    stats.played >= 6 &&
+    stats.winRateWhenPlayed >= overperformerWinRate &&
+    (stats.averageFlips >= 0.45 || stats.averageNetDamage >= 1.25)
+  ) {
+    return {
+      status: "overperformer",
+      notes: [`Surperforme en victoire et impact immediat face a une base de ${Math.round(baselineWinRate * 100)}%.`],
+    };
   }
 
   if (stats.offered >= 10 && stats.selectionRate <= 0.18) {
     return { status: "ignored", notes: ["Souvent propose, rarement choisi."] };
   }
 
-  if (stats.played >= 6 && stats.winRateWhenPlayed <= 0.35) {
-    return { status: "underperformer", notes: ["Perd trop souvent quand il est joue."] };
+  if (stats.played >= 6 && stats.winRateWhenPlayed <= underperformerWinRate) {
+    return {
+      status: "underperformer",
+      notes: [`Perd trop souvent face a une base de ${Math.round(baselineWinRate * 100)}%.`],
+    };
   }
 
   if (stats.played >= 6 && stats.averageNetDamage <= -1.25) {
@@ -346,22 +359,25 @@ function topCardRows(accumulator: MetricAccumulator): AiLabGroupAnalysis["topCar
     .slice(0, 5);
 }
 
-function finalizeCard(accumulator: CardAccumulator): AiLabCardAnalysis {
+function finalizeCard(accumulator: CardAccumulator, baselineWinRate = 0.5): AiLabCardAnalysis {
   const selectionRate = safeRate(accumulator.played, accumulator.offered);
   const winRateWhenPlayed = safeRate(accumulator.wins, accumulator.played);
   const averageFlips = safeRate(accumulator.totalFlips, accumulator.played);
   const averageDamageDealt = safeRate(accumulator.totalDamageDealt, accumulator.played);
   const averageDamageTaken = safeRate(accumulator.totalDamageTaken, accumulator.played);
   const averageNetDamage = averageDamageDealt - averageDamageTaken;
-  const status = classifyStatus({
-    offered: accumulator.offered,
-    played: accumulator.played,
-    selectionRate,
-    winRateWhenPlayed,
-    averageFlips,
-    averageNetDamage,
-    averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
-  });
+  const status = classifyStatus(
+    {
+      offered: accumulator.offered,
+      played: accumulator.played,
+      selectionRate,
+      winRateWhenPlayed,
+      averageFlips,
+      averageNetDamage,
+      averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
+    },
+    baselineWinRate,
+  );
 
   return {
     cardId: accumulator.snapshot.cardId,
@@ -400,21 +416,36 @@ function finalizeCard(accumulator: CardAccumulator): AiLabCardAnalysis {
   };
 }
 
-function finalizeGroup(accumulator: GroupAccumulator): AiLabGroupAnalysis {
+function finalizeGroup(
+  accumulator: GroupAccumulator,
+  kind: "family" | "other" = "other",
+  baselineWinRate = 0.5,
+): AiLabGroupAnalysis {
   const selectionRate = safeRate(accumulator.played, accumulator.offered);
   const winRateWhenPlayed = safeRate(accumulator.wins, accumulator.played);
   const averageFlips = safeRate(accumulator.totalFlips, accumulator.played);
   const averageDamageDealt = safeRate(accumulator.totalDamageDealt, accumulator.played);
   const averageNetDamage = averageDamageDealt - safeRate(accumulator.totalDamageTaken, accumulator.played);
-  const status = classifyStatus({
-    offered: accumulator.offered,
-    played: accumulator.played,
-    selectionRate,
-    winRateWhenPlayed,
-    averageFlips,
-    averageNetDamage,
-    averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
-  });
+  const baseStatus = classifyStatus(
+    {
+      offered: accumulator.offered,
+      played: accumulator.played,
+      selectionRate,
+      winRateWhenPlayed,
+      averageFlips,
+      averageNetDamage,
+      averageEffectAmount: safeRate(accumulator.totalEffectAmount, accumulator.played),
+    },
+    baselineWinRate,
+  );
+  const familyUnderperformerWinRate = Math.max(0.42, baselineWinRate - 0.12);
+  const familyOverperformerWinRate = Math.max(0.64, baselineWinRate + 0.12);
+  const status =
+    kind === "family" && accumulator.played >= 30 && winRateWhenPlayed <= familyUnderperformerWinRate
+      ? { status: "underperformer" as const, notes: ["La famille perd trop souvent sur cet echantillon."] }
+      : kind === "family" && accumulator.played >= 30 && winRateWhenPlayed >= familyOverperformerWinRate
+        ? { status: "overperformer" as const, notes: ["La famille gagne trop souvent sur cet echantillon."] }
+        : baseStatus;
 
   return {
     id: accumulator.id,
@@ -471,9 +502,9 @@ function recordCombo(combo: ComboAccumulator, move: AiLabMoveRecord, outcome: Mo
   combo.totalEffectAmount += effectAmount;
 }
 
-function comboNotes(combo: ComboAccumulator): string[] {
+function comboNotes(combo: ComboAccumulator, baselineWinRate = 0.5): string[] {
   const notes: string[] = [];
-  if (combo.count >= 4 && safeRate(combo.wins, combo.count) >= 0.7) {
+  if (combo.count >= 4 && safeRate(combo.wins, combo.count) >= Math.max(0.7, baselineWinRate + 0.12)) {
     notes.push("Combo gagnant frequent.");
   }
 
@@ -488,7 +519,7 @@ function comboNotes(combo: ComboAccumulator): string[] {
   return notes.length > 0 ? notes : ["Signal descriptif a confirmer."];
 }
 
-function finalizeCombos(combos: Map<string, ComboAccumulator>): AiLabComboAnalysis[] {
+function finalizeCombos(combos: Map<string, ComboAccumulator>, baselineWinRate = 0.5): AiLabComboAnalysis[] {
   return Array.from(combos.values())
     .map((combo) => ({
       id: combo.id,
@@ -502,7 +533,7 @@ function finalizeCombos(combos: Map<string, ComboAccumulator>): AiLabComboAnalys
       averageFlips: safeRate(combo.totalFlips, combo.count),
       averageDamageDealt: safeRate(combo.totalDamageDealt, combo.count),
       averageEffectAmount: safeRate(combo.totalEffectAmount, combo.count),
-      notes: comboNotes(combo),
+      notes: comboNotes(combo, baselineWinRate),
     }))
     .sort(
       (left, right) =>
@@ -627,14 +658,22 @@ function createGroupRecommendation(
   return null;
 }
 
-function createComboRecommendation(combo: AiLabComboAnalysis): AiLabBalanceRecommendation | null {
-  if (combo.count < 4 || (combo.winRate < 0.72 && combo.averageFlips < 0.75 && combo.averageDamageDealt < 1.75)) {
+function createComboRecommendation(
+  combo: AiLabComboAnalysis,
+  baselineWinRate = 0.5,
+): AiLabBalanceRecommendation | null {
+  const winningComboRate = Math.max(0.72, baselineWinRate + 0.12);
+  const problemComboRate = Math.max(0.8, baselineWinRate + 0.18);
+  if (
+    combo.count < 4 ||
+    (combo.winRate < winningComboRate && combo.averageFlips < 0.75 && combo.averageDamageDealt < 1.75)
+  ) {
     return null;
   }
 
   return {
     id: `combo-${combo.id}`,
-    severity: combo.kind === "effect" && combo.winRate >= 0.8 && combo.count >= 24 ? "problem" : "watch",
+    severity: combo.kind === "effect" && combo.winRate >= problemComboRate && combo.count >= 24 ? "problem" : "watch",
     target: "combo",
     action: "verify",
     confidence: recommendationConfidence(combo.count),
@@ -653,13 +692,14 @@ function createRecommendations(
   roles: AiLabGroupAnalysis[],
   rarities: AiLabGroupAnalysis[],
   combos: AiLabComboAnalysis[],
+  baselineWinRate = 0.5,
 ): AiLabBalanceRecommendation[] {
   return [
     ...cards.map(createCardRecommendation),
     ...families.map((group) => createGroupRecommendation(group, "family")),
     ...roles.map((group) => createGroupRecommendation(group, "role")),
     ...rarities.map((group) => createGroupRecommendation(group, "rarity")),
-    ...combos.map(createComboRecommendation),
+    ...combos.map((combo) => createComboRecommendation(combo, baselineWinRate)),
   ]
     .filter((recommendation): recommendation is AiLabBalanceRecommendation => recommendation !== null)
     .sort((left, right) => recommendationRank(left) - recommendationRank(right) || right.sampleSize - left.sampleSize)
@@ -670,6 +710,10 @@ function recordCombosForMatch(result: AiLabMatchResult, combos: Map<string, Comb
   const lastMoveBySeat = new Map<PlayerId, AiLabMoveRecord>();
 
   for (const move of result.moveHistory) {
+    if (result.source === "adventure" && move.playerId !== "player") {
+      continue;
+    }
+
     const outcome = getMoveOutcome(result, move);
     const previousMove = lastMoveBySeat.get(move.playerId);
     if (previousMove && previousMove.round === move.round) {
@@ -738,17 +782,26 @@ function recordCombosForMatch(result: AiLabMatchResult, combos: Map<string, Comb
 /**
  * Builds card, family, role, rarity, and combo diagnostics from raw AI-lab match traces.
  */
-export function summarizeAiLabDiagnostics(results: AiLabMatchResult[]): AiLabDesignDiagnostics {
+export function summarizeAiLabDiagnostics(
+  results: AiLabMatchResult[],
+  options: { relativeWinRateBaseline?: boolean } = {},
+): AiLabDesignDiagnostics {
   const cards = new Map<string, CardAccumulator>();
   const families = new Map<string, GroupAccumulator>();
   const roles = new Map<string, GroupAccumulator>();
   const rarities = new Map<string, GroupAccumulator>();
   const combos = new Map<string, ComboAccumulator>();
+  const analyzedPlayedCardOutcomes: OutcomeCounter = { wins: 0, losses: 0, draws: 0 };
+  let analyzedPlayedCards = 0;
 
   for (const result of results) {
     recordCombosForMatch(result, combos);
 
     for (const move of result.moveHistory) {
+      if (result.source === "adventure" && move.playerId !== "player") {
+        continue;
+      }
+
       const outcome = getMoveOutcome(result, move);
       for (const snapshot of move.offeredCards) {
         recordOffer(snapshot, cards, families, roles, rarities);
@@ -757,13 +810,19 @@ export function summarizeAiLabDiagnostics(results: AiLabMatchResult[]): AiLabDes
         }
       }
       for (const playedCard of move.playedCards) {
+        addOutcome(analyzedPlayedCardOutcomes, outcome);
+        analyzedPlayedCards += 1;
         recordPlayed(result, move, playedCard, outcome, cards, families, roles, rarities);
       }
     }
   }
 
+  const baselineWinRate =
+    options.relativeWinRateBaseline && analyzedPlayedCards > 0
+      ? safeRate(analyzedPlayedCardOutcomes.wins, analyzedPlayedCards)
+      : 0.5;
   const cardAnalytics = Array.from(cards.values())
-    .map(finalizeCard)
+    .map((card) => finalizeCard(card, baselineWinRate))
     .sort(
       (left, right) =>
         CARD_STATUS_PRIORITY[left.status] - CARD_STATUS_PRIORITY[right.status] ||
@@ -773,20 +832,21 @@ export function summarizeAiLabDiagnostics(results: AiLabMatchResult[]): AiLabDes
     )
     .slice(0, TOP_CARD_LIMIT);
   const familyAnalytics = Array.from(families.values())
-    .map(finalizeGroup)
+    .map((group) => finalizeGroup(group, "family", baselineWinRate))
     .sort((left, right) => right.played - left.played || right.winRateWhenPlayed - left.winRateWhenPlayed)
     .slice(0, TOP_GROUP_LIMIT);
   const roleAnalytics = Array.from(roles.values())
-    .map(finalizeGroup)
+    .map((group) => finalizeGroup(group, "other", baselineWinRate))
     .sort((left, right) => right.played - left.played || right.winRateWhenPlayed - left.winRateWhenPlayed)
     .slice(0, TOP_GROUP_LIMIT);
   const rarityAnalytics = Array.from(rarities.values())
-    .map(finalizeGroup)
+    .map((group) => finalizeGroup(group, "other", baselineWinRate))
     .sort((left, right) => right.played - left.played || right.winRateWhenPlayed - left.winRateWhenPlayed)
     .slice(0, TOP_GROUP_LIMIT);
-  const comboAnalytics = finalizeCombos(combos);
+  const comboAnalytics = finalizeCombos(combos, baselineWinRate);
 
   return {
+    baselineWinRate,
     cardAnalytics,
     familyAnalytics,
     roleAnalytics,
@@ -798,6 +858,7 @@ export function summarizeAiLabDiagnostics(results: AiLabMatchResult[]): AiLabDes
       roleAnalytics,
       rarityAnalytics,
       comboAnalytics,
+      baselineWinRate,
     ),
   };
 }

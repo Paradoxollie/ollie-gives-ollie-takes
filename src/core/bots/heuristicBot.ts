@@ -18,6 +18,11 @@ import {
 import type { Bot, BotContext } from "@/core/bots/types";
 import type { BoardCard, CardInstance, MatchState, MoveInput, PlayerId, Position, PreviewMove } from "@/core/types";
 
+export interface RankedHeuristicMove {
+  move: MoveInput;
+  score: number;
+}
+
 function getPositionSafetyBonus(position: Position, boardSize: number): number {
   const isTopOrBottom = position.row === 0 || position.row === boardSize - 1;
   const isLeftOrRight = position.col === 0 || position.col === boardSize - 1;
@@ -284,20 +289,26 @@ function searchScore(
   return bestScore;
 }
 
-function pickBestMove(state: MatchState, context: BotContext): MoveInput | null {
+/**
+ * Ranks legal moves with the exact search used by the heuristic bot.
+ */
+export function rankHeuristicMoves(state: MatchState, context: BotContext): RankedHeuristicMove[] {
   const searchDepth = Math.max(1, context.searchDepth ?? 1);
   const beamWidth = Math.max(1, context.beamWidth ?? 12);
   const scoredMoves = orderCandidatePreviews(state, beamWidth);
 
   if (scoredMoves.length === 0) {
-    return null;
+    return [];
   }
 
   if (searchDepth <= 1) {
-    return scoredMoves[0].preview.move;
+    return scoredMoves.map((entry) => ({
+      move: entry.preview.move,
+      score: entry.score,
+    }));
   }
 
-  const resolvedMoves = scoredMoves
+  return scoredMoves
     .map((scoredPreview) => ({
       move: scoredPreview.preview.move,
       score:
@@ -318,8 +329,10 @@ function pickBestMove(state: MatchState, context: BotContext): MoveInput | null 
 
       return compareMoveCoordinates(left.move, right.move);
     });
+}
 
-  return resolvedMoves[0]?.move ?? null;
+function pickBestMove(state: MatchState, context: BotContext): MoveInput | null {
+  return rankHeuristicMoves(state, context)[0]?.move ?? null;
 }
 
 /**

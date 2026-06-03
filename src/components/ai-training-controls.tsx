@@ -110,8 +110,8 @@ export function AiTrainingControls({ initialStatus, canControlTraining }: AiTrai
           ? await postTrainingControl("stop")
           : await postTrainingControl(status?.isTraining ? "restart" : "start", {
               iterations: mode === "quick" ? 4 : 12,
-              matchesPerOpponent: mode === "quick" ? 3 : 8,
-              promotionMatchesPerOpponent: mode === "quick" ? 6 : 16,
+              matchesPerOpponent: mode === "quick" ? 4 : 8,
+              promotionMatchesPerOpponent: 28,
             });
       startTransition(() => {
         setStatus(payload.status);
@@ -176,7 +176,8 @@ export function AiTrainingControls({ initialStatus, canControlTraining }: AiTrai
 
       {!canControlTraining ? (
         <p className="mt-4 rounded-[1rem] border border-amber-200/14 bg-amber-200/10 px-4 py-3 text-sm leading-6 text-amber-50/86">
-          Les boutons d'apprentissage sont actifs en local. La page de prod affiche le dernier snapshot versionne.
+          Les boutons d'apprentissage sont reserves au localhost. En ligne, GitHub Actions entraine automatiquement
+          l'IA puis publie le dernier snapshot valide.
         </p>
       ) : null}
 

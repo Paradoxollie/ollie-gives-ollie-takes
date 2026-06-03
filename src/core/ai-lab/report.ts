@@ -1,9 +1,14 @@
-import { summarizeAiLabDeck, summarizeAiLabPairing } from "@/core/ai-lab/aggregate";
+import {
+  summarizeAiLabDeck,
+  summarizeAiLabPairing,
+  summarizeAiLabStarterFamilyMatchups,
+} from "@/core/ai-lab/aggregate";
 import { simulateAiLabAdventureRuns } from "@/core/ai-lab/adventure";
 import { summarizeAiLabDiagnostics } from "@/core/ai-lab/diagnostics";
 import { AI_PLAYER_MODELS, getAiPlayerModel, getDefaultAiLadderPairings } from "@/core/ai-lab/models";
 import { simulateAiLabSeries } from "@/core/ai-lab/match";
-import { getAiLabScenario, getDefaultAiLabScenarioIds } from "@/core/ai-lab/scenarios";
+import { AI_LAB_RULESET_VERSION, getAiLabScenario, getDefaultAiLabScenarioIds } from "@/core/ai-lab/scenarios";
+import { AI_LAB_DIAGNOSTIC_CONFIG } from "@/core/config/gameConfig";
 import type {
   AiLabDeckSummary,
   AiLabInsight,
@@ -25,6 +30,7 @@ export interface BuildAiLabReportOptions {
   models?: AiPlayerModel[];
   reportId?: string;
   generatedAt?: string;
+  onProgress?: (message: string) => void;
 }
 
 function safeRate(numerator: number, denominator: number): number {
@@ -97,12 +103,28 @@ function severityRank(severity: AiLabInsight["severity"]): number {
   return severity === "problem" ? 0 : severity === "watch" ? 1 : 2;
 }
 
+function hasStableAdventureSample(
+  adventureSummaries: AiLabReport["adventureSummaries"] | undefined,
+): boolean {
+  return Boolean(
+    adventureSummaries?.length &&
+      adventureSummaries.every(
+        (summary) => summary.runs >= AI_LAB_DIAGNOSTIC_CONFIG.minStableAdventureRunsPerModel,
+      ),
+  );
+}
+
 /**
  * Builds concise design diagnostics from deterministic AI-lab summaries.
  */
 export function createAiLabInsights(
   report: Pick<AiLabReport, "deckSummaries" | "ladderPairings"> &
-    Partial<Pick<AiLabReport, "diagnostics" | "adventureSummaries">>,
+    Partial<
+      Pick<
+        AiLabReport,
+        "diagnostics" | "adventureDiagnostics" | "adventureSummaries" | "starterFamilyMatchups"
+      >
+    >,
 ): AiLabInsight[] {
   const insights: AiLabInsight[] = [];
 
@@ -150,7 +172,7 @@ export function createAiLabInsights(
     const higherSummary = getModelSummary(pairing, higher.id);
 
     if (lowerSummary.winRate > higherSummary.winRate + 0.08) {
-      const hasStableSample = pairing.totalGames >= 8;
+      const hasStableSample = pairing.totalGames >= 24;
       insights.push({
         id: `skill-inversion-${pairing.scenarioId}-${lower.id}-vs-${higher.id}`,
         severity: hasStableSample ? "problem" : "watch",
@@ -164,13 +186,29 @@ export function createAiLabInsights(
       });
     }
 
-    if (higher.id === "champion" && higherSummary.winRate < 0.5 && pairing.totalGames >= 8) {
+    if (higher.id === "champion" && higherSummary.winRate < 0.5 && pairing.totalGames >= 24) {
       insights.push({
         id: `champion-underperforms-${pairing.scenarioId}`,
         severity: "watch",
         title: "Le champion ne depasse pas l'expert",
         detail: `${higher.label} gagne ${formatPercent(higherSummary.winRate)} contre ${lower.label} sur ${pairing.scenarioLabel}.`,
         recommendation: "Relancer `npm run ai:train` puis refaire un rapport AI lab pour verifier la promotion.",
+      });
+    }
+  }
+
+  for (const matchup of report.starterFamilyMatchups ?? []) {
+    const leftIsStronger = matchup.leftWinRate >= matchup.rightWinRate;
+    const strongerFamily = leftIsStronger ? matchup.leftFamily : matchup.rightFamily;
+    const weakerFamily = leftIsStronger ? matchup.rightFamily : matchup.leftFamily;
+    const strongerWinRate = leftIsStronger ? matchup.leftWinRate : matchup.rightWinRate;
+    if (matchup.games >= 16 && strongerWinRate >= 0.65) {
+      insights.push({
+        id: `starter-matchup-${matchup.id}`,
+        severity: strongerWinRate >= 0.72 ? "problem" : "watch",
+        title: `${strongerFamily} domine ${weakerFamily} au depart`,
+        detail: `${formatPercent(strongerWinRate)} de victoire sur ${matchup.games} matchs apparies.`,
+        recommendation: "Comparer les cartes et effets specifiques de ce matchup avant de toucher toute une famille.",
       });
     }
   }
@@ -185,13 +223,28 @@ export function createAiLabInsights(
     });
   }
 
+  const stableAdventureSample = hasStableAdventureSample(report.adventureSummaries);
+  for (const recommendation of report.adventureDiagnostics?.balanceRecommendations.slice(0, 3) ?? []) {
+    insights.push({
+      id: `diagnostic-adventure-${recommendation.id}`,
+      severity: stableAdventureSample ? recommendation.severity : "watch",
+      title: `${stableAdventureSample ? "Run complet" : "Run complet a confirmer"}: ${recommendation.title}`,
+      detail: stableAdventureSample
+        ? `${recommendation.detail} Confiance ${recommendation.confidence}, echantillon ${recommendation.sampleSize}.`
+        : `${recommendation.detail} Echantillon exploratoire: moins de ${AI_LAB_DIAGNOSTIC_CONFIG.minStableAdventureRunsPerModel} runs par modele.`,
+      recommendation: stableAdventureSample
+        ? recommendation.recommendation
+        : "Attendre un rapport standard ou profond avant de modifier cette carte ou cette famille.",
+    });
+  }
+
   for (const adventure of report.adventureSummaries ?? []) {
     const model = getAiPlayerModel(adventure.modelId);
     if (adventure.runs === 0) {
       continue;
     }
 
-    if (model.rank >= 4 && adventure.bossReachRate < 0.45) {
+    if (model.rank >= 4 && adventure.runs >= 8 && adventure.bossReachRate < 0.45) {
       insights.push({
         id: `adventure-boss-reach-${adventure.modelId}`,
         severity: "watch",
@@ -203,7 +256,7 @@ export function createAiLabInsights(
       });
     }
 
-    if (model.rank >= 3 && adventure.averageCombatWinRate < 0.35) {
+    if (model.rank >= 3 && adventure.runs >= 8 && adventure.averageCombatWinRate < 0.35) {
       insights.push({
         id: `adventure-combat-wall-${adventure.modelId}`,
         severity: "watch",
@@ -255,23 +308,34 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
   const matchesPerPairing = options.matchesPerPairing ?? 24;
   const adventureRunsPerModel = options.adventureRunsPerModel ?? Math.max(1, Math.ceil(matchesPerPairing / 16));
   const seed = options.seed ?? 1701;
+
+  if (!Number.isInteger(matchesPerPairing) || matchesPerPairing <= 0 || matchesPerPairing % 4 !== 0) {
+    throw new Error("AI lab match count must be a positive multiple of 4.");
+  }
+
   const ladderPairs = getDefaultAiLadderPairings(playerModels);
   const ladderPairings: AiLabPairingSummary[] = [];
   const deckSummaries: AiLabDeckSummary[] = [];
   const allResults: AiLabMatchResult[] = [];
+  const totalSeries = scenarioIds.length * (ladderPairs.length + 1);
+  let completedSeries = 0;
 
   for (const scenarioId of scenarioIds) {
     getAiLabScenario(scenarioId);
     const mirrorModelId = playerModels.find((model) => model.id === "regular")?.id ?? playerModels[0].id;
     const mirrorResults = simulateAiLabSeries({
-        scenarioId,
-        seed,
-        matchup: [mirrorModelId, mirrorModelId],
-        matches: matchesPerPairing,
-      });
+      scenarioId,
+      seed,
+      matchup: [mirrorModelId, mirrorModelId],
+      matches: matchesPerPairing,
+    });
     allResults.push(...mirrorResults);
     const mirrorSummary = summarizeAiLabPairing(mirrorResults);
     deckSummaries.push(summarizeAiLabDeck(mirrorModelId, mirrorSummary));
+    completedSeries += 1;
+    options.onProgress?.(
+      `AI lab series ${completedSeries}/${totalSeries}: ${scenarioId}, ${mirrorModelId} mirror complete.`,
+    );
 
     for (const matchup of ladderPairs) {
       const pairingResults = simulateAiLabSeries({
@@ -282,6 +346,10 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
       });
       allResults.push(...pairingResults);
       ladderPairings.push(summarizeAiLabPairing(pairingResults));
+      completedSeries += 1;
+      options.onProgress?.(
+        `AI lab series ${completedSeries}/${totalSeries}: ${scenarioId}, ${matchup.join(" vs ")} complete.`,
+      );
     }
   }
 
@@ -289,19 +357,31 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
     matchesPerPairing,
     adventureRunsPerModel,
     seed,
+    rulesetVersion: AI_LAB_RULESET_VERSION,
     scenarioIds,
     modelIds: playerModels.map((model) => model.id),
   };
+  options.onProgress?.(
+    `Starting ${adventureRunsPerModel} full adventure run(s) for each of ${playerModels.length} model(s).`,
+  );
   const adventureReport = simulateAiLabAdventureRuns({
     seed,
     models: playerModels,
     runsPerModel: adventureRunsPerModel,
+    onProgress: options.onProgress,
   });
+  options.onProgress?.("Full adventure runs complete. Aggregating diagnostics.");
+  const starterFamilyMatchups = summarizeAiLabStarterFamilyMatchups(allResults);
   const diagnostics = summarizeAiLabDiagnostics(allResults);
+  const adventureDiagnostics = summarizeAiLabDiagnostics(adventureReport.combatMatches, {
+    relativeWinRateBaseline: true,
+  });
   const partialReport = {
     deckSummaries,
+    starterFamilyMatchups,
     ladderPairings,
     diagnostics,
+    adventureDiagnostics,
     adventureSummaries: adventureReport.summaries,
   };
 
@@ -312,10 +392,12 @@ export function buildAiLabReport(options: BuildAiLabReportOptions = {}): AiLabRe
     playerModels,
     skillSummaries: aggregateSkillSummaries(config.modelIds, ladderPairings),
     deckSummaries,
+    starterFamilyMatchups,
     ladderPairings,
     adventureSummaries: adventureReport.summaries,
     adventureRuns: adventureReport.runs,
     diagnostics,
+    adventureDiagnostics,
     insights: createAiLabInsights(partialReport),
   };
 }
@@ -327,6 +409,10 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
   const insightLines = report.insights
     .map((insight) => `- [${insight.severity}] ${insight.title}: ${insight.detail} ${insight.recommendation}`)
     .join("\n");
+  const trendLines =
+    report.trend?.signals.map(
+      (signal) => `- [${signal.severity}] ${signal.title}: ${signal.detail} ${signal.recommendation}`,
+    ).join("\n") || "- Pas encore assez de rapports conserves pour isoler une tendance stable.";
   const modelRows = report.skillSummaries
     .map((summary) => {
       const model = getAiPlayerModel(summary.modelId);
@@ -343,6 +429,14 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
         )} | ${formatAverage(deck.averages.turns)} | ${formatAverage(deck.averages.flipsPerTurn)} | ${formatPercent(
           deck.deadTurnFrequency,
         )} | ${deck.notes.join(" ")} |`,
+    )
+    .join("\n");
+  const starterFamilyMatchupRows = (report.starterFamilyMatchups ?? [])
+    .map(
+      (matchup) =>
+        `| ${matchup.leftFamily} vs ${matchup.rightFamily} | ${matchup.games} | ${formatPercent(
+          matchup.leftWinRate,
+        )} | ${formatPercent(matchup.rightWinRate)} | ${formatPercent(safeRate(matchup.draws, matchup.games))} |`,
     )
     .join("\n");
   const adventureRows = report.adventureSummaries
@@ -423,6 +517,26 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
         )} | ${formatAverage(combo.averageDamageDealt)} | ${combo.notes.join(" ")} |`,
     )
     .join("\n");
+  const adventureCardRows = (report.adventureDiagnostics?.cardAnalytics ?? [])
+    .slice(0, 18)
+    .map(
+      (card) =>
+        `| ${card.name} | ${card.family} | ${card.role ?? "sans role"} | ${card.status} | ${card.played}/${card.offered} | ${formatPercent(
+          card.selectionRate,
+        )} | ${formatPercent(card.winRateWhenPlayed)} | ${formatAverage(card.averageFlips)} | ${formatAverage(
+          card.averageNetDamage,
+        )} | ${card.notes.join(" ")} |`,
+    )
+    .join("\n");
+  const adventureComboRows = (report.adventureDiagnostics?.comboAnalytics ?? [])
+    .slice(0, 18)
+    .map(
+      (combo) =>
+        `| ${combo.kind} | ${combo.label} | ${combo.count} | ${formatPercent(combo.winRate)} | ${formatAverage(
+          combo.averageFlips,
+        )} | ${formatAverage(combo.averageDamageDealt)} | ${combo.notes.join(" ")} |`,
+    )
+    .join("\n");
 
   return `# Rapport AI Lab
 
@@ -432,10 +546,15 @@ export function createAiLabMarkdownReport(report: AiLabReport): string {
 - Runs aventure par modele: ${report.config.adventureRunsPerModel}
 - Scenarios: ${report.config.scenarioIds.map((scenarioId) => getAiLabScenario(scenarioId).label).join(", ")}
 - Seed: ${report.config.seed}
+- Version de regles: ${report.config.rulesetVersion ?? "legacy"}
 
 ## Signaux
 
 ${insightLines}
+
+## Tendances stables
+
+${trendLines}
 
 ## Recommandations design
 
@@ -455,6 +574,12 @@ ${modelRows}
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
 ${deckRows}
 
+## Duels de starters
+
+| Matchup | Games | Gauche | Droite | Draw |
+| --- | ---: | ---: | ---: | ---: |
+${starterFamilyMatchupRows}
+
 ## Runs aventure complets
 
 | Modele | Runs | Boss | Victoire | Lieux | Deck final | Combat win | Rewards | Charmes | Upgrades | Removes | Fusions | Familles choisies | Notes |
@@ -473,6 +598,14 @@ ${adventureRunRows}
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 ${cardRows}
 
+## Cartes de run complet
+
+Taux de victoire de base des plays analyses: ${formatPercent(report.adventureDiagnostics?.baselineWinRate ?? 0.5)}
+
+| Carte | Famille | Role | Statut | Plays/offres | Selection | Win | Flips | Net PV | Notes |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+${adventureCardRows}
+
 ## Familles
 
 | Famille | Statut | Plays/offres | Selection | Win | Flips | Net PV | Cartes cle |
@@ -484,6 +617,12 @@ ${familyRows}
 | Type | Combo | Occurrences | Win | Flips | Degats | Notes |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 ${comboRows}
+
+## Combos de deckbuilding en run complet
+
+| Type | Combo | Occurrences | Win | Flips | Degats | Notes |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+${adventureComboRows}
 
 ## Pairings de progression
 

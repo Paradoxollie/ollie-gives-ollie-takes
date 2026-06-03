@@ -6,9 +6,16 @@ on:
       - main
     paths:
       - ".github/workflows/ai-training.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/ai-lab.ts"
+      - "scripts/train-bot.ts"
+      - "src/core/**"
+      - "!src/core/ai-lab/generated/**"
+      - "!src/core/bots/generated/**"
   schedule:
-    # Standard continuous learning, eight times per day.
-    - cron: "17 */3 * * *"
+    # Seven standard cycles per day, leaving a clear window for the deep pass.
+    - cron: "17 0,6,9,12,15,18,21 * * *"
     # Daily deeper calibration pass, early morning in Europe/Paris.
     - cron: "47 2 * * *"
   workflow_dispatch:
@@ -38,13 +45,13 @@ jobs:
 
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
           fetch-depth: 0
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: npm
@@ -77,45 +84,45 @@ jobs:
               echo "iterations=1" >> "$GITHUB_OUTPUT"
               echo "population=4" >> "$GITHUB_OUTPUT"
               echo "elite_count=2" >> "$GITHUB_OUTPUT"
-              echo "matches=2" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=6" >> "$GITHUB_OUTPUT"
+              echo "matches=4" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=28" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=24" >> "$GITHUB_OUTPUT"
               echo "campaign_training_runs=1" >> "$GITHUB_OUTPUT"
-              echo "campaign_promotion_runs=2" >> "$GITHUB_OUTPUT"
-              echo "lab_adventure_runs=2" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=4" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=4" >> "$GITHUB_OUTPUT"
               ;;
             deep)
-              echo "iterations=10" >> "$GITHUB_OUTPUT"
-              echo "population=12" >> "$GITHUB_OUTPUT"
-              echo "elite_count=3" >> "$GITHUB_OUTPUT"
-              echo "matches=12" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=32" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=32" >> "$GITHUB_OUTPUT"
-              echo "campaign_training_runs=8" >> "$GITHUB_OUTPUT"
+              echo "iterations=4" >> "$GITHUB_OUTPUT"
+              echo "population=6" >> "$GITHUB_OUTPUT"
+              echo "elite_count=2" >> "$GITHUB_OUTPUT"
+              echo "matches=4" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=56" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=48" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=3" >> "$GITHUB_OUTPUT"
               echo "campaign_promotion_runs=12" >> "$GITHUB_OUTPUT"
-              echo "lab_adventure_runs=24" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=16" >> "$GITHUB_OUTPUT"
               ;;
             standard)
-              echo "iterations=4" >> "$GITHUB_OUTPUT"
-              echo "population=8" >> "$GITHUB_OUTPUT"
-              echo "elite_count=3" >> "$GITHUB_OUTPUT"
-              echo "matches=6" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=16" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=18" >> "$GITHUB_OUTPUT"
-              echo "campaign_training_runs=4" >> "$GITHUB_OUTPUT"
-              echo "campaign_promotion_runs=6" >> "$GITHUB_OUTPUT"
+              echo "iterations=3" >> "$GITHUB_OUTPUT"
+              echo "population=6" >> "$GITHUB_OUTPUT"
+              echo "elite_count=2" >> "$GITHUB_OUTPUT"
+              echo "matches=4" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=28" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=24" >> "$GITHUB_OUTPUT"
+              echo "campaign_training_runs=2" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=8" >> "$GITHUB_OUTPUT"
               echo "lab_adventure_runs=8" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "iterations=1" >> "$GITHUB_OUTPUT"
               echo "population=4" >> "$GITHUB_OUTPUT"
               echo "elite_count=2" >> "$GITHUB_OUTPUT"
-              echo "matches=2" >> "$GITHUB_OUTPUT"
-              echo "promotion_matches=4" >> "$GITHUB_OUTPUT"
-              echo "lab_matches=6" >> "$GITHUB_OUTPUT"
+              echo "matches=4" >> "$GITHUB_OUTPUT"
+              echo "promotion_matches=28" >> "$GITHUB_OUTPUT"
+              echo "lab_matches=24" >> "$GITHUB_OUTPUT"
               echo "campaign_training_runs=1" >> "$GITHUB_OUTPUT"
-              echo "campaign_promotion_runs=2" >> "$GITHUB_OUTPUT"
-              echo "lab_adventure_runs=2" >> "$GITHUB_OUTPUT"
+              echo "campaign_promotion_runs=4" >> "$GITHUB_OUTPUT"
+              echo "lab_adventure_runs=4" >> "$GITHUB_OUTPUT"
               ;;
           esac
 
@@ -136,7 +143,7 @@ jobs:
             --campaign-training-runs "${{ steps.profile.outputs.campaign_training_runs }}" \
             --campaign-promotion-runs "${{ steps.profile.outputs.campaign_promotion_runs }}" \
             --search-depth 3 \
-            --beam-width 8
+            --beam-width 12
 
       - name: Refresh AI lab snapshot
         run: |
