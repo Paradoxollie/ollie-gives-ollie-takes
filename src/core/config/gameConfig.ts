@@ -29,6 +29,9 @@ export const GAME_CONFIG: MatchConfig = {
   roundDamagePerControlledCard: 2,
   maxShieldPerPlayer: 6,
   maxNextTurnDrawBonus: 3,
+  maxNextTurnManaBonus: 2,
+  maxPoisonPerPlayer: 4,
+  maxPoisonDamagePerTurn: 2,
   maxDirectDamagePerMove: 4,
   maxCardSideValue: 8,
 };
@@ -102,6 +105,8 @@ export const ADVENTURE_REWARD_FIT_CONFIG = {
   positionSetupScore: 2.5,
   onFlipAttackerScore: 2.5,
   drawScore: 1.3,
+  manaScore: 1.5,
+  poisonScore: 1.4,
   shieldScore: 1.2,
   boostScore: 1.4,
 } as const;
@@ -131,6 +136,8 @@ export const TRAINED_BOT_WEIGHT_LIMITS = {
   hpDiff: { min: 0, max: 140 },
   shieldDiff: { min: 0, max: 120 },
   drawBonusDiff: { min: 0, max: 180 },
+  manaBonusDiff: { min: 0, max: 160 },
+  poisonDiff: { min: 0, max: 180 },
   controlDiff: { min: 0, max: 180 },
   boardStrengthDiff: { min: 0, max: 80 },
   boardManaDiff: { min: 0, max: 80 },

@@ -342,9 +342,11 @@ function ChampionPlate({
             {Math.max(0, champion.health)}
             <span className="ml-1 text-[0.68rem] font-bold text-white/48">/{champion.maxHealth}</span>
           </p>
-          <div className="ogot-champion-stats flex gap-1.5 text-[0.66rem] font-black uppercase tracking-[0.1em] text-white/70">
+          <div className="ogot-champion-stats flex flex-wrap justify-end gap-1.5 text-[0.66rem] font-black uppercase tracking-[0.1em] text-white/70">
             <span>Ctrl {control[owner]}</span>
             <span>Bcl {combat.shield}</span>
+            {combat.nextTurnManaBonus > 0 ? <span>En+{combat.nextTurnManaBonus}</span> : null}
+            {combat.poison > 0 ? <span>Psn {combat.poison}</span> : null}
           </div>
         </div>
         <div className="ogot-health-track mt-2">
@@ -606,12 +608,12 @@ function CommandPanel({
         <span>Energie</span>
         <span>{availableMana} dispo</span>
       </div>
-      <ResourcePips total={match.config.turnMana} spent={selectedManaCost} available={availableMana} />
+      <ResourcePips total={match.turn.availableMana} spent={selectedManaCost} available={availableMana} />
       {selectedCount > 0 || targetPosition ? (
         <CommandFusionSummary
           selectedCards={selectedCards}
           selectedManaCost={selectedManaCost}
-          turnMana={match.config.turnMana}
+          turnMana={match.turn.availableMana}
           maxCards={match.config.maxCardsPerMove}
           targetPosition={targetPosition}
         />
@@ -1106,6 +1108,7 @@ export function BattleStage({
 }: BattleStageProps) {
   const selectedCards = hand.filter((card) => selectedCardIds.includes(card.instanceId));
   const enemyVisibleCards = getVisibleEnemyCards(match);
+  const turnMana = match.turn.availableMana;
 
   return (
     <main className={["ogot-battle-shell", embedded ? "ogot-battle-shell--embedded" : ""].join(" ")}>
@@ -1119,7 +1122,7 @@ export function BattleStage({
           hiddenCount={enemyVisibleCards.length}
           selectedCardIds={[]}
           selectedManaCost={0}
-          turnMana={match.config.turnMana}
+          turnMana={turnMana}
           maxSelectedCards={match.config.maxCardsPerMove}
           canHumanInteract={false}
           onSelectCard={() => undefined}
@@ -1177,7 +1180,7 @@ export function BattleStage({
           hiddenCount={0}
           selectedCardIds={selectedCardIds}
           selectedManaCost={selectedManaCost}
-          turnMana={match.config.turnMana}
+          turnMana={turnMana}
           maxSelectedCards={match.config.maxCardsPerMove}
           canHumanInteract={canHumanInteract}
           onSelectCard={onSelectCard}

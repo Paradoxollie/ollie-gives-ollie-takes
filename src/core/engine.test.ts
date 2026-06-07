@@ -51,8 +51,8 @@ function makeState(overrides: MatchStateOverrides = {}): MatchState {
     players: overrides.players ?? state.players,
     champions: overrides.champions ?? state.champions,
     combat: overrides.combat ?? {
-      player: { shield: 0, nextTurnDrawBonus: 0 },
-      enemy: { shield: 0, nextTurnDrawBonus: 0 },
+      player: { shield: 0, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
+      enemy: { shield: 0, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
     },
     round: {
       ...state.round,
@@ -725,6 +725,97 @@ describe("card effects", () => {
     expect(nextPlayerTurn.turn.activePlayer).toBe("player");
     expect(nextPlayerTurn.turn.choices).toHaveLength(5);
     expect(nextPlayerTurn.combat.player.nextTurnDrawBonus).toBe(0);
+  });
+
+  it("turns a mana effect into a higher mana budget on the next owner turn", () => {
+    const setupCard = {
+      ...makeCard("player", "gear-monk", "mana-setup"),
+      effects: [{ trigger: "on-play", kind: "gain-mana-next-turn", amount: 1 } as const],
+    };
+    const first = { ...makeCard("player", "sapling", "first"), manaCost: 2 };
+    const second = { ...makeCard("player", "badger", "second"), manaCost: 2 };
+    const third = { ...makeCard("player", "heron", "third"), manaCost: 1 };
+    const playerReserve = [
+      first,
+      second,
+      third,
+      makeCard("player", "foxfire", "d4"),
+      makeCard("player", "mole", "d5"),
+    ];
+    const state = makeState({
+      players: {
+        player: {
+          id: "player",
+          drawPile: playerReserve,
+          discardPile: [],
+          reshuffles: 0,
+        },
+        enemy: {
+          id: "enemy",
+          drawPile: [],
+          discardPile: [],
+          reshuffles: 0,
+        },
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [setupCard],
+      },
+    });
+
+    const afterSetup = applyMove(state, {
+      cardInstanceId: setupCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+    const nextPlayerTurn = passTurn(afterSetup);
+
+    expect(afterSetup.combat.player.nextTurnManaBonus).toBe(1);
+    expect(nextPlayerTurn.turn.activePlayer).toBe("player");
+    expect(nextPlayerTurn.turn.availableMana).toBe(GAME_CONFIG.turnMana + 1);
+    expect(() =>
+      applyMove(nextPlayerTurn, {
+        cardInstanceId: first.instanceId,
+        cardInstanceIds: [first.instanceId, second.instanceId, third.instanceId],
+        position: { row: 0, col: 1 },
+      }),
+    ).not.toThrow();
+  });
+
+  it("applies poison at the start of the poisoned player's turn and lets shield absorb it", () => {
+    const poisonCard = {
+      ...makeCard("player", "sapling", "poison"),
+      effects: [{ trigger: "on-play", kind: "apply-poison", amount: 2 } as const],
+    };
+    const state = makeState({
+      champions: {
+        player: { health: 20, maxHealth: 20 },
+        enemy: { health: 20, maxHealth: 20 },
+      },
+      combat: {
+        player: { shield: 0, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
+        enemy: { shield: 3, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
+      },
+      turn: {
+        activePlayer: "player",
+        choices: [poisonCard],
+      },
+    });
+
+    const nextState = applyMove(state, {
+      cardInstanceId: poisonCard.instanceId,
+      position: { row: 0, col: 0 },
+    });
+
+    expect(nextState.turn.activePlayer).toBe("enemy");
+    expect(nextState.champions.enemy.health).toBe(20);
+    expect(nextState.combat.enemy.shield).toBe(1);
+    expect(nextState.combat.enemy.poison).toBe(1);
+    expect(nextState.lastMove?.effectEvents).toContainEqual(
+      expect.objectContaining({
+        kind: "apply-poison",
+        amount: 2,
+      }),
+    );
   });
 
   it("applies self-boost effects before flip comparison", () => {

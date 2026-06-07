@@ -162,6 +162,7 @@ describe("bot legality", () => {
       combat: {
         ...state.combat,
         player: {
+          ...state.combat.player,
           shield: state.combat.player.shield + 2,
           nextTurnDrawBonus: state.combat.player.nextTurnDrawBonus + 1,
         },

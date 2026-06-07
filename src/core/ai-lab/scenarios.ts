@@ -11,7 +11,7 @@ export interface AiLabScenario {
   startingDeckCardCount: number;
 }
 
-export const AI_LAB_RULESET_VERSION = "v7-2026-06-03-arcane-core-payoff";
+export const AI_LAB_RULESET_VERSION = "v8-2026-06-07-poison-mana-counterplay";
 
 export const CURRENT_FAMILY_START_SCENARIO: AiLabScenario = {
   id: "current-family-start",

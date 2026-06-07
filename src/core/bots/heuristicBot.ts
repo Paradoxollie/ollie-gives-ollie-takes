@@ -177,6 +177,8 @@ export function evaluateHeuristicState(state: MatchState, perspective: PlayerId)
   const hpDiff = state.champions[perspective].health - state.champions[opponent].health;
   const shieldDiff = state.combat[perspective].shield - state.combat[opponent].shield;
   const drawBonusDiff = state.combat[perspective].nextTurnDrawBonus - state.combat[opponent].nextTurnDrawBonus;
+  const manaBonusDiff = state.combat[perspective].nextTurnManaBonus - state.combat[opponent].nextTurnManaBonus;
+  const poisonDiff = state.combat[opponent].poison - state.combat[perspective].poison;
   const controlDiff = control[perspective] - control[opponent];
   const boardStrengthDiff = sumBoardStrength(state.board, perspective) - sumBoardStrength(state.board, opponent);
   const reserveStrengthDiff = getReserveStrength(state, perspective) - getReserveStrength(state, opponent);
@@ -187,6 +189,8 @@ export function evaluateHeuristicState(state: MatchState, perspective: PlayerId)
     hpDiff * 520 +
     shieldDiff * 55 +
     drawBonusDiff * 120 +
+    manaBonusDiff * 135 +
+    poisonDiff * 150 +
     controlDiff * 210 +
     boardStrengthDiff * 18 +
     reserveStrengthDiff * 7 +

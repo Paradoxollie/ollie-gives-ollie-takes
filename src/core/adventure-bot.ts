@@ -137,12 +137,20 @@ function getCardEffectIntent(card: AdventureDeckCard["card"]): BuildIntentProfil
     if (effect.kind === "deal-damage") {
       profile.aggression += effect.amount * (effect.trigger === "on-flip" ? 3.2 : 2.4);
       profile.tempo += effect.amount * 0.8;
+    } else if (effect.kind === "apply-poison") {
+      profile.aggression += effect.amount * 2.4;
+      profile.control += effect.amount * 1.2;
+      profile.precision += effect.condition ? 0.8 : 0.3;
     } else if (effect.kind === "gain-shield") {
       profile.control += effect.amount * 2.2;
       profile.precision += effect.condition ? 0.5 : 0;
     } else if (effect.kind === "draw-next-turn") {
       profile.tempo += effect.amount * 3.1;
       profile.precision += effect.amount * 1.1;
+    } else if (effect.kind === "gain-mana-next-turn") {
+      profile.tempo += effect.amount * 3.4;
+      profile.fusion += effect.amount * 1.5;
+      profile.precision += effect.amount * 0.8;
     } else if (effect.kind === "boost-self") {
       profile.precision += effect.amount * 2.2;
       profile.control += effect.directions === "all" ? effect.amount * 1.6 : effect.amount * 0.9;
@@ -173,6 +181,14 @@ function getCardEffectDraftValue(card: AdventureDeckCard["card"]): number {
 
     if (effect.kind === "draw-next-turn") {
       return sum + effect.amount * 2.5 * hybridModifier;
+    }
+
+    if (effect.kind === "gain-mana-next-turn") {
+      return sum + effect.amount * 2.7 * hybridModifier;
+    }
+
+    if (effect.kind === "apply-poison") {
+      return sum + effect.amount * 2.4 * hybridModifier;
     }
 
     if (effect.kind === "gain-shield") {

@@ -21,6 +21,8 @@ export const TRAINED_BOT_PROFILE: TrainedBotProfile = {
     hpDiff: 97.2337,
     shieldDiff: 55.8565,
     drawBonusDiff: 64.0626,
+    manaBonusDiff: 95,
+    poisonDiff: 110,
     controlDiff: 4.6435,
     boardStrengthDiff: 50.2991,
     boardManaDiff: 0.3363,

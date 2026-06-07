@@ -86,8 +86,8 @@ function cloneChampions(champions: Record<PlayerId, ChampionState>): Record<Play
 
 function createInitialCombatState(): Record<PlayerId, PlayerCombatState> {
   return {
-    player: { shield: 0, nextTurnDrawBonus: 0 },
-    enemy: { shield: 0, nextTurnDrawBonus: 0 },
+    player: { shield: 0, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
+    enemy: { shield: 0, nextTurnDrawBonus: 0, nextTurnManaBonus: 0, poison: 0 },
   };
 }
 
@@ -285,10 +285,15 @@ export function getMoveManaCost(state: MatchState, move: MoveInput): number {
   return getMoveCards(state, move).reduce((sum, card) => sum + card.manaCost, 0);
 }
 
+export function getTurnAvailableMana(state: MatchState): number {
+  return state.turn.availableMana;
+}
+
 function validateMoveMana(state: MatchState, cards: CardInstance[]): void {
   const manaCost = cards.reduce((sum, card) => sum + card.manaCost, 0);
-  if (manaCost > state.config.turnMana) {
-    throw new Error(`Move costs ${manaCost} mana, but only ${state.config.turnMana} is available.`);
+  const availableMana = getTurnAvailableMana(state);
+  if (manaCost > availableMana) {
+    throw new Error(`Move costs ${manaCost} mana, but only ${availableMana} is available.`);
   }
 }
 
@@ -674,6 +679,65 @@ function resolveCardResourceEffects(options: {
           `${effect.sourceCardName ?? sourceCard.name}: +${applied} pioche au prochain tour${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
         ),
       );
+      continue;
+    }
+
+    if (effect.kind === "gain-mana-next-turn") {
+      const manaRoom = Math.max(0, state.config.maxNextTurnManaBonus - combat[sourceCard.owner].nextTurnManaBonus);
+      const applied = Math.min(rawAmount, manaRoom);
+      if (applied <= 0) {
+        continue;
+      }
+
+      combat = {
+        ...combat,
+        [sourceCard.owner]: {
+          ...combat[sourceCard.owner],
+          nextTurnManaBonus: combat[sourceCard.owner].nextTurnManaBonus + applied,
+        },
+      };
+      effectEvents.push(
+        createCardEffectEvent(
+          sourceCard.owner,
+          sourceCard,
+          effect,
+          effect.kind,
+          applied,
+          `${effect.sourceCardName ?? sourceCard.name}: +${applied} energie au prochain tour${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+        ),
+      );
+      continue;
+    }
+
+    if (effect.kind === "apply-poison") {
+      const target = getNextPlayer(sourceCard.owner);
+      const poisonRoom = Math.max(0, state.config.maxPoisonPerPlayer - combat[target].poison);
+      const applied = Math.min(rawAmount, poisonRoom);
+      if (applied <= 0) {
+        continue;
+      }
+
+      combat = {
+        ...combat,
+        [target]: {
+          ...combat[target],
+          poison: combat[target].poison + applied,
+        },
+      };
+      effectEvents.push(
+        createCardEffectEvent(
+          sourceCard.owner,
+          sourceCard,
+          effect,
+          effect.kind,
+          applied,
+          `${effect.sourceCardName ?? sourceCard.name}: +${applied} poison sur ${target === "player" ? "Ollie" : "le rival"}${effectScale > 1 ? ` (combo x${effectScale})` : ""}.`,
+        ),
+      );
+      continue;
+    }
+
+    if (effect.kind !== "deal-damage") {
       continue;
     }
 
@@ -1167,7 +1231,50 @@ function startTurn(
     return state;
   }
 
-  const draw = drawCardsForTurn(state, activePlayer, roundTurn);
+  const poison = Math.max(0, state.combat[activePlayer].poison);
+  const poisonDamage = Math.min(poison, state.config.maxPoisonDamagePerTurn);
+  let champions = cloneChampions(state.champions);
+  let combat = cloneCombatState(state.combat);
+  if (poisonDamage > 0) {
+    const damage = applyDirectDamageToChampion(champions, combat, activePlayer, poisonDamage);
+    champions = damage.champions;
+    combat = {
+      ...damage.combat,
+      [activePlayer]: {
+        ...damage.combat[activePlayer],
+        poison: Math.max(0, poison - 1),
+      },
+    };
+  }
+
+  const poisonResult = resolveImmediateDamageResult({
+    champions,
+    board: state.board,
+    fallbackWinner: getNextPlayer(activePlayer),
+  });
+  const turnMana = state.config.turnMana + combat[activePlayer].nextTurnManaBonus;
+  if (poisonResult) {
+    return {
+      ...state,
+      champions,
+      combat,
+      result: poisonResult,
+      turn: {
+        index,
+        roundTurn,
+        activePlayer,
+        choices: [],
+        availableMana: turnMana,
+      },
+    };
+  }
+
+  const stateAfterPoison = {
+    ...state,
+    champions,
+    combat,
+  };
+  const draw = drawCardsForTurn(stateAfterPoison, activePlayer, roundTurn);
   const nextEmptyTurnStreak = draw.choices.length === 0 ? emptyTurnStreak + 1 : 0;
   const openingShieldBonus =
     roundTurn === 1 && activePlayer === state.round.startingPlayer
@@ -1177,15 +1284,17 @@ function startTurn(
     ? state.config.secondPlayerFirstTurnShieldBonus
     : 0;
   const activeCombat: PlayerCombatState = {
-    ...state.combat[activePlayer],
+    ...combat[activePlayer],
     shield: Math.min(
       state.config.maxShieldPerPlayer,
-      state.combat[activePlayer].shield + openingShieldBonus + responseShieldBonus,
+      combat[activePlayer].shield + openingShieldBonus + responseShieldBonus,
     ),
     nextTurnDrawBonus: 0,
+    nextTurnManaBonus: 0,
   };
   let nextState: MatchState = {
     ...state,
+    champions,
     rngState: draw.seed,
     players: {
       ...state.players,
@@ -1201,9 +1310,10 @@ function startTurn(
       roundTurn,
       activePlayer,
       choices: draw.choices,
+      availableMana: turnMana,
     },
     combat: {
-      ...cloneCombatState(state.combat),
+      ...combat,
       [activePlayer]: activeCombat,
     },
     emptyTurnStreak: nextEmptyTurnStreak,
@@ -1845,6 +1955,7 @@ export function createMatch(settings: Partial<MatchSettings> = {}): MatchState {
       roundTurn: 0,
       activePlayer: settings.startingPlayer ?? GAME_CONFIG.startingPlayer,
       choices: [],
+      availableMana: GAME_CONFIG.turnMana,
     },
     playerCharms,
     playerCharmState: createInitialPlayerCharmState(playerCharms),
@@ -1892,7 +2003,7 @@ function buildLegalCardStacks(state: MatchState): CardInstance[][] {
     for (let index = startIndex; index < state.turn.choices.length; index += 1) {
       const card = state.turn.choices[index];
       const nextManaCost = manaCost + card.manaCost;
-      if (nextManaCost > state.config.turnMana) {
+      if (nextManaCost > getTurnAvailableMana(state)) {
         continue;
       }
 

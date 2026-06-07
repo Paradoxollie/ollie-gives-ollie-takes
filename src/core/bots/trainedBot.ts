@@ -128,6 +128,8 @@ export function evaluateMatchStateForBot(
   const hpDiff = state.champions[perspective].health - state.champions[opponent].health;
   const shieldDiff = state.combat[perspective].shield - state.combat[opponent].shield;
   const drawBonusDiff = state.combat[perspective].nextTurnDrawBonus - state.combat[opponent].nextTurnDrawBonus;
+  const manaBonusDiff = state.combat[perspective].nextTurnManaBonus - state.combat[opponent].nextTurnManaBonus;
+  const poisonDiff = state.combat[opponent].poison - state.combat[perspective].poison;
   const controlDiff = control[perspective] - control[opponent];
   const boardStrengthDiff = sumBoardStrength(state.board, perspective) - sumBoardStrength(state.board, opponent);
   const boardManaDiff = sumBoardMana(state.board, perspective) - sumBoardMana(state.board, opponent);
@@ -146,6 +148,8 @@ export function evaluateMatchStateForBot(
     hpDiff * weights.hpDiff +
     shieldDiff * weights.shieldDiff +
     drawBonusDiff * weights.drawBonusDiff +
+    manaBonusDiff * weights.manaBonusDiff +
+    poisonDiff * weights.poisonDiff +
     controlDiff * weights.controlDiff +
     boardStrengthDiff * weights.boardStrengthDiff +
     boardManaDiff * weights.boardManaDiff +

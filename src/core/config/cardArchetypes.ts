@@ -22,11 +22,11 @@ const FAMILY_HYBRID_LINKS: Record<CardFamily, CardFamily[]> = {
 };
 
 const FAMILY_OBJECTIVES: Record<CardFamily, string> = {
-  familiar: "Garder les allies proches pour proteger un moteur de meute.",
+  familiar: "Garder les allies proches pour proteger un moteur de meute et installer du poison.",
   demon: "Creer des flips agressifs puis convertir la pression en degats directs.",
   human: "Former des lignes fiables avec des roles distincts, puis completer une formation avant d'attaquer.",
-  automaton: "Tenir les coins et assembler une machine de trois cartes capable de riposter.",
-  revenant: "Rester au contact quand tu n'es pas devant, puis renverser la manche.",
+  automaton: "Tenir les coins, preparer de l'energie et assembler une machine de trois cartes capable de riposter.",
+  revenant: "Rester au contact quand tu n'es pas devant, puis convertir le retard en poison et en gros tour.",
   arcane: "Ancrer le centre, prolonger le reseau et completer un noyau de pile.",
   dragon: "Chercher une puissance rare de fin de run.",
   renegade: "Ajouter un paquet de contre et de tempo.",
@@ -83,11 +83,11 @@ function inferRole(id: string, effects: CardEffect[] | undefined): CardRole {
     return starterRole;
   }
 
-  if ((effects ?? []).some((effect) => effect.kind === "deal-damage" || ("minFlips" in effect && effect.minFlips))) {
+  if ((effects ?? []).some((effect) => effect.kind === "deal-damage" || effect.kind === "apply-poison" || ("minFlips" in effect && effect.minFlips))) {
     return "attacker";
   }
 
-  if ((effects ?? []).some((effect) => effect.requiredFamilyCount || effect.scaleWithFamilyCount)) {
+  if ((effects ?? []).some((effect) => effect.requiredFamilyCount || effect.scaleWithFamilyCount || effect.kind === "gain-mana-next-turn")) {
     return "engine";
   }
 
@@ -153,7 +153,10 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 4, bottom: 4, left: 2 },
     family: "familiar",
     accent: "sprout",
-    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [
+      { trigger: "on-play", kind: "gain-shield", amount: 1, requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 },
+      { trigger: "on-play", kind: "apply-poison", amount: 1, condition: "adjacent-ally", requiredFamilyCount: 2 },
+    ],
   }),
   draftCard({
     id: "badger",
@@ -337,7 +340,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     preferredPositions: ["corner"],
     effects: [
       { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest" },
-      { trigger: "on-play", kind: "gain-shield", amount: 1, condition: "corner" },
+      { trigger: "on-play", kind: "gain-shield", amount: 2, condition: "corner" },
     ],
   }),
   draftCard({
@@ -367,7 +370,10 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     family: "automaton",
     accent: "arcane",
     preferredPositions: ["corner"],
-    effects: [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "all", condition: "corner", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [
+      { trigger: "on-play", kind: "boost-self", amount: 1, directions: "all", condition: "corner", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+      { trigger: "on-play", kind: "gain-mana-next-turn", amount: 1, condition: "corner", requiredFamilyCount: 2 },
+    ],
   }),
   draftCard({
     id: "copper-beetle",
@@ -400,7 +406,9 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 2, right: 2, bottom: 5, left: 3 },
     family: "revenant",
     accent: "shadow",
-    effects: [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 }],
+    effects: [
+      { trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 2 },
+    ],
   }),
   draftCard({
     id: "lantern-shade",
@@ -408,7 +416,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     sides: { top: 4, right: 2, bottom: 3, left: 3 },
     family: "revenant",
     accent: "glow",
-    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 2, condition: "behind-on-board" }],
+    effects: [{ trigger: "on-play", kind: "gain-shield", amount: 1, condition: "behind-on-board" }],
   }),
   draftCard({
     id: "bone-choir",
@@ -425,7 +433,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     family: "revenant",
     accent: "shadow",
     effects: [
-      { trigger: "on-flip", kind: "deal-damage", amount: 2, minFlips: 1, requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+      { trigger: "on-flip", kind: "deal-damage", amount: 1, minFlips: 1, requiredFamilyCount: 2, scaleWithFamilyCount: true, maxScale: 2 },
       { trigger: "on-play", kind: "gain-shield", amount: 1, requiredHybridFamily: "demon" },
     ],
   }),
@@ -437,7 +445,7 @@ export const CARD_ARCHETYPES: ReadonlyArray<CardArchetype> = [
     accent: "glow",
     effects: [
       { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest" },
-      { trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 1, scaleWithFamilyCount: true, maxScale: 2 },
+      { trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", requiredFamilyCount: 2 },
     ],
   }),
   draftCard({

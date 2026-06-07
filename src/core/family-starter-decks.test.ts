@@ -66,16 +66,27 @@ describe("family starter decks", () => {
     const cinderGrin = getCardArchetype("cinder-grin");
     const sentinel = getCardArchetype("clock-sentinel");
     const monk = getCardArchetype("gear-monk");
+    const oracle = getCardArchetype("tin-oracle");
     const quietMonk = getCardArchetype("quiet-monk");
     const ranger = getCardArchetype("path-ranger");
     const mage = getCardArchetype("rune-mage");
     const knight = getCardArchetype("field-knight");
+    const widowKnight = getCardArchetype("widow-knight");
+    const mothGhost = getCardArchetype("moth-ghost");
     const starWitch = getCardArchetype("star-witch");
     const runeAdept = getCardArchetype("rune-adept");
     const moonScribe = getCardArchetype("moon-scribe");
 
     expect(
       sapling.effects?.some((effect) => effect.kind === "gain-shield" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(
+      sapling.effects?.some(
+        (effect) =>
+          effect.kind === "apply-poison" &&
+          effect.condition === "adjacent-ally" &&
+          effect.requiredFamilyCount === 2,
+      ),
     ).toBe(true);
     expect(
       cinderGrin.effects?.some((effect) => effect.kind === "deal-damage" && effect.requiredFamilyCount === 2),
@@ -91,6 +102,14 @@ describe("family starter decks", () => {
           effect.kind === "boost-self" &&
           effect.requiredFamilyCount === 2 &&
           effect.scaleWithFamilyCount,
+      ),
+    ).toBe(true);
+    expect(
+      oracle.effects?.some(
+        (effect) =>
+          effect.kind === "gain-mana-next-turn" &&
+          effect.condition === "corner" &&
+          effect.requiredFamilyCount === 2,
       ),
     ).toBe(true);
     expect(
@@ -123,6 +142,19 @@ describe("family starter decks", () => {
     ).toBe(true);
     expect(
       knight.effects?.some((effect) => effect.kind === "gain-shield" && effect.requiredFamilyCount === 2),
+    ).toBe(true);
+    expect(
+      widowKnight.effects?.some(
+        (effect) => effect.kind === "deal-damage" && effect.requiredFamilyCount === 2,
+      ),
+    ).toBe(true);
+    expect(
+      mothGhost.effects?.some(
+        (effect) =>
+          effect.kind === "draw-next-turn" &&
+          effect.condition === "behind-on-board" &&
+          effect.requiredFamilyCount === 2,
+      ),
     ).toBe(true);
     expect(
       starWitch.effects?.some(

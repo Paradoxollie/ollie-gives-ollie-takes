@@ -201,15 +201,15 @@ function rewardHybridEffect(rarity: CardRarity, family: CardFamily, index: numbe
   const amount = rarity === "rare" ? 2 : 1;
   switch (family) {
     case "familiar":
-      return { trigger: "on-play", kind: "gain-shield", amount, requiredHybridFamily: hybridFamily };
+      return { trigger: "on-play", kind: "apply-poison", amount: 1, condition: "adjacent-ally", requiredHybridFamily: hybridFamily };
     case "demon":
       return { trigger: "on-play", kind: "deal-damage", amount: 1, condition: "adjacent-enemy", requiredHybridFamily: hybridFamily };
     case "human":
       return { trigger: "on-play", kind: "draw-next-turn", amount: 1, requiredHybridFamily: hybridFamily };
     case "automaton":
-      return { trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", requiredHybridFamily: hybridFamily };
+      return { trigger: "on-play", kind: "gain-mana-next-turn", amount: 1, requiredHybridFamily: hybridFamily };
     case "revenant":
-      return { trigger: "on-play", kind: "gain-shield", amount, condition: "behind-on-board", requiredHybridFamily: hybridFamily };
+      return { trigger: "on-play", kind: "apply-poison", amount: 1, condition: "behind-on-board", requiredHybridFamily: hybridFamily };
     case "arcane":
       return { trigger: "on-play", kind: "boost-self", amount: 1, directions: "strongest", condition: "center", requiredHybridFamily: hybridFamily };
     default:
@@ -226,7 +226,7 @@ function rewardEffects(rarity: CardRarity, family: CardFamily, index: number): C
     case "familiar":
       primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "gain-shield", amount, condition: "adjacent-ally", ...combo }]
-        : [{ trigger: "on-flip", kind: "draw-next-turn", amount: 1, minFlips: 1, ...combo }];
+        : [{ trigger: "on-flip", kind: "apply-poison", amount: 1, minFlips: 1, ...combo }];
       break;
     case "demon":
       primaryEffects = [{ trigger: "on-flip", kind: "deal-damage", amount, minFlips: 1, ...combo }];
@@ -239,12 +239,12 @@ function rewardEffects(rarity: CardRarity, family: CardFamily, index: number): C
     case "automaton":
       primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "corner", ...combo }]
-        : [{ trigger: "on-play", kind: "boost-self", amount: 1, directions: "weakest", condition: "corner", ...combo }];
+        : [{ trigger: "on-play", kind: "gain-mana-next-turn", amount: 1, condition: "corner", ...combo }];
       break;
     case "revenant":
       primaryEffects = index % 2 === 0
         ? [{ trigger: "on-play", kind: "draw-next-turn", amount: 1, condition: "behind-on-board", ...combo }]
-        : [{ trigger: "on-play", kind: "gain-shield", amount: amount + 1, condition: "behind-on-board", ...combo }];
+        : [{ trigger: "on-play", kind: "apply-poison", amount: 1, condition: "behind-on-board", ...combo }];
       break;
     case "arcane":
       primaryEffects = index % 2 === 0

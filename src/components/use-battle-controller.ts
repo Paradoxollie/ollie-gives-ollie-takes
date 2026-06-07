@@ -492,7 +492,8 @@ export function useBattleController({
   const selectedCard = selectedCards[0] ?? null;
   const selectedCardId = selectedCard?.instanceId ?? null;
   const selectedManaCost = selectedCards.reduce((sum, card) => sum + card.manaCost, 0);
-  const availableMana = Math.max(0, (match?.config.turnMana ?? 0) - selectedManaCost);
+  const turnMana = match?.turn.availableMana ?? match?.config.turnMana ?? 0;
+  const availableMana = Math.max(0, turnMana - selectedManaCost);
   const canHumanInteract = Boolean(
     match &&
       !match.result &&
@@ -628,7 +629,7 @@ export function useBattleController({
           return sum + (card?.manaCost ?? 0);
         }, clickedCard.manaCost);
 
-        if (nextCost > match.config.turnMana) {
+        if (nextCost > match.turn.availableMana) {
           return current;
         }
 

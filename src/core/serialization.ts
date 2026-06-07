@@ -29,6 +29,7 @@ export function serializeMatchState(state: MatchState): SerializedMatchState {
     activePlayer: state.result ? null : state.turn.activePlayer,
     turn: state.turn.index,
     roundTurn: state.turn.roundTurn,
+    availableMana: state.turn.availableMana,
     round: state.round.number,
     roundStarter: state.round.startingPlayer,
     roundCoinFace: state.round.coinFace,

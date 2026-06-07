@@ -151,6 +151,14 @@ function scoreRewardEffectFit(card: CardArchetype, playerDeck: AdventureDeckStat
       nextScore += ADVENTURE_REWARD_FIT_CONFIG.drawScore;
     }
 
+    if (effect.kind === "gain-mana-next-turn") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.manaScore;
+    }
+
+    if (effect.kind === "apply-poison") {
+      nextScore += ADVENTURE_REWARD_FIT_CONFIG.poisonScore;
+    }
+
     if (effect.kind === "gain-shield") {
       nextScore += ADVENTURE_REWARD_FIT_CONFIG.shieldScore;
     }

@@ -20,6 +20,10 @@ function hasHeavyEffect(effects: CardEffect[] | undefined): boolean {
       return effect.amount >= 2;
     }
 
+    if (effect.kind === "gain-mana-next-turn" || effect.kind === "apply-poison") {
+      return effect.amount >= 2;
+    }
+
     if (effect.kind === "gain-shield") {
       return effect.amount >= 2 && !effect.condition;
     }

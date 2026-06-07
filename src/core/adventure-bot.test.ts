@@ -37,6 +37,8 @@ function createWeights(overrides: Partial<TrainedBotWeights> = {}): TrainedBotWe
     hpDiff: 0,
     shieldDiff: 0,
     drawBonusDiff: 0,
+    manaBonusDiff: 0,
+    poisonDiff: 0,
     controlDiff: 0,
     boardStrengthDiff: 0,
     boardManaDiff: 0,

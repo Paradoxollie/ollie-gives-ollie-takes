@@ -93,6 +93,10 @@ function effectToneClass(effect: CardEffect): string {
       return "border-rose-100/72 bg-rose-500/24 text-rose-50 shadow-[0_0_12px_rgba(251,113,133,0.3)]";
     case "draw-next-turn":
       return "border-emerald-100/72 bg-emerald-400/22 text-emerald-50 shadow-[0_0_12px_rgba(110,231,183,0.28)]";
+    case "gain-mana-next-turn":
+      return "border-amber-100/72 bg-amber-400/24 text-amber-50 shadow-[0_0_12px_rgba(251,191,36,0.3)]";
+    case "apply-poison":
+      return "border-lime-100/72 bg-lime-500/24 text-lime-50 shadow-[0_0_12px_rgba(163,230,53,0.3)]";
     case "boost-self":
       return "border-violet-100/72 bg-violet-400/24 text-violet-50 shadow-[0_0_12px_rgba(196,181,253,0.32)]";
   }
@@ -123,6 +127,23 @@ function CardEffectGlyph({ effect }: { effect: CardEffect }) {
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[62%] w-[62%]">
         <rect x="6" y="4" width="10" height="14" rx="2" fill="none" stroke="currentColor" strokeWidth={strokeWidth} />
         <path d="M10 8h6M10 12h4M17 7l2 1v12H9" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (effect.kind === "gain-mana-next-turn") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[62%] w-[62%]">
+        <path d="m13 2-7 11h5l-1 9 8-12h-5l1-8Z" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (effect.kind === "apply-poison") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[62%] w-[62%]">
+        <path d="M12 3c3 4 5.5 6.9 5.5 10.1A5.5 5.5 0 0 1 12 18.6a5.5 5.5 0 0 1-5.5-5.5C6.5 9.9 9 7 12 3Z" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinejoin="round" />
+        <path d="M9.2 20.5h5.6M10 13h.01M14 13h.01" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" />
       </svg>
     );
   }

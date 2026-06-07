@@ -53,3 +53,13 @@ Original prompt: ok fais les corrections. ameliore encore le jeu pour que ce soi
 - Repaired the Vercel serverless trace issue: production build has no Turbopack trace warnings, `/lab/ai` traces about 1.84 MiB, training routes trace about 1.58 MiB, and local report/public directories are excluded.
 - Final local validation passed: `npx tsc --noEmit --pretty false`, `npm run test` (18 files / 128 tests), `npm run build`, and `git diff --check`.
 - Final Playwright verification passed on `/lab/ai` and `/game`: the v7 report sections render, a three-card mixed-family stack consumes the expected four mana, the move resolves, and the AI answers without console errors.
+
+## 2026-06-07
+
+- Reworked the core combat resource layer toward a more Slay-the-Spire-like loop: cards can now apply poison and prepare extra energy for the owner's next turn, while `turn.availableMana` is part of deterministic match state.
+- Poison is capped, ticks at the start of the poisoned player's turn, decays by 1, and is blocked by shield. This keeps poison meaningful without invalidating defensive decks.
+- Added AI valuation, training weights, card text/icons, serialization, and adventure draft scoring for `apply-poison` and `gain-mana-next-turn`.
+- Targeted balance pass: Automaton piles of two now gain an attack trait so energy can convert into flips; Tin Oracle prepares energy from corner stacks; Clock Sentinel gains stronger corner shield; Widow Knight/Grave Child/Lantern Shade were toned down so Revenant no longer dominates starter mirrors.
+- Added tests for next-turn energy, poison/shield interaction, and starter deck guardrails. Final validation passed: `npx tsc --noEmit --pretty false`, `npm test`, `npm run build`, and Playwright smoke/interact on `/game`.
+- AI Lab full report was too slow for this local interactive pass and was stopped twice before it wrote a report. Mini simulations passed: regular mirrors over seeds 260608-260610 showed Revenant no longer dominant, Automaton around playable range, and the ladder sample kept skill progression (`opportunist 4/4 vs beginner`, `regular 4/4 vs opportunist`, `expert 3/4 vs regular`).
+- Ruleset bumped to `v8-2026-06-07-poison-mana-counterplay`; next GitHub AI Training report should be treated as the first representative full sample for this new balance.

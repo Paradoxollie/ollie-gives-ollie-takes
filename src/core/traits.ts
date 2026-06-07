@@ -140,7 +140,7 @@ export function getTraitBattleModifiers(options: {
     defenseBonus += 1;
   }
 
-  if (getCardFamilyCount(attacker, attacker.owner, "automaton") >= 3) {
+  if (getCardFamilyCount(attacker, attacker.owner, "automaton") >= 2) {
     attackBonus += 1;
   }
 

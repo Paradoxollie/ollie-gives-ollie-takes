@@ -98,13 +98,13 @@ export type CardEffectCondition =
     | "edge"
     | "center"
     | "behind-on-board";
-export type CardEffectKind = "gain-shield" | "deal-damage" | "draw-next-turn" | "boost-self";
+export type CardEffectKind = "gain-shield" | "deal-damage" | "draw-next-turn" | "gain-mana-next-turn" | "apply-poison" | "boost-self";
 export type CardBoostDirectionMode = "all" | "strongest" | "weakest";
 
 export type CardEffect =
   | {
       trigger: "on-play" | "on-flip";
-      kind: "gain-shield" | "deal-damage" | "draw-next-turn";
+      kind: "gain-shield" | "deal-damage" | "draw-next-turn" | "gain-mana-next-turn" | "apply-poison";
       amount: number;
       sourceFamily?: CardFamily;
       sourceCardInstanceId?: string;
@@ -219,6 +219,8 @@ export interface PlayerState {
 export interface PlayerCombatState {
   shield: number;
   nextTurnDrawBonus: number;
+  nextTurnManaBonus: number;
+  poison: number;
 }
 
 export interface TurnState {
@@ -226,6 +228,7 @@ export interface TurnState {
   roundTurn: number;
   activePlayer: PlayerId;
   choices: CardInstance[];
+  availableMana: number;
 }
 
 export interface RoundState {
@@ -308,6 +311,9 @@ export interface MatchConfig {
   roundDamagePerControlledCard: number;
   maxShieldPerPlayer: number;
   maxNextTurnDrawBonus: number;
+  maxNextTurnManaBonus: number;
+  maxPoisonPerPlayer: number;
+  maxPoisonDamagePerTurn: number;
   maxDirectDamagePerMove: number;
   maxCardSideValue: number;
 }
@@ -457,6 +463,8 @@ export interface TrainedBotWeights {
   hpDiff: number;
   shieldDiff: number;
   drawBonusDiff: number;
+  manaBonusDiff: number;
+  poisonDiff: number;
   controlDiff: number;
   boardStrengthDiff: number;
   boardManaDiff: number;
@@ -728,6 +736,7 @@ export interface SerializedMatchState {
   activePlayer: PlayerId | null;
   turn: number;
   roundTurn: number;
+  availableMana: number;
   round: number;
   roundStarter: PlayerId;
   roundCoinFace: RoundCoinFace;

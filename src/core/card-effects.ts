@@ -14,6 +14,8 @@ const KIND_COPY: Record<CardEffectKind, string> = {
   "gain-shield": "Bouclier",
   "deal-damage": "Attaque",
   "draw-next-turn": "Pioche",
+  "gain-mana-next-turn": "Energie",
+  "apply-poison": "Poison",
   "boost-self": "Canalise",
 };
 
@@ -21,6 +23,8 @@ const ICON_LABELS: Record<CardEffectKind, string> = {
   "gain-shield": "Bouclier",
   "deal-damage": "Attaque",
   "draw-next-turn": "Pioche",
+  "gain-mana-next-turn": "Energie",
+  "apply-poison": "Poison",
   "boost-self": "Canalisation",
 };
 
@@ -47,6 +51,14 @@ function effectAmountText(effect: CardEffect): string {
 
   if (effect.kind === "deal-damage") {
     return `${effect.amount} degat${effect.amount > 1 ? "s" : ""}`;
+  }
+
+  if (effect.kind === "gain-mana-next-turn") {
+    return `+${effect.amount} energie prochain tour`;
+  }
+
+  if (effect.kind === "apply-poison") {
+    return `${effect.amount} poison`;
   }
 
   return `+${effect.amount} pioche`;

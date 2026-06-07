@@ -324,7 +324,12 @@ describe("adventure progression", () => {
     expect(familyRun.deck.cards).toHaveLength(FAMILY_STARTER_DECK_CARD_COUNT);
     expect(Object.values(copyCounts).sort()).toEqual([3, 3, 3, 3]);
     expect(new Set(familyRun.deck.cards.map((entry) => entry.card.id)).size).toBe(4);
-    expect(familyRun.deck.cards.every((entry) => entry.card.effects?.length === 1)).toBe(true);
+    expect(
+      familyRun.deck.cards.every((entry) => {
+        const effectCount = entry.card.effects?.length ?? 0;
+        return effectCount >= 1 && effectCount <= 2;
+      }),
+    ).toBe(true);
     expect(run.charms).toHaveLength(0);
     expect(familyRun.charmOffer?.canSkip).toBe(false);
     expect(getAdventureCharmOptions(familyRun)).toHaveLength(3);

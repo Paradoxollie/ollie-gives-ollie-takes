@@ -670,7 +670,7 @@ export function AdventureClient({
       ? !battle.targetPosition
         ? "Choisis d'abord une case vide."
         : battle.selectedCards.length > 0
-          ? `Pile ${battle.selectedCards.length} carte${battle.selectedCards.length > 1 ? "s" : ""}, ${battle.selectedManaCost}/${battle.match.config.turnMana} mana. Ajoute une carte ou joue la pile.`
+          ? `Pile ${battle.selectedCards.length} carte${battle.selectedCards.length > 1 ? "s" : ""}, ${battle.selectedManaCost}/${battle.match.turn.availableMana} mana. Ajoute une carte ou joue la pile.`
           : "Case choisie. Ajoute une carte depuis ta main."
       : battle.hoverPreview.roundEndSummary
         ? `${battle.hoverPreview.flippedCount} flips. Fin ${battle.hoverPreview.roundEndSummary.control.player}/${battle.hoverPreview.roundEndSummary.control.enemy}.`
@@ -732,6 +732,10 @@ export function AdventureClient({
                 enemyShield={battle.match.combat.enemy.shield}
                 playerDrawBonus={battle.match.combat.player.nextTurnDrawBonus}
                 enemyDrawBonus={battle.match.combat.enemy.nextTurnDrawBonus}
+                playerManaBonus={battle.match.combat.player.nextTurnManaBonus}
+                enemyManaBonus={battle.match.combat.enemy.nextTurnManaBonus}
+                playerPoison={battle.match.combat.player.poison}
+                enemyPoison={battle.match.combat.enemy.poison}
                 lastEvent={lastBattleEvent}
                 onNewRun={startRandomRun}
               />

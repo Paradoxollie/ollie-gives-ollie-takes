@@ -106,6 +106,12 @@ function scoreCardEffectPotential(card: CardInstance, stackFamilyCounts: Map<Car
       case "draw-next-turn":
         base = effect.amount * 15;
         break;
+      case "gain-mana-next-turn":
+        base = effect.amount * 17;
+        break;
+      case "apply-poison":
+        base = effect.amount * 19;
+        break;
       case "gain-shield":
         base = effect.amount * 9;
         break;
@@ -214,6 +220,14 @@ export function getEffectTempoValue(preview: PreviewMove, activePlayer: PlayerId
 
     if (event.kind === "draw-next-turn") {
       return sum + sign * event.amount * 62;
+    }
+
+    if (event.kind === "gain-mana-next-turn") {
+      return sum + sign * event.amount * 70;
+    }
+
+    if (event.kind === "apply-poison") {
+      return sum + sign * event.amount * 78;
     }
 
     if (event.kind === "gain-shield") {

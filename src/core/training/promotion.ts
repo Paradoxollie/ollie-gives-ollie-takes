@@ -238,6 +238,8 @@ export function formatLiveChampionProfileModule(options: {
     `    hpDiff: ${options.weights.hpDiff},`,
     `    shieldDiff: ${options.weights.shieldDiff},`,
     `    drawBonusDiff: ${options.weights.drawBonusDiff},`,
+    `    manaBonusDiff: ${options.weights.manaBonusDiff},`,
+    `    poisonDiff: ${options.weights.poisonDiff},`,
     `    controlDiff: ${options.weights.controlDiff},`,
     `    boardStrengthDiff: ${options.weights.boardStrengthDiff},`,
     `    boardManaDiff: ${options.weights.boardManaDiff},`,
