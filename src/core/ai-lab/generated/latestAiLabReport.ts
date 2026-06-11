@@ -1,12 +1,12 @@
 import type { AiLabReport } from "@/core/ai-lab/types";
 
 export const LATEST_AI_LAB_REPORT: AiLabReport = {
-  "reportId": "ai-lab-20260611-012513",
-  "generatedAt": "2026-06-11T01:25:13.258Z",
+  "reportId": "ai-lab-20260611-061834",
+  "generatedAt": "2026-06-11T06:18:34.140Z",
   "config": {
     "matchesPerPairing": 24,
     "adventureRunsPerModel": 8,
-    "seed": 153,
+    "seed": 154,
     "rulesetVersion": "v8-2026-06-07-poison-mana-counterplay",
     "scenarioIds": [
       "current-family-start"
@@ -75,38 +75,38 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "modelId": "beginner",
       "games": 24,
-      "wins": 1,
-      "losses": 23,
+      "wins": 0,
+      "losses": 24,
       "draws": 0,
-      "winRate": 0.041666666666666664,
-      "averageHpEdge": -18.916666666666668
+      "winRate": 0,
+      "averageHpEdge": -20.791666666666668
     },
     {
       "modelId": "opportunist",
       "games": 48,
-      "wins": 33,
-      "losses": 15,
+      "wins": 34,
+      "losses": 14,
       "draws": 0,
-      "winRate": 0.6875,
-      "averageHpEdge": 7.791666666666667
+      "winRate": 0.7083333333333334,
+      "averageHpEdge": 9.104166666666666
     },
     {
       "modelId": "regular",
       "games": 48,
-      "wins": 19,
-      "losses": 29,
+      "wins": 20,
+      "losses": 28,
       "draws": 0,
-      "winRate": 0.3958333333333333,
-      "averageHpEdge": -4.145833333333333
+      "winRate": 0.4166666666666667,
+      "averageHpEdge": -3.2916666666666665
     },
     {
       "modelId": "expert",
       "games": 48,
-      "wins": 31,
-      "losses": 17,
+      "wins": 30,
+      "losses": 18,
       "draws": 0,
-      "winRate": 0.6458333333333334,
-      "averageHpEdge": 5.8125
+      "winRate": 0.625,
+      "averageHpEdge": 4.583333333333333
     },
     {
       "modelId": "champion",
@@ -128,26 +128,27 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "drawRate": 0,
       "startingPlayerWinRate": 0.3333333333333333,
       "averages": {
-        "turns": 30.75,
-        "rounds": 3.3333333333333335,
-        "flipsPerMatch": 7.5,
-        "flipsPerTurn": 0.24390243902439024,
-        "reshuffles": 4.666666666666667,
-        "deadTurns": 0.8333333333333334,
-        "finalHpDifference": 14.333333333333334
+        "turns": 35.333333333333336,
+        "rounds": 3.8333333333333335,
+        "flipsPerMatch": 6.916666666666667,
+        "flipsPerTurn": 0.1957547169811321,
+        "reshuffles": 5.666666666666667,
+        "deadTurns": 1,
+        "finalHpDifference": 13.083333333333334
       },
-      "deadTurnFrequency": 0.02710027100271003,
+      "deadTurnFrequency": 0.02830188679245283,
       "status": "watch",
       "notes": [
-        "Avantage premier joueur a confirmer (33%)."
+        "Avantage premier joueur a confirmer (33%).",
+        "Peu de flips par tour (0.20)."
       ]
     }
   ],
   "starterFamilyMatchups": [
     {
-      "id": "automaton-vs-revenant",
+      "id": "automaton-vs-human",
       "leftFamily": "automaton",
-      "rightFamily": "revenant",
+      "rightFamily": "human",
       "games": 8,
       "leftWins": 8,
       "rightWins": 0,
@@ -156,15 +157,37 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "rightWinRate": 0
     },
     {
-      "id": "demon-vs-familiar",
+      "id": "demon-vs-human",
       "leftFamily": "demon",
-      "rightFamily": "familiar",
+      "rightFamily": "human",
       "games": 8,
       "leftWins": 8,
       "rightWins": 0,
       "draws": 0,
       "leftWinRate": 1,
       "rightWinRate": 0
+    },
+    {
+      "id": "arcane-vs-human",
+      "leftFamily": "arcane",
+      "rightFamily": "human",
+      "games": 8,
+      "leftWins": 1,
+      "rightWins": 7,
+      "draws": 0,
+      "leftWinRate": 0.125,
+      "rightWinRate": 0.875
+    },
+    {
+      "id": "automaton-vs-familiar",
+      "leftFamily": "automaton",
+      "rightFamily": "familiar",
+      "games": 8,
+      "leftWins": 7,
+      "rightWins": 1,
+      "draws": 0,
+      "leftWinRate": 0.875,
+      "rightWinRate": 0.125
     },
     {
       "id": "arcane-vs-familiar",
@@ -189,8 +212,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "rightWinRate": 0.25
     },
     {
-      "id": "automaton-vs-familiar",
-      "leftFamily": "automaton",
+      "id": "demon-vs-familiar",
+      "leftFamily": "demon",
       "rightFamily": "familiar",
       "games": 8,
       "leftWins": 6,
@@ -200,30 +223,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "rightWinRate": 0.25
     },
     {
-      "id": "automaton-vs-human",
-      "leftFamily": "automaton",
-      "rightFamily": "human",
-      "games": 8,
-      "leftWins": 6,
-      "rightWins": 2,
-      "draws": 0,
-      "leftWinRate": 0.75,
-      "rightWinRate": 0.25
-    },
-    {
-      "id": "demon-vs-human",
+      "id": "demon-vs-revenant",
       "leftFamily": "demon",
-      "rightFamily": "human",
-      "games": 8,
-      "leftWins": 6,
-      "rightWins": 2,
-      "draws": 0,
-      "leftWinRate": 0.75,
-      "rightWinRate": 0.25
-    },
-    {
-      "id": "familiar-vs-revenant",
-      "leftFamily": "familiar",
       "rightFamily": "revenant",
       "games": 8,
       "leftWins": 6,
@@ -233,15 +234,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "rightWinRate": 0.25
     },
     {
-      "id": "arcane-vs-automaton",
-      "leftFamily": "arcane",
-      "rightFamily": "automaton",
+      "id": "human-vs-revenant",
+      "leftFamily": "human",
+      "rightFamily": "revenant",
       "games": 8,
-      "leftWins": 3,
-      "rightWins": 5,
+      "leftWins": 6,
+      "rightWins": 2,
       "draws": 0,
-      "leftWinRate": 0.375,
-      "rightWinRate": 0.625
+      "leftWinRate": 0.75,
+      "rightWinRate": 0.25
     },
     {
       "id": "arcane-vs-demon",
@@ -255,53 +256,53 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "rightWinRate": 0.625
     },
     {
-      "id": "arcane-vs-human",
-      "leftFamily": "arcane",
-      "rightFamily": "human",
+      "id": "familiar-vs-revenant",
+      "leftFamily": "familiar",
+      "rightFamily": "revenant",
       "games": 8,
       "leftWins": 5,
       "rightWins": 3,
       "draws": 0,
       "leftWinRate": 0.625,
       "rightWinRate": 0.375
+    },
+    {
+      "id": "arcane-vs-automaton",
+      "leftFamily": "arcane",
+      "rightFamily": "automaton",
+      "games": 8,
+      "leftWins": 4,
+      "rightWins": 4,
+      "draws": 0,
+      "leftWinRate": 0.5,
+      "rightWinRate": 0.5
     },
     {
       "id": "automaton-vs-demon",
       "leftFamily": "automaton",
       "rightFamily": "demon",
       "games": 8,
-      "leftWins": 5,
-      "rightWins": 3,
+      "leftWins": 4,
+      "rightWins": 4,
       "draws": 0,
-      "leftWinRate": 0.625,
-      "rightWinRate": 0.375
+      "leftWinRate": 0.5,
+      "rightWinRate": 0.5
     },
     {
-      "id": "demon-vs-revenant",
-      "leftFamily": "demon",
+      "id": "automaton-vs-revenant",
+      "leftFamily": "automaton",
       "rightFamily": "revenant",
       "games": 8,
-      "leftWins": 5,
-      "rightWins": 3,
+      "leftWins": 4,
+      "rightWins": 4,
       "draws": 0,
-      "leftWinRate": 0.625,
-      "rightWinRate": 0.375
+      "leftWinRate": 0.5,
+      "rightWinRate": 0.5
     },
     {
       "id": "familiar-vs-human",
       "leftFamily": "familiar",
       "rightFamily": "human",
-      "games": 8,
-      "leftWins": 5,
-      "rightWins": 3,
-      "draws": 0,
-      "leftWinRate": 0.625,
-      "rightWinRate": 0.375
-    },
-    {
-      "id": "human-vs-revenant",
-      "leftFamily": "human",
-      "rightFamily": "revenant",
       "games": 8,
       "leftWins": 4,
       "rightWins": 4,
@@ -329,41 +330,41 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         },
         "enemy": {
           "games": 12,
-          "wins": 7,
-          "winRate": 0.5833333333333334
+          "wins": 6,
+          "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.5416666666666666
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
           "modelId": "beginner",
           "games": 24,
-          "wins": 1,
-          "losses": 23,
+          "wins": 0,
+          "losses": 24,
           "draws": 0,
-          "winRate": 0.041666666666666664,
-          "averageHpEdge": -18.916666666666668
+          "winRate": 0,
+          "averageHpEdge": -20.791666666666668
         },
         {
           "modelId": "opportunist",
           "games": 24,
-          "wins": 23,
-          "losses": 1,
+          "wins": 24,
+          "losses": 0,
           "draws": 0,
-          "winRate": 0.9583333333333334,
-          "averageHpEdge": 18.916666666666668
+          "winRate": 1,
+          "averageHpEdge": 20.791666666666668
         }
       ],
       "averages": {
-        "turns": 18.583333333333332,
-        "rounds": 2.0833333333333335,
-        "flipsPerMatch": 8.583333333333334,
-        "flipsPerTurn": 0.4618834080717489,
-        "reshuffles": 2.1666666666666665,
-        "deadTurns": 0.5416666666666666,
-        "finalHpDifference": 21
+        "turns": 20.958333333333332,
+        "rounds": 2.3333333333333335,
+        "flipsPerMatch": 9.625,
+        "flipsPerTurn": 0.4592445328031809,
+        "reshuffles": 2.625,
+        "deadTurns": 0.6666666666666666,
+        "finalHpDifference": 20.791666666666668
       },
-      "deadTurnFrequency": 0.02914798206278027
+      "deadTurnFrequency": 0.03180914512922465
     },
     {
       "scenarioId": "current-family-start",
@@ -378,15 +379,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "startingPlayer": {
         "player": {
           "games": 12,
-          "wins": 4,
-          "winRate": 0.3333333333333333
+          "wins": 6,
+          "winRate": 0.5
         },
         "enemy": {
           "games": 12,
           "wins": 6,
           "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.4166666666666667
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
@@ -396,7 +397,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 14,
           "draws": 0,
           "winRate": 0.4166666666666667,
-          "averageHpEdge": -3.3333333333333335
+          "averageHpEdge": -2.5833333333333335
         },
         {
           "modelId": "regular",
@@ -405,19 +406,19 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "losses": 10,
           "draws": 0,
           "winRate": 0.5833333333333334,
-          "averageHpEdge": 3.3333333333333335
+          "averageHpEdge": 2.5833333333333335
         }
       ],
       "averages": {
-        "turns": 27.75,
-        "rounds": 2.9166666666666665,
-        "flipsPerMatch": 8,
-        "flipsPerTurn": 0.2882882882882883,
-        "reshuffles": 3.8333333333333335,
+        "turns": 31.666666666666668,
+        "rounds": 3.375,
+        "flipsPerMatch": 8.375,
+        "flipsPerTurn": 0.2644736842105263,
+        "reshuffles": 4.75,
         "deadTurns": 1.5,
-        "finalHpDifference": 13.25
+        "finalHpDifference": 10.5
       },
-      "deadTurnFrequency": 0.05405405405405406
+      "deadTurnFrequency": 0.04736842105263158
     },
     {
       "scenarioId": "current-family-start",
@@ -437,41 +438,41 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         },
         "enemy": {
           "games": 12,
-          "wins": 5,
-          "winRate": 0.4166666666666667
+          "wins": 6,
+          "winRate": 0.5
         },
-        "overallStartingPlayerWinRate": 0.4583333333333333
+        "overallStartingPlayerWinRate": 0.5
       },
       "modelSummaries": [
         {
           "modelId": "regular",
           "games": 24,
-          "wins": 5,
-          "losses": 19,
+          "wins": 6,
+          "losses": 18,
           "draws": 0,
-          "winRate": 0.20833333333333334,
-          "averageHpEdge": -11.625
+          "winRate": 0.25,
+          "averageHpEdge": -9.166666666666666
         },
         {
           "modelId": "expert",
           "games": 24,
-          "wins": 19,
-          "losses": 5,
+          "wins": 18,
+          "losses": 6,
           "draws": 0,
-          "winRate": 0.7916666666666666,
-          "averageHpEdge": 11.625
+          "winRate": 0.75,
+          "averageHpEdge": 9.166666666666666
         }
       ],
       "averages": {
-        "turns": 28.75,
-        "rounds": 3.125,
-        "flipsPerMatch": 6.25,
-        "flipsPerTurn": 0.21739130434782608,
-        "reshuffles": 4.25,
-        "deadTurns": 1,
-        "finalHpDifference": 14.625
+        "turns": 27.791666666666668,
+        "rounds": 3,
+        "flipsPerMatch": 7.291666666666667,
+        "flipsPerTurn": 0.2623688155922039,
+        "reshuffles": 4,
+        "deadTurns": 0.9583333333333334,
+        "finalHpDifference": 14.5
       },
-      "deadTurnFrequency": 0.034782608695652174
+      "deadTurnFrequency": 0.034482758620689655
     },
     {
       "scenarioId": "current-family-start",
@@ -491,10 +492,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         },
         "enemy": {
           "games": 12,
-          "wins": 8,
-          "winRate": 0.6666666666666666
+          "wins": 2,
+          "winRate": 0.16666666666666666
         },
-        "overallStartingPlayerWinRate": 0.6666666666666666
+        "overallStartingPlayerWinRate": 0.4166666666666667
       },
       "modelSummaries": [
         {
@@ -517,15 +518,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         }
       ],
       "averages": {
-        "turns": 31.833333333333332,
-        "rounds": 3.5,
-        "flipsPerMatch": 5.833333333333333,
-        "flipsPerTurn": 0.18324607329842932,
-        "reshuffles": 5,
-        "deadTurns": 0.3333333333333333,
-        "finalHpDifference": 12.25
+        "turns": 30.083333333333332,
+        "rounds": 3.25,
+        "flipsPerMatch": 6.666666666666667,
+        "flipsPerTurn": 0.22160664819944598,
+        "reshuffles": 4.5,
+        "deadTurns": 1,
+        "finalHpDifference": 14.833333333333334
       },
-      "deadTurnFrequency": 0.010471204188481676
+      "deadTurnFrequency": 0.0332409972299169
     }
   ],
   "adventureSummaries": [
@@ -536,33 +537,33 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "bossReached": 0,
       "victoryRate": 0,
       "bossReachRate": 0,
-      "averageLocationsCleared": 2.5,
+      "averageLocationsCleared": 2.875,
       "averageFinalDeckSize": 13,
       "averageDeckDelta": 1,
-      "averageCombatWinRate": 0.4666666666666667,
-      "averageCombatTurns": 24.533333333333335,
-      "averageCombatFlips": 6.866666666666666,
-      "averageDeadTurns": 4.6,
-      "averageReshuffles": 3.466666666666667,
+      "averageCombatWinRate": 0.5,
+      "averageCombatTurns": 22.625,
+      "averageCombatFlips": 7.1875,
+      "averageDeadTurns": 3.875,
+      "averageReshuffles": 3,
       "averageRewardsClaimed": 1.125,
       "averageRewardsSkipped": 0,
       "averageCharms": 1,
-      "averageUpgrades": 0.25,
+      "averageUpgrades": 0.625,
       "averageRemovals": 0,
       "averageFusions": 0.125,
       "familyPickRates": {
-        "familiar": 0.375,
-        "demon": 0.125,
+        "familiar": 0.125,
+        "human": 0.125,
         "automaton": 0.125,
-        "revenant": 0.125,
-        "arcane": 0.25
+        "revenant": 0.25,
+        "arcane": 0.375
       },
       "nodeMix": {
-        "combat": 0.75,
+        "combat": 0.6956521739130435,
         "elite": 0,
-        "shop": 0.05,
-        "chest": 0.1,
-        "rest": 0.1,
+        "shop": 0.043478260869565216,
+        "chest": 0.043478260869565216,
+        "rest": 0.21739130434782608,
         "boss": 0
       },
       "notes": [
@@ -573,33 +574,33 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "modelId": "opportunist",
       "runs": 8,
       "victories": 1,
-      "bossReached": 3,
+      "bossReached": 1,
       "victoryRate": 0.125,
-      "bossReachRate": 0.375,
-      "averageLocationsCleared": 6.625,
-      "averageFinalDeckSize": 13,
-      "averageDeckDelta": 1,
+      "bossReachRate": 0.125,
+      "averageLocationsCleared": 4.875,
+      "averageFinalDeckSize": 14.25,
+      "averageDeckDelta": 2.25,
       "averageCombatWinRate": 0.75,
-      "averageCombatTurns": 14.392857142857142,
-      "averageCombatFlips": 7.964285714285714,
-      "averageDeadTurns": 1.2857142857142858,
-      "averageReshuffles": 1.75,
-      "averageRewardsClaimed": 3.375,
+      "averageCombatTurns": 15.642857142857142,
+      "averageCombatFlips": 8.678571428571429,
+      "averageDeadTurns": 1.5714285714285714,
+      "averageReshuffles": 2.392857142857143,
+      "averageRewardsClaimed": 3.125,
       "averageRewardsSkipped": 0,
-      "averageCharms": 1.125,
-      "averageUpgrades": 0.25,
-      "averageRemovals": 1.375,
-      "averageFusions": 1,
+      "averageCharms": 1,
+      "averageUpgrades": 0,
+      "averageRemovals": 0.5,
+      "averageFusions": 0.375,
       "familyPickRates": {
         "demon": 1
       },
       "nodeMix": {
-        "combat": 0.375,
-        "elite": 0.07142857142857142,
-        "shop": 0.14285714285714285,
+        "combat": 0.575,
+        "elite": 0.1,
+        "shop": 0.075,
         "chest": 0.125,
-        "rest": 0.23214285714285715,
-        "boss": 0.05357142857142857
+        "rest": 0.1,
+        "boss": 0.025
       },
       "notes": [
         "Flux complet: famille, deck 12 cartes, route, combats, recompenses, charmes, camp, forge et boss."
@@ -609,33 +610,33 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "modelId": "regular",
       "runs": 8,
       "victories": 0,
-      "bossReached": 4,
+      "bossReached": 2,
       "victoryRate": 0,
-      "bossReachRate": 0.5,
-      "averageLocationsCleared": 6.5,
-      "averageFinalDeckSize": 14.25,
-      "averageDeckDelta": 2.25,
-      "averageCombatWinRate": 0.7333333333333333,
-      "averageCombatTurns": 22.566666666666666,
-      "averageCombatFlips": 4.3,
-      "averageDeadTurns": 2.9,
-      "averageReshuffles": 3.466666666666667,
-      "averageRewardsClaimed": 4.125,
+      "bossReachRate": 0.25,
+      "averageLocationsCleared": 5.25,
+      "averageFinalDeckSize": 13.125,
+      "averageDeckDelta": 1.125,
+      "averageCombatWinRate": 0.68,
+      "averageCombatTurns": 25.92,
+      "averageCombatFlips": 4.64,
+      "averageDeadTurns": 3.8,
+      "averageReshuffles": 3.16,
+      "averageRewardsClaimed": 2.75,
       "averageRewardsSkipped": 0,
-      "averageCharms": 1.125,
-      "averageUpgrades": 0,
-      "averageRemovals": 1.25,
-      "averageFusions": 0.625,
+      "averageCharms": 1,
+      "averageUpgrades": 0.125,
+      "averageRemovals": 0.875,
+      "averageFusions": 0.75,
       "familyPickRates": {
         "arcane": 1
       },
       "nodeMix": {
-        "combat": 0.39285714285714285,
-        "elite": 0.07142857142857142,
-        "shop": 0.08928571428571429,
-        "chest": 0.19642857142857142,
-        "rest": 0.17857142857142858,
-        "boss": 0.07142857142857142
+        "combat": 0.45454545454545453,
+        "elite": 0.06818181818181818,
+        "shop": 0.13636363636363635,
+        "chest": 0.11363636363636363,
+        "rest": 0.18181818181818182,
+        "boss": 0.045454545454545456
       },
       "notes": [
         "Flux complet: famille, deck 12 cartes, route, combats, recompenses, charmes, camp, forge et boss."
@@ -644,34 +645,34 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "modelId": "expert",
       "runs": 8,
-      "victories": 2,
-      "bossReached": 3,
-      "victoryRate": 0.25,
-      "bossReachRate": 0.375,
+      "victories": 3,
+      "bossReached": 5,
+      "victoryRate": 0.375,
+      "bossReachRate": 0.625,
       "averageLocationsCleared": 7,
-      "averageFinalDeckSize": 14.25,
-      "averageDeckDelta": 2.25,
-      "averageCombatWinRate": 0.8125,
-      "averageCombatTurns": 26.96875,
-      "averageCombatFlips": 4.875,
-      "averageDeadTurns": 4.375,
-      "averageReshuffles": 3.15625,
-      "averageRewardsClaimed": 4.25,
+      "averageFinalDeckSize": 14.875,
+      "averageDeckDelta": 2.875,
+      "averageCombatWinRate": 0.8648648648648649,
+      "averageCombatTurns": 24.91891891891892,
+      "averageCombatFlips": 5.837837837837838,
+      "averageDeadTurns": 3.2432432432432434,
+      "averageReshuffles": 3.5135135135135136,
+      "averageRewardsClaimed": 4.75,
       "averageRewardsSkipped": 0,
       "averageCharms": 1,
-      "averageUpgrades": 0.125,
-      "averageRemovals": 0.875,
+      "averageUpgrades": 0,
+      "averageRemovals": 0.75,
       "averageFusions": 1.125,
       "familyPickRates": {
         "arcane": 1
       },
       "nodeMix": {
-        "combat": 0.4067796610169492,
-        "elite": 0.0847457627118644,
-        "shop": 0.15254237288135594,
-        "chest": 0.1694915254237288,
-        "rest": 0.13559322033898305,
-        "boss": 0.05084745762711865
+        "combat": 0.45901639344262296,
+        "elite": 0.06557377049180328,
+        "shop": 0.14754098360655737,
+        "chest": 0.14754098360655737,
+        "rest": 0.09836065573770492,
+        "boss": 0.08196721311475409
       },
       "notes": [
         "Flux complet: famille, deck 12 cartes, route, combats, recompenses, charmes, camp, forge et boss."
@@ -680,37 +681,38 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "modelId": "champion",
       "runs": 8,
-      "victories": 3,
-      "bossReached": 7,
-      "victoryRate": 0.375,
-      "bossReachRate": 0.875,
-      "averageLocationsCleared": 7.375,
-      "averageFinalDeckSize": 14,
-      "averageDeckDelta": 2,
-      "averageCombatWinRate": 0.84375,
-      "averageCombatTurns": 21.71875,
-      "averageCombatFlips": 6.28125,
-      "averageDeadTurns": 2.59375,
-      "averageReshuffles": 2.5,
-      "averageRewardsClaimed": 4.375,
+      "victories": 1,
+      "bossReached": 3,
+      "victoryRate": 0.125,
+      "bossReachRate": 0.375,
+      "averageLocationsCleared": 5.5,
+      "averageFinalDeckSize": 13.875,
+      "averageDeckDelta": 1.875,
+      "averageCombatWinRate": 0.7586206896551724,
+      "averageCombatTurns": 26.620689655172413,
+      "averageCombatFlips": 5.551724137931035,
+      "averageDeadTurns": 4.0344827586206895,
+      "averageReshuffles": 4.241379310344827,
+      "averageRewardsClaimed": 3.375,
       "averageRewardsSkipped": 0,
-      "averageCharms": 1,
-      "averageUpgrades": 0.5,
-      "averageRemovals": 1.125,
-      "averageFusions": 1.25,
+      "averageCharms": 1.125,
+      "averageUpgrades": 0,
+      "averageRemovals": 0.625,
+      "averageFusions": 0.875,
       "familyPickRates": {
         "arcane": 1
       },
       "nodeMix": {
-        "combat": 0.36363636363636365,
-        "elite": 0.015151515151515152,
-        "shop": 0.15151515151515152,
-        "chest": 0.16666666666666666,
-        "rest": 0.19696969696969696,
-        "boss": 0.10606060606060606
+        "combat": 0.44680851063829785,
+        "elite": 0.10638297872340426,
+        "shop": 0.14893617021276595,
+        "chest": 0.1276595744680851,
+        "rest": 0.10638297872340426,
+        "boss": 0.06382978723404255
       },
       "notes": [
-        "Flux complet: famille, deck 12 cartes, route, combats, recompenses, charmes, camp, forge et boss."
+        "Flux complet: famille, deck 12 cartes, route, combats, recompenses, charmes, camp, forge et boss.",
+        "Le champion atteint trop rarement le boss sur cet echantillon; augmenter les runs et analyser les noeuds de defaite."
       ]
     }
   ],
@@ -718,22 +720,107 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "runIndex": 0,
       "modelId": "beginner",
-      "seed": 3274497701,
-      "selectedFamily": "familiar",
+      "seed": 2414455092,
+      "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
+      "finalDeckCardCount": 12,
+      "deckDelta": 0,
       "outcome": "defeat",
       "victory": false,
       "bossReached": false,
-      "locationsCleared": 4,
-      "combatCount": 2,
-      "combatWins": 1,
+      "locationsCleared": 1,
+      "combatCount": 1,
+      "combatWins": 0,
       "combatLosses": 1,
-      "totalCombatTurns": 44,
-      "totalCombatFlips": 6,
-      "totalDeadTurns": 8,
-      "totalReshuffles": 4,
+      "totalCombatTurns": 23,
+      "totalCombatFlips": 11,
+      "totalDeadTurns": 5,
+      "totalReshuffles": 2,
+      "rewardOffersSeen": 0,
+      "rewardsClaimed": 0,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 0,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 0,
+      "stealRewardsClaimed": 0,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "lantern-mushroom"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 1,
+        "elite": 0,
+        "shop": 0,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 12,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 12,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-0",
+          "depth": 0,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": "enemy",
+          "combatTurns": 23,
+          "combatFlips": 11,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "greedy",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 1,
+      "modelId": "beginner",
+      "seed": 2431232711,
+      "selectedFamily": "revenant",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 3,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 67,
+      "totalCombatFlips": 23,
+      "totalDeadTurns": 13,
+      "totalReshuffles": 12,
       "rewardOffersSeen": 2,
       "rewardsClaimed": 2,
       "rewardsSkipped": 0,
@@ -742,11 +829,281 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "uncommon": 0,
         "rare": 0
       },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "first-breath"
+        "spring-tear"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 0,
+        "shop": 0,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 1,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 12,
+        "arcane": 1,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 14,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-1",
+          "depth": 0,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 8,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 22,
+          "combatFlips": 8,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 18,
+          "combatFlips": 7,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 2,
+      "modelId": "beginner",
+      "seed": 2448010330,
+      "selectedFamily": "automaton",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 69,
+      "totalCombatFlips": 28,
+      "totalDeadTurns": 6,
+      "totalReshuffles": 12,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 2,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "old-bridge-stone"
+      ],
+      "campVisits": 1,
+      "upgrades": 1,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 0,
+        "shop": 0,
+        "chest": 0,
+        "rest": 1,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 1,
+        "automaton": 12,
+        "revenant": 1,
+        "arcane": 0,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 14,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-0",
+          "depth": 0,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 24,
+          "combatFlips": 5,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-1",
+          "depth": 1,
+          "lane": 1,
+          "kind": "rest",
+          "title": "Feu de canopee",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-upgrade"
+        },
+        {
+          "nodeId": "depth-2-lane-0",
+          "depth": 2,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 10,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-1",
+          "depth": 3,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 27,
+          "combatFlips": 13,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "modelId": "beginner",
+      "seed": 2464787949,
+      "selectedFamily": "revenant",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 58,
+      "totalCombatFlips": 15,
+      "totalDeadTurns": 13,
+      "totalReshuffles": 5,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 2,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "watcher-stone"
       ],
       "campVisits": 0,
       "upgrades": 0,
@@ -755,19 +1112,19 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 2,
+        "combat": 3,
         "elite": 0,
         "shop": 1,
-        "chest": 1,
+        "chest": 0,
         "rest": 0,
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 12,
-        "demon": 0,
+        "familiar": 1,
+        "demon": 1,
         "human": 0,
         "automaton": 0,
-        "revenant": 1,
+        "revenant": 11,
         "arcane": 0,
         "dragon": 0,
         "renegade": 0
@@ -783,13 +1140,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 0,
           "lane": 4,
           "kind": "combat",
-          "title": "Route des brindilles",
+          "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
           "combatTurns": 26,
-          "combatFlips": 2,
-          "enemyProfileId": "aggro",
+          "combatFlips": 4,
+          "enemyProfileId": "swarm",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -802,10 +1159,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-1-lane-4",
           "depth": 1,
           "lane": 4,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 23,
+          "combatFlips": 6,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-4",
+          "depth": 2,
+          "lane": 4,
           "kind": "shop",
           "title": "Comptoir des runes",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -819,38 +1196,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-2-lane-4",
-          "depth": 2,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
           "nodeId": "depth-3-lane-2",
           "depth": 3,
           "lane": 2,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 13,
           "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
+          "combatTurns": 9,
+          "combatFlips": 5,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -861,9 +1218,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 1,
+      "runIndex": 4,
       "modelId": "beginner",
-      "seed": 3257720082,
+      "seed": 2347344616,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 12,
@@ -875,9 +1232,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 1,
       "combatWins": 0,
       "combatLosses": 1,
-      "totalCombatTurns": 23,
+      "totalCombatTurns": 22,
       "totalCombatFlips": 8,
-      "totalDeadTurns": 5,
+      "totalDeadTurns": 4,
       "totalReshuffles": 2,
       "rewardOffersSeen": 0,
       "rewardsClaimed": 0,
@@ -924,17 +1281,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-1",
+          "nodeId": "depth-0-lane-3",
           "depth": 0,
-          "lane": 1,
+          "lane": 3,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 12,
           "combatWinner": "enemy",
-          "combatTurns": 23,
+          "combatTurns": 22,
           "combatFlips": 8,
-          "enemyProfileId": "aggro",
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -946,10 +1303,195 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 2,
+      "runIndex": 5,
       "modelId": "beginner",
-      "seed": 3240942463,
+      "seed": 2364122235,
       "selectedFamily": "familiar",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 2,
+      "combatWins": 1,
+      "combatLosses": 1,
+      "totalCombatTurns": 34,
+      "totalCombatFlips": 15,
+      "totalDeadTurns": 4,
+      "totalReshuffles": 5,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 1,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "moss-dust"
+      ],
+      "campVisits": 3,
+      "upgrades": 3,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 2,
+        "elite": 0,
+        "shop": 0,
+        "chest": 1,
+        "rest": 3,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 13,
+        "demon": 0,
+        "human": 1,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 0,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-4",
+          "depth": 0,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 22,
+          "combatFlips": 8,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-1",
+          "depth": 1,
+          "lane": 1,
+          "kind": "rest",
+          "title": "Halte aux fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-upgrade"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "chest",
+          "title": "Cache de spores",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-4",
+          "depth": 3,
+          "lane": 4,
+          "kind": "rest",
+          "title": "Repos du sous-bois",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-upgrade"
+        },
+        {
+          "nodeId": "depth-4-lane-3",
+          "depth": 4,
+          "lane": 3,
+          "kind": "rest",
+          "title": "Clairiere des songes",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-upgrade"
+        },
+        {
+          "nodeId": "depth-5-lane-4",
+          "depth": 5,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 12,
+          "combatFlips": 7,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "greedy",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 6,
+      "modelId": "beginner",
+      "seed": 2380899854,
+      "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 12,
       "deckDelta": 0,
@@ -960,10 +1502,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 1,
       "combatWins": 0,
       "combatLosses": 1,
-      "totalCombatTurns": 45,
-      "totalCombatFlips": 12,
-      "totalDeadTurns": 9,
-      "totalReshuffles": 15,
+      "totalCombatTurns": 23,
+      "totalCombatFlips": 6,
+      "totalDeadTurns": 5,
+      "totalReshuffles": 2,
       "rewardOffersSeen": 0,
       "rewardsClaimed": 0,
       "rewardsSkipped": 0,
@@ -976,7 +1518,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 0,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "spring-tear"
+        "lantern-mushroom"
       ],
       "campVisits": 0,
       "upgrades": 0,
@@ -993,12 +1535,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 12,
+        "familiar": 0,
         "demon": 0,
         "human": 0,
         "automaton": 0,
         "revenant": 0,
-        "arcane": 0,
+        "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
@@ -1017,9 +1559,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 12,
           "combatWinner": "enemy",
-          "combatTurns": 45,
-          "combatFlips": 12,
-          "enemyProfileId": "swarm",
+          "combatTurns": 23,
+          "combatFlips": 6,
+          "enemyProfileId": "builder",
           "enemyBotId": "greedy",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -1031,115 +1573,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 3,
+      "runIndex": 7,
       "modelId": "beginner",
-      "seed": 3224164844,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 2,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 57,
-      "totalCombatFlips": 16,
-      "totalDeadTurns": 12,
-      "totalReshuffles": 6,
-      "rewardOffersSeen": 1,
-      "rewardsClaimed": 1,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 0,
-        "chest": 0,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 0,
-        "automaton": 1,
-        "revenant": 0,
-        "arcane": 12,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 13,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 28,
-          "combatFlips": 2,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-0",
-          "depth": 1,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "enemy",
-          "combatTurns": 29,
-          "combatFlips": 14,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 4,
-      "modelId": "beginner",
-      "seed": 3207387225,
-      "selectedFamily": "familiar",
+      "seed": 2397677473,
+      "selectedFamily": "human",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 13,
       "deckDelta": 1,
@@ -1150,10 +1587,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 2,
       "combatWins": 1,
       "combatLosses": 1,
-      "totalCombatTurns": 43,
-      "totalCombatFlips": 17,
-      "totalDeadTurns": 7,
-      "totalReshuffles": 4,
+      "totalCombatTurns": 66,
+      "totalCombatFlips": 9,
+      "totalDeadTurns": 12,
+      "totalReshuffles": 8,
       "rewardOffersSeen": 1,
       "rewardsClaimed": 1,
       "rewardsSkipped": 0,
@@ -1166,7 +1603,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 1,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "lantern-mushroom"
+        "first-breath"
       ],
       "campVisits": 1,
       "upgrades": 1,
@@ -1183,9 +1620,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 12,
-        "demon": 1,
-        "human": 0,
+        "familiar": 1,
+        "demon": 0,
+        "human": 12,
         "automaton": 0,
         "revenant": 0,
         "arcane": 0,
@@ -1199,140 +1636,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-3",
+          "nodeId": "depth-0-lane-2",
           "depth": 0,
-          "lane": 3,
+          "lane": 2,
           "kind": "combat",
-          "title": "Duel des fougeres",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 5,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-4",
-          "depth": 1,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "depth-2-lane-4",
-          "depth": 2,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 12,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 5,
-      "modelId": "beginner",
-      "seed": 3190609606,
-      "selectedFamily": "automaton",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 3,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 68,
-      "totalCombatFlips": 16,
-      "totalDeadTurns": 14,
-      "totalReshuffles": 12,
-      "rewardOffersSeen": 1,
-      "rewardsClaimed": 1,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 1,
-      "upgrades": 1,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 0,
-        "chest": 0,
-        "rest": 1,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 0,
-        "automaton": 13,
-        "revenant": 0,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 13,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 41,
+          "combatTurns": 46,
           "combatFlips": 3,
           "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
@@ -1348,7 +1660,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 1,
           "lane": 2,
           "kind": "rest",
-          "title": "Feu de canopee",
+          "title": "Clairiere des songes",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 13,
           "combatWinner": null,
@@ -1364,143 +1676,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-upgrade"
         },
         {
-          "nodeId": "depth-2-lane-4",
+          "nodeId": "depth-2-lane-2",
           "depth": 2,
-          "lane": 4,
+          "lane": 2,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 13,
           "combatWinner": "enemy",
-          "combatTurns": 27,
-          "combatFlips": 13,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 6,
-      "modelId": "beginner",
-      "seed": 3173831987,
-      "selectedFamily": "revenant",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 3,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 42,
-      "totalCombatFlips": 11,
-      "totalDeadTurns": 6,
-      "totalReshuffles": 4,
-      "rewardOffersSeen": 2,
-      "rewardsClaimed": 2,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 0,
-        "chest": 1,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 1,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 13,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 14,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-0",
-          "depth": 0,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 7,
+          "combatTurns": 20,
+          "combatFlips": 6,
           "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-1",
-          "depth": 1,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-0",
-          "depth": 2,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 4,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -1511,9 +1698,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 7,
-      "modelId": "beginner",
-      "seed": 3157054368,
+      "runIndex": 0,
+      "modelId": "opportunist",
+      "seed": 3021050543,
       "selectedFamily": "demon",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 14,
@@ -1525,10 +1712,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 3,
       "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 46,
-      "totalCombatFlips": 17,
-      "totalDeadTurns": 8,
-      "totalReshuffles": 5,
+      "totalCombatTurns": 39,
+      "totalCombatFlips": 25,
+      "totalDeadTurns": 3,
+      "totalReshuffles": 9,
       "rewardOffersSeen": 2,
       "rewardsClaimed": 2,
       "rewardsSkipped": 0,
@@ -1541,7 +1728,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "old-bridge-stone"
+        "spring-tear"
       ],
       "campVisits": 0,
       "upgrades": 0,
@@ -1558,8 +1745,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 12,
+        "familiar": 0,
+        "demon": 13,
         "human": 0,
         "automaton": 0,
         "revenant": 1,
@@ -1574,222 +1761,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-2",
+          "nodeId": "depth-0-lane-0",
           "depth": 0,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 12,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
+          "lane": 0,
           "kind": "combat",
           "title": "Route des brindilles",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 23,
-          "combatFlips": 6,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-3",
-          "depth": 2,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "enemy",
-          "combatTurns": 11,
-          "combatFlips": 7,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 0,
-      "modelId": "opportunist",
-      "seed": 4087086132,
-      "selectedFamily": "demon",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "victory",
-      "victory": true,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 5,
-      "combatWins": 5,
-      "combatLosses": 0,
-      "totalCombatTurns": 84,
-      "totalCombatFlips": 40,
-      "totalDeadTurns": 12,
-      "totalReshuffles": 9,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 16,
-      "stealRewardsClaimed": 4,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "watcher-stone"
-      ],
-      "campVisits": 2,
-      "upgrades": 0,
-      "removals": 2,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 4,
-        "elite": 0,
-        "shop": 1,
-        "chest": 1,
-        "rest": 2,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 12,
-        "human": 0,
-        "automaton": 1,
-        "revenant": 0,
-        "arcane": 1,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 13,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-2",
-          "depth": 0,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 12,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-2",
-          "depth": 4,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
           "combatTurns": 10,
           "combatFlips": 6,
-          "enemyProfileId": "fortress",
+          "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -1799,58 +1781,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-5-lane-2",
-          "depth": 5,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 21,
-          "combatFlips": 6,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-3",
-          "depth": 6,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-7-lane-2",
-          "depth": 7,
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
           "lane": 2,
           "kind": "combat",
           "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 23,
-          "combatFlips": 10,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
+          "combatTurns": 11,
+          "combatFlips": 5,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -1859,18 +1801,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "boss-final",
-          "depth": 8,
+          "nodeId": "depth-2-lane-2",
+          "depth": 2,
           "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
+          "combatWinner": "enemy",
           "combatTurns": 18,
           "combatFlips": 14,
-          "enemyProfileId": "ravager",
-          "enemyBotId": "champion",
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -1883,79 +1825,78 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "runIndex": 1,
       "modelId": "opportunist",
-      "seed": 4103863751,
+      "seed": 3004272924,
       "selectedFamily": "demon",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 11,
-      "deckDelta": -1,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
       "outcome": "defeat",
       "victory": false,
-      "bossReached": true,
+      "bossReached": false,
       "locationsCleared": 8,
-      "combatCount": 3,
-      "combatWins": 2,
+      "combatCount": 4,
+      "combatWins": 3,
       "combatLosses": 1,
-      "totalCombatTurns": 45,
-      "totalCombatFlips": 30,
-      "totalDeadTurns": 0,
-      "totalReshuffles": 5,
-      "rewardOffersSeen": 3,
-      "rewardsClaimed": 3,
+      "totalCombatTurns": 61,
+      "totalCombatFlips": 41,
+      "totalDeadTurns": 4,
+      "totalReshuffles": 12,
+      "rewardOffersSeen": 5,
+      "rewardsClaimed": 5,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 1,
-        "rare": 1
+        "common": 3,
+        "uncommon": 2,
+        "rare": 0
       },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 2,
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
+      "charmOffersSeen": 1,
       "charmsClaimed": [
-        "moss-dust",
-        "old-bridge-stone"
+        "spring-tear"
       ],
-      "campVisits": 3,
-      "upgrades": 1,
-      "removals": 2,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "campVisits": 1,
+      "upgrades": 0,
+      "removals": 1,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 1,
+        "combat": 3,
         "elite": 1,
-        "shop": 2,
-        "chest": 1,
-        "rest": 3,
-        "boss": 1
+        "shop": 1,
+        "chest": 2,
+        "rest": 1,
+        "boss": 0
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 9,
-        "human": 0,
-        "automaton": 1,
+        "demon": 13,
+        "human": 1,
+        "automaton": 0,
         "revenant": 1,
         "arcane": 0,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 9,
-        "uncommon": 1,
-        "rare": 1
+        "common": 13,
+        "uncommon": 2,
+        "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-4",
+          "nodeId": "depth-0-lane-2",
           "depth": 0,
-          "lane": 4,
+          "lane": 2,
           "kind": "combat",
-          "title": "Duel des fougeres",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 9,
-          "combatFlips": 7,
-          "enemyProfileId": "swarm",
+          "combatTurns": 10,
+          "combatFlips": 6,
+          "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -1965,93 +1906,93 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-1",
+          "nodeId": "depth-1-lane-2",
           "depth": 1,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
+          "lane": 2,
+          "kind": "chest",
+          "title": "Tresor des racines",
           "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
+          "playerDeckSizeAfter": 14,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
           "enemyProfileId": null,
           "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "camp-remove"
+          "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-1",
+          "nodeId": "depth-2-lane-4",
           "depth": 2,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 12,
+          "combatFlips": 9,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "camp-remove"
+          "siteAction": "none"
         },
         {
           "nodeId": "depth-3-lane-2",
           "depth": 3,
           "lane": 2,
-          "kind": "elite",
-          "title": "Predateur runique",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 12,
-          "enemyProfileId": "shaper",
-          "enemyBotId": "champion",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
           "rewardSkipped": false,
-          "charmOffered": 3,
-          "charmClaimed": "old-bridge-stone",
-          "siteAction": "none"
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-4-lane-3",
+          "nodeId": "depth-4-lane-4",
           "depth": 4,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 13,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "forge-fusion"
+          "siteAction": "none"
         },
         {
-          "nodeId": "depth-5-lane-4",
+          "nodeId": "depth-5-lane-2",
           "depth": 5,
-          "lane": 4,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 10,
+          "lane": 2,
+          "kind": "rest",
+          "title": "Halte aux fougeres",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 14,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -2062,16 +2003,16 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "forge-fusion"
+          "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-6-lane-4",
+          "nodeId": "depth-6-lane-2",
           "depth": 6,
-          "lane": 4,
+          "lane": 2,
           "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 10,
-          "playerDeckSizeAfter": 11,
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -2085,37 +2026,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-7-lane-4",
+          "nodeId": "depth-7-lane-1",
           "depth": 7,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
+          "lane": 1,
+          "kind": "elite",
+          "title": "Veilleur creux",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 15,
           "combatWinner": "enemy",
           "combatTurns": 18,
-          "combatFlips": 11,
-          "enemyProfileId": "ravager",
+          "combatFlips": 13,
+          "enemyProfileId": "shaper",
           "enemyBotId": "champion",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -2129,212 +2050,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "runIndex": 2,
       "modelId": "opportunist",
-      "seed": 4120641370,
-      "selectedFamily": "demon",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 12,
-      "deckDelta": 0,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 7,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 20,
-      "totalCombatFlips": 10,
-      "totalDeadTurns": 2,
-      "totalReshuffles": 0,
-      "rewardOffersSeen": 3,
-      "rewardsClaimed": 3,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "old-bridge-stone"
-      ],
-      "campVisits": 1,
-      "upgrades": 0,
-      "removals": 1,
-      "forgeVisits": 2,
-      "fusions": 2,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 1,
-        "elite": 1,
-        "shop": 2,
-        "chest": 2,
-        "rest": 1,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 12,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 10,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-3",
-          "depth": 0,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 5,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-3",
-          "depth": 2,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-5-lane-4",
-          "depth": 5,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-4",
-          "depth": 6,
-          "lane": 4,
-          "kind": "elite",
-          "title": "Veilleur creux",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "enemy",
-          "combatTurns": 9,
-          "combatFlips": 5,
-          "enemyProfileId": "bastion",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 3,
-      "modelId": "opportunist",
-      "seed": 4137418989,
+      "seed": 3054605781,
       "selectedFamily": "demon",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 12,
@@ -2346,10 +2062,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 2,
       "combatWins": 1,
       "combatLosses": 1,
-      "totalCombatTurns": 42,
-      "totalCombatFlips": 19,
-      "totalDeadTurns": 7,
-      "totalReshuffles": 11,
+      "totalCombatTurns": 19,
+      "totalCombatFlips": 13,
+      "totalDeadTurns": 1,
+      "totalReshuffles": 0,
       "rewardOffersSeen": 1,
       "rewardsClaimed": 1,
       "rewardsSkipped": 0,
@@ -2362,7 +2078,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 1,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "spring-tear"
+        "old-bridge-stone"
       ],
       "campVisits": 1,
       "upgrades": 0,
@@ -2379,12 +2095,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 1,
+        "familiar": 0,
         "demon": 11,
         "human": 0,
         "automaton": 0,
         "revenant": 0,
-        "arcane": 0,
+        "arcane": 1,
         "dragon": 0,
         "renegade": 0
       },
@@ -2395,17 +2111,142 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-1",
+          "nodeId": "depth-0-lane-0",
           "depth": 0,
-          "lane": 1,
+          "lane": 0,
           "kind": "combat",
           "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 5,
+          "combatTurns": 10,
+          "combatFlips": 6,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-0",
+          "depth": 1,
+          "lane": 0,
+          "kind": "rest",
+          "title": "Feu de canopee",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-2-lane-0",
+          "depth": 2,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": "enemy",
+          "combatTurns": 9,
+          "combatFlips": 7,
           "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "modelId": "opportunist",
+      "seed": 3037828162,
+      "selectedFamily": "demon",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 53,
+      "totalCombatFlips": 22,
+      "totalDeadTurns": 10,
+      "totalReshuffles": 8,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 2,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "spring-tear"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 2,
+      "fusions": 2,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 2,
+        "elite": 1,
+        "shop": 2,
+        "chest": 1,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 12,
+        "human": 1,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 0,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 12,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-3",
+          "depth": 0,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 26,
+          "combatFlips": 3,
+          "enemyProfileId": "builder",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -2418,140 +2259,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-1-lane-1",
           "depth": 1,
           "lane": 1,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
+          "kind": "chest",
+          "title": "Cache de spores",
           "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
+          "playerDeckSizeAfter": 14,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
           "enemyProfileId": null,
           "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-3",
-          "depth": 2,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 14,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 4,
-      "modelId": "opportunist",
-      "seed": 4019975656,
-      "selectedFamily": "demon",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 15,
-      "deckDelta": 3,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 4,
-      "combatCount": 4,
-      "combatWins": 3,
-      "combatLosses": 1,
-      "totalCombatTurns": 49,
-      "totalCombatFlips": 28,
-      "totalDeadTurns": 4,
-      "totalReshuffles": 7,
-      "rewardOffersSeen": 3,
-      "rewardsClaimed": 3,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 3,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "spring-tear"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 4,
-        "elite": 0,
-        "shop": 0,
-        "chest": 0,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 13,
-        "human": 0,
-        "automaton": 1,
-        "revenant": 1,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 15,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 5,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -2563,135 +2279,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-2-lane-1",
           "depth": 2,
           "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "kind": "shop",
+          "title": "Comptoir des runes",
           "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 14,
-          "combatFlips": 6,
-          "enemyProfileId": "builder",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-1",
-          "depth": 3,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "enemy",
-          "combatTurns": 13,
-          "combatFlips": 13,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 5,
-      "modelId": "opportunist",
-      "seed": 4036753275,
-      "selectedFamily": "demon",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 11,
-      "deckDelta": -1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 34,
-      "totalCombatFlips": 22,
-      "totalDeadTurns": 2,
-      "totalReshuffles": 5,
-      "rewardOffersSeen": 3,
-      "rewardsClaimed": 3,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 3,
-      "upgrades": 1,
-      "removals": 2,
-      "forgeVisits": 2,
-      "fusions": 2,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 2,
-        "chest": 1,
-        "rest": 3,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 9,
-        "human": 0,
-        "automaton": 2,
-        "revenant": 0,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 10,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-4",
-          "depth": 0,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 10,
-          "combatFlips": 5,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-2",
-          "depth": 1,
-          "lane": 2,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -2703,271 +2294,6 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "charmOffered": 0,
           "charmClaimed": null,
           "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-2-lane-2",
-          "depth": 2,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-2",
-          "depth": 4,
-          "lane": 2,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-5-lane-4",
-          "depth": 5,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "depth-6-lane-4",
-          "depth": 6,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "player",
-          "combatTurns": 15,
-          "combatFlips": 10,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-4",
-          "depth": 7,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": "enemy",
-          "combatTurns": 9,
-          "combatFlips": 7,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 6,
-      "modelId": "opportunist",
-      "seed": 4053530894,
-      "selectedFamily": "demon",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 7,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 42,
-      "totalCombatFlips": 27,
-      "totalDeadTurns": 3,
-      "totalReshuffles": 4,
-      "rewardOffersSeen": 4,
-      "rewardsClaimed": 4,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 1,
-      "upgrades": 0,
-      "removals": 1,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 1,
-        "shop": 1,
-        "chest": 2,
-        "rest": 1,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 12,
-        "human": 0,
-        "automaton": 2,
-        "revenant": 0,
-        "arcane": 0,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 5,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-2",
-          "depth": 2,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
         },
         {
           "nodeId": "depth-3-lane-4",
@@ -2990,17 +2316,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-4-lane-3",
+          "nodeId": "depth-4-lane-4",
           "depth": 4,
-          "lane": 3,
+          "lane": 4,
           "kind": "combat",
           "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 13,
-          "combatFlips": 8,
-          "enemyProfileId": "aggro",
+          "combatTurns": 10,
+          "combatFlips": 7,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -3010,38 +2336,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-5-lane-3",
+          "nodeId": "depth-5-lane-2",
           "depth": 5,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-4",
-          "depth": 6,
-          "lane": 4,
+          "lane": 2,
           "kind": "elite",
           "title": "Champion des lianes",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
           "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 14,
-          "enemyProfileId": "bastion",
-          "enemyBotId": "heuristic",
+          "combatTurns": 17,
+          "combatFlips": 12,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -3052,64 +2358,64 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 7,
+      "runIndex": 4,
       "modelId": "opportunist",
-      "seed": 4070308513,
+      "seed": 2953940067,
       "selectedFamily": "demon",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 15,
-      "deckDelta": 3,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
       "outcome": "defeat",
       "victory": false,
       "bossReached": false,
-      "locationsCleared": 8,
-      "combatCount": 6,
-      "combatWins": 5,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 87,
-      "totalCombatFlips": 47,
-      "totalDeadTurns": 6,
-      "totalReshuffles": 8,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
+      "totalCombatTurns": 39,
+      "totalCombatFlips": 26,
+      "totalDeadTurns": 3,
+      "totalReshuffles": 6,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 5,
+        "common": 2,
         "uncommon": 0,
         "rare": 0
       },
-      "stealRewardsOffered": 20,
-      "stealRewardsClaimed": 5,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
         "moss-dust"
       ],
-      "campVisits": 2,
+      "campVisits": 1,
       "upgrades": 0,
-      "removals": 2,
+      "removals": 1,
       "forgeVisits": 0,
       "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 5,
-        "elite": 1,
+        "combat": 3,
+        "elite": 0,
         "shop": 0,
         "chest": 0,
-        "rest": 2,
+        "rest": 1,
         "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 10,
-        "human": 1,
+        "familiar": 0,
+        "demon": 11,
+        "human": 0,
         "automaton": 1,
-        "revenant": 1,
+        "revenant": 0,
         "arcane": 1,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 15,
+        "common": 13,
         "uncommon": 0,
         "rare": 0
       },
@@ -3119,13 +2425,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 0,
           "lane": 0,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
           "combatTurns": 10,
-          "combatFlips": 5,
-          "enemyProfileId": "builder",
+          "combatFlips": 6,
+          "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -3135,17 +2441,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-0",
+          "nodeId": "depth-1-lane-3",
           "depth": 1,
-          "lane": 0,
+          "lane": 3,
           "kind": "combat",
           "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
           "combatTurns": 10,
-          "combatFlips": 5,
-          "enemyProfileId": "fortress",
+          "combatFlips": 6,
+          "enemyProfileId": "builder",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -3158,665 +2464,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-2-lane-3",
           "depth": 2,
           "lane": 3,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 21,
-          "combatFlips": 7,
-          "enemyProfileId": "builder",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-2",
-          "depth": 3,
-          "lane": 2,
           "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-1",
-          "depth": 4,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Repos du sous-bois",
           "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 9,
-          "combatFlips": 8,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-6-lane-3",
-          "depth": 6,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 19,
-          "combatFlips": 11,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-2",
-          "depth": 7,
-          "lane": 2,
-          "kind": "elite",
-          "title": "Traqueur ancien",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 11,
-          "enemyProfileId": "shaper",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 0,
-      "modelId": "regular",
-      "seed": 2533865941,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 15,
-      "deckDelta": 3,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 6,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 88,
-      "totalCombatFlips": 15,
-      "totalDeadTurns": 7,
-      "totalReshuffles": 17,
-      "rewardOffersSeen": 4,
-      "rewardsClaimed": 4,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "ancient-sap"
-      ],
-      "campVisits": 1,
-      "upgrades": 0,
-      "removals": 1,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 0,
-        "chest": 2,
-        "rest": 1,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 1,
-        "arcane": 14,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 13,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-3",
-          "depth": 0,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 2,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-2",
-          "depth": 1,
-          "lane": 2,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-0",
-          "depth": 2,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-0",
-          "depth": 3,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 9,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-1",
-          "depth": 4,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "enemy",
-          "combatTurns": 36,
-          "combatFlips": 4,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 1,
-      "modelId": "regular",
-      "seed": 2517088322,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 4,
-      "combatWins": 3,
-      "combatLosses": 1,
-      "totalCombatTurns": 114,
-      "totalCombatFlips": 21,
-      "totalDeadTurns": 15,
-      "totalReshuffles": 25,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 3,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "ancient-sap"
-      ],
-      "campVisits": 2,
-      "upgrades": 0,
-      "removals": 2,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 1,
-        "chest": 2,
-        "rest": 2,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 1,
-        "human": 0,
-        "automaton": 1,
-        "revenant": 1,
-        "arcane": 11,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-2",
-          "depth": 0,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 5,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-1",
-          "depth": 1,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-0",
-          "depth": 2,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 45,
-          "combatFlips": 8,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-1",
-          "depth": 3,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-2",
-          "depth": 5,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-3",
-          "depth": 6,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-7-lane-3",
-          "depth": 7,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Comptoir des runes",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 4,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 2,
-      "modelId": "regular",
-      "seed": 2500310703,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 11,
-      "deckDelta": -1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 6,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 28,
-      "totalCombatFlips": 9,
-      "totalDeadTurns": 5,
-      "totalReshuffles": 2,
-      "rewardOffersSeen": 2,
-      "rewardsClaimed": 2,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "ancient-sap"
-      ],
-      "campVisits": 3,
-      "upgrades": 0,
-      "removals": 3,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 1,
-        "elite": 1,
-        "shop": 0,
-        "chest": 1,
-        "rest": 3,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 1,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 10,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 10,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-4",
-          "depth": 0,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 6,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-4",
-          "depth": 1,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -3833,54 +2484,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-3-lane-3",
           "depth": 3,
           "lane": 3,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-4",
-          "depth": 4,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
-          "lane": 3,
-          "kind": "elite",
-          "title": "Veilleur creux",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
           "combatWinner": "enemy",
-          "combatTurns": 10,
-          "combatFlips": 3,
-          "enemyProfileId": "bastion",
+          "combatTurns": 19,
+          "combatFlips": 14,
+          "enemyProfileId": "swarm",
           "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -3892,80 +2503,80 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 3,
-      "modelId": "regular",
-      "seed": 2483533084,
-      "selectedFamily": "arcane",
+      "runIndex": 5,
+      "modelId": "opportunist",
+      "seed": 2937162448,
+      "selectedFamily": "demon",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 12,
-      "deckDelta": 0,
-      "outcome": "defeat",
-      "victory": false,
+      "finalDeckCardCount": 18,
+      "deckDelta": 6,
+      "outcome": "victory",
+      "victory": true,
       "bossReached": true,
       "locationsCleared": 8,
-      "combatCount": 4,
-      "combatWins": 3,
-      "combatLosses": 1,
-      "totalCombatTurns": 87,
-      "totalCombatFlips": 10,
-      "totalDeadTurns": 15,
-      "totalReshuffles": 10,
-      "rewardOffersSeen": 4,
-      "rewardsClaimed": 4,
+      "combatCount": 6,
+      "combatWins": 6,
+      "combatLosses": 0,
+      "totalCombatTurns": 99,
+      "totalCombatFlips": 63,
+      "totalDeadTurns": 1,
+      "totalReshuffles": 19,
+      "rewardOffersSeen": 7,
+      "rewardsClaimed": 7,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 3,
-        "uncommon": 1,
-        "rare": 0
+        "common": 2,
+        "uncommon": 2,
+        "rare": 3
       },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
+      "stealRewardsOffered": 20,
+      "stealRewardsClaimed": 5,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "old-bridge-stone"
+        "spring-tear"
       ],
-      "campVisits": 3,
+      "campVisits": 1,
       "upgrades": 0,
-      "removals": 3,
-      "forgeVisits": 1,
-      "fusions": 1,
+      "removals": 1,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 1,
-        "chest": 1,
-        "rest": 3,
+        "combat": 4,
+        "elite": 1,
+        "shop": 0,
+        "chest": 2,
+        "rest": 1,
         "boss": 1
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 1,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 11,
+        "demon": 13,
+        "human": 1,
+        "automaton": 2,
+        "revenant": 2,
+        "arcane": 0,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 11,
-        "uncommon": 1,
-        "rare": 0
+        "common": 13,
+        "uncommon": 2,
+        "rare": 3
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-2",
+          "nodeId": "depth-0-lane-3",
           "depth": 0,
-          "lane": 2,
+          "lane": 3,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 2,
-          "enemyProfileId": "fortress",
+          "combatTurns": 15,
+          "combatFlips": 9,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -3975,18 +2586,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-0",
+          "nodeId": "depth-1-lane-3",
           "depth": 1,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Duel des fougeres",
+          "lane": 3,
+          "kind": "chest",
+          "title": "Coffre noueux",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 3,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -3999,7 +2610,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 2,
           "lane": 0,
           "kind": "rest",
-          "title": "Feu de canopee",
+          "title": "Clairiere des songes",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 13,
           "combatWinner": null,
@@ -4018,406 +2629,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-3-lane-2",
           "depth": 3,
           "lane": 2,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-4-lane-2",
-          "depth": 4,
-          "lane": 2,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-5-lane-2",
-          "depth": 5,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-1",
-          "depth": 6,
-          "lane": 1,
           "kind": "combat",
           "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 19,
-          "combatFlips": 1,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-0",
-          "depth": 7,
-          "lane": 0,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 4,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 4,
-      "modelId": "regular",
-      "seed": 2466755465,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 4,
-      "combatCount": 2,
-      "combatWins": 1,
-      "combatLosses": 1,
-      "totalCombatTurns": 42,
-      "totalCombatFlips": 5,
-      "totalDeadTurns": 6,
-      "totalReshuffles": 4,
-      "rewardOffersSeen": 2,
-      "rewardsClaimed": 2,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 1,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 4,
-      "stealRewardsClaimed": 1,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 1,
-        "elite": 1,
-        "shop": 1,
-        "chest": 1,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 0,
-        "automaton": 1,
-        "revenant": 0,
-        "arcane": 12,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-0",
-          "depth": 0,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 5,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-2",
-          "depth": 1,
-          "lane": 2,
-          "kind": "shop",
-          "title": "Echoppe de brindilles",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-0",
-          "depth": 3,
-          "lane": 0,
-          "kind": "elite",
-          "title": "Predateur runique",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 0,
-          "enemyProfileId": "bastion",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 5,
-      "modelId": "regular",
-      "seed": 2449977846,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 18,
-      "deckDelta": 6,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 6,
-      "combatWins": 5,
-      "combatLosses": 1,
-      "totalCombatTurns": 151,
-      "totalCombatFlips": 45,
-      "totalDeadTurns": 25,
-      "totalReshuffles": 18,
-      "rewardOffersSeen": 7,
-      "rewardsClaimed": 7,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 2,
-        "rare": 1
-      },
-      "stealRewardsOffered": 20,
-      "stealRewardsClaimed": 5,
-      "charmOffersSeen": 2,
-      "charmsClaimed": [
-        "old-bridge-stone",
-        "broken-bell"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 3,
-        "elite": 2,
-        "shop": 1,
-        "chest": 2,
-        "rest": 0,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 1,
-        "automaton": 4,
-        "revenant": 0,
-        "arcane": 13,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 15,
-        "uncommon": 2,
-        "rare": 1
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-4",
-          "depth": 0,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 26,
-          "combatFlips": 2,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-2",
-          "depth": 1,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 2,
-          "enemyProfileId": "swarm",
+          "combatTurns": 12,
+          "combatFlips": 8,
+          "enemyProfileId": "builder",
           "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-0",
-          "depth": 2,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-1",
-          "depth": 3,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -4429,15 +2649,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-4-lane-1",
           "depth": 4,
           "lane": 1,
-          "kind": "elite",
-          "title": "Veilleur creux",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
           "combatWinner": "player",
-          "combatTurns": 28,
-          "combatFlips": 10,
-          "enemyProfileId": "shaper",
-          "enemyBotId": "champion",
+          "combatTurns": 18,
+          "combatFlips": 11,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -4449,35 +2669,35 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-5-lane-0",
           "depth": 5,
           "lane": 0,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 17,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
           "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 12,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-6-lane-2",
+          "depth": 6,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Tresor des racines",
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 17,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
           "enemyProfileId": null,
           "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-6-lane-1",
-          "depth": 6,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 8,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -4494,15 +2714,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "playerDeckSizeBefore": 17,
           "playerDeckSizeAfter": 18,
           "combatWinner": "player",
-          "combatTurns": 27,
+          "combatTurns": 18,
           "combatFlips": 13,
-          "enemyProfileId": "shaper",
+          "enemyProfileId": "executioner",
           "enemyBotId": "champion",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
-          "charmOffered": 3,
-          "charmClaimed": "broken-bell",
+          "charmOffered": 0,
+          "charmClaimed": null,
           "siteAction": "none"
         },
         {
@@ -4513,7 +2733,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "title": "Le Collecteur final",
           "playerDeckSizeBefore": 18,
           "playerDeckSizeAfter": 18,
-          "combatWinner": "enemy",
+          "combatWinner": "player",
           "combatTurns": 18,
           "combatFlips": 10,
           "enemyProfileId": "ravager",
@@ -4529,79 +2749,204 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     },
     {
       "runIndex": 6,
-      "modelId": "regular",
-      "seed": 2433200227,
-      "selectedFamily": "arcane",
+      "modelId": "opportunist",
+      "seed": 2987495305,
+      "selectedFamily": "demon",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 18,
-      "deckDelta": 6,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
       "outcome": "defeat",
       "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 6,
-      "combatWins": 5,
+      "bossReached": false,
+      "locationsCleared": 3,
+      "combatCount": 3,
+      "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 100,
-      "totalCombatFlips": 19,
-      "totalDeadTurns": 10,
-      "totalReshuffles": 14,
-      "rewardOffersSeen": 7,
-      "rewardsClaimed": 7,
+      "totalCombatTurns": 68,
+      "totalCombatFlips": 23,
+      "totalDeadTurns": 15,
+      "totalReshuffles": 5,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 5,
-        "uncommon": 2,
+        "common": 2,
+        "uncommon": 0,
         "rare": 0
       },
-      "stealRewardsOffered": 20,
-      "stealRewardsClaimed": 5,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "watcher-stone"
+        "ancient-sap"
       ],
       "campVisits": 0,
       "upgrades": 0,
       "removals": 0,
-      "forgeVisits": 1,
-      "fusions": 1,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 5,
+        "combat": 3,
         "elite": 0,
-        "shop": 1,
-        "chest": 2,
+        "shop": 0,
+        "chest": 0,
         "rest": 0,
-        "boss": 1
+        "boss": 0
       },
       "finalDeckFamilies": {
         "familiar": 1,
-        "demon": 1,
-        "human": 1,
-        "automaton": 1,
-        "revenant": 0,
-        "arcane": 14,
+        "demon": 12,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 1,
+        "arcane": 0,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 16,
-        "uncommon": 2,
+        "common": 14,
+        "uncommon": 0,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-0",
+          "nodeId": "depth-0-lane-1",
           "depth": 0,
-          "lane": 0,
+          "lane": 1,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 11,
+          "combatTurns": 26,
           "combatFlips": 5,
           "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 23,
+          "combatFlips": 9,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-3",
+          "depth": 2,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 19,
+          "combatFlips": 9,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 7,
+      "modelId": "opportunist",
+      "seed": 2970717686,
+      "selectedFamily": "demon",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 4,
+      "combatWins": 3,
+      "combatLosses": 1,
+      "totalCombatTurns": 60,
+      "totalCombatFlips": 30,
+      "totalDeadTurns": 7,
+      "totalReshuffles": 8,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 3,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "old-bridge-stone"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 1,
+        "shop": 0,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 1,
+        "demon": 12,
+        "human": 0,
+        "automaton": 1,
+        "revenant": 0,
+        "arcane": 1,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 15,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-2",
+          "depth": 0,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 23,
+          "combatFlips": 5,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -4619,9 +2964,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 12,
-          "combatFlips": 2,
-          "enemyProfileId": "trickster",
+          "combatTurns": 10,
+          "combatFlips": 5,
+          "enemyProfileId": "fortress",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -4631,18 +2976,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-0",
+          "nodeId": "depth-2-lane-3",
           "depth": 2,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Coffre noueux",
+          "lane": 3,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 12,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -4654,115 +2999,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-3-lane-0",
           "depth": 3,
           "lane": 0,
-          "kind": "shop",
-          "title": "Comptoir des runes",
+          "kind": "elite",
+          "title": "Veilleur creux",
           "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-4-lane-0",
-          "depth": 4,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 20,
-          "combatFlips": 4,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": "player",
-          "combatTurns": 20,
-          "combatFlips": 1,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-2",
-          "depth": 6,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "player",
-          "combatTurns": 19,
-          "combatFlips": 1,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-2",
-          "depth": 7,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 17,
-          "playerDeckSizeAfter": 18,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 18,
-          "playerDeckSizeAfter": 18,
           "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 6,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
+          "combatTurns": 9,
+          "combatFlips": 8,
+          "enemyProfileId": "bastion",
+          "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -4773,80 +3018,80 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 7,
+      "runIndex": 0,
       "modelId": "regular",
-      "seed": 2416422608,
+      "seed": 1118669210,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
+      "finalDeckCardCount": 12,
+      "deckDelta": 0,
       "outcome": "defeat",
       "victory": false,
       "bossReached": false,
-      "locationsCleared": 4,
-      "combatCount": 3,
-      "combatWins": 2,
+      "locationsCleared": 7,
+      "combatCount": 2,
+      "combatWins": 1,
       "combatLosses": 1,
-      "totalCombatTurns": 67,
-      "totalCombatFlips": 5,
-      "totalDeadTurns": 4,
-      "totalReshuffles": 14,
-      "rewardOffersSeen": 2,
-      "rewardsClaimed": 2,
+      "totalCombatTurns": 50,
+      "totalCombatFlips": 3,
+      "totalDeadTurns": 10,
+      "totalReshuffles": 5,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 0,
+        "common": 1,
+        "uncommon": 2,
         "rare": 0
       },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "old-bridge-stone"
+        "ancient-sap"
       ],
-      "campVisits": 1,
+      "campVisits": 2,
       "upgrades": 0,
-      "removals": 1,
-      "forgeVisits": 0,
-      "fusions": 0,
+      "removals": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 0,
-        "chest": 0,
-        "rest": 1,
+        "combat": 1,
+        "elite": 1,
+        "shop": 1,
+        "chest": 2,
+        "rest": 2,
         "boss": 0
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 0,
+        "demon": 1,
         "human": 0,
         "automaton": 0,
         "revenant": 0,
-        "arcane": 13,
+        "arcane": 11,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 13,
-        "uncommon": 0,
+        "common": 10,
+        "uncommon": 2,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-1",
+          "nodeId": "depth-0-lane-4",
           "depth": 0,
-          "lane": 1,
+          "lane": 4,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 22,
-          "combatFlips": 5,
-          "enemyProfileId": "aggro",
+          "combatTurns": 32,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -4856,11 +3101,11 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-0",
+          "nodeId": "depth-1-lane-4",
           "depth": 1,
-          "lane": 0,
+          "lane": 4,
           "kind": "rest",
-          "title": "Halte aux fougeres",
+          "title": "Feu de canopee",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 12,
           "combatWinner": null,
@@ -4879,15 +3124,15 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-2-lane-1",
           "depth": 2,
           "lane": 1,
-          "kind": "combat",
-          "title": "Sentier des griffes",
+          "kind": "chest",
+          "title": "Cache de spores",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 27,
+          "combatWinner": null,
+          "combatTurns": 0,
           "combatFlips": 0,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
+          "enemyProfileId": null,
+          "enemyBotId": null,
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -4896,17 +3141,77 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-3-lane-0",
+          "nodeId": "depth-3-lane-1",
           "depth": 3,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "lane": 1,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
           "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-4-lane-0",
+          "depth": 4,
+          "lane": 0,
+          "kind": "chest",
+          "title": "Cache de spores",
+          "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-1",
+          "depth": 5,
+          "lane": 1,
+          "kind": "rest",
+          "title": "Clairiere des songes",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-6-lane-0",
+          "depth": 6,
+          "lane": 0,
+          "kind": "elite",
+          "title": "Predateur runique",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 12,
           "combatWinner": "enemy",
           "combatTurns": 18,
           "combatFlips": 0,
-          "enemyProfileId": "builder",
+          "enemyProfileId": "bastion",
           "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -4918,79 +3223,79 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 0,
-      "modelId": "expert",
-      "seed": 3859256227,
+      "runIndex": 1,
+      "modelId": "regular",
+      "seed": 1135446829,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 15,
       "deckDelta": 3,
-      "outcome": "victory",
-      "victory": true,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 4,
       "combatWins": 3,
-      "combatLosses": 0,
-      "totalCombatTurns": 93,
-      "totalCombatFlips": 6,
-      "totalDeadTurns": 24,
-      "totalReshuffles": 10,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
+      "combatLosses": 1,
+      "totalCombatTurns": 129,
+      "totalCombatFlips": 15,
+      "totalDeadTurns": 21,
+      "totalReshuffles": 23,
+      "rewardOffersSeen": 4,
+      "rewardsClaimed": 4,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 3,
+        "common": 3,
+        "uncommon": 1,
         "rare": 0
       },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "ancient-sap"
+        "moss-dust"
       ],
       "campVisits": 1,
-      "upgrades": 1,
-      "removals": 0,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "upgrades": 0,
+      "removals": 1,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 2,
+        "combat": 4,
         "elite": 0,
-        "shop": 2,
-        "chest": 3,
+        "shop": 0,
+        "chest": 1,
         "rest": 1,
-        "boss": 1
+        "boss": 0
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 1,
+        "demon": 2,
         "human": 0,
         "automaton": 0,
-        "revenant": 1,
+        "revenant": 0,
         "arcane": 13,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 3,
+        "common": 14,
+        "uncommon": 1,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-4",
+          "nodeId": "depth-0-lane-0",
           "depth": 0,
-          "lane": 4,
+          "lane": 0,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 36,
-          "combatFlips": 3,
+          "combatTurns": 25,
+          "combatFlips": 4,
           "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
@@ -5001,17 +3306,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-2",
+          "nodeId": "depth-1-lane-1",
           "depth": 1,
-          "lane": 2,
+          "lane": 1,
           "kind": "combat",
           "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 39,
+          "combatTurns": 40,
           "combatFlips": 2,
-          "enemyProfileId": "trickster",
+          "enemyProfileId": "swarm",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -5021,93 +3326,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-3",
+          "nodeId": "depth-2-lane-1",
           "depth": 2,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Echoppe de brindilles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-3-lane-4",
-          "depth": 3,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-4",
-          "depth": 4,
-          "lane": 4,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-2",
-          "depth": 6,
-          "lane": 2,
+          "lane": 1,
           "kind": "rest",
           "title": "Feu de canopee",
           "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeAfter": 13,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -5118,14 +3343,34 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "camp-upgrade"
+          "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-7-lane-4",
-          "depth": 7,
-          "lane": 4,
+          "nodeId": "depth-3-lane-1",
+          "depth": 3,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 6,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-1",
+          "depth": 4,
+          "lane": 1,
           "kind": "chest",
-          "title": "Tresor des racines",
+          "title": "Cache de spores",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 15,
           "combatWinner": null,
@@ -5141,18 +3386,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
+          "nodeId": "depth-5-lane-0",
+          "depth": 5,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 15,
           "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 1,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
+          "combatWinner": "enemy",
+          "combatTurns": 37,
+          "combatFlips": 3,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -5163,24 +3408,24 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 1,
-      "modelId": "expert",
-      "seed": 3842478608,
+      "runIndex": 2,
+      "modelId": "regular",
+      "seed": 1085113972,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 9,
-      "deckDelta": -3,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
       "outcome": "defeat",
       "victory": false,
       "bossReached": false,
-      "locationsCleared": 8,
+      "locationsCleared": 3,
       "combatCount": 3,
       "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 82,
-      "totalCombatFlips": 18,
-      "totalDeadTurns": 11,
-      "totalReshuffles": 11,
+      "totalCombatTurns": 86,
+      "totalCombatFlips": 6,
+      "totalDeadTurns": 14,
+      "totalReshuffles": 10,
       "rewardOffersSeen": 2,
       "rewardsClaimed": 2,
       "rewardsSkipped": 0,
@@ -5193,20 +3438,20 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "moss-dust"
+        "old-bridge-stone"
       ],
-      "campVisits": 3,
+      "campVisits": 0,
       "upgrades": 0,
-      "removals": 3,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 2,
-        "elite": 1,
-        "shop": 2,
+        "combat": 3,
+        "elite": 0,
+        "shop": 0,
         "chest": 0,
-        "rest": 3,
+        "rest": 0,
         "boss": 0
       },
       "finalDeckFamilies": {
@@ -5215,12 +3460,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "human": 0,
         "automaton": 0,
         "revenant": 0,
-        "arcane": 9,
+        "arcane": 14,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 9,
+        "common": 14,
         "uncommon": 0,
         "rare": 0
       },
@@ -5230,13 +3475,138 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 0,
           "lane": 1,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 23,
-          "combatFlips": 4,
-          "enemyProfileId": "swarm",
+          "combatTurns": 25,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-0",
+          "depth": 1,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 25,
+          "combatFlips": 3,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-0",
+          "depth": 2,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 36,
+          "combatFlips": 0,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "modelId": "regular",
+      "seed": 1101891591,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 11,
+      "deckDelta": -1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 2,
+      "combatWins": 1,
+      "combatLosses": 1,
+      "totalCombatTurns": 29,
+      "totalCombatFlips": 9,
+      "totalDeadTurns": 2,
+      "totalReshuffles": 2,
+      "rewardOffersSeen": 1,
+      "rewardsClaimed": 1,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 1,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "watcher-stone"
+      ],
+      "campVisits": 1,
+      "upgrades": 0,
+      "removals": 1,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 2,
+        "elite": 0,
+        "shop": 1,
+        "chest": 0,
+        "rest": 1,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 1,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 10,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 11,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-3",
+          "depth": 0,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 11,
+          "combatFlips": 5,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -5266,11 +3636,11 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-2-lane-1",
+          "nodeId": "depth-2-lane-3",
           "depth": 2,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Clairiere des songes",
+          "lane": 3,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 11,
           "combatWinner": null,
@@ -5283,326 +3653,21 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-3-lane-0",
-          "depth": 3,
-          "lane": 0,
-          "kind": "shop",
-          "title": "Echoppe de brindilles",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 10,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
           "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-4-lane-0",
-          "depth": 4,
-          "lane": 0,
+          "nodeId": "depth-3-lane-3",
+          "depth": 3,
+          "lane": 3,
           "kind": "combat",
           "title": "Route des brindilles",
-          "playerDeckSizeBefore": 10,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": "player",
-          "combatTurns": 38,
-          "combatFlips": 9,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
           "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 10,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-6-lane-2",
-          "depth": 6,
-          "lane": 2,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 10,
-          "playerDeckSizeAfter": 9,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-7-lane-0",
-          "depth": 7,
-          "lane": 0,
-          "kind": "elite",
-          "title": "Veilleur creux",
-          "playerDeckSizeBefore": 9,
-          "playerDeckSizeAfter": 9,
+          "playerDeckSizeAfter": 11,
           "combatWinner": "enemy",
-          "combatTurns": 21,
-          "combatFlips": 5,
-          "enemyProfileId": "shaper",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 2,
-      "modelId": "expert",
-      "seed": 3892811465,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 17,
-      "deckDelta": 5,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 8,
-      "combatCount": 6,
-      "combatWins": 5,
-      "combatLosses": 1,
-      "totalCombatTurns": 139,
-      "totalCombatFlips": 34,
-      "totalDeadTurns": 14,
-      "totalReshuffles": 17,
-      "rewardOffersSeen": 6,
-      "rewardsClaimed": 6,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 1,
-        "rare": 1
-      },
-      "stealRewardsOffered": 20,
-      "stealRewardsClaimed": 5,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 1,
-      "upgrades": 0,
-      "removals": 1,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 6,
-        "elite": 0,
-        "shop": 0,
-        "chest": 1,
-        "rest": 1,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 1,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 2,
-        "arcane": 14,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 15,
-        "uncommon": 1,
-        "rare": 1
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-0",
-          "depth": 0,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 19,
-          "combatFlips": 3,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-1",
-          "depth": 1,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 22,
-          "combatFlips": 5,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-0",
-          "depth": 2,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-0",
-          "depth": 3,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": "player",
-          "combatTurns": 19,
+          "combatTurns": 18,
           "combatFlips": 4,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-1",
-          "depth": 4,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "player",
-          "combatTurns": 20,
-          "combatFlips": 8,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-1",
-          "depth": 5,
-          "lane": 1,
-          "kind": "rest",
-          "title": "Clairiere des songes",
-          "playerDeckSizeBefore": 17,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-6-lane-1",
-          "depth": 6,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "player",
-          "combatTurns": 31,
-          "combatFlips": 9,
-          "enemyProfileId": "builder",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-0",
-          "depth": 7,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 17,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "enemy",
-          "combatTurns": 28,
-          "combatFlips": 5,
           "enemyProfileId": "fortress",
-          "enemyBotId": "champion",
+          "enemyBotId": "greedy",
           "rewardOffered": 0,
           "rewardClaimed": false,
           "rewardSkipped": false,
@@ -5613,24 +3678,24 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 3,
-      "modelId": "expert",
-      "seed": 3876033846,
+      "runIndex": 4,
+      "modelId": "regular",
+      "seed": 1051558734,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
+      "finalDeckCardCount": 11,
+      "deckDelta": -1,
       "outcome": "defeat",
       "victory": false,
-      "bossReached": false,
-      "locationsCleared": 6,
+      "bossReached": true,
+      "locationsCleared": 8,
       "combatCount": 4,
       "combatWins": 3,
       "combatLosses": 1,
-      "totalCombatTurns": 80,
-      "totalCombatFlips": 14,
-      "totalDeadTurns": 8,
-      "totalReshuffles": 8,
+      "totalCombatTurns": 91,
+      "totalCombatFlips": 17,
+      "totalDeadTurns": 10,
+      "totalReshuffles": 10,
       "rewardOffersSeen": 3,
       "rewardsClaimed": 3,
       "rewardsSkipped": 0,
@@ -5643,29 +3708,274 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "stealRewardsClaimed": 3,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "old-bridge-stone"
+        "ancient-sap"
+      ],
+      "campVisits": 2,
+      "upgrades": 1,
+      "removals": 1,
+      "forgeVisits": 3,
+      "fusions": 3,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 0,
+        "shop": 3,
+        "chest": 0,
+        "rest": 2,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 11,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 11,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-2",
+          "depth": 0,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 25,
+          "combatFlips": 4,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-4",
+          "depth": 1,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 3,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-3",
+          "depth": 2,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-3-lane-4",
+          "depth": 3,
+          "lane": 4,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-4-lane-4",
+          "depth": 4,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 2,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-3",
+          "depth": 5,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-6-lane-4",
+          "depth": 6,
+          "lane": 4,
+          "kind": "rest",
+          "title": "Repos du sous-bois",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 11,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-7-lane-3",
+          "depth": 7,
+          "lane": 3,
+          "kind": "rest",
+          "title": "Clairiere des songes",
+          "playerDeckSizeBefore": 11,
+          "playerDeckSizeAfter": 11,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-upgrade"
+        },
+        {
+          "nodeId": "boss-final",
+          "depth": 8,
+          "lane": 2,
+          "kind": "boss",
+          "title": "Le Collecteur final",
+          "playerDeckSizeBefore": 11,
+          "playerDeckSizeAfter": 11,
+          "combatWinner": "enemy",
+          "combatTurns": 27,
+          "combatFlips": 8,
+          "enemyProfileId": "ravager",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 5,
+      "modelId": "regular",
+      "seed": 1068336353,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 2,
+      "combatCount": 2,
+      "combatWins": 1,
+      "combatLosses": 1,
+      "totalCombatTurns": 58,
+      "totalCombatFlips": 18,
+      "totalDeadTurns": 13,
+      "totalReshuffles": 5,
+      "rewardOffersSeen": 1,
+      "rewardsClaimed": 1,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 1,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "ancient-sap"
       ],
       "campVisits": 0,
       "upgrades": 0,
       "removals": 0,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
+        "combat": 1,
         "elite": 1,
-        "shop": 2,
+        "shop": 0,
         "chest": 0,
         "rest": 0,
         "boss": 0
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 0,
-        "human": 1,
-        "automaton": 1,
+        "demon": 1,
+        "human": 0,
+        "automaton": 0,
         "revenant": 0,
-        "arcane": 11,
+        "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
@@ -5684,9 +3994,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 10,
-          "combatFlips": 2,
-          "enemyProfileId": "trickster",
+          "combatTurns": 28,
+          "combatFlips": 7,
+          "enemyProfileId": "fortress",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -5699,423 +4009,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-1-lane-2",
           "depth": 1,
           "lane": 2,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 6,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "shop",
-          "title": "Comptoir des runes",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-3-lane-1",
-          "depth": 3,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 0,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-0",
-          "depth": 4,
-          "lane": 0,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
-          "lane": 3,
-          "kind": "elite",
-          "title": "Traqueur ancien",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 6,
-          "enemyProfileId": "bastion",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 4,
-      "modelId": "expert",
-      "seed": 3926366703,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 18,
-      "deckDelta": 6,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 7,
-      "combatCount": 5,
-      "combatWins": 4,
-      "combatLosses": 1,
-      "totalCombatTurns": 147,
-      "totalCombatFlips": 32,
-      "totalDeadTurns": 21,
-      "totalReshuffles": 17,
-      "rewardOffersSeen": 6,
-      "rewardsClaimed": 6,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 16,
-      "stealRewardsClaimed": 4,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "ancient-sap"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 3,
-        "elite": 2,
-        "shop": 0,
-        "chest": 2,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 1,
-        "human": 0,
-        "automaton": 2,
-        "revenant": 2,
-        "arcane": 12,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 16,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 2,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-0",
-          "depth": 1,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 37,
-          "combatFlips": 7,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-2",
-          "depth": 3,
-          "lane": 2,
-          "kind": "chest",
-          "title": "Malle de clairiere",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-1",
-          "depth": 4,
-          "lane": 1,
-          "kind": "elite",
-          "title": "Predateur runique",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
-          "combatWinner": "player",
-          "combatTurns": 28,
-          "combatFlips": 4,
-          "enemyProfileId": "executioner",
-          "enemyBotId": "champion",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 17,
-          "playerDeckSizeAfter": 18,
-          "combatWinner": "player",
-          "combatTurns": 30,
-          "combatFlips": 9,
-          "enemyProfileId": "builder",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-0",
-          "depth": 6,
-          "lane": 0,
           "kind": "elite",
           "title": "Veilleur creux",
-          "playerDeckSizeBefore": 18,
-          "playerDeckSizeAfter": 18,
-          "combatWinner": "enemy",
-          "combatTurns": 27,
-          "combatFlips": 10,
-          "enemyProfileId": "shaper",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 5,
-      "modelId": "expert",
-      "seed": 3909589084,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": false,
-      "locationsCleared": 3,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 86,
-      "totalCombatFlips": 7,
-      "totalDeadTurns": 16,
-      "totalReshuffles": 10,
-      "rewardOffersSeen": 2,
-      "rewardsClaimed": 2,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "ancient-sap"
-      ],
-      "campVisits": 0,
-      "upgrades": 0,
-      "removals": 0,
-      "forgeVisits": 0,
-      "fusions": 0,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 1,
-        "shop": 0,
-        "chest": 0,
-        "rest": 0,
-        "boss": 0
-      },
-      "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 0,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 13,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 14,
-        "uncommon": 0,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 22,
-          "combatFlips": 3,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-1",
-          "depth": 1,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
           "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 37,
-          "combatFlips": 3,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-2",
-          "depth": 2,
-          "lane": 2,
-          "kind": "elite",
-          "title": "Traqueur ancien",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeAfter": 13,
           "combatWinner": "enemy",
-          "combatTurns": 27,
-          "combatFlips": 1,
+          "combatTurns": 30,
+          "combatFlips": 11,
           "enemyProfileId": "executioner",
           "enemyBotId": "champion",
           "rewardOffered": 0,
@@ -6129,79 +4029,79 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     },
     {
       "runIndex": 6,
-      "modelId": "expert",
-      "seed": 3959921941,
+      "modelId": "regular",
+      "seed": 1018003496,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
       "outcome": "defeat",
       "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 4,
-      "combatWins": 3,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 78,
-      "totalCombatFlips": 20,
-      "totalDeadTurns": 12,
+      "totalCombatTurns": 74,
+      "totalCombatFlips": 22,
+      "totalDeadTurns": 11,
       "totalReshuffles": 8,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 3,
-        "uncommon": 2,
+        "common": 2,
+        "uncommon": 0,
         "rare": 0
       },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
         "old-bridge-stone"
       ],
-      "campVisits": 2,
+      "campVisits": 1,
       "upgrades": 0,
-      "removals": 2,
-      "forgeVisits": 1,
-      "fusions": 1,
+      "removals": 1,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 1,
-        "chest": 2,
-        "rest": 2,
-        "boss": 1
+        "combat": 2,
+        "elite": 1,
+        "shop": 0,
+        "chest": 0,
+        "rest": 1,
+        "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 0,
+        "familiar": 0,
+        "demon": 1,
         "human": 0,
-        "automaton": 1,
+        "automaton": 0,
         "revenant": 0,
         "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 2,
+        "common": 13,
+        "uncommon": 0,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-3",
+          "nodeId": "depth-0-lane-2",
           "depth": 0,
-          "lane": 3,
+          "lane": 2,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 23,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
+          "combatTurns": 26,
+          "combatFlips": 7,
+          "enemyProfileId": "fortress",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -6213,46 +4113,6 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         {
           "nodeId": "depth-1-lane-3",
           "depth": 1,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-2-lane-4",
-          "depth": 2,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 13,
-          "combatFlips": 6,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
           "lane": 3,
           "kind": "rest",
           "title": "Halte aux fougeres",
@@ -6271,97 +4131,37 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-4-lane-4",
-          "depth": 4,
-          "lane": 4,
+          "nodeId": "depth-2-lane-3",
+          "depth": 2,
+          "lane": 3,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 2,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-5-lane-4",
-          "depth": 5,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-6-lane-3",
-          "depth": 6,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-2",
-          "depth": 7,
-          "lane": 2,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "enemy",
           "combatTurns": 18,
-          "combatFlips": 8,
-          "enemyProfileId": "warden",
+          "combatFlips": 12,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-3",
+          "depth": 3,
+          "lane": 3,
+          "kind": "elite",
+          "title": "Predateur runique",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "enemy",
+          "combatTurns": 30,
+          "combatFlips": 3,
+          "enemyProfileId": "shaper",
           "enemyBotId": "champion",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -6374,33 +4174,33 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     },
     {
       "runIndex": 7,
-      "modelId": "expert",
-      "seed": 3943144322,
+      "modelId": "regular",
+      "seed": 1034781115,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "victory",
-      "victory": true,
+      "finalDeckCardCount": 16,
+      "deckDelta": 4,
+      "outcome": "defeat",
+      "victory": false,
       "bossReached": true,
       "locationsCleared": 8,
-      "combatCount": 4,
+      "combatCount": 5,
       "combatWins": 4,
-      "combatLosses": 0,
-      "totalCombatTurns": 158,
-      "totalCombatFlips": 25,
-      "totalDeadTurns": 34,
-      "totalReshuffles": 20,
-      "rewardOffersSeen": 5,
-      "rewardsClaimed": 5,
+      "combatLosses": 1,
+      "totalCombatTurns": 131,
+      "totalCombatFlips": 26,
+      "totalDeadTurns": 14,
+      "totalReshuffles": 16,
+      "rewardOffersSeen": 6,
+      "rewardsClaimed": 6,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 1,
-        "rare": 0
+        "common": 3,
+        "uncommon": 2,
+        "rare": 1
       },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
+      "stealRewardsOffered": 16,
+      "stealRewardsClaimed": 4,
       "charmOffersSeen": 1,
       "charmsClaimed": [
         "moss-dust"
@@ -6408,45 +4208,45 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "campVisits": 1,
       "upgrades": 0,
       "removals": 1,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
+        "combat": 4,
         "elite": 0,
-        "shop": 2,
+        "shop": 1,
         "chest": 2,
         "rest": 1,
         "boss": 1
       },
       "finalDeckFamilies": {
         "familiar": 0,
-        "demon": 0,
+        "demon": 1,
         "human": 0,
-        "automaton": 3,
-        "revenant": 0,
-        "arcane": 11,
+        "automaton": 0,
+        "revenant": 3,
+        "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
         "common": 13,
-        "uncommon": 1,
-        "rare": 0
+        "uncommon": 2,
+        "rare": 1
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-1",
+          "nodeId": "depth-0-lane-4",
           "depth": 0,
-          "lane": 1,
+          "lane": 4,
           "kind": "combat",
-          "title": "Route des brindilles",
+          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 38,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
+          "combatTurns": 22,
+          "combatFlips": 3,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -6456,17 +4256,17 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-3",
+          "nodeId": "depth-1-lane-2",
           "depth": 1,
-          "lane": 3,
+          "lane": 2,
           "kind": "combat",
-          "title": "Sentier des griffes",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 39,
+          "combatTurns": 26,
           "combatFlips": 2,
-          "enemyProfileId": "aggro",
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -6476,9 +4276,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-4",
+          "nodeId": "depth-2-lane-3",
           "depth": 2,
-          "lane": 4,
+          "lane": 3,
           "kind": "shop",
           "title": "Marche aux lucioles",
           "playerDeckSizeBefore": 14,
@@ -6496,18 +4296,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-3-lane-3",
+          "nodeId": "depth-3-lane-2",
           "depth": 3,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Cache de spores",
+          "lane": 2,
+          "kind": "combat",
+          "title": "Duel des fougeres",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
+          "combatWinner": "player",
+          "combatTurns": 36,
           "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -6540,7 +4340,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 5,
           "lane": 3,
           "kind": "rest",
-          "title": "Halte aux fougeres",
+          "title": "Repos du sous-bois",
           "playerDeckSizeBefore": 15,
           "playerDeckSizeAfter": 14,
           "combatWinner": null,
@@ -6556,16 +4356,16 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-6-lane-4",
+          "nodeId": "depth-6-lane-3",
           "depth": 6,
-          "lane": 4,
+          "lane": 3,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 15,
           "combatWinner": "player",
-          "combatTurns": 45,
-          "combatFlips": 7,
+          "combatTurns": 29,
+          "combatFlips": 13,
           "enemyProfileId": "aggro",
           "enemyBotId": "heuristic",
           "rewardOffered": 4,
@@ -6576,258 +4376,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-7-lane-2",
+          "nodeId": "depth-7-lane-3",
           "depth": 7,
-          "lane": 2,
-          "kind": "shop",
-          "title": "Comptoir des runes",
+          "lane": 3,
+          "kind": "chest",
+          "title": "Tresor des racines",
           "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 36,
-          "combatFlips": 12,
-          "enemyProfileId": "ravager",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 0,
-      "modelId": "champion",
-      "seed": 1274211132,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 14,
-      "deckDelta": 2,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 40,
-      "totalCombatFlips": 18,
-      "totalDeadTurns": 4,
-      "totalReshuffles": 3,
-      "rewardOffersSeen": 4,
-      "rewardsClaimed": 4,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "watcher-stone"
-      ],
-      "campVisits": 2,
-      "upgrades": 2,
-      "removals": 0,
-      "forgeVisits": 2,
-      "fusions": 2,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 2,
-        "chest": 2,
-        "rest": 2,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 1,
-        "human": 1,
-        "automaton": 1,
-        "revenant": 0,
-        "arcane": 11,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 12,
-        "uncommon": 2,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-1",
-          "depth": 0,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 3,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-1",
-          "depth": 1,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": "player",
-          "combatTurns": 11,
-          "combatFlips": 2,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-2-lane-1",
-          "depth": 2,
-          "lane": 1,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-4-lane-4",
-          "depth": 4,
-          "lane": 4,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "depth-6-lane-4",
-          "depth": 6,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-4",
-          "depth": 7,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeAfter": 16,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -6846,256 +4401,11 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "lane": 2,
           "kind": "boss",
           "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 16,
           "combatWinner": "enemy",
           "combatTurns": 18,
-          "combatFlips": 13,
-          "enemyProfileId": "ravager",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 1,
-      "modelId": "champion",
-      "seed": 1290988751,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 11,
-      "deckDelta": -1,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 3,
-      "combatWins": 2,
-      "combatLosses": 1,
-      "totalCombatTurns": 52,
-      "totalCombatFlips": 8,
-      "totalDeadTurns": 8,
-      "totalReshuffles": 4,
-      "rewardOffersSeen": 3,
-      "rewardsClaimed": 3,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 8,
-      "stealRewardsClaimed": 2,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 3,
-      "upgrades": 1,
-      "removals": 2,
-      "forgeVisits": 2,
-      "fusions": 2,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 2,
-        "elite": 0,
-        "shop": 2,
-        "chest": 1,
-        "rest": 3,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 0,
-        "demon": 0,
-        "human": 0,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 11,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 10,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-2",
-          "depth": 0,
-          "lane": 2,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 3,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-3",
-          "depth": 1,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-4",
-          "depth": 2,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 0,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
-          "kind": "shop",
-          "title": "Echoppe de brindilles",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-5-lane-4",
-          "depth": 5,
-          "lane": 4,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 10,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-6-lane-1",
-          "depth": 6,
-          "lane": 1,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 10,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-2",
-          "depth": 7,
-          "lane": 2,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-upgrade"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": "enemy",
-          "combatTurns": 9,
-          "combatFlips": 5,
+          "combatFlips": 8,
           "enemyProfileId": "warden",
           "enemyBotId": "champion",
           "rewardOffered": 0,
@@ -7108,34 +4418,34 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 2,
-      "modelId": "champion",
-      "seed": 1307766370,
+      "runIndex": 0,
+      "modelId": "expert",
+      "seed": 821965118,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 16,
-      "deckDelta": 4,
-      "outcome": "victory",
-      "victory": true,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 6,
-      "combatWins": 6,
-      "combatLosses": 0,
-      "totalCombatTurns": 152,
-      "totalCombatFlips": 42,
-      "totalDeadTurns": 12,
-      "totalReshuffles": 20,
-      "rewardOffersSeen": 6,
-      "rewardsClaimed": 6,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 5,
+      "combatWins": 4,
+      "combatLosses": 1,
+      "totalCombatTurns": 151,
+      "totalCombatFlips": 41,
+      "totalDeadTurns": 7,
+      "totalReshuffles": 22,
+      "rewardOffersSeen": 4,
+      "rewardsClaimed": 4,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 5,
-        "uncommon": 1,
+        "common": 4,
+        "uncommon": 0,
         "rare": 0
       },
-      "stealRewardsOffered": 20,
-      "stealRewardsClaimed": 5,
+      "stealRewardsOffered": 16,
+      "stealRewardsClaimed": 4,
       "charmOffersSeen": 1,
       "charmsClaimed": [
         "moss-dust"
@@ -7143,45 +4453,45 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "campVisits": 0,
       "upgrades": 0,
       "removals": 0,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
         "combat": 5,
         "elite": 0,
-        "shop": 2,
-        "chest": 1,
+        "shop": 1,
+        "chest": 0,
         "rest": 0,
-        "boss": 1
+        "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 2,
-        "demon": 2,
-        "human": 0,
+        "familiar": 1,
+        "demon": 0,
+        "human": 1,
         "automaton": 0,
-        "revenant": 0,
+        "revenant": 1,
         "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
         "common": 15,
-        "uncommon": 1,
+        "uncommon": 0,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-1",
+          "nodeId": "depth-0-lane-0",
           "depth": 0,
-          "lane": 1,
+          "lane": 0,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Route des brindilles",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 21,
-          "combatFlips": 3,
-          "enemyProfileId": "fortress",
+          "combatTurns": 23,
+          "combatFlips": 4,
+          "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -7195,7 +4505,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 1,
           "lane": 0,
           "kind": "shop",
-          "title": "Echoppe de brindilles",
+          "title": "Bazaar des souches",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 12,
           "combatWinner": null,
@@ -7215,14 +4525,199 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 2,
           "lane": 0,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 41,
-          "combatFlips": 12,
+          "combatTurns": 36,
+          "combatFlips": 5,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-0",
+          "depth": 3,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 8,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-0",
+          "depth": 4,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 38,
+          "combatFlips": 15,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-1",
+          "depth": 5,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "enemy",
+          "combatTurns": 27,
+          "combatFlips": 9,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 1,
+      "modelId": "expert",
+      "seed": 838742737,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "victory",
+      "victory": true,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 5,
+      "combatWins": 5,
+      "combatLosses": 0,
+      "totalCombatTurns": 101,
+      "totalCombatFlips": 23,
+      "totalDeadTurns": 12,
+      "totalReshuffles": 10,
+      "rewardOffersSeen": 5,
+      "rewardsClaimed": 5,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 4,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 16,
+      "stealRewardsClaimed": 4,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "old-bridge-stone"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 3,
+      "fusions": 3,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 4,
+        "elite": 0,
+        "shop": 3,
+        "chest": 1,
+        "rest": 0,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 2,
+        "revenant": 0,
+        "arcane": 12,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-1",
+          "depth": 0,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 23,
+          "combatFlips": 2,
           "enemyProfileId": "trickster",
           "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-1",
+          "depth": 1,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 24,
+          "combatFlips": 2,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 6,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -7234,10 +4729,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-3-lane-1",
           "depth": 3,
           "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 6,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-2",
+          "depth": 4,
+          "lane": 2,
           "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
+          "title": "Coffre noueux",
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 17,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -7251,33 +4766,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-4-lane-1",
-          "depth": 4,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 5,
-          "enemyProfileId": "fortress",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
           "nodeId": "depth-5-lane-1",
           "depth": 5,
           "lane": 1,
           "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
+          "title": "Comptoir des runes",
+          "playerDeckSizeBefore": 17,
+          "playerDeckSizeAfter": 16,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -7294,41 +4789,41 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-6-lane-1",
           "depth": 6,
           "lane": 1,
-          "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 14,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 16,
           "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 19,
-          "combatFlips": 2,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "none"
+          "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-7-lane-0",
+          "nodeId": "depth-7-lane-2",
           "depth": 7,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Sentier des griffes",
+          "lane": 2,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
           "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
-          "combatWinner": "player",
-          "combatTurns": 26,
-          "combatFlips": 9,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "none"
+          "siteAction": "forge-fusion"
         },
         {
           "nodeId": "boss-final",
@@ -7336,12 +4831,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "lane": 2,
           "kind": "boss",
           "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 16,
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
           "combatWinner": "player",
           "combatTurns": 18,
-          "combatFlips": 11,
-          "enemyProfileId": "ravager",
+          "combatFlips": 7,
+          "enemyProfileId": "warden",
           "enemyBotId": "champion",
           "rewardOffered": 0,
           "rewardClaimed": false,
@@ -7353,65 +4848,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 3,
-      "modelId": "champion",
-      "seed": 1324543989,
+      "runIndex": 2,
+      "modelId": "expert",
+      "seed": 788409880,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 13,
-      "deckDelta": 1,
+      "finalDeckCardCount": 12,
+      "deckDelta": 0,
       "outcome": "defeat",
       "victory": false,
       "bossReached": true,
       "locationsCleared": 8,
-      "combatCount": 4,
-      "combatWins": 3,
+      "combatCount": 3,
+      "combatWins": 2,
       "combatLosses": 1,
-      "totalCombatTurns": 97,
-      "totalCombatFlips": 31,
-      "totalDeadTurns": 17,
+      "totalCombatTurns": 67,
+      "totalCombatFlips": 19,
+      "totalDeadTurns": 5,
       "totalReshuffles": 9,
       "rewardOffersSeen": 4,
       "rewardsClaimed": 4,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 2,
-        "uncommon": 2,
+        "common": 3,
+        "uncommon": 1,
         "rare": 0
       },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
         "moss-dust"
       ],
-      "campVisits": 4,
-      "upgrades": 1,
+      "campVisits": 3,
+      "upgrades": 0,
       "removals": 3,
-      "forgeVisits": 0,
-      "fusions": 0,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 0,
-        "chest": 1,
-        "rest": 4,
+        "combat": 1,
+        "elite": 1,
+        "shop": 1,
+        "chest": 2,
+        "rest": 3,
         "boss": 1
       },
       "finalDeckFamilies": {
-        "familiar": 2,
-        "demon": 1,
+        "familiar": 0,
+        "demon": 0,
         "human": 1,
-        "automaton": 0,
+        "automaton": 1,
         "revenant": 0,
-        "arcane": 9,
+        "arcane": 10,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
         "common": 11,
-        "uncommon": 2,
+        "uncommon": 1,
         "rare": 0
       },
       "path": [
@@ -7420,13 +4915,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 0,
           "lane": 3,
           "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 3,
-          "enemyProfileId": "builder",
+          "combatTurns": 22,
+          "combatFlips": 6,
+          "enemyProfileId": "swarm",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -7436,18 +4931,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-4",
+          "nodeId": "depth-1-lane-3",
           "depth": 1,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Duel des fougeres",
+          "lane": 3,
+          "kind": "elite",
+          "title": "Champion des lianes",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 22,
-          "combatFlips": 8,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "greedy",
+          "combatTurns": 18,
+          "combatFlips": 6,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -7456,49 +4951,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-3",
+          "nodeId": "depth-2-lane-4",
           "depth": 2,
-          "lane": 3,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
+          "lane": 4,
           "kind": "rest",
           "title": "Repos du sous-bois",
           "playerDeckSizeBefore": 14,
@@ -7516,17 +4971,262 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
+          "nodeId": "depth-3-lane-2",
+          "depth": 3,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Coffre noueux",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-3",
+          "depth": 4,
           "lane": 3,
+          "kind": "rest",
+          "title": "Halte aux fougeres",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-5-lane-4",
+          "depth": 5,
+          "lane": 4,
+          "kind": "rest",
+          "title": "Halte aux fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-6-lane-3",
+          "depth": 6,
+          "lane": 3,
+          "kind": "chest",
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-7-lane-3",
+          "depth": 7,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Bazaar des souches",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "boss-final",
+          "depth": 8,
+          "lane": 2,
+          "kind": "boss",
+          "title": "Le Collecteur final",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": "enemy",
+          "combatTurns": 27,
+          "combatFlips": 7,
+          "enemyProfileId": "ravager",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "modelId": "expert",
+      "seed": 805187499,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 4,
+      "combatWins": 3,
+      "combatLosses": 1,
+      "totalCombatTurns": 98,
+      "totalCombatFlips": 28,
+      "totalDeadTurns": 9,
+      "totalReshuffles": 22,
+      "rewardOffersSeen": 4,
+      "rewardsClaimed": 4,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 3,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "spring-tear"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 1,
+        "shop": 1,
+        "chest": 1,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 2,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 13,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 14,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-3",
+          "depth": 0,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 24,
+          "combatFlips": 3,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-4",
+          "depth": 1,
+          "lane": 4,
+          "kind": "elite",
+          "title": "Veilleur creux",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 9,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-3",
+          "depth": 2,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Comptoir des runes",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-3-lane-2",
+          "depth": 3,
+          "lane": 2,
           "kind": "combat",
           "title": "Route des brindilles",
           "playerDeckSizeBefore": 13,
           "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 32,
-          "combatFlips": 10,
-          "enemyProfileId": "trickster",
+          "combatTurns": 18,
+          "combatFlips": 5,
+          "enemyProfileId": "aggro",
           "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -7536,9 +5236,399 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-6-lane-4",
-          "depth": 6,
+          "nodeId": "depth-4-lane-2",
+          "depth": 4,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-4",
+          "depth": 5,
           "lane": 4,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "enemy",
+          "combatTurns": 29,
+          "combatFlips": 11,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 4,
+      "modelId": "expert",
+      "seed": 889075594,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 18,
+      "deckDelta": 6,
+      "outcome": "victory",
+      "victory": true,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 6,
+      "combatWins": 6,
+      "combatLosses": 0,
+      "totalCombatTurns": 134,
+      "totalCombatFlips": 32,
+      "totalDeadTurns": 20,
+      "totalReshuffles": 21,
+      "rewardOffersSeen": 7,
+      "rewardsClaimed": 7,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 5,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "stealRewardsOffered": 20,
+      "stealRewardsClaimed": 5,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "ancient-sap"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 5,
+        "elite": 0,
+        "shop": 1,
+        "chest": 2,
+        "rest": 0,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 2,
+        "human": 2,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 14,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 16,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-1",
+          "depth": 0,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 35,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-0",
+          "depth": 1,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 22,
+          "combatFlips": 3,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "chest",
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-0",
+          "depth": 3,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 9,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-0",
+          "depth": 4,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 17,
+          "combatWinner": "player",
+          "combatTurns": 20,
+          "combatFlips": 2,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-2",
+          "depth": 5,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 17,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 7,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-6-lane-3",
+          "depth": 6,
+          "lane": 3,
+          "kind": "chest",
+          "title": "Tresor des racines",
+          "playerDeckSizeBefore": 18,
+          "playerDeckSizeAfter": 19,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-7-lane-3",
+          "depth": 7,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Bazaar des souches",
+          "playerDeckSizeBefore": 19,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "boss-final",
+          "depth": 8,
+          "lane": 2,
+          "kind": "boss",
+          "title": "Le Collecteur final",
+          "playerDeckSizeBefore": 18,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 8,
+          "enemyProfileId": "warden",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 5,
+      "modelId": "expert",
+      "seed": 905853213,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 6,
+      "combatWins": 5,
+      "combatLosses": 1,
+      "totalCombatTurns": 176,
+      "totalCombatFlips": 30,
+      "totalDeadTurns": 36,
+      "totalReshuffles": 23,
+      "rewardOffersSeen": 5,
+      "rewardsClaimed": 5,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 4,
+        "uncommon": 0,
+        "rare": 1
+      },
+      "stealRewardsOffered": 20,
+      "stealRewardsClaimed": 5,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "moss-dust"
+      ],
+      "campVisits": 2,
+      "upgrades": 0,
+      "removals": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 4,
+        "elite": 1,
+        "shop": 1,
+        "chest": 0,
+        "rest": 2,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 1,
+        "demon": 1,
+        "human": 0,
+        "automaton": 1,
+        "revenant": 0,
+        "arcane": 11,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 0,
+        "rare": 1
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-0",
+          "depth": 0,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 36,
+          "combatFlips": 2,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 36,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
           "kind": "rest",
           "title": "Clairiere des songes",
           "playerDeckSizeBefore": 14,
@@ -7556,13 +5646,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-7-lane-4",
-          "depth": 7,
+          "nodeId": "depth-3-lane-4",
+          "depth": 3,
           "lane": 4,
-          "kind": "rest",
-          "title": "Clairiere des songes",
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
           "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
+          "playerDeckSizeAfter": 12,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -7573,7 +5663,87 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "rewardSkipped": false,
           "charmOffered": 0,
           "charmClaimed": null,
-          "siteAction": "camp-upgrade"
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-4-lane-4",
+          "depth": 4,
+          "lane": 4,
+          "kind": "elite",
+          "title": "Predateur runique",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 18,
+          "combatFlips": 6,
+          "enemyProfileId": "shaper",
+          "enemyBotId": "champion",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-3",
+          "depth": 5,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 35,
+          "combatFlips": 3,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-6-lane-3",
+          "depth": 6,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 33,
+          "combatFlips": 6,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-7-lane-4",
+          "depth": 7,
+          "lane": 4,
+          "kind": "rest",
+          "title": "Repos du sous-bois",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
         },
         {
           "nodeId": "boss-final",
@@ -7581,10 +5751,255 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "lane": 2,
           "kind": "boss",
           "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 13,
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
           "combatWinner": "enemy",
-          "combatTurns": 19,
+          "combatTurns": 18,
+          "combatFlips": 10,
+          "enemyProfileId": "ravager",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 6,
+      "modelId": "expert",
+      "seed": 855520356,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 16,
+      "deckDelta": 4,
+      "outcome": "victory",
+      "victory": true,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 5,
+      "combatWins": 5,
+      "combatLosses": 0,
+      "totalCombatTurns": 103,
+      "totalCombatFlips": 33,
+      "totalDeadTurns": 14,
+      "totalReshuffles": 13,
+      "rewardOffersSeen": 6,
+      "rewardsClaimed": 6,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 5,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 16,
+      "stealRewardsClaimed": 4,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "old-bridge-stone"
+      ],
+      "campVisits": 1,
+      "upgrades": 0,
+      "removals": 1,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 4,
+        "elite": 0,
+        "shop": 1,
+        "chest": 2,
+        "rest": 1,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 1,
+        "human": 0,
+        "automaton": 2,
+        "revenant": 1,
+        "arcane": 12,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 15,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-4",
+          "depth": 0,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 22,
+          "combatFlips": 2,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-4",
+          "depth": 1,
+          "lane": 4,
+          "kind": "chest",
+          "title": "Tresor des racines",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-2",
+          "depth": 2,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-1",
+          "depth": 3,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 6,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-3",
+          "depth": 4,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 17,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 12,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-1",
+          "depth": 5,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 17,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": "player",
+          "combatTurns": 21,
+          "combatFlips": 3,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-6-lane-1",
+          "depth": 6,
+          "lane": 1,
+          "kind": "rest",
+          "title": "Repos du sous-bois",
+          "playerDeckSizeBefore": 18,
+          "playerDeckSizeAfter": 17,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-7-lane-1",
+          "depth": 7,
+          "lane": 1,
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
+          "playerDeckSizeBefore": 17,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "boss-final",
+          "depth": 8,
+          "lane": 2,
+          "kind": "boss",
+          "title": "Le Collecteur final",
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 18,
           "combatFlips": 10,
           "enemyProfileId": "warden",
           "enemyBotId": "champion",
@@ -7598,66 +6013,66 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 4,
-      "modelId": "champion",
-      "seed": 1207100656,
+      "runIndex": 7,
+      "modelId": "expert",
+      "seed": 872297975,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 18,
-      "deckDelta": 6,
-      "outcome": "victory",
-      "victory": true,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 5,
-      "combatWins": 5,
-      "combatLosses": 0,
-      "totalCombatTurns": 88,
-      "totalCombatFlips": 27,
-      "totalDeadTurns": 8,
-      "totalReshuffles": 12,
-      "rewardOffersSeen": 7,
-      "rewardsClaimed": 7,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 92,
+      "totalCombatFlips": 10,
+      "totalDeadTurns": 17,
+      "totalReshuffles": 10,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 4,
-        "uncommon": 2,
-        "rare": 1
+        "common": 2,
+        "uncommon": 1,
+        "rare": 0
       },
-      "stealRewardsOffered": 16,
-      "stealRewardsClaimed": 4,
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
       "charmOffersSeen": 1,
       "charmsClaimed": [
-        "watcher-stone"
+        "moss-dust"
       ],
       "campVisits": 0,
       "upgrades": 0,
       "removals": 0,
-      "forgeVisits": 1,
-      "fusions": 1,
+      "forgeVisits": 0,
+      "fusions": 0,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 4,
-        "elite": 0,
-        "shop": 1,
-        "chest": 3,
+        "combat": 2,
+        "elite": 1,
+        "shop": 0,
+        "chest": 1,
         "rest": 0,
-        "boss": 1
+        "boss": 0
       },
       "finalDeckFamilies": {
-        "familiar": 1,
+        "familiar": 2,
         "demon": 1,
         "human": 0,
-        "automaton": 2,
+        "automaton": 0,
         "revenant": 0,
-        "arcane": 14,
+        "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 15,
-        "uncommon": 2,
-        "rare": 1
+        "common": 14,
+        "uncommon": 1,
+        "rare": 0
       },
       "path": [
         {
@@ -7669,9 +6084,339 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 23,
+          "combatTurns": 25,
+          "combatFlips": 3,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-0",
+          "depth": 1,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 31,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-2",
+          "depth": 2,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Cache de spores",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-4",
+          "depth": 3,
+          "lane": 4,
+          "kind": "elite",
+          "title": "Veilleur creux",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "enemy",
+          "combatTurns": 36,
+          "combatFlips": 4,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 0,
+      "modelId": "champion",
+      "seed": 967367209,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 6,
+      "combatCount": 4,
+      "combatWins": 3,
+      "combatLosses": 1,
+      "totalCombatTurns": 101,
+      "totalCombatFlips": 23,
+      "totalDeadTurns": 21,
+      "totalReshuffles": 11,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 3,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "moss-dust"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 2,
+      "fusions": 2,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 1,
+        "shop": 2,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 13,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-4",
+          "depth": 0,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 38,
           "combatFlips": 3,
           "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-4",
+          "depth": 1,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 26,
+          "combatFlips": 4,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-4",
+          "depth": 2,
+          "lane": 4,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-3-lane-3",
+          "depth": 3,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 19,
+          "combatFlips": 10,
+          "enemyProfileId": "aggro",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-4-lane-3",
+          "depth": 4,
+          "lane": 3,
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-5-lane-3",
+          "depth": 5,
+          "lane": 3,
+          "kind": "elite",
+          "title": "Predateur runique",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "enemy",
+          "combatTurns": 18,
+          "combatFlips": 6,
+          "enemyProfileId": "bastion",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 1,
+      "modelId": "champion",
+      "seed": 950589590,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 15,
+      "deckDelta": 3,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 2,
+      "combatWins": 1,
+      "combatLosses": 1,
+      "totalCombatTurns": 37,
+      "totalCombatFlips": 7,
+      "totalDeadTurns": 1,
+      "totalReshuffles": 8,
+      "rewardOffersSeen": 3,
+      "rewardsClaimed": 3,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 1,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "spring-tear"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 0,
+      "fusions": 0,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 1,
+        "elite": 1,
+        "shop": 0,
+        "chest": 2,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 1,
+        "revenant": 0,
+        "arcane": 14,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-3",
+          "depth": 0,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 19,
+          "combatFlips": 3,
+          "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -7701,18 +6446,18 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-2-lane-1",
+          "nodeId": "depth-2-lane-0",
           "depth": 2,
-          "lane": 1,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
+          "lane": 0,
+          "kind": "chest",
+          "title": "Coffre noueux",
           "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 15,
-          "combatWinner": "player",
-          "combatTurns": 9,
-          "combatFlips": 6,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -7724,10 +6469,115 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-3-lane-1",
           "depth": 3,
           "lane": 1,
-          "kind": "shop",
-          "title": "Bazaar des souches",
+          "kind": "elite",
+          "title": "Veilleur creux",
           "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "enemy",
+          "combatTurns": 18,
+          "combatFlips": 4,
+          "enemyProfileId": "bastion",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 2,
+      "modelId": "champion",
+      "seed": 933811971,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 13,
+      "deckDelta": 1,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 4,
+      "combatCount": 3,
+      "combatWins": 2,
+      "combatLosses": 1,
+      "totalCombatTurns": 89,
+      "totalCombatFlips": 15,
+      "totalDeadTurns": 10,
+      "totalReshuffles": 19,
+      "rewardOffersSeen": 2,
+      "rewardsClaimed": 2,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 2,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 8,
+      "stealRewardsClaimed": 2,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "moss-dust"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 0,
+        "shop": 1,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 1,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 12,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-1",
+          "depth": 0,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 35,
+          "combatFlips": 2,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -7741,9 +6591,279 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "forge-fusion"
         },
         {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 7,
+          "enemyProfileId": "swarm",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-3-lane-0",
+          "depth": 3,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "enemy",
+          "combatTurns": 27,
+          "combatFlips": 6,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 3,
+      "modelId": "champion",
+      "seed": 917034352,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 12,
+      "deckDelta": 0,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": false,
+      "locationsCleared": 3,
+      "combatCount": 2,
+      "combatWins": 1,
+      "combatLosses": 1,
+      "totalCombatTurns": 50,
+      "totalCombatFlips": 16,
+      "totalDeadTurns": 6,
+      "totalReshuffles": 11,
+      "rewardOffersSeen": 1,
+      "rewardsClaimed": 1,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 1,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "stealRewardsOffered": 4,
+      "stealRewardsClaimed": 1,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "spring-tear"
+      ],
+      "campVisits": 0,
+      "upgrades": 0,
+      "removals": 0,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 1,
+        "elite": 1,
+        "shop": 1,
+        "chest": 0,
+        "rest": 0,
+        "boss": 0
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 12,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 12,
+        "uncommon": 0,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-0",
+          "depth": 0,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 22,
+          "combatFlips": 2,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "shop",
+          "title": "Echoppe de brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
+          "kind": "elite",
+          "title": "Traqueur ancien",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 12,
+          "combatWinner": "enemy",
+          "combatTurns": 28,
+          "combatFlips": 14,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 4,
+      "modelId": "champion",
+      "seed": 1034477685,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "defeat",
+      "victory": false,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 4,
+      "combatWins": 3,
+      "combatLosses": 1,
+      "totalCombatTurns": 112,
+      "totalCombatFlips": 16,
+      "totalDeadTurns": 23,
+      "totalReshuffles": 22,
+      "rewardOffersSeen": 5,
+      "rewardsClaimed": 5,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 3,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "stealRewardsOffered": 12,
+      "stealRewardsClaimed": 3,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "spring-tear"
+      ],
+      "campVisits": 2,
+      "upgrades": 0,
+      "removals": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 3,
+        "elite": 0,
+        "shop": 1,
+        "chest": 2,
+        "rest": 2,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 2,
+        "human": 1,
+        "automaton": 0,
+        "revenant": 0,
+        "arcane": 11,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 12,
+        "uncommon": 2,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-0",
+          "depth": 0,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Sentier des griffes",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 36,
+          "combatFlips": 6,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 37,
+          "combatFlips": 2,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-1",
+          "depth": 2,
+          "lane": 1,
           "kind": "chest",
           "title": "Cache de spores",
           "playerDeckSizeBefore": 14,
@@ -7761,17 +6881,57 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-5-lane-3",
-          "depth": 5,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Route des brindilles",
+          "nodeId": "depth-3-lane-2",
+          "depth": 3,
+          "lane": 2,
+          "kind": "rest",
+          "title": "Feu de canopee",
           "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-4-lane-1",
+          "depth": 4,
+          "lane": 1,
+          "kind": "rest",
+          "title": "Repos du sous-bois",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-5-lane-0",
+          "depth": 5,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 2,
-          "enemyProfileId": "swarm",
+          "combatTurns": 30,
+          "combatFlips": 5,
+          "enemyProfileId": "trickster",
           "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -7784,10 +6944,30 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-6-lane-1",
           "depth": 6,
           "lane": 1,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-7-lane-3",
+          "depth": 7,
+          "lane": 3,
           "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 17,
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -7801,36 +6981,16 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-7-lane-3",
-          "depth": 7,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Duel des fougeres",
-          "playerDeckSizeBefore": 17,
-          "playerDeckSizeAfter": 18,
-          "combatWinner": "player",
-          "combatTurns": 20,
-          "combatFlips": 5,
-          "enemyProfileId": "aggro",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
           "nodeId": "boss-final",
           "depth": 8,
           "lane": 2,
           "kind": "boss",
           "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 18,
-          "playerDeckSizeAfter": 18,
-          "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 11,
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "enemy",
+          "combatTurns": 9,
+          "combatFlips": 3,
           "enemyProfileId": "warden",
           "enemyBotId": "champion",
           "rewardOffered": 0,
@@ -7845,252 +7005,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     {
       "runIndex": 5,
       "modelId": "champion",
-      "seed": 1223878275,
-      "selectedFamily": "arcane",
-      "startingDeckCardCount": 12,
-      "finalDeckCardCount": 12,
-      "deckDelta": 0,
-      "outcome": "defeat",
-      "victory": false,
-      "bossReached": true,
-      "locationsCleared": 8,
-      "combatCount": 4,
-      "combatWins": 3,
-      "combatLosses": 1,
-      "totalCombatTurns": 101,
-      "totalCombatFlips": 27,
-      "totalDeadTurns": 12,
-      "totalReshuffles": 14,
-      "rewardOffersSeen": 4,
-      "rewardsClaimed": 4,
-      "rewardsSkipped": 0,
-      "rewardsClaimedByRarity": {
-        "common": 3,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "stealRewardsOffered": 12,
-      "stealRewardsClaimed": 3,
-      "charmOffersSeen": 1,
-      "charmsClaimed": [
-        "moss-dust"
-      ],
-      "campVisits": 3,
-      "upgrades": 0,
-      "removals": 3,
-      "forgeVisits": 1,
-      "fusions": 1,
-      "treasures": 0,
-      "nodeCounts": {
-        "combat": 3,
-        "elite": 0,
-        "shop": 1,
-        "chest": 1,
-        "rest": 3,
-        "boss": 1
-      },
-      "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 0,
-        "human": 1,
-        "automaton": 0,
-        "revenant": 0,
-        "arcane": 10,
-        "dragon": 0,
-        "renegade": 0
-      },
-      "finalDeckRarities": {
-        "common": 11,
-        "uncommon": 1,
-        "rare": 0
-      },
-      "path": [
-        {
-          "nodeId": "depth-0-lane-3",
-          "depth": 0,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 3,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-1-lane-2",
-          "depth": 1,
-          "lane": 2,
-          "kind": "rest",
-          "title": "Feu de canopee",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-2-lane-4",
-          "depth": 2,
-          "lane": 4,
-          "kind": "chest",
-          "title": "Coffre noueux",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 13,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-3-lane-3",
-          "depth": 3,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Halte aux fougeres",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-4-lane-3",
-          "depth": 4,
-          "lane": 3,
-          "kind": "rest",
-          "title": "Repos du sous-bois",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "camp-remove"
-        },
-        {
-          "nodeId": "depth-5-lane-4",
-          "depth": 5,
-          "lane": 4,
-          "kind": "shop",
-          "title": "Marche aux lucioles",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 10,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-6-lane-3",
-          "depth": 6,
-          "lane": 3,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 10,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": "player",
-          "combatTurns": 31,
-          "combatFlips": 10,
-          "enemyProfileId": "builder",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-7-lane-4",
-          "depth": 7,
-          "lane": 4,
-          "kind": "combat",
-          "title": "Route des brindilles",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "player",
-          "combatTurns": 27,
-          "combatFlips": 0,
-          "enemyProfileId": "swarm",
-          "enemyBotId": "heuristic",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "boss-final",
-          "depth": 8,
-          "lane": 2,
-          "kind": "boss",
-          "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 14,
-          "enemyProfileId": "warden",
-          "enemyBotId": "champion",
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        }
-      ]
-    },
-    {
-      "runIndex": 6,
-      "modelId": "champion",
-      "seed": 1240655894,
+      "seed": 1017700066,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
       "finalDeckCardCount": 12,
@@ -8102,10 +7017,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       "combatCount": 2,
       "combatWins": 1,
       "combatLosses": 1,
-      "totalCombatTurns": 43,
-      "totalCombatFlips": 13,
-      "totalDeadTurns": 7,
-      "totalReshuffles": 4,
+      "totalCombatTurns": 74,
+      "totalCombatFlips": 9,
+      "totalDeadTurns": 12,
+      "totalReshuffles": 11,
       "rewardOffersSeen": 1,
       "rewardsClaimed": 1,
       "rewardsSkipped": 0,
@@ -8155,13 +7070,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "depth": 0,
           "lane": 1,
           "kind": "combat",
-          "title": "Duel des fougeres",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
-          "combatTurns": 25,
-          "combatFlips": 4,
-          "enemyProfileId": "aggro",
+          "combatTurns": 38,
+          "combatFlips": 3,
+          "enemyProfileId": "swarm",
           "enemyBotId": "greedy",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -8171,9 +7086,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-3",
+          "nodeId": "depth-1-lane-0",
           "depth": 1,
-          "lane": 3,
+          "lane": 0,
           "kind": "rest",
           "title": "Feu de canopee",
           "playerDeckSizeBefore": 13,
@@ -8191,16 +7106,16 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "camp-remove"
         },
         {
-          "nodeId": "depth-2-lane-3",
+          "nodeId": "depth-2-lane-0",
           "depth": 2,
-          "lane": 3,
+          "lane": 0,
           "kind": "elite",
-          "title": "Champion des lianes",
+          "title": "Veilleur creux",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 12,
           "combatWinner": "enemy",
-          "combatTurns": 18,
-          "combatFlips": 9,
+          "combatTurns": 36,
+          "combatFlips": 6,
           "enemyProfileId": "shaper",
           "enemyBotId": "champion",
           "rewardOffered": 0,
@@ -8213,78 +7128,99 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       ]
     },
     {
-      "runIndex": 7,
+      "runIndex": 6,
       "modelId": "champion",
-      "seed": 1257433513,
+      "seed": 1000922447,
       "selectedFamily": "arcane",
       "startingDeckCardCount": 12,
-      "finalDeckCardCount": 16,
-      "deckDelta": 4,
-      "outcome": "victory",
-      "victory": true,
+      "finalDeckCardCount": 18,
+      "deckDelta": 6,
+      "outcome": "defeat",
+      "victory": false,
       "bossReached": true,
       "locationsCleared": 8,
-      "combatCount": 5,
-      "combatWins": 5,
-      "combatLosses": 0,
-      "totalCombatTurns": 122,
-      "totalCombatFlips": 35,
-      "totalDeadTurns": 15,
-      "totalReshuffles": 14,
-      "rewardOffersSeen": 6,
-      "rewardsClaimed": 6,
+      "combatCount": 7,
+      "combatWins": 6,
+      "combatLosses": 1,
+      "totalCombatTurns": 167,
+      "totalCombatFlips": 48,
+      "totalDeadTurns": 24,
+      "totalReshuffles": 23,
+      "rewardOffersSeen": 7,
+      "rewardsClaimed": 7,
       "rewardsSkipped": 0,
       "rewardsClaimedByRarity": {
-        "common": 4,
+        "common": 5,
         "uncommon": 2,
         "rare": 0
       },
-      "stealRewardsOffered": 16,
-      "stealRewardsClaimed": 4,
-      "charmOffersSeen": 1,
+      "stealRewardsOffered": 24,
+      "stealRewardsClaimed": 6,
+      "charmOffersSeen": 2,
       "charmsClaimed": [
-        "old-bridge-stone"
+        "moss-dust",
+        "clearing-eye"
       ],
       "campVisits": 0,
       "upgrades": 0,
       "removals": 0,
-      "forgeVisits": 2,
-      "fusions": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
       "treasures": 0,
       "nodeCounts": {
-        "combat": 4,
-        "elite": 0,
-        "shop": 2,
-        "chest": 2,
+        "combat": 5,
+        "elite": 1,
+        "shop": 1,
+        "chest": 1,
         "rest": 0,
         "boss": 1
       },
       "finalDeckFamilies": {
-        "familiar": 1,
-        "demon": 1,
+        "familiar": 3,
+        "demon": 0,
         "human": 0,
-        "automaton": 2,
-        "revenant": 1,
-        "arcane": 11,
+        "automaton": 3,
+        "revenant": 0,
+        "arcane": 12,
         "dragon": 0,
         "renegade": 0
       },
       "finalDeckRarities": {
-        "common": 14,
+        "common": 16,
         "uncommon": 2,
         "rare": 0
       },
       "path": [
         {
-          "nodeId": "depth-0-lane-3",
+          "nodeId": "depth-0-lane-2",
           "depth": 0,
-          "lane": 3,
+          "lane": 2,
           "kind": "combat",
-          "title": "Duel des fougeres",
+          "title": "Sentier des griffes",
           "playerDeckSizeBefore": 12,
           "playerDeckSizeAfter": 13,
           "combatWinner": "player",
           "combatTurns": 22,
+          "combatFlips": 4,
+          "enemyProfileId": "trickster",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-0",
+          "depth": 1,
+          "lane": 0,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 41,
           "combatFlips": 4,
           "enemyProfileId": "aggro",
           "enemyBotId": "greedy",
@@ -8296,78 +7232,38 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-1-lane-4",
-          "depth": 1,
-          "lane": 4,
-          "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-2-lane-3",
+          "nodeId": "depth-2-lane-0",
           "depth": 2,
-          "lane": 3,
+          "lane": 0,
           "kind": "shop",
-          "title": "Bazaar des souches",
-          "playerDeckSizeBefore": 12,
-          "playerDeckSizeAfter": 11,
-          "combatWinner": null,
-          "combatTurns": 0,
-          "combatFlips": 0,
-          "enemyProfileId": null,
-          "enemyBotId": null,
-          "rewardOffered": 0,
-          "rewardClaimed": false,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "forge-fusion"
-        },
-        {
-          "nodeId": "depth-3-lane-0",
-          "depth": 3,
-          "lane": 0,
-          "kind": "combat",
-          "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 11,
-          "playerDeckSizeAfter": 12,
-          "combatWinner": "player",
-          "combatTurns": 28,
-          "combatFlips": 7,
-          "enemyProfileId": "trickster",
-          "enemyBotId": "greedy",
-          "rewardOffered": 4,
-          "rewardClaimed": true,
-          "rewardSkipped": false,
-          "charmOffered": 0,
-          "charmClaimed": null,
-          "siteAction": "none"
-        },
-        {
-          "nodeId": "depth-4-lane-0",
-          "depth": 4,
-          "lane": 0,
-          "kind": "chest",
-          "title": "Cache de spores",
-          "playerDeckSizeBefore": 12,
+          "title": "Comptoir des runes",
+          "playerDeckSizeBefore": 14,
           "playerDeckSizeAfter": 13,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
           "enemyProfileId": null,
           "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-3-lane-2",
+          "depth": 3,
+          "lane": 2,
+          "kind": "chest",
+          "title": "Cache de spores",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
           "rewardOffered": 4,
           "rewardClaimed": true,
           "rewardSkipped": false,
@@ -8376,17 +7272,37 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
-          "nodeId": "depth-5-lane-0",
-          "depth": 5,
-          "lane": 0,
+          "nodeId": "depth-4-lane-2",
+          "depth": 4,
+          "lane": 2,
           "kind": "combat",
-          "title": "Sentier des griffes",
-          "playerDeckSizeBefore": 13,
-          "playerDeckSizeAfter": 14,
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
           "combatWinner": "player",
-          "combatTurns": 30,
-          "combatFlips": 1,
+          "combatTurns": 20,
+          "combatFlips": 3,
           "enemyProfileId": "trickster",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-5-lane-1",
+          "depth": 5,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 16,
+          "combatWinner": "player",
+          "combatTurns": 19,
+          "combatFlips": 5,
+          "enemyProfileId": "swarm",
           "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -8401,12 +7317,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "lane": 0,
           "kind": "combat",
           "title": "Escarmouche de mousse",
-          "playerDeckSizeBefore": 14,
-          "playerDeckSizeAfter": 15,
+          "playerDeckSizeBefore": 16,
+          "playerDeckSizeAfter": 17,
           "combatWinner": "player",
-          "combatTurns": 24,
-          "combatFlips": 11,
-          "enemyProfileId": "builder",
+          "combatTurns": 20,
+          "combatFlips": 7,
+          "enemyProfileId": "swarm",
           "enemyBotId": "heuristic",
           "rewardOffered": 4,
           "rewardClaimed": true,
@@ -8419,10 +7335,175 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "nodeId": "depth-7-lane-0",
           "depth": 7,
           "lane": 0,
+          "kind": "elite",
+          "title": "Champion des lianes",
+          "playerDeckSizeBefore": 17,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 15,
+          "enemyProfileId": "executioner",
+          "enemyBotId": "champion",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 3,
+          "charmClaimed": "clearing-eye",
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "boss-final",
+          "depth": 8,
+          "lane": 2,
+          "kind": "boss",
+          "title": "Le Collecteur final",
+          "playerDeckSizeBefore": 18,
+          "playerDeckSizeAfter": 18,
+          "combatWinner": "enemy",
+          "combatTurns": 18,
+          "combatFlips": 10,
+          "enemyProfileId": "warden",
+          "enemyBotId": "champion",
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        }
+      ]
+    },
+    {
+      "runIndex": 7,
+      "modelId": "champion",
+      "seed": 984144828,
+      "selectedFamily": "arcane",
+      "startingDeckCardCount": 12,
+      "finalDeckCardCount": 14,
+      "deckDelta": 2,
+      "outcome": "victory",
+      "victory": true,
+      "bossReached": true,
+      "locationsCleared": 8,
+      "combatCount": 5,
+      "combatWins": 5,
+      "combatLosses": 0,
+      "totalCombatTurns": 142,
+      "totalCombatFlips": 27,
+      "totalDeadTurns": 20,
+      "totalReshuffles": 18,
+      "rewardOffersSeen": 5,
+      "rewardsClaimed": 5,
+      "rewardsSkipped": 0,
+      "rewardsClaimedByRarity": {
+        "common": 4,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "stealRewardsOffered": 16,
+      "stealRewardsClaimed": 4,
+      "charmOffersSeen": 1,
+      "charmsClaimed": [
+        "ancient-sap"
+      ],
+      "campVisits": 2,
+      "upgrades": 0,
+      "removals": 2,
+      "forgeVisits": 1,
+      "fusions": 1,
+      "treasures": 0,
+      "nodeCounts": {
+        "combat": 4,
+        "elite": 0,
+        "shop": 1,
+        "chest": 1,
+        "rest": 2,
+        "boss": 1
+      },
+      "finalDeckFamilies": {
+        "familiar": 0,
+        "demon": 0,
+        "human": 0,
+        "automaton": 1,
+        "revenant": 0,
+        "arcane": 13,
+        "dragon": 0,
+        "renegade": 0
+      },
+      "finalDeckRarities": {
+        "common": 13,
+        "uncommon": 1,
+        "rare": 0
+      },
+      "path": [
+        {
+          "nodeId": "depth-0-lane-1",
+          "depth": 0,
+          "lane": 1,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 12,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": "player",
+          "combatTurns": 23,
+          "combatFlips": 4,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-1-lane-2",
+          "depth": 1,
+          "lane": 2,
+          "kind": "combat",
+          "title": "Route des brindilles",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 25,
+          "combatFlips": 4,
+          "enemyProfileId": "builder",
+          "enemyBotId": "greedy",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-2-lane-4",
+          "depth": 2,
+          "lane": 4,
+          "kind": "shop",
+          "title": "Marche aux lucioles",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "forge-fusion"
+        },
+        {
+          "nodeId": "depth-3-lane-2",
+          "depth": 3,
+          "lane": 2,
           "kind": "chest",
-          "title": "Tresor des racines",
-          "playerDeckSizeBefore": 15,
-          "playerDeckSizeAfter": 16,
+          "title": "Malle de clairiere",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
           "combatWinner": null,
           "combatTurns": 0,
           "combatFlips": 0,
@@ -8436,16 +7517,96 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "siteAction": "none"
         },
         {
+          "nodeId": "depth-4-lane-4",
+          "depth": 4,
+          "lane": 4,
+          "kind": "rest",
+          "title": "Feu de canopee",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 13,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
+          "nodeId": "depth-5-lane-4",
+          "depth": 5,
+          "lane": 4,
+          "kind": "combat",
+          "title": "Escarmouche de mousse",
+          "playerDeckSizeBefore": 13,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": "player",
+          "combatTurns": 34,
+          "combatFlips": 3,
+          "enemyProfileId": "fortress",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-6-lane-3",
+          "depth": 6,
+          "lane": 3,
+          "kind": "combat",
+          "title": "Duel des fougeres",
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 15,
+          "combatWinner": "player",
+          "combatTurns": 27,
+          "combatFlips": 8,
+          "enemyProfileId": "builder",
+          "enemyBotId": "heuristic",
+          "rewardOffered": 4,
+          "rewardClaimed": true,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "none"
+        },
+        {
+          "nodeId": "depth-7-lane-3",
+          "depth": 7,
+          "lane": 3,
+          "kind": "rest",
+          "title": "Halte aux fougeres",
+          "playerDeckSizeBefore": 15,
+          "playerDeckSizeAfter": 14,
+          "combatWinner": null,
+          "combatTurns": 0,
+          "combatFlips": 0,
+          "enemyProfileId": null,
+          "enemyBotId": null,
+          "rewardOffered": 0,
+          "rewardClaimed": false,
+          "rewardSkipped": false,
+          "charmOffered": 0,
+          "charmClaimed": null,
+          "siteAction": "camp-remove"
+        },
+        {
           "nodeId": "boss-final",
           "depth": 8,
           "lane": 2,
           "kind": "boss",
           "title": "Le Collecteur final",
-          "playerDeckSizeBefore": 16,
-          "playerDeckSizeAfter": 16,
+          "playerDeckSizeBefore": 14,
+          "playerDeckSizeAfter": 14,
           "combatWinner": "player",
-          "combatTurns": 18,
-          "combatFlips": 12,
+          "combatTurns": 33,
+          "combatFlips": 8,
           "enemyProfileId": "ravager",
           "enemyBotId": "champion",
           "rewardOffered": 0,
@@ -8462,71 +7623,67 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
     "baselineWinRate": 0.5,
     "cardAnalytics": [
       {
-        "cardId": "hornling",
-        "name": "Cornu farceur",
+        "cardId": "cinder-grin",
+        "name": "Sourire de suie",
         "family": "demon",
         "rarity": "common",
-        "role": "anchor",
+        "role": "payoff",
         "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
+        "sideTotal": 11,
+        "maxSide": 5,
+        "minSide": 1,
         "effectKinds": [
-          "boost-self",
           "deal-damage"
         ],
         "buildTags": [
-          "adjacent-enemy",
-          "anchor",
-          "boost-self",
+          "combo-2",
           "deal-damage",
           "demon",
-          "hybrid-revenant"
+          "flip-1",
+          "payoff"
         ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 312,
-        "played": 233,
-        "ignored": 228,
-        "selectionRate": 0.7467948717948718,
-        "wins": 160,
-        "losses": 73,
+        "preferredPositions": [],
+        "offered": 487,
+        "played": 191,
+        "ignored": 392,
+        "selectionRate": 0.3921971252566735,
+        "wins": 135,
+        "losses": 56,
         "draws": 0,
-        "winRateWhenPlayed": 0.6866952789699571,
-        "averageFlips": 0.776824034334764,
-        "failedImpactRate": 0.11707317073170732,
-        "averageFlipMargin": 1.6464088397790055,
-        "averageEffectAmount": 1.2746781115879828,
-        "averageDamageDealt": 1.150214592274678,
-        "averageDamageTaken": 0.20600858369098712,
-        "averageNetDamage": 0.944206008583691,
-        "lethalMoves": 5,
-        "roundClosers": 6,
+        "winRateWhenPlayed": 0.7068062827225131,
+        "averageFlips": 0.6649214659685864,
+        "failedImpactRate": 0.33507853403141363,
+        "averageFlipMargin": 2.1496062992125986,
+        "averageEffectAmount": 0.8429319371727748,
+        "averageDamageDealt": 1.9790575916230366,
+        "averageDamageTaken": 0.6230366492146597,
+        "averageNetDamage": 1.356020942408377,
+        "lethalMoves": 13,
+        "roundClosers": 25,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 92,
-            "winRate": 0.5760869565217391
+            "played": 85,
+            "winRate": 0.7058823529411765
           },
           {
             "modelId": "expert",
-            "played": 54,
-            "winRate": 0.7962962962962963
+            "played": 43,
+            "winRate": 0.7441860465116279
           },
           {
             "modelId": "opportunist",
-            "played": 46,
-            "winRate": 0.9347826086956522
+            "played": 28,
+            "winRate": 0.8571428571428571
           },
           {
             "modelId": "champion",
-            "played": 27,
-            "winRate": 0.7777777777777778
+            "played": 23,
+            "winRate": 0.8260869565217391
           },
           {
             "modelId": "beginner",
-            "played": 14,
+            "played": 12,
             "winRate": 0
           }
         ],
@@ -8535,95 +7692,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 233,
-            "winRate": 0.6866952789699571
+            "played": 191,
+            "winRate": 0.7068062827225131
           }
         ],
         "status": "overperformer",
         "notes": [
           "Surperforme en victoire et impact immediat face a une base de 50%."
-        ]
-      },
-      {
-        "cardId": "widow-knight",
-        "name": "Chevalier veuf",
-        "family": "revenant",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage",
-          "gain-shield"
-        ],
-        "buildTags": [
-          "attacker",
-          "combo-2",
-          "deal-damage",
-          "flip-1",
-          "gain-shield",
-          "hybrid-demon",
-          "revenant"
-        ],
-        "preferredPositions": [],
-        "offered": 1021,
-        "played": 279,
-        "ignored": 896,
-        "selectionRate": 0.2732615083251714,
-        "wins": 91,
-        "losses": 188,
-        "draws": 0,
-        "winRateWhenPlayed": 0.32616487455197135,
-        "averageFlips": 0.26881720430107525,
-        "failedImpactRate": 0.7491638795986622,
-        "averageFlipMargin": 2.2133333333333334,
-        "averageEffectAmount": 1.1003584229390682,
-        "averageDamageDealt": 0.982078853046595,
-        "averageDamageTaken": 0.6164874551971327,
-        "averageNetDamage": 0.3655913978494624,
-        "lethalMoves": 7,
-        "roundClosers": 42,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 117,
-            "winRate": 0.05982905982905983
-          },
-          {
-            "modelId": "expert",
-            "played": 68,
-            "winRate": 0.6029411764705882
-          },
-          {
-            "modelId": "opportunist",
-            "played": 38,
-            "winRate": 0.7105263157894737
-          },
-          {
-            "modelId": "champion",
-            "played": 37,
-            "winRate": 0.43243243243243246
-          },
-          {
-            "modelId": "beginner",
-            "played": 19,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 279,
-            "winRate": 0.32616487455197135
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 50%."
         ]
       },
       {
@@ -8648,47 +7723,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 564,
-        "played": 406,
-        "ignored": 417,
-        "selectionRate": 0.7198581560283688,
-        "wins": 205,
-        "losses": 201,
+        "offered": 640,
+        "played": 437,
+        "ignored": 486,
+        "selectionRate": 0.6828125,
+        "wins": 203,
+        "losses": 234,
         "draws": 0,
-        "winRateWhenPlayed": 0.5049261083743842,
-        "averageFlips": 0.2536945812807882,
-        "failedImpactRate": 0.5928853754940712,
-        "averageFlipMargin": 1.3883495145631068,
-        "averageEffectAmount": 3.167487684729064,
-        "averageDamageDealt": 0.14532019704433496,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0.14532019704433496,
+        "winRateWhenPlayed": 0.4645308924485126,
+        "averageFlips": 0.2540045766590389,
+        "failedImpactRate": 0.5948905109489051,
+        "averageFlipMargin": 1.8288288288288288,
+        "averageEffectAmount": 3.102974828375286,
+        "averageDamageDealt": 0.11670480549199085,
+        "averageDamageTaken": 0.04576659038901602,
+        "averageNetDamage": 0.07093821510297482,
         "lethalMoves": 5,
-        "roundClosers": 5,
+        "roundClosers": 7,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 167,
-            "winRate": 0.6526946107784432
-          },
-          {
-            "modelId": "expert",
-            "played": 97,
-            "winRate": 0.35051546391752575
+            "played": 222,
+            "winRate": 0.4864864864864865
           },
           {
             "modelId": "opportunist",
-            "played": 71,
-            "winRate": 0.7464788732394366
+            "played": 83,
+            "winRate": 0.3855421686746988
+          },
+          {
+            "modelId": "expert",
+            "played": 76,
+            "winRate": 0.618421052631579
           },
           {
             "modelId": "champion",
-            "played": 51,
-            "winRate": 0.17647058823529413
+            "played": 42,
+            "winRate": 0.38095238095238093
           },
           {
             "modelId": "beginner",
-            "played": 20,
+            "played": 14,
             "winRate": 0
           }
         ],
@@ -8697,8 +7772,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 406,
-            "winRate": 0.5049261083743842
+            "played": 437,
+            "winRate": 0.4645308924485126
           }
         ],
         "status": "healthy",
@@ -8729,43 +7804,284 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "center"
         ],
-        "offered": 518,
-        "played": 389,
-        "ignored": 399,
-        "selectionRate": 0.750965250965251,
-        "wins": 192,
-        "losses": 197,
+        "offered": 545,
+        "played": 424,
+        "ignored": 409,
+        "selectionRate": 0.7779816513761468,
+        "wins": 177,
+        "losses": 247,
         "draws": 0,
-        "winRateWhenPlayed": 0.493573264781491,
-        "averageFlips": 0.1928020565552699,
-        "failedImpactRate": 0.5222929936305732,
-        "averageFlipMargin": 1.48,
-        "averageEffectAmount": 4.105398457583547,
-        "averageDamageDealt": 0.056555269922879174,
-        "averageDamageTaken": 0.02570694087403599,
-        "averageNetDamage": 0.030848329048843184,
+        "winRateWhenPlayed": 0.41745283018867924,
+        "averageFlips": 0.20518867924528303,
+        "failedImpactRate": 0.5297297297297298,
+        "averageFlipMargin": 1.2988505747126438,
+        "averageEffectAmount": 4.320754716981132,
+        "averageDamageDealt": 0.0660377358490566,
+        "averageDamageTaken": 0.02358490566037736,
+        "averageNetDamage": 0.04245283018867924,
         "lethalMoves": 1,
         "roundClosers": 3,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 162,
-            "winRate": 0.5925925925925926
-          },
-          {
-            "modelId": "expert",
-            "played": 92,
-            "winRate": 0.34782608695652173
+            "played": 215,
+            "winRate": 0.46511627906976744
           },
           {
             "modelId": "opportunist",
-            "played": 69,
-            "winRate": 0.782608695652174
+            "played": 76,
+            "winRate": 0.39473684210526316
+          },
+          {
+            "modelId": "expert",
+            "played": 74,
+            "winRate": 0.5
           },
           {
             "modelId": "champion",
-            "played": 51,
-            "winRate": 0.19607843137254902
+            "played": 42,
+            "winRate": 0.23809523809523808
+          },
+          {
+            "modelId": "beginner",
+            "played": 17,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 424,
+            "winRate": 0.41745283018867924
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "star-witch",
+        "name": "Sorciere d'etoiles",
+        "family": "arcane",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "arcane",
+          "boost-self",
+          "combo-3",
+          "draw-next-turn",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 675,
+        "played": 403,
+        "ignored": 531,
+        "selectionRate": 0.597037037037037,
+        "wins": 170,
+        "losses": 233,
+        "draws": 0,
+        "winRateWhenPlayed": 0.4218362282878412,
+        "averageFlips": 0.1935483870967742,
+        "failedImpactRate": 0.6060606060606061,
+        "averageFlipMargin": 1.4230769230769231,
+        "averageEffectAmount": 3.6550868486352357,
+        "averageDamageDealt": 0.1315136476426799,
+        "averageDamageTaken": 0.10918114143920596,
+        "averageNetDamage": 0.022332506203473934,
+        "lethalMoves": 1,
+        "roundClosers": 10,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 193,
+            "winRate": 0.46113989637305697
+          },
+          {
+            "modelId": "opportunist",
+            "played": 82,
+            "winRate": 0.36585365853658536
+          },
+          {
+            "modelId": "expert",
+            "played": 72,
+            "winRate": 0.5555555555555556
+          },
+          {
+            "modelId": "champion",
+            "played": 38,
+            "winRate": 0.2894736842105263
+          },
+          {
+            "modelId": "beginner",
+            "played": 18,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 403,
+            "winRate": 0.4218362282878412
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "rune-mage",
+        "name": "Mage des runes",
+        "family": "human",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 11,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "boost-self",
+          "combo-2",
+          "connector",
+          "draw-next-turn",
+          "human"
+        ],
+        "preferredPositions": [],
+        "offered": 478,
+        "played": 401,
+        "ignored": 369,
+        "selectionRate": 0.8389121338912134,
+        "wins": 227,
+        "losses": 174,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5660847880299252,
+        "averageFlips": 0.26683291770573564,
+        "failedImpactRate": 0.47549019607843135,
+        "averageFlipMargin": 2.2149532710280373,
+        "averageEffectAmount": 4.339152119700748,
+        "averageDamageDealt": 0.09226932668329177,
+        "averageDamageTaken": 0.032418952618453865,
+        "averageNetDamage": 0.059850374064837904,
+        "lethalMoves": 0,
+        "roundClosers": 5,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 164,
+            "winRate": 0.5182926829268293
+          },
+          {
+            "modelId": "opportunist",
+            "played": 104,
+            "winRate": 0.8269230769230769
+          },
+          {
+            "modelId": "expert",
+            "played": 83,
+            "winRate": 0.6385542168674698
+          },
+          {
+            "modelId": "champion",
+            "played": 33,
+            "winRate": 0.09090909090909091
+          },
+          {
+            "modelId": "beginner",
+            "played": 17,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 401,
+            "winRate": 0.5660847880299252
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "quiet-monk",
+        "name": "Moine du seuil",
+        "family": "human",
+        "rarity": "common",
+        "role": "anchor",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "anchor",
+          "boost-self",
+          "combo-2",
+          "edge",
+          "human"
+        ],
+        "preferredPositions": [
+          "edge"
+        ],
+        "offered": 555,
+        "played": 392,
+        "ignored": 442,
+        "selectionRate": 0.7063063063063063,
+        "wins": 219,
+        "losses": 173,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5586734693877551,
+        "averageFlips": 0.29846938775510207,
+        "failedImpactRate": 0.40609137055837563,
+        "averageFlipMargin": 1.829059829059829,
+        "averageEffectAmount": 3.5255102040816326,
+        "averageDamageDealt": 0.030612244897959183,
+        "averageDamageTaken": 0.03571428571428571,
+        "averageNetDamage": -0.005102040816326529,
+        "lethalMoves": 1,
+        "roundClosers": 2,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 163,
+            "winRate": 0.50920245398773
+          },
+          {
+            "modelId": "opportunist",
+            "played": 103,
+            "winRate": 0.8252427184466019
+          },
+          {
+            "modelId": "expert",
+            "played": 80,
+            "winRate": 0.625
+          },
+          {
+            "modelId": "champion",
+            "played": 31,
+            "winRate": 0.03225806451612903
           },
           {
             "modelId": "beginner",
@@ -8778,8 +8094,91 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 389,
-            "winRate": 0.493573264781491
+            "played": 392,
+            "winRate": 0.5586734693877551
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "sapling",
+        "name": "Floramie toxique",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "anchor",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "apply-poison",
+          "gain-shield"
+        ],
+        "buildTags": [
+          "adjacent-ally",
+          "anchor",
+          "apply-poison",
+          "combo-2",
+          "familiar",
+          "gain-shield"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 488,
+        "played": 391,
+        "ignored": 373,
+        "selectionRate": 0.8012295081967213,
+        "wins": 215,
+        "losses": 176,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5498721227621484,
+        "averageFlips": 0.29923273657289,
+        "failedImpactRate": 0.5357142857142857,
+        "averageFlipMargin": 1.982905982905983,
+        "averageEffectAmount": 3.1202046035805626,
+        "averageDamageDealt": 0.05370843989769821,
+        "averageDamageTaken": 0.023017902813299233,
+        "averageNetDamage": 0.030690537084398978,
+        "lethalMoves": 2,
+        "roundClosers": 3,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 188,
+            "winRate": 0.44680851063829785
+          },
+          {
+            "modelId": "opportunist",
+            "played": 74,
+            "winRate": 0.6216216216216216
+          },
+          {
+            "modelId": "expert",
+            "played": 71,
+            "winRate": 0.8450704225352113
+          },
+          {
+            "modelId": "champion",
+            "played": 36,
+            "winRate": 0.6944444444444444
+          },
+          {
+            "modelId": "beginner",
+            "played": 22,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 391,
+            "winRate": 0.5498721227621484
           }
         ],
         "status": "healthy",
@@ -8809,47 +8208,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "draw-next-turn"
         ],
         "preferredPositions": [],
-        "offered": 548,
-        "played": 388,
-        "ignored": 395,
-        "selectionRate": 0.708029197080292,
-        "wins": 310,
-        "losses": 78,
+        "offered": 544,
+        "played": 386,
+        "ignored": 392,
+        "selectionRate": 0.7095588235294118,
+        "wins": 274,
+        "losses": 112,
         "draws": 0,
-        "winRateWhenPlayed": 0.7989690721649485,
-        "averageFlips": 0.3427835051546392,
-        "failedImpactRate": 0.4388185654008439,
-        "averageFlipMargin": 2.1052631578947367,
-        "averageEffectAmount": 4.603092783505154,
-        "averageDamageDealt": 0.17010309278350516,
-        "averageDamageTaken": 0.03608247422680412,
-        "averageNetDamage": 0.13402061855670105,
-        "lethalMoves": 5,
-        "roundClosers": 7,
+        "winRateWhenPlayed": 0.7098445595854922,
+        "averageFlips": 0.3134715025906736,
+        "failedImpactRate": 0.4979253112033195,
+        "averageFlipMargin": 2.1074380165289255,
+        "averageEffectAmount": 4.748704663212435,
+        "averageDamageDealt": 0.13989637305699482,
+        "averageDamageTaken": 0.02849740932642487,
+        "averageNetDamage": 0.11139896373056994,
+        "lethalMoves": 1,
+        "roundClosers": 6,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 170,
-            "winRate": 0.8941176470588236
+            "played": 165,
+            "winRate": 0.8484848484848485
           },
           {
             "modelId": "expert",
-            "played": 89,
-            "winRate": 0.8539325842696629
+            "played": 82,
+            "winRate": 0.6341463414634146
           },
           {
             "modelId": "opportunist",
-            "played": 65,
-            "winRate": 0.6923076923076923
+            "played": 71,
+            "winRate": 0.8591549295774648
           },
           {
             "modelId": "champion",
             "played": 48,
-            "winRate": 0.7708333333333334
+            "winRate": 0.4375
           },
           {
             "modelId": "beginner",
-            "played": 16,
+            "played": 20,
             "winRate": 0
           }
         ],
@@ -8858,8 +8257,86 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 388,
-            "winRate": 0.7989690721649485
+            "played": 386,
+            "winRate": 0.7098445595854922
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "field-knight",
+        "name": "Chevaliere des champs",
+        "family": "human",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "combo-2",
+          "gain-shield",
+          "human",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 805,
+        "played": 383,
+        "ignored": 610,
+        "selectionRate": 0.47577639751552797,
+        "wins": 226,
+        "losses": 157,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5900783289817232,
+        "averageFlips": 0.26631853785900783,
+        "failedImpactRate": 0.6150943396226415,
+        "averageFlipMargin": 2.1176470588235294,
+        "averageEffectAmount": 3.3472584856396868,
+        "averageDamageDealt": 0.39947780678851175,
+        "averageDamageTaken": 0.2402088772845953,
+        "averageNetDamage": 0.15926892950391644,
+        "lethalMoves": 6,
+        "roundClosers": 27,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 162,
+            "winRate": 0.5617283950617284
+          },
+          {
+            "modelId": "opportunist",
+            "played": 95,
+            "winRate": 0.8210526315789474
+          },
+          {
+            "modelId": "expert",
+            "played": 79,
+            "winRate": 0.6582278481012658
+          },
+          {
+            "modelId": "champion",
+            "played": 32,
+            "winRate": 0.15625
+          },
+          {
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 383,
+            "winRate": 0.5900783289817232
           }
         ],
         "status": "healthy",
@@ -8893,45 +8370,45 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ],
         "offered": 505,
         "played": 380,
-        "ignored": 379,
+        "ignored": 352,
         "selectionRate": 0.7524752475247525,
-        "wins": 293,
-        "losses": 87,
+        "wins": 263,
+        "losses": 117,
         "draws": 0,
-        "winRateWhenPlayed": 0.7710526315789473,
-        "averageFlips": 0.2236842105263158,
-        "failedImpactRate": 0.5251396648044693,
-        "averageFlipMargin": 2.223529411764706,
-        "averageEffectAmount": 5.542105263157895,
-        "averageDamageDealt": 0.49473684210526314,
-        "averageDamageTaken": 0.13157894736842105,
-        "averageNetDamage": 0.3631578947368421,
-        "lethalMoves": 5,
-        "roundClosers": 23,
+        "winRateWhenPlayed": 0.6921052631578948,
+        "averageFlips": 0.2631578947368421,
+        "failedImpactRate": 0.40119760479041916,
+        "averageFlipMargin": 2.42,
+        "averageEffectAmount": 5.523684210526316,
+        "averageDamageDealt": 0.3157894736842105,
+        "averageDamageTaken": 0.07894736842105263,
+        "averageNetDamage": 0.23684210526315788,
+        "lethalMoves": 6,
+        "roundClosers": 16,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 169,
-            "winRate": 0.8698224852071006
+            "played": 160,
+            "winRate": 0.83125
           },
           {
             "modelId": "expert",
-            "played": 85,
-            "winRate": 0.8235294117647058
+            "played": 83,
+            "winRate": 0.6144578313253012
           },
           {
             "modelId": "opportunist",
-            "played": 64,
-            "winRate": 0.671875
+            "played": 67,
+            "winRate": 0.8656716417910447
           },
           {
             "modelId": "champion",
             "played": 48,
-            "winRate": 0.6875
+            "winRate": 0.4375
           },
           {
             "modelId": "beginner",
-            "played": 14,
+            "played": 22,
             "winRate": 0
           }
         ],
@@ -8941,7 +8418,7 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
             "played": 380,
-            "winRate": 0.7710526315789473
+            "winRate": 0.6921052631578948
           }
         ],
         "status": "healthy",
@@ -8950,390 +8427,63 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "sapling",
-        "name": "Floramie toxique",
+        "cardId": "heron",
+        "name": "Oiselle aubeplume",
         "family": "familiar",
         "rarity": "common",
-        "role": "anchor",
+        "role": "connector",
         "sourceType": "draft",
         "sideTotal": 12,
         "maxSide": 4,
         "minSide": 2,
         "effectKinds": [
-          "apply-poison",
-          "gain-shield"
-        ],
-        "buildTags": [
-          "adjacent-ally",
-          "anchor",
-          "apply-poison",
-          "combo-2",
-          "familiar",
-          "gain-shield"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 461,
-        "played": 376,
-        "ignored": 325,
-        "selectionRate": 0.8156182212581344,
-        "wins": 232,
-        "losses": 144,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6170212765957447,
-        "averageFlips": 0.3058510638297872,
-        "failedImpactRate": 0.46261682242990654,
-        "averageFlipMargin": 2.1478260869565218,
-        "averageEffectAmount": 3.0718085106382977,
-        "averageDamageDealt": 0.2553191489361702,
-        "averageDamageTaken": 0.02127659574468085,
-        "averageNetDamage": 0.23404255319148934,
-        "lethalMoves": 9,
-        "roundClosers": 9,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 161,
-            "winRate": 0.5403726708074534
-          },
-          {
-            "modelId": "expert",
-            "played": 77,
-            "winRate": 0.8961038961038961
-          },
-          {
-            "modelId": "opportunist",
-            "played": 77,
-            "winRate": 0.5064935064935064
-          },
-          {
-            "modelId": "champion",
-            "played": 39,
-            "winRate": 0.7948717948717948
-          },
-          {
-            "modelId": "beginner",
-            "played": 22,
-            "winRate": 0.2727272727272727
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 376,
-            "winRate": 0.6170212765957447
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "tin-oracle",
-        "name": "Oracle de fer-blanc",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "gain-mana-next-turn"
-        ],
-        "buildTags": [
-          "automaton",
-          "boost-self",
-          "combo-1",
-          "combo-2",
-          "corner",
-          "gain-mana-next-turn",
-          "payoff"
-        ],
-        "preferredPositions": [
-          "corner"
-        ],
-        "offered": 592,
-        "played": 367,
-        "ignored": 442,
-        "selectionRate": 0.6199324324324325,
-        "wins": 267,
-        "losses": 100,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7275204359673024,
-        "averageFlips": 0.16076294277929154,
-        "failedImpactRate": 0.6424242424242425,
-        "averageFlipMargin": 2,
-        "averageEffectAmount": 5.9346049046321525,
-        "averageDamageDealt": 0.28610354223433243,
-        "averageDamageTaken": 0.05994550408719346,
-        "averageNetDamage": 0.22615803814713897,
-        "lethalMoves": 4,
-        "roundClosers": 14,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 159,
-            "winRate": 0.8427672955974843
-          },
-          {
-            "modelId": "expert",
-            "played": 84,
-            "winRate": 0.7738095238095238
-          },
-          {
-            "modelId": "opportunist",
-            "played": 63,
-            "winRate": 0.6349206349206349
-          },
-          {
-            "modelId": "champion",
-            "played": 46,
-            "winRate": 0.6086956521739131
-          },
-          {
-            "modelId": "beginner",
-            "played": 15,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 367,
-            "winRate": 0.7275204359673024
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "star-witch",
-        "name": "Sorciere d'etoiles",
-        "family": "arcane",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
           "draw-next-turn"
         ],
         "buildTags": [
-          "arcane",
-          "boost-self",
-          "combo-3",
-          "draw-next-turn",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 653,
-        "played": 362,
-        "ignored": 517,
-        "selectionRate": 0.554364471669219,
-        "wins": 177,
-        "losses": 185,
-        "draws": 0,
-        "winRateWhenPlayed": 0.4889502762430939,
-        "averageFlips": 0.20994475138121546,
-        "failedImpactRate": 0.625615763546798,
-        "averageFlipMargin": 1.381578947368421,
-        "averageEffectAmount": 3.6685082872928176,
-        "averageDamageDealt": 0.22375690607734808,
-        "averageDamageTaken": 0.09944751381215469,
-        "averageNetDamage": 0.12430939226519339,
-        "lethalMoves": 4,
-        "roundClosers": 11,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 147,
-            "winRate": 0.6122448979591837
-          },
-          {
-            "modelId": "expert",
-            "played": 88,
-            "winRate": 0.3409090909090909
-          },
-          {
-            "modelId": "opportunist",
-            "played": 63,
-            "winRate": 0.746031746031746
-          },
-          {
-            "modelId": "champion",
-            "played": 50,
-            "winRate": 0.2
-          },
-          {
-            "modelId": "beginner",
-            "played": 14,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 362,
-            "winRate": 0.4889502762430939
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "brass-rook",
-        "name": "Tour de laiton",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "attacker",
-          "automaton",
-          "boost-self",
-          "combo-1"
-        ],
-        "preferredPositions": [],
-        "offered": 1035,
-        "played": 361,
-        "ignored": 860,
-        "selectionRate": 0.34879227053140094,
-        "wins": 284,
-        "losses": 77,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7867036011080333,
-        "averageFlips": 0.3656509695290859,
-        "failedImpactRate": 0.6872037914691943,
-        "averageFlipMargin": 1.9772727272727273,
-        "averageEffectAmount": 3.6925207756232687,
-        "averageDamageDealt": 1.2271468144044322,
-        "averageDamageTaken": 0.31301939058171746,
-        "averageNetDamage": 0.9141274238227147,
-        "lethalMoves": 15,
-        "roundClosers": 56,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 166,
-            "winRate": 0.8795180722891566
-          },
-          {
-            "modelId": "expert",
-            "played": 81,
-            "winRate": 0.8271604938271605
-          },
-          {
-            "modelId": "opportunist",
-            "played": 56,
-            "winRate": 0.7142857142857143
-          },
-          {
-            "modelId": "champion",
-            "played": 45,
-            "winRate": 0.6888888888888889
-          },
-          {
-            "modelId": "beginner",
-            "played": 13,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 361,
-            "winRate": 0.7867036011080333
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "quiet-monk",
-        "name": "Moine du seuil",
-        "family": "human",
-        "rarity": "common",
-        "role": "anchor",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "anchor",
-          "boost-self",
           "combo-2",
-          "edge",
-          "human"
+          "connector",
+          "draw-next-turn",
+          "familiar",
+          "flip-1"
         ],
-        "preferredPositions": [
-          "edge"
-        ],
-        "offered": 509,
-        "played": 355,
-        "ignored": 421,
-        "selectionRate": 0.6974459724950884,
-        "wins": 150,
-        "losses": 205,
+        "preferredPositions": [],
+        "offered": 615,
+        "played": 376,
+        "ignored": 495,
+        "selectionRate": 0.6113821138211382,
+        "wins": 217,
+        "losses": 159,
         "draws": 0,
-        "winRateWhenPlayed": 0.4225352112676056,
-        "averageFlips": 0.29577464788732394,
-        "failedImpactRate": 0.4723618090452261,
-        "averageFlipMargin": 1.9619047619047618,
-        "averageEffectAmount": 3.5183098591549298,
-        "averageDamageDealt": 0.23943661971830985,
-        "averageDamageTaken": 0.07323943661971831,
-        "averageNetDamage": 0.16619718309859155,
-        "lethalMoves": 2,
-        "roundClosers": 8,
+        "winRateWhenPlayed": 0.5771276595744681,
+        "averageFlips": 0.4521276595744681,
+        "failedImpactRate": 0.40350877192982454,
+        "averageFlipMargin": 2.135294117647059,
+        "averageEffectAmount": 2.327127659574468,
+        "averageDamageDealt": 0.1196808510638298,
+        "averageDamageTaken": 0.034574468085106384,
+        "averageNetDamage": 0.08510638297872342,
+        "lethalMoves": 4,
+        "roundClosers": 6,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 143,
-            "winRate": 0.3076923076923077
-          },
-          {
-            "modelId": "expert",
-            "played": 90,
-            "winRate": 0.6111111111111112
+            "played": 174,
+            "winRate": 0.42528735632183906
           },
           {
             "modelId": "opportunist",
-            "played": 64,
-            "winRate": 0.546875
+            "played": 84,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "expert",
+            "played": 68,
+            "winRate": 0.9117647058823529
           },
           {
             "modelId": "champion",
-            "played": 39,
-            "winRate": 0.41025641025641024
+            "played": 31,
+            "winRate": 0.8064516129032258
           },
           {
             "modelId": "beginner",
@@ -9346,168 +8496,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 355,
-            "winRate": 0.4225352112676056
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "rune-mage",
-        "name": "Mage des runes",
-        "family": "human",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 11,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "boost-self",
-          "combo-2",
-          "connector",
-          "draw-next-turn",
-          "human"
-        ],
-        "preferredPositions": [],
-        "offered": 446,
-        "played": 355,
-        "ignored": 348,
-        "selectionRate": 0.7959641255605381,
-        "wins": 134,
-        "losses": 221,
-        "draws": 0,
-        "winRateWhenPlayed": 0.37746478873239436,
-        "averageFlips": 0.23943661971830985,
-        "failedImpactRate": 0.5355191256830601,
-        "averageFlipMargin": 2.023529411764706,
-        "averageEffectAmount": 4.411267605633803,
-        "averageDamageDealt": 0.08450704225352113,
-        "averageDamageTaken": 0.02535211267605634,
-        "averageNetDamage": 0.059154929577464786,
-        "lethalMoves": 0,
-        "roundClosers": 4,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 148,
-            "winRate": 0.20270270270270271
-          },
-          {
-            "modelId": "expert",
-            "played": 83,
-            "winRate": 0.6024096385542169
-          },
-          {
-            "modelId": "opportunist",
-            "played": 70,
-            "winRate": 0.5285714285714286
-          },
-          {
-            "modelId": "champion",
-            "played": 38,
-            "winRate": 0.4473684210526316
-          },
-          {
-            "modelId": "beginner",
-            "played": 16,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 355,
-            "winRate": 0.37746478873239436
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "badger",
-        "name": "Poney runique",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "attacker",
-          "corner",
-          "familiar",
-          "gain-shield"
-        ],
-        "preferredPositions": [
-          "corner"
-        ],
-        "offered": 655,
-        "played": 350,
-        "ignored": 451,
-        "selectionRate": 0.5343511450381679,
-        "wins": 202,
-        "losses": 148,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5771428571428572,
-        "averageFlips": 0.18285714285714286,
-        "failedImpactRate": 0.7130044843049327,
-        "averageFlipMargin": 1.84375,
-        "averageEffectAmount": 1.8857142857142857,
-        "averageDamageDealt": 0.6285714285714286,
-        "averageDamageTaken": 0.16,
-        "averageNetDamage": 0.4685714285714285,
-        "lethalMoves": 11,
-        "roundClosers": 26,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 166,
-            "winRate": 0.4939759036144578
-          },
-          {
-            "modelId": "expert",
-            "played": 68,
-            "winRate": 0.8823529411764706
-          },
-          {
-            "modelId": "opportunist",
-            "played": 61,
-            "winRate": 0.4098360655737705
-          },
-          {
-            "modelId": "champion",
-            "played": 38,
-            "winRate": 0.7894736842105263
-          },
-          {
-            "modelId": "beginner",
-            "played": 17,
-            "winRate": 0.29411764705882354
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 350,
-            "winRate": 0.5771428571428572
+            "played": 376,
+            "winRate": 0.5771276595744681
           }
         ],
         "status": "healthy",
@@ -9538,125 +8528,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "behind"
         ],
-        "offered": 474,
-        "played": 347,
-        "ignored": 328,
-        "selectionRate": 0.7320675105485233,
-        "wins": 132,
-        "losses": 215,
+        "offered": 493,
+        "played": 371,
+        "ignored": 333,
+        "selectionRate": 0.7525354969574036,
+        "wins": 151,
+        "losses": 220,
         "draws": 0,
-        "winRateWhenPlayed": 0.3804034582132565,
-        "averageFlips": 0.2420749279538905,
-        "failedImpactRate": 0.4939759036144578,
-        "averageFlipMargin": 2.130952380952381,
-        "averageEffectAmount": 3.0979827089337175,
-        "averageDamageDealt": 0.2507204610951009,
-        "averageDamageTaken": 0.02881844380403458,
-        "averageNetDamage": 0.2219020172910663,
+        "winRateWhenPlayed": 0.40700808625336926,
+        "averageFlips": 0.2695417789757412,
+        "failedImpactRate": 0.45652173913043476,
+        "averageFlipMargin": 2.03,
+        "averageEffectAmount": 3.1132075471698113,
+        "averageDamageDealt": 0.11859838274932614,
+        "averageDamageTaken": 0.016172506738544475,
+        "averageNetDamage": 0.10242587601078167,
         "lethalMoves": 3,
-        "roundClosers": 7,
+        "roundClosers": 3,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 140,
-            "winRate": 0.09285714285714286
+            "played": 158,
+            "winRate": 0.11392405063291139
           },
           {
             "modelId": "expert",
             "played": 90,
-            "winRate": 0.6444444444444445
+            "winRate": 0.5777777777777777
           },
           {
             "modelId": "opportunist",
+            "played": 54,
+            "winRate": 0.7962962962962963
+          },
+          {
+            "modelId": "champion",
             "played": 48,
-            "winRate": 0.7291666666666666
-          },
-          {
-            "modelId": "champion",
-            "played": 47,
-            "winRate": 0.5106382978723404
+            "winRate": 0.7916666666666666
           },
           {
             "modelId": "beginner",
-            "played": 22,
-            "winRate": 0.09090909090909091
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 347,
-            "winRate": 0.3804034582132565
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "field-knight",
-        "name": "Chevaliere des champs",
-        "family": "human",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "combo-2",
-          "gain-shield",
-          "human",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 707,
-        "played": 343,
-        "ignored": 520,
-        "selectionRate": 0.48514851485148514,
-        "wins": 147,
-        "losses": 196,
-        "draws": 0,
-        "winRateWhenPlayed": 0.42857142857142855,
-        "averageFlips": 0.2478134110787172,
-        "failedImpactRate": 0.7007042253521126,
-        "averageFlipMargin": 2.0823529411764707,
-        "averageEffectAmount": 3.247813411078717,
-        "averageDamageDealt": 0.5072886297376094,
-        "averageDamageTaken": 0.15743440233236153,
-        "averageNetDamage": 0.34985422740524785,
-        "lethalMoves": 6,
-        "roundClosers": 20,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 136,
-            "winRate": 0.29411764705882354
-          },
-          {
-            "modelId": "expert",
-            "played": 88,
-            "winRate": 0.6022727272727273
-          },
-          {
-            "modelId": "opportunist",
-            "played": 64,
-            "winRate": 0.59375
-          },
-          {
-            "modelId": "champion",
-            "played": 39,
-            "winRate": 0.41025641025641024
-          },
-          {
-            "modelId": "beginner",
-            "played": 16,
+            "played": 21,
             "winRate": 0
           }
         ],
@@ -9665,91 +8577,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 343,
-            "winRate": 0.42857142857142855
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "moth-ghost",
-        "name": "Fantome phalene",
-        "family": "revenant",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "behind-on-board",
-          "boost-self",
-          "combo-2",
-          "draw-next-turn",
-          "payoff",
-          "revenant"
-        ],
-        "preferredPositions": [
-          "behind"
-        ],
-        "offered": 561,
-        "played": 343,
-        "ignored": 439,
-        "selectionRate": 0.6114081996434938,
-        "wins": 139,
-        "losses": 204,
-        "draws": 0,
-        "winRateWhenPlayed": 0.40524781341107874,
-        "averageFlips": 0.22448979591836735,
-        "failedImpactRate": 0.6188118811881188,
-        "averageFlipMargin": 1.974025974025974,
-        "averageEffectAmount": 3.3527696793002915,
-        "averageDamageDealt": 0.3032069970845481,
-        "averageDamageTaken": 0.1661807580174927,
-        "averageNetDamage": 0.1370262390670554,
-        "lethalMoves": 4,
-        "roundClosers": 14,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 139,
-            "winRate": 0.1510791366906475
-          },
-          {
-            "modelId": "expert",
-            "played": 89,
-            "winRate": 0.6179775280898876
-          },
-          {
-            "modelId": "opportunist",
-            "played": 51,
-            "winRate": 0.7450980392156863
-          },
-          {
-            "modelId": "champion",
-            "played": 48,
-            "winRate": 0.4791666666666667
-          },
-          {
-            "modelId": "beginner",
-            "played": 16,
-            "winRate": 0.125
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 343,
-            "winRate": 0.40524781341107874
+            "played": 371,
+            "winRate": 0.40700808625336926
           }
         ],
         "status": "healthy",
@@ -9779,366 +8608,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "behind"
         ],
-        "offered": 526,
-        "played": 341,
-        "ignored": 386,
-        "selectionRate": 0.6482889733840305,
-        "wins": 120,
-        "losses": 221,
+        "offered": 550,
+        "played": 371,
+        "ignored": 405,
+        "selectionRate": 0.6745454545454546,
+        "wins": 131,
+        "losses": 240,
         "draws": 0,
-        "winRateWhenPlayed": 0.3519061583577713,
-        "averageFlips": 0.2785923753665689,
-        "failedImpactRate": 0.5497630331753555,
-        "averageFlipMargin": 1.7789473684210526,
-        "averageEffectAmount": 3.167155425219941,
-        "averageDamageDealt": 0.26392961876832843,
-        "averageDamageTaken": 0.0469208211143695,
-        "averageNetDamage": 0.21700879765395892,
-        "lethalMoves": 6,
-        "roundClosers": 7,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 137,
-            "winRate": 0.0948905109489051
-          },
-          {
-            "modelId": "expert",
-            "played": 89,
-            "winRate": 0.5842696629213483
-          },
-          {
-            "modelId": "opportunist",
-            "played": 47,
-            "winRate": 0.723404255319149
-          },
-          {
-            "modelId": "champion",
-            "played": 47,
-            "winRate": 0.40425531914893614
-          },
-          {
-            "modelId": "beginner",
-            "played": 21,
-            "winRate": 0.09523809523809523
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 341,
-            "winRate": 0.3519061583577713
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "heron",
-        "name": "Oiselle aubeplume",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "combo-2",
-          "connector",
-          "draw-next-turn",
-          "familiar",
-          "flip-1"
-        ],
-        "preferredPositions": [],
-        "offered": 570,
-        "played": 339,
-        "ignored": 482,
-        "selectionRate": 0.5947368421052631,
-        "wins": 195,
-        "losses": 144,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5752212389380531,
-        "averageFlips": 0.3687315634218289,
-        "failedImpactRate": 0.42660550458715596,
-        "averageFlipMargin": 2.016,
-        "averageEffectAmount": 2.174041297935103,
-        "averageDamageDealt": 0.19469026548672566,
-        "averageDamageTaken": 0.02064896755162242,
-        "averageNetDamage": 0.17404129793510326,
-        "lethalMoves": 4,
+        "winRateWhenPlayed": 0.353099730458221,
+        "averageFlips": 0.261455525606469,
+        "failedImpactRate": 0.5025641025641026,
+        "averageFlipMargin": 1.9896907216494846,
+        "averageEffectAmount": 3.2776280323450133,
+        "averageDamageDealt": 0.18867924528301888,
+        "averageDamageTaken": 0.09703504043126684,
+        "averageNetDamage": 0.09164420485175204,
+        "lethalMoves": 3,
         "roundClosers": 6,
         "byModel": [
           {
             "modelId": "regular",
-            "played": 162,
-            "winRate": 0.4876543209876543
+            "played": 151,
+            "winRate": 0.0728476821192053
           },
           {
             "modelId": "expert",
-            "played": 65,
-            "winRate": 0.8769230769230769
+            "played": 93,
+            "winRate": 0.5268817204301075
           },
           {
             "modelId": "opportunist",
-            "played": 61,
-            "winRate": 0.47540983606557374
+            "played": 49,
+            "winRate": 0.7551020408163265
           },
           {
             "modelId": "champion",
-            "played": 33,
-            "winRate": 0.7575757575757576
-          },
-          {
-            "modelId": "beginner",
-            "played": 18,
-            "winRate": 0.2777777777777778
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 339,
-            "winRate": 0.5752212389380531
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "foxfire",
-        "name": "Requin runefer",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "combo-2",
-          "familiar",
-          "flip-1",
-          "gain-shield",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 841,
-        "played": 306,
-        "ignored": 691,
-        "selectionRate": 0.3638525564803805,
-        "wins": 171,
-        "losses": 135,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5588235294117647,
-        "averageFlips": 0.3235294117647059,
-        "failedImpactRate": 0.6666666666666666,
-        "averageFlipMargin": 1.9393939393939394,
-        "averageEffectAmount": 1.4705882352941178,
-        "averageDamageDealt": 1.1895424836601307,
-        "averageDamageTaken": 0.35947712418300654,
-        "averageNetDamage": 0.8300653594771241,
-        "lethalMoves": 15,
-        "roundClosers": 48,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 143,
-            "winRate": 0.5104895104895105
-          },
-          {
-            "modelId": "opportunist",
-            "played": 59,
-            "winRate": 0.4576271186440678
-          },
-          {
-            "modelId": "expert",
-            "played": 57,
-            "winRate": 0.8245614035087719
-          },
-          {
-            "modelId": "champion",
-            "played": 32,
-            "winRate": 0.6875
-          },
-          {
-            "modelId": "beginner",
-            "played": 15,
-            "winRate": 0.13333333333333333
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 306,
-            "winRate": 0.5588235294117647
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "moon-scribe",
-        "name": "Scribe lunaire",
-        "family": "arcane",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "adjacent-enemy",
-          "arcane",
-          "attacker",
-          "boost-self"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 1147,
-        "played": 283,
-        "ignored": 938,
-        "selectionRate": 0.24673060156931126,
-        "wins": 144,
-        "losses": 139,
-        "draws": 0,
-        "winRateWhenPlayed": 0.508833922261484,
-        "averageFlips": 0.17314487632508835,
-        "failedImpactRate": 0.8171641791044776,
-        "averageFlipMargin": 1.4285714285714286,
-        "averageEffectAmount": 0.8409893992932862,
-        "averageDamageDealt": 1.5830388692579505,
-        "averageDamageTaken": 0.6395759717314488,
-        "averageNetDamage": 0.9434628975265017,
-        "lethalMoves": 17,
-        "roundClosers": 68,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 130,
-            "winRate": 0.5307692307692308
-          },
-          {
-            "modelId": "expert",
-            "played": 67,
-            "winRate": 0.5074626865671642
-          },
-          {
-            "modelId": "opportunist",
-            "played": 44,
-            "winRate": 0.75
-          },
-          {
-            "modelId": "champion",
-            "played": 29,
-            "winRate": 0.27586206896551724
-          },
-          {
-            "modelId": "beginner",
-            "played": 13,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 283,
-            "winRate": 0.508833922261484
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "path-ranger",
-        "name": "Rodeuse du sentier",
-        "family": "human",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "attacker",
-          "boost-self",
-          "combo-2",
-          "edge",
-          "human"
-        ],
-        "preferredPositions": [
-          "edge"
-        ],
-        "offered": 927,
-        "played": 261,
-        "ignored": 774,
-        "selectionRate": 0.2815533980582524,
-        "wins": 95,
-        "losses": 166,
-        "draws": 0,
-        "winRateWhenPlayed": 0.36398467432950193,
-        "averageFlips": 0.14942528735632185,
-        "failedImpactRate": 0.803030303030303,
-        "averageFlipMargin": 1.7692307692307692,
-        "averageEffectAmount": 1.260536398467433,
-        "averageDamageDealt": 1.0651340996168583,
-        "averageDamageTaken": 0.5593869731800766,
-        "averageNetDamage": 0.5057471264367818,
-        "lethalMoves": 9,
-        "roundClosers": 41,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 105,
-            "winRate": 0.23809523809523808
-          },
-          {
-            "modelId": "expert",
-            "played": 63,
-            "winRate": 0.5873015873015873
-          },
-          {
-            "modelId": "opportunist",
             "played": 47,
-            "winRate": 0.48936170212765956
-          },
-          {
-            "modelId": "champion",
-            "played": 27,
-            "winRate": 0.37037037037037035
+            "winRate": 0.723404255319149
           },
           {
             "modelId": "beginner",
-            "played": 19,
+            "played": 31,
             "winRate": 0
           }
         ],
@@ -10147,1884 +8657,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 261,
-            "winRate": 0.36398467432950193
+            "played": 371,
+            "winRate": 0.353099730458221
           }
         ],
         "status": "healthy",
         "notes": [
           "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "pact-sprite",
-        "name": "Lutin a pacte",
-        "family": "demon",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 3,
-        "minSide": 3,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "adjacent-enemy",
-          "boost-self",
-          "combo-1",
-          "connector",
-          "demon"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 402,
-        "played": 219,
-        "ignored": 345,
-        "selectionRate": 0.5447761194029851,
-        "wins": 142,
-        "losses": 77,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6484018264840182,
-        "averageFlips": 0.8127853881278538,
-        "failedImpactRate": 0.09644670050761421,
-        "averageFlipMargin": 2.146067415730337,
-        "averageEffectAmount": 1.0776255707762556,
-        "averageDamageDealt": 1.0365296803652968,
-        "averageDamageTaken": 0.2374429223744292,
-        "averageNetDamage": 0.7990867579908676,
-        "lethalMoves": 10,
-        "roundClosers": 7,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 96,
-            "winRate": 0.5625
-          },
-          {
-            "modelId": "expert",
-            "played": 43,
-            "winRate": 0.7906976744186046
-          },
-          {
-            "modelId": "opportunist",
-            "played": 40,
-            "winRate": 0.925
-          },
-          {
-            "modelId": "champion",
-            "played": 23,
-            "winRate": 0.7391304347826086
-          },
-          {
-            "modelId": "beginner",
-            "played": 17,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 219,
-            "winRate": 0.6484018264840182
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "ember-imp",
-        "name": "Diablotin braise",
-        "family": "demon",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "attacker",
-          "deal-damage",
-          "demon",
-          "flip-1"
-        ],
-        "preferredPositions": [],
-        "offered": 454,
-        "played": 212,
-        "ignored": 346,
-        "selectionRate": 0.4669603524229075,
-        "wins": 139,
-        "losses": 73,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6556603773584906,
-        "averageFlips": 0.6698113207547169,
-        "failedImpactRate": 0.2828282828282828,
-        "averageFlipMargin": 1.9859154929577465,
-        "averageEffectAmount": 1.278301886792453,
-        "averageDamageDealt": 1.8632075471698113,
-        "averageDamageTaken": 0.4339622641509434,
-        "averageNetDamage": 1.4292452830188678,
-        "lethalMoves": 12,
-        "roundClosers": 18,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 81,
-            "winRate": 0.5555555555555556
-          },
-          {
-            "modelId": "expert",
-            "played": 47,
-            "winRate": 0.8297872340425532
-          },
-          {
-            "modelId": "opportunist",
-            "played": 37,
-            "winRate": 0.8918918918918919
-          },
-          {
-            "modelId": "champion",
-            "played": 26,
-            "winRate": 0.8461538461538461
-          },
-          {
-            "modelId": "beginner",
-            "played": 21,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 212,
-            "winRate": 0.6556603773584906
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "cinder-grin",
-        "name": "Sourire de suie",
-        "family": "demon",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 11,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "combo-2",
-          "deal-damage",
-          "demon",
-          "flip-1",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 488,
-        "played": 195,
-        "ignored": 388,
-        "selectionRate": 0.39959016393442626,
-        "wins": 119,
-        "losses": 76,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6102564102564103,
-        "averageFlips": 0.5897435897435898,
-        "failedImpactRate": 0.39790575916230364,
-        "averageFlipMargin": 2.1652173913043478,
-        "averageEffectAmount": 0.7333333333333333,
-        "averageDamageDealt": 1.6974358974358974,
-        "averageDamageTaken": 0.8666666666666667,
-        "averageNetDamage": 0.8307692307692307,
-        "lethalMoves": 11,
-        "roundClosers": 24,
-        "byModel": [
-          {
-            "modelId": "regular",
-            "played": 85,
-            "winRate": 0.5176470588235295
-          },
-          {
-            "modelId": "expert",
-            "played": 42,
-            "winRate": 0.7142857142857143
-          },
-          {
-            "modelId": "opportunist",
-            "played": 32,
-            "winRate": 0.875
-          },
-          {
-            "modelId": "champion",
-            "played": 23,
-            "winRate": 0.7391304347826086
-          },
-          {
-            "modelId": "beginner",
-            "played": 13,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Depart actuel - famille 12 cartes",
-            "startingDeckCardCount": 12,
-            "played": 195,
-            "winRate": 0.6102564102564103
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      }
-    ],
-    "familyAnalytics": [
-      {
-        "id": "automaton",
-        "label": "automaton",
-        "offered": 2680,
-        "played": 1496,
-        "ignored": 2076,
-        "selectionRate": 0.5582089552238806,
-        "wins": 1154,
-        "losses": 342,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7713903743315508,
-        "averageFlips": 0.2733957219251337,
-        "averageDamageDealt": 0.536096256684492,
-        "averageNetDamage": 0.40307486631016043,
-        "topCards": [
-          {
-            "cardId": "gear-monk",
-            "name": "Moine engrene",
-            "played": 388,
-            "winRateWhenPlayed": 0.7989690721649485
-          },
-          {
-            "cardId": "clock-sentinel",
-            "name": "Sentinelle d'horloge",
-            "played": 380,
-            "winRateWhenPlayed": 0.7710526315789473
-          },
-          {
-            "cardId": "tin-oracle",
-            "name": "Oracle de fer-blanc",
-            "played": 367,
-            "winRateWhenPlayed": 0.7275204359673024
-          },
-          {
-            "cardId": "brass-rook",
-            "name": "Tour de laiton",
-            "played": 361,
-            "winRateWhenPlayed": 0.7867036011080333
-          }
-        ],
-        "status": "overperformer",
-        "notes": [
-          "La famille gagne trop souvent sur cet echantillon."
-        ]
-      },
-      {
-        "id": "arcane",
-        "label": "arcane",
-        "offered": 2882,
-        "played": 1440,
-        "ignored": 2271,
-        "selectionRate": 0.4996530187369882,
-        "wins": 718,
-        "losses": 722,
-        "draws": 0,
-        "winRateWhenPlayed": 0.4986111111111111,
-        "averageFlips": 0.21041666666666667,
-        "averageDamageDealt": 0.4236111111111111,
-        "averageNetDamage": 0.2659722222222222,
-        "topCards": [
-          {
-            "cardId": "rune-adept",
-            "name": "Adepte sigillaire",
-            "played": 406,
-            "winRateWhenPlayed": 0.5049261083743842
-          },
-          {
-            "cardId": "wandering-glyph",
-            "name": "Glyphe errant",
-            "played": 389,
-            "winRateWhenPlayed": 0.493573264781491
-          },
-          {
-            "cardId": "star-witch",
-            "name": "Sorciere d'etoiles",
-            "played": 362,
-            "winRateWhenPlayed": 0.4889502762430939
-          },
-          {
-            "cardId": "moon-scribe",
-            "name": "Scribe lunaire",
-            "played": 283,
-            "winRateWhenPlayed": 0.508833922261484
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "familiar",
-        "label": "familiar",
-        "offered": 2527,
-        "played": 1371,
-        "ignored": 1949,
-        "selectionRate": 0.5425405619311436,
-        "wins": 800,
-        "losses": 571,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5835156819839533,
-        "averageFlips": 0.2939460247994165,
-        "averageDamageDealt": 0.5441283734500365,
-        "averageNetDamage": 0.4121079504011671,
-        "topCards": [
-          {
-            "cardId": "sapling",
-            "name": "Floramie toxique",
-            "played": 376,
-            "winRateWhenPlayed": 0.6170212765957447
-          },
-          {
-            "cardId": "badger",
-            "name": "Poney runique",
-            "played": 350,
-            "winRateWhenPlayed": 0.5771428571428572
-          },
-          {
-            "cardId": "heron",
-            "name": "Oiselle aubeplume",
-            "played": 339,
-            "winRateWhenPlayed": 0.5752212389380531
-          },
-          {
-            "cardId": "foxfire",
-            "name": "Requin runefer",
-            "played": 306,
-            "winRateWhenPlayed": 0.5588235294117647
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "human",
-        "label": "human",
-        "offered": 2589,
-        "played": 1314,
-        "ignored": 2063,
-        "selectionRate": 0.507531865585168,
-        "wins": 526,
-        "losses": 788,
-        "draws": 0,
-        "winRateWhenPlayed": 0.4003044140030441,
-        "averageFlips": 0.2389649923896499,
-        "averageDamageDealt": 0.4315068493150685,
-        "averageNetDamage": 0.2526636225266362,
-        "topCards": [
-          {
-            "cardId": "quiet-monk",
-            "name": "Moine du seuil",
-            "played": 355,
-            "winRateWhenPlayed": 0.4225352112676056
-          },
-          {
-            "cardId": "rune-mage",
-            "name": "Mage des runes",
-            "played": 355,
-            "winRateWhenPlayed": 0.37746478873239436
-          },
-          {
-            "cardId": "field-knight",
-            "name": "Chevaliere des champs",
-            "played": 343,
-            "winRateWhenPlayed": 0.42857142857142855
-          },
-          {
-            "cardId": "path-ranger",
-            "name": "Rodeuse du sentier",
-            "played": 261,
-            "winRateWhenPlayed": 0.36398467432950193
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "La famille perd trop souvent sur cet echantillon."
-        ]
-      },
-      {
-        "id": "revenant",
-        "label": "revenant",
-        "offered": 2582,
-        "played": 1310,
-        "ignored": 2049,
-        "selectionRate": 0.5073586367157242,
-        "wins": 482,
-        "losses": 828,
-        "draws": 0,
-        "winRateWhenPlayed": 0.36793893129770994,
-        "averageFlips": 0.25267175572519085,
-        "averageDamageDealt": 0.42366412213740456,
-        "averageNetDamage": 0.22900763358778625,
-        "topCards": [
-          {
-            "cardId": "grave-child",
-            "name": "Enfant des tombes",
-            "played": 347,
-            "winRateWhenPlayed": 0.3804034582132565
-          },
-          {
-            "cardId": "moth-ghost",
-            "name": "Fantome phalene",
-            "played": 343,
-            "winRateWhenPlayed": 0.40524781341107874
-          },
-          {
-            "cardId": "lantern-shade",
-            "name": "Ombre a lanterne",
-            "played": 341,
-            "winRateWhenPlayed": 0.3519061583577713
-          },
-          {
-            "cardId": "widow-knight",
-            "name": "Chevalier veuf",
-            "played": 279,
-            "winRateWhenPlayed": 0.32616487455197135
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "La famille perd trop souvent sur cet echantillon."
-        ]
-      },
-      {
-        "id": "demon",
-        "label": "demon",
-        "offered": 1656,
-        "played": 859,
-        "ignored": 1307,
-        "selectionRate": 0.518719806763285,
-        "wins": 560,
-        "losses": 299,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6519208381839348,
-        "averageFlips": 0.7171129220023282,
-        "averageDamageDealt": 1.421420256111758,
-        "averageNetDamage": 1.0011641443538999,
-        "topCards": [
-          {
-            "cardId": "hornling",
-            "name": "Cornu farceur",
-            "played": 233,
-            "winRateWhenPlayed": 0.6866952789699571
-          },
-          {
-            "cardId": "pact-sprite",
-            "name": "Lutin a pacte",
-            "played": 219,
-            "winRateWhenPlayed": 0.6484018264840182
-          },
-          {
-            "cardId": "ember-imp",
-            "name": "Diablotin braise",
-            "played": 212,
-            "winRateWhenPlayed": 0.6556603773584906
-          },
-          {
-            "cardId": "cinder-grin",
-            "name": "Sourire de suie",
-            "played": 195,
-            "winRateWhenPlayed": 0.6102564102564103
-          }
-        ],
-        "status": "overperformer",
-        "notes": [
-          "La famille gagne trop souvent sur cet echantillon."
-        ]
-      }
-    ],
-    "roleAnalytics": [
-      {
-        "id": "anchor",
-        "label": "anchor",
-        "offered": 2831,
-        "played": 2074,
-        "ignored": 2138,
-        "selectionRate": 0.7326033203814907,
-        "wins": 1147,
-        "losses": 927,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5530376084860174,
-        "averageFlips": 0.3162970106075217,
-        "averageDamageDealt": 0.3611378977820636,
-        "averageNetDamage": 0.28495660559305686,
-        "topCards": [
-          {
-            "cardId": "wandering-glyph",
-            "name": "Glyphe errant",
-            "played": 389,
-            "winRateWhenPlayed": 0.493573264781491
-          },
-          {
-            "cardId": "clock-sentinel",
-            "name": "Sentinelle d'horloge",
-            "played": 380,
-            "winRateWhenPlayed": 0.7710526315789473
-          },
-          {
-            "cardId": "sapling",
-            "name": "Floramie toxique",
-            "played": 376,
-            "winRateWhenPlayed": 0.6170212765957447
-          },
-          {
-            "cardId": "quiet-monk",
-            "name": "Moine du seuil",
-            "played": 355,
-            "winRateWhenPlayed": 0.4225352112676056
-          },
-          {
-            "cardId": "lantern-shade",
-            "name": "Ombre a lanterne",
-            "played": 341,
-            "winRateWhenPlayed": 0.3519061583577713
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "connector",
-        "label": "connector",
-        "offered": 3004,
-        "played": 2054,
-        "ignored": 2315,
-        "selectionRate": 0.6837549933422103,
-        "wins": 1118,
-        "losses": 936,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5443037974683544,
-        "averageFlips": 0.34469328140214217,
-        "averageDamageDealt": 0.26046738072054526,
-        "averageNetDamage": 0.21567672833495616,
-        "topCards": [
-          {
-            "cardId": "rune-adept",
-            "name": "Adepte sigillaire",
-            "played": 406,
-            "winRateWhenPlayed": 0.5049261083743842
-          },
-          {
-            "cardId": "gear-monk",
-            "name": "Moine engrene",
-            "played": 388,
-            "winRateWhenPlayed": 0.7989690721649485
-          },
-          {
-            "cardId": "rune-mage",
-            "name": "Mage des runes",
-            "played": 355,
-            "winRateWhenPlayed": 0.37746478873239436
-          },
-          {
-            "cardId": "grave-child",
-            "name": "Enfant des tombes",
-            "played": 347,
-            "winRateWhenPlayed": 0.3804034582132565
-          },
-          {
-            "cardId": "heron",
-            "name": "Oiselle aubeplume",
-            "played": 339,
-            "winRateWhenPlayed": 0.5752212389380531
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "payoff",
-        "label": "payoff",
-        "offered": 3842,
-        "played": 1916,
-        "ignored": 2997,
-        "selectionRate": 0.4986985944820406,
-        "wins": 1020,
-        "losses": 896,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5323590814196242,
-        "averageFlips": 0.26670146137787054,
-        "averageDamageDealt": 0.6049060542797495,
-        "averageNetDamage": 0.3710855949895616,
-        "topCards": [
-          {
-            "cardId": "tin-oracle",
-            "name": "Oracle de fer-blanc",
-            "played": 367,
-            "winRateWhenPlayed": 0.7275204359673024
-          },
-          {
-            "cardId": "star-witch",
-            "name": "Sorciere d'etoiles",
-            "played": 362,
-            "winRateWhenPlayed": 0.4889502762430939
-          },
-          {
-            "cardId": "field-knight",
-            "name": "Chevaliere des champs",
-            "played": 343,
-            "winRateWhenPlayed": 0.42857142857142855
-          },
-          {
-            "cardId": "moth-ghost",
-            "name": "Fantome phalene",
-            "played": 343,
-            "winRateWhenPlayed": 0.40524781341107874
-          },
-          {
-            "cardId": "foxfire",
-            "name": "Requin runefer",
-            "played": 306,
-            "winRateWhenPlayed": 0.5588235294117647
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "attacker",
-        "label": "attacker",
-        "offered": 5239,
-        "played": 1746,
-        "ignored": 4265,
-        "selectionRate": 0.33326970795953426,
-        "wins": 955,
-        "losses": 791,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5469644902634594,
-        "averageFlips": 0.2869415807560137,
-        "averageDamageDealt": 1.1786941580756014,
-        "averageNetDamage": 0.7434135166093929,
-        "topCards": [
-          {
-            "cardId": "brass-rook",
-            "name": "Tour de laiton",
-            "played": 361,
-            "winRateWhenPlayed": 0.7867036011080333
-          },
-          {
-            "cardId": "badger",
-            "name": "Poney runique",
-            "played": 350,
-            "winRateWhenPlayed": 0.5771428571428572
-          },
-          {
-            "cardId": "moon-scribe",
-            "name": "Scribe lunaire",
-            "played": 283,
-            "winRateWhenPlayed": 0.508833922261484
-          },
-          {
-            "cardId": "widow-knight",
-            "name": "Chevalier veuf",
-            "played": 279,
-            "winRateWhenPlayed": 0.32616487455197135
-          },
-          {
-            "cardId": "path-ranger",
-            "name": "Rodeuse du sentier",
-            "played": 261,
-            "winRateWhenPlayed": 0.36398467432950193
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      }
-    ],
-    "rarityAnalytics": [
-      {
-        "id": "common",
-        "label": "common",
-        "offered": 14916,
-        "played": 7790,
-        "ignored": 11715,
-        "selectionRate": 0.5222579780101904,
-        "wins": 4240,
-        "losses": 3550,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5442875481386393,
-        "averageFlips": 0.30500641848523746,
-        "averageDamageDealt": 0.5777920410783055,
-        "averageNetDamage": 0.39062901155327345,
-        "topCards": [
-          {
-            "cardId": "rune-adept",
-            "name": "Adepte sigillaire",
-            "played": 406,
-            "winRateWhenPlayed": 0.5049261083743842
-          },
-          {
-            "cardId": "wandering-glyph",
-            "name": "Glyphe errant",
-            "played": 389,
-            "winRateWhenPlayed": 0.493573264781491
-          },
-          {
-            "cardId": "gear-monk",
-            "name": "Moine engrene",
-            "played": 388,
-            "winRateWhenPlayed": 0.7989690721649485
-          },
-          {
-            "cardId": "clock-sentinel",
-            "name": "Sentinelle d'horloge",
-            "played": 380,
-            "winRateWhenPlayed": 0.7710526315789473
-          },
-          {
-            "cardId": "sapling",
-            "name": "Floramie toxique",
-            "played": 376,
-            "winRateWhenPlayed": 0.6170212765957447
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      }
-    ],
-    "comboAnalytics": [
-      {
-        "id": "family-chain:arcane->arcane",
-        "kind": "family-chain",
-        "label": "arcane -> arcane",
-        "count": 416,
-        "wins": 196,
-        "losses": 220,
-        "draws": 0,
-        "winRate": 0.47115384615384615,
-        "averageFlips": 0.2091346153846154,
-        "averageDamageDealt": 0.9230769230769231,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "family-chain:automaton->automaton",
-        "kind": "family-chain",
-        "label": "automaton -> automaton",
-        "count": 410,
-        "wins": 319,
-        "losses": 91,
-        "draws": 0,
-        "winRate": 0.7780487804878049,
-        "averageFlips": 0.3121951219512195,
-        "averageDamageDealt": 1.0195121951219512,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Combo gagnant frequent."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:arcane+arcane",
-        "kind": "friendly-adjacent",
-        "label": "arcane allie + arcane",
-        "count": 369,
-        "wins": 199,
-        "losses": 170,
-        "draws": 0,
-        "winRate": 0.5392953929539296,
-        "averageFlips": 0.13008130081300814,
-        "averageDamageDealt": 1.7018970189701896,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "family-chain:familiar->familiar",
-        "kind": "family-chain",
-        "label": "familiar -> familiar",
-        "count": 366,
-        "wins": 207,
-        "losses": 159,
-        "draws": 0,
-        "winRate": 0.5655737704918032,
-        "averageFlips": 0.28688524590163933,
-        "averageDamageDealt": 0.994535519125683,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "family-chain:revenant->revenant",
-        "kind": "family-chain",
-        "label": "revenant -> revenant",
-        "count": 347,
-        "wins": 112,
-        "losses": 235,
-        "draws": 0,
-        "winRate": 0.3227665706051873,
-        "averageFlips": 0.276657060518732,
-        "averageDamageDealt": 0.6974063400576369,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "family-chain:human->human",
-        "kind": "family-chain",
-        "label": "human -> human",
-        "count": 345,
-        "wins": 114,
-        "losses": 231,
-        "draws": 0,
-        "winRate": 0.33043478260869563,
-        "averageFlips": 0.2144927536231884,
-        "averageDamageDealt": 0.7420289855072464,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:moth-ghost:boost-self",
-        "kind": "effect",
-        "label": "Fantome phalene -> boost-self",
-        "count": 317,
-        "wins": 126,
-        "losses": 191,
-        "draws": 0,
-        "winRate": 0.39747634069400634,
-        "averageFlips": 0.2302839116719243,
-        "averageDamageDealt": 0.3280757097791798,
-        "averageEffectAmount": 1.0567823343848581,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:gear-monk:draw-next-turn",
-        "kind": "effect",
-        "label": "Moine engrene -> draw-next-turn",
-        "count": 305,
-        "wins": 242,
-        "losses": 63,
-        "draws": 0,
-        "winRate": 0.7934426229508197,
-        "averageFlips": 0.32131147540983607,
-        "averageDamageDealt": 0.21311475409836064,
-        "averageEffectAmount": 1.2721311475409836,
-        "notes": [
-          "Combo gagnant frequent."
-        ]
-      },
-      {
-        "id": "effect:star-witch:boost-self",
-        "kind": "effect",
-        "label": "Sorciere d'etoiles -> boost-self",
-        "count": 295,
-        "wins": 145,
-        "losses": 150,
-        "draws": 0,
-        "winRate": 0.4915254237288136,
-        "averageFlips": 0.2135593220338983,
-        "averageDamageDealt": 0,
-        "averageEffectAmount": 1.2203389830508475,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:star-witch:draw-next-turn",
-        "kind": "effect",
-        "label": "Sorciere d'etoiles -> draw-next-turn",
-        "count": 295,
-        "wins": 145,
-        "losses": 150,
-        "draws": 0,
-        "winRate": 0.4915254237288136,
-        "averageFlips": 0.2135593220338983,
-        "averageDamageDealt": 0,
-        "averageEffectAmount": 1,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:moth-ghost:draw-next-turn",
-        "kind": "effect",
-        "label": "Fantome phalene -> draw-next-turn",
-        "count": 290,
-        "wins": 101,
-        "losses": 189,
-        "draws": 0,
-        "winRate": 0.3482758620689655,
-        "averageFlips": 0.2206896551724138,
-        "averageDamageDealt": 0.05517241379310345,
-        "averageEffectAmount": 1.0551724137931036,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:quiet-monk:boost-self",
-        "kind": "effect",
-        "label": "Moine du seuil -> boost-self",
-        "count": 278,
-        "wins": 110,
-        "losses": 168,
-        "draws": 0,
-        "winRate": 0.39568345323741005,
-        "averageFlips": 0.2517985611510791,
-        "averageDamageDealt": 0.1906474820143885,
-        "averageEffectAmount": 1.158273381294964,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:field-knight:gain-shield",
-        "kind": "effect",
-        "label": "Chevaliere des champs -> gain-shield",
-        "count": 277,
-        "wins": 105,
-        "losses": 172,
-        "draws": 0,
-        "winRate": 0.37906137184115524,
-        "averageFlips": 0.2563176895306859,
-        "averageDamageDealt": 0.34657039711191334,
-        "averageEffectAmount": 1.6750902527075813,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:rune-mage:draw-next-turn",
-        "kind": "effect",
-        "label": "Mage des runes -> draw-next-turn",
-        "count": 275,
-        "wins": 103,
-        "losses": 172,
-        "draws": 0,
-        "winRate": 0.37454545454545457,
-        "averageFlips": 0.23272727272727273,
-        "averageDamageDealt": 0.06909090909090909,
-        "averageEffectAmount": 1.2654545454545454,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:rune-mage:boost-self",
-        "kind": "effect",
-        "label": "Mage des runes -> boost-self",
-        "count": 272,
-        "wins": 102,
-        "losses": 170,
-        "draws": 0,
-        "winRate": 0.375,
-        "averageFlips": 0.22794117647058823,
-        "averageDamageDealt": 0.06985294117647059,
-        "averageEffectAmount": 1.2683823529411764,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:automaton+automaton",
-        "kind": "friendly-adjacent",
-        "label": "automaton allie + automaton",
-        "count": 266,
-        "wins": 236,
-        "losses": 30,
-        "draws": 0,
-        "winRate": 0.8872180451127819,
-        "averageFlips": 0.2593984962406015,
-        "averageDamageDealt": 2.4097744360902253,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Combo gagnant frequent.",
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "effect:lantern-shade:gain-shield",
-        "kind": "effect",
-        "label": "Ombre a lanterne -> gain-shield",
-        "count": 255,
-        "wins": 81,
-        "losses": 174,
-        "draws": 0,
-        "winRate": 0.3176470588235294,
-        "averageFlips": 0.25882352941176473,
-        "averageDamageDealt": 0.10980392156862745,
-        "averageEffectAmount": 1.2470588235294118,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:grave-child:draw-next-turn",
-        "kind": "effect",
-        "label": "Enfant des tombes -> draw-next-turn",
-        "count": 249,
-        "wins": 88,
-        "losses": 161,
-        "draws": 0,
-        "winRate": 0.3534136546184739,
-        "averageFlips": 0.24096385542168675,
-        "averageDamageDealt": 0.14457831325301204,
-        "averageEffectAmount": 1.285140562248996,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:familiar+familiar",
-        "kind": "friendly-adjacent",
-        "label": "familiar allie + familiar",
-        "count": 240,
-        "wins": 157,
-        "losses": 83,
-        "draws": 0,
-        "winRate": 0.6541666666666667,
-        "averageFlips": 0.18333333333333332,
-        "averageDamageDealt": 1.7458333333333333,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "effect:brass-rook:boost-self",
-        "kind": "effect",
-        "label": "Tour de laiton -> boost-self",
-        "count": 226,
-        "wins": 176,
-        "losses": 50,
-        "draws": 0,
-        "winRate": 0.7787610619469026,
-        "averageFlips": 0.3053097345132743,
-        "averageDamageDealt": 1.5973451327433628,
-        "averageEffectAmount": 2.517699115044248,
-        "notes": [
-          "Combo gagnant frequent.",
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "effect:gear-monk:boost-self",
-        "kind": "effect",
-        "label": "Moine engrene -> boost-self",
-        "count": 214,
-        "wins": 168,
-        "losses": 46,
-        "draws": 0,
-        "winRate": 0.7850467289719626,
-        "averageFlips": 0.34579439252336447,
-        "averageDamageDealt": 0.1308411214953271,
-        "averageEffectAmount": 1.5420560747663552,
-        "notes": [
-          "Combo gagnant frequent."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:human+human",
-        "kind": "friendly-adjacent",
-        "label": "human allie + human",
-        "count": 214,
-        "wins": 77,
-        "losses": 137,
-        "draws": 0,
-        "winRate": 0.3598130841121495,
-        "averageFlips": 0.11214953271028037,
-        "averageDamageDealt": 1.485981308411215,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "family-chain:demon->demon",
-        "kind": "family-chain",
-        "label": "demon -> demon",
-        "count": 211,
-        "wins": 131,
-        "losses": 80,
-        "draws": 0,
-        "winRate": 0.6208530805687204,
-        "averageFlips": 0.6161137440758294,
-        "averageDamageDealt": 1.8151658767772512,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Produit beaucoup de flips.",
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:revenant+revenant",
-        "kind": "friendly-adjacent",
-        "label": "revenant allie + revenant",
-        "count": 206,
-        "wins": 79,
-        "losses": 127,
-        "draws": 0,
-        "winRate": 0.38349514563106796,
-        "averageFlips": 0.18446601941747573,
-        "averageDamageDealt": 1.7572815533980584,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Convertit bien en degats."
-        ]
-      }
-    ],
-    "balanceRecommendations": [
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 312,
-        "id": "card-hornling-nerf",
-        "severity": "problem",
-        "action": "nerf",
-        "title": "Cornu farceur tire trop de valeur",
-        "detail": "233 plays, 69% win, 0.78 flips/play, net PV 0.94.",
-        "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 1021,
-        "id": "card-widow-knight-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Chevalier veuf sous-performe",
-        "detail": "279 plays, 33% win, net PV 0.37.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "family",
-        "confidence": "high",
-        "sampleSize": 2680,
-        "id": "family-automaton-nerf",
-        "severity": "problem",
-        "action": "watch",
-        "title": "automaton domine l'echantillon",
-        "detail": "1496 plays, 77% win, net PV 0.40.",
-        "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
-      },
-      {
-        "target": "family",
-        "confidence": "high",
-        "sampleSize": 1656,
-        "id": "family-demon-nerf",
-        "severity": "problem",
-        "action": "watch",
-        "title": "demon domine l'echantillon",
-        "detail": "859 plays, 65% win, net PV 1.00.",
-        "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
-      },
-      {
-        "target": "family",
-        "confidence": "high",
-        "sampleSize": 2589,
-        "id": "family-human-buff",
-        "severity": "watch",
-        "action": "verify",
-        "title": "human manque d'attraction",
-        "detail": "2589 offres, 51% selection, 40% win.",
-        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
-      },
-      {
-        "target": "family",
-        "confidence": "high",
-        "sampleSize": 2582,
-        "id": "family-revenant-buff",
-        "severity": "watch",
-        "action": "verify",
-        "title": "revenant manque d'attraction",
-        "detail": "2582 offres, 51% selection, 37% win.",
-        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
-      },
-      {
-        "id": "combo-family-chain:automaton->automaton",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 410,
-        "title": "automaton -> automaton ressort comme combo",
-        "detail": "410 occurrences, 78% win, 0.31 flips, 1.02 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-effect:gear-monk:draw-next-turn",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 305,
-        "title": "Moine engrene -> draw-next-turn ressort comme combo",
-        "detail": "305 occurrences, 79% win, 0.32 flips, 0.21 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-friendly-adjacent:automaton+automaton",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 266,
-        "title": "automaton allie + automaton ressort comme combo",
-        "detail": "266 occurrences, 89% win, 0.26 flips, 2.41 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-effect:brass-rook:boost-self",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 226,
-        "title": "Tour de laiton -> boost-self ressort comme combo",
-        "detail": "226 occurrences, 78% win, 0.31 flips, 1.60 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-effect:gear-monk:boost-self",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 214,
-        "title": "Moine engrene -> boost-self ressort comme combo",
-        "detail": "214 occurrences, 79% win, 0.35 flips, 0.13 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-family-chain:demon->demon",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 211,
-        "title": "demon -> demon ressort comme combo",
-        "detail": "211 occurrences, 62% win, 0.62 flips, 1.82 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "id": "combo-friendly-adjacent:revenant+revenant",
-        "severity": "watch",
-        "target": "combo",
-        "action": "verify",
-        "confidence": "high",
-        "sampleSize": 206,
-        "title": "revenant allie + revenant ressort comme combo",
-        "detail": "206 occurrences, 38% win, 0.18 flips, 1.76 degats.",
-        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      }
-    ]
-  },
-  "adventureDiagnostics": {
-    "baselineWinRate": 0.7895029158567065,
-    "cardAnalytics": [
-      {
-        "cardId": "reward-common-02",
-        "name": "Carte commune 02",
-        "family": "demon",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "enemy-upgrade",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "attacker",
-          "common",
-          "deal-damage",
-          "demon"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 16,
-        "played": 7,
-        "ignored": 14,
-        "selectionRate": 0.4375,
-        "wins": 7,
-        "losses": 0,
-        "draws": 0,
-        "winRateWhenPlayed": 1,
-        "averageFlips": 0.8571428571428571,
-        "failedImpactRate": 0.14285714285714285,
-        "averageFlipMargin": 1.1666666666666667,
-        "averageEffectAmount": 1,
-        "averageDamageDealt": 1.7142857142857142,
-        "averageDamageTaken": 0.8571428571428571,
-        "averageNetDamage": 0.8571428571428571,
-        "lethalMoves": 1,
-        "roundClosers": 1,
-        "byModel": [
-          {
-            "modelId": "opportunist",
-            "played": 6,
-            "winRate": 1
-          },
-          {
-            "modelId": "champion",
-            "played": 1,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 7,
-            "winRate": 1
-          }
-        ],
-        "status": "overperformer",
-        "notes": [
-          "Surperforme en victoire et impact immediat face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "reward-rare-01",
-        "name": "Carte rare 01",
-        "family": "familiar",
-        "rarity": "rare",
-        "role": "finisher",
-        "sourceType": "enemy-upgrade",
-        "sideTotal": 14,
-        "maxSide": 6,
-        "minSide": 2,
-        "effectKinds": [
-          "apply-poison"
-        ],
-        "buildTags": [
-          "apply-poison",
-          "combo-3",
-          "familiar",
-          "finisher",
-          "rare"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 16,
-        "played": 0,
-        "ignored": 16,
-        "selectionRate": 0,
-        "wins": 0,
-        "losses": 0,
-        "draws": 0,
-        "winRateWhenPlayed": 0,
-        "averageFlips": 0,
-        "failedImpactRate": 0,
-        "averageFlipMargin": 0,
-        "averageEffectAmount": 0,
-        "averageDamageDealt": 0,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0,
-        "lethalMoves": 0,
-        "roundClosers": 0,
-        "byModel": [],
-        "byScenario": [],
-        "status": "ignored",
-        "notes": [
-          "Souvent propose, rarement choisi."
-        ]
-      },
-      {
-        "cardId": "heron",
-        "name": "Oiselle aubeplume",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "combo-2",
-          "connector",
-          "draw-next-turn",
-          "familiar",
-          "flip-1"
-        ],
-        "preferredPositions": [],
-        "offered": 78,
-        "played": 35,
-        "ignored": 60,
-        "selectionRate": 0.44871794871794873,
-        "wins": 19,
-        "losses": 16,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5428571428571428,
-        "averageFlips": 0.34285714285714286,
-        "failedImpactRate": 0.4782608695652174,
-        "averageFlipMargin": 3,
-        "averageEffectAmount": 1.3428571428571427,
-        "averageDamageDealt": 1,
-        "averageDamageTaken": 0.3142857142857143,
-        "averageNetDamage": 0.6857142857142857,
-        "lethalMoves": 0,
-        "roundClosers": 3,
-        "byModel": [
-          {
-            "modelId": "beginner",
-            "played": 24,
-            "winRate": 0.4583333333333333
-          },
-          {
-            "modelId": "expert",
-            "played": 4,
-            "winRate": 0.75
-          },
-          {
-            "modelId": "opportunist",
-            "played": 4,
-            "winRate": 0.5
-          },
-          {
-            "modelId": "champion",
-            "played": 3,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 35,
-            "winRate": 0.5428571428571428
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "foxfire",
-        "name": "Requin runefer",
-        "family": "familiar",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "combo-2",
-          "familiar",
-          "flip-1",
-          "gain-shield",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 65,
-        "played": 29,
-        "ignored": 47,
-        "selectionRate": 0.4461538461538462,
-        "wins": 14,
-        "losses": 15,
-        "draws": 0,
-        "winRateWhenPlayed": 0.4827586206896552,
-        "averageFlips": 0.10344827586206896,
-        "failedImpactRate": 0.85,
-        "averageFlipMargin": 2.3333333333333335,
-        "averageEffectAmount": 0.6206896551724138,
-        "averageDamageDealt": 0.3103448275862069,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0.3103448275862069,
-        "lethalMoves": 0,
-        "roundClosers": 1,
-        "byModel": [
-          {
-            "modelId": "beginner",
-            "played": 26,
-            "winRate": 0.4230769230769231
-          },
-          {
-            "modelId": "champion",
-            "played": 2,
-            "winRate": 1
-          },
-          {
-            "modelId": "expert",
-            "played": 1,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 29,
-            "winRate": 0.4827586206896552
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "grave-child",
-        "name": "Enfant des tombes",
-        "family": "revenant",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "behind-on-board",
-          "combo-2",
-          "connector",
-          "draw-next-turn",
-          "revenant"
-        ],
-        "preferredPositions": [
-          "behind"
-        ],
-        "offered": 52,
-        "played": 28,
-        "ignored": 35,
-        "selectionRate": 0.5384615384615384,
-        "wins": 17,
-        "losses": 11,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6071428571428571,
-        "averageFlips": 0.32142857142857145,
-        "failedImpactRate": 0.5,
-        "averageFlipMargin": 2.2222222222222223,
-        "averageEffectAmount": 2.25,
-        "averageDamageDealt": 1.0357142857142858,
-        "averageDamageTaken": 0.10714285714285714,
-        "averageNetDamage": 0.9285714285714287,
-        "lethalMoves": 0,
-        "roundClosers": 2,
-        "byModel": [
-          {
-            "modelId": "beginner",
-            "played": 13,
-            "winRate": 0.46153846153846156
-          },
-          {
-            "modelId": "champion",
-            "played": 9,
-            "winRate": 1
-          },
-          {
-            "modelId": "opportunist",
-            "played": 4,
-            "winRate": 0
-          },
-          {
-            "modelId": "regular",
-            "played": 2,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 28,
-            "winRate": 0.6071428571428571
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "path-ranger",
-        "name": "Rodeuse du sentier",
-        "family": "human",
-        "rarity": "common",
-        "role": "attacker",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "attacker",
-          "boost-self",
-          "combo-2",
-          "edge",
-          "human"
-        ],
-        "preferredPositions": [
-          "edge"
-        ],
-        "offered": 100,
-        "played": 28,
-        "ignored": 85,
-        "selectionRate": 0.28,
-        "wins": 15,
-        "losses": 13,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5357142857142857,
-        "averageFlips": 0.25,
-        "failedImpactRate": 0.5625,
-        "averageFlipMargin": 2.5714285714285716,
-        "averageEffectAmount": 0.6785714285714286,
-        "averageDamageDealt": 1.9642857142857142,
-        "averageDamageTaken": 0.07142857142857142,
-        "averageNetDamage": 1.8928571428571428,
-        "lethalMoves": 3,
-        "roundClosers": 4,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 9,
-            "winRate": 0.7777777777777778
-          },
-          {
-            "modelId": "champion",
-            "played": 7,
-            "winRate": 0.5714285714285714
-          },
-          {
-            "modelId": "beginner",
-            "played": 7,
-            "winRate": 0
-          },
-          {
-            "modelId": "opportunist",
-            "played": 3,
-            "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 2,
-            "winRate": 0.5
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 28,
-            "winRate": 0.5357142857142857
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "reward-uncommon-06",
-        "name": "Carte inhabituelle 06",
-        "family": "arcane",
-        "rarity": "uncommon",
-        "role": "connector",
-        "sourceType": "reward",
-        "sideTotal": 13,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "arcane",
-          "boost-self",
-          "center",
-          "combo-2",
-          "connector",
-          "hybrid-familiar",
-          "uncommon"
-        ],
-        "preferredPositions": [
-          "center"
-        ],
-        "offered": 93,
-        "played": 23,
-        "ignored": 83,
-        "selectionRate": 0.24731182795698925,
-        "wins": 13,
-        "losses": 10,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5652173913043478,
-        "averageFlips": 0.34782608695652173,
-        "failedImpactRate": 0.5,
-        "averageFlipMargin": 1.625,
-        "averageEffectAmount": 1.7391304347826086,
-        "averageDamageDealt": 1.6521739130434783,
-        "averageDamageTaken": 1.0869565217391304,
-        "averageNetDamage": 0.5652173913043479,
-        "lethalMoves": 1,
-        "roundClosers": 5,
-        "byModel": [
-          {
-            "modelId": "champion",
-            "played": 11,
-            "winRate": 0.7272727272727273
-          },
-          {
-            "modelId": "regular",
-            "played": 8,
-            "winRate": 0.375
-          },
-          {
-            "modelId": "expert",
-            "played": 4,
-            "winRate": 0.5
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 23,
-            "winRate": 0.5652173913043478
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "reward-uncommon-02",
-        "name": "Carte inhabituelle 02",
-        "family": "demon",
-        "rarity": "uncommon",
-        "role": "attacker",
-        "sourceType": "reward",
-        "sideTotal": 13,
-        "maxSide": 6,
-        "minSide": 2,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "adjacent-enemy",
-          "attacker",
-          "combo-2",
-          "deal-damage",
-          "demon",
-          "hybrid-arcane",
-          "uncommon"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 44,
-        "played": 20,
-        "ignored": 35,
-        "selectionRate": 0.45454545454545453,
-        "wins": 12,
-        "losses": 8,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0.35,
-        "failedImpactRate": 0.5882352941176471,
-        "averageFlipMargin": 3.2857142857142856,
-        "averageEffectAmount": 0.65,
-        "averageDamageDealt": 1.65,
-        "averageDamageTaken": 0.6,
-        "averageNetDamage": 1.0499999999999998,
-        "lethalMoves": 1,
-        "roundClosers": 3,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 9,
-            "winRate": 0.7777777777777778
-          },
-          {
-            "modelId": "champion",
-            "played": 6,
-            "winRate": 0.5
-          },
-          {
-            "modelId": "regular",
-            "played": 3,
-            "winRate": 0.6666666666666666
-          },
-          {
-            "modelId": "opportunist",
-            "played": 2,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 20,
-            "winRate": 0.6
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
         ]
       },
       {
@@ -12052,57 +8691,62 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "behind"
         ],
-        "offered": 54,
-        "played": 19,
-        "ignored": 47,
-        "selectionRate": 0.35185185185185186,
-        "wins": 11,
-        "losses": 8,
+        "offered": 619,
+        "played": 366,
+        "ignored": 481,
+        "selectionRate": 0.5912762520193862,
+        "wins": 137,
+        "losses": 229,
         "draws": 0,
-        "winRateWhenPlayed": 0.5789473684210527,
-        "averageFlips": 0.42105263157894735,
-        "failedImpactRate": 0.5789473684210527,
-        "averageFlipMargin": 1.875,
-        "averageEffectAmount": 2.6842105263157894,
-        "averageDamageDealt": 0.7894736842105263,
-        "averageDamageTaken": 1.7894736842105263,
-        "averageNetDamage": -1,
-        "lethalMoves": 0,
-        "roundClosers": 3,
+        "winRateWhenPlayed": 0.3743169398907104,
+        "averageFlips": 0.22950819672131148,
+        "failedImpactRate": 0.5902439024390244,
+        "averageFlipMargin": 2.130952380952381,
+        "averageEffectAmount": 3.3114754098360657,
+        "averageDamageDealt": 0.319672131147541,
+        "averageDamageTaken": 0.15300546448087432,
+        "averageNetDamage": 0.16666666666666669,
+        "lethalMoves": 6,
+        "roundClosers": 16,
         "byModel": [
           {
-            "modelId": "beginner",
-            "played": 11,
-            "winRate": 0.45454545454545453
+            "modelId": "regular",
+            "played": 149,
+            "winRate": 0.11409395973154363
+          },
+          {
+            "modelId": "expert",
+            "played": 94,
+            "winRate": 0.5319148936170213
           },
           {
             "modelId": "champion",
-            "played": 4,
-            "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 3,
-            "winRate": 0.6666666666666666
+            "played": 48,
+            "winRate": 0.75
           },
           {
             "modelId": "opportunist",
-            "played": 1,
+            "played": 44,
+            "winRate": 0.7727272727272727
+          },
+          {
+            "modelId": "beginner",
+            "played": 31,
             "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 19,
-            "winRate": 0.5789473684210527
+            "played": 366,
+            "winRate": 0.3743169398907104
           }
         ],
-        "status": "underperformer",
+        "status": "healthy",
         "notes": [
-          "Perd trop souvent face a une base de 79%."
+          "Pas de derive forte sur cet echantillon."
         ]
       },
       {
@@ -12131,123 +8775,57 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 40,
-        "played": 16,
-        "ignored": 32,
-        "selectionRate": 0.4,
-        "wins": 9,
-        "losses": 7,
+        "offered": 583,
+        "played": 356,
+        "ignored": 472,
+        "selectionRate": 0.6106346483704974,
+        "wins": 232,
+        "losses": 124,
         "draws": 0,
-        "winRateWhenPlayed": 0.5625,
-        "averageFlips": 0.25,
-        "failedImpactRate": 0.5,
-        "averageFlipMargin": 1.25,
-        "averageEffectAmount": 4,
-        "averageDamageDealt": 0.875,
-        "averageDamageTaken": 0.25,
-        "averageNetDamage": 0.625,
-        "lethalMoves": 0,
-        "roundClosers": 2,
+        "winRateWhenPlayed": 0.651685393258427,
+        "averageFlips": 0.16853932584269662,
+        "failedImpactRate": 0.5384615384615384,
+        "averageFlipMargin": 2.5,
+        "averageEffectAmount": 5.665730337078652,
+        "averageDamageDealt": 0.27808988764044945,
+        "averageDamageTaken": 0.05337078651685393,
+        "averageNetDamage": 0.22471910112359553,
+        "lethalMoves": 4,
+        "roundClosers": 10,
         "byModel": [
           {
-            "modelId": "beginner",
-            "played": 15,
-            "winRate": 0.5333333333333333
+            "modelId": "regular",
+            "played": 160,
+            "winRate": 0.7
+          },
+          {
+            "modelId": "expert",
+            "played": 77,
+            "winRate": 0.6233766233766234
           },
           {
             "modelId": "opportunist",
-            "played": 1,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
+            "played": 61,
+            "winRate": 0.8688524590163934
+          },
           {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
+            "modelId": "champion",
+            "played": 42,
+            "winRate": 0.4523809523809524
+          },
+          {
+            "modelId": "beginner",
             "played": 16,
-            "winRate": 0.5625
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "cardId": "wandering-glyph",
-        "name": "Glyphe errant",
-        "family": "arcane",
-        "rarity": "common",
-        "role": "anchor",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "anchor",
-          "arcane",
-          "center",
-          "combo-1",
-          "gain-shield"
-        ],
-        "preferredPositions": [
-          "center"
-        ],
-        "offered": 946,
-        "played": 685,
-        "ignored": 725,
-        "selectionRate": 0.7241014799154334,
-        "wins": 551,
-        "losses": 134,
-        "draws": 0,
-        "winRateWhenPlayed": 0.8043795620437956,
-        "averageFlips": 0.30802919708029197,
-        "failedImpactRate": 0.37388724035608306,
-        "averageFlipMargin": 2.265402843601896,
-        "averageEffectAmount": 3.343065693430657,
-        "averageDamageDealt": 0.3518248175182482,
-        "averageDamageTaken": 0.10218978102189781,
-        "averageNetDamage": 0.24963503649635038,
-        "lethalMoves": 12,
-        "roundClosers": 23,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 248,
-            "winRate": 0.8266129032258065
-          },
-          {
-            "modelId": "champion",
-            "played": 214,
-            "winRate": 0.8925233644859814
-          },
-          {
-            "modelId": "regular",
-            "played": 196,
-            "winRate": 0.7295918367346939
-          },
-          {
-            "modelId": "beginner",
-            "played": 17,
-            "winRate": 0.35294117647058826
-          },
-          {
-            "modelId": "opportunist",
-            "played": 10,
-            "winRate": 0.6
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 685,
-            "winRate": 0.8043795620437956
+            "played": 356,
+            "winRate": 0.651685393258427
           }
         ],
         "status": "healthy",
@@ -12256,78 +8834,78 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "rune-adept",
-        "name": "Adepte sigillaire",
-        "family": "arcane",
+        "cardId": "badger",
+        "name": "Poney runique",
+        "family": "familiar",
         "rarity": "common",
-        "role": "connector",
+        "role": "attacker",
         "sourceType": "draft",
         "sideTotal": 12,
-        "maxSide": 4,
+        "maxSide": 5,
         "minSide": 2,
         "effectKinds": [
-          "draw-next-turn"
+          "gain-shield"
         ],
         "buildTags": [
-          "adjacent-ally",
-          "arcane",
-          "connector",
-          "draw-next-turn"
+          "attacker",
+          "corner",
+          "familiar",
+          "gain-shield"
         ],
         "preferredPositions": [
-          "adjacent"
+          "corner"
         ],
-        "offered": 856,
-        "played": 624,
-        "ignored": 623,
-        "selectionRate": 0.7289719626168224,
-        "wins": 506,
-        "losses": 118,
+        "offered": 679,
+        "played": 355,
+        "ignored": 478,
+        "selectionRate": 0.5228276877761414,
+        "wins": 194,
+        "losses": 161,
         "draws": 0,
-        "winRateWhenPlayed": 0.8108974358974359,
-        "averageFlips": 0.3766025641025641,
-        "failedImpactRate": 0.4470588235294118,
-        "averageFlipMargin": 2.251063829787234,
-        "averageEffectAmount": 2.657051282051282,
-        "averageDamageDealt": 0.38301282051282054,
-        "averageDamageTaken": 0.14583333333333334,
-        "averageNetDamage": 0.2371794871794872,
-        "lethalMoves": 10,
-        "roundClosers": 22,
+        "winRateWhenPlayed": 0.5464788732394367,
+        "averageFlips": 0.14647887323943662,
+        "failedImpactRate": 0.755868544600939,
+        "averageFlipMargin": 2.3653846153846154,
+        "averageEffectAmount": 2.0816901408450703,
+        "averageDamageDealt": 0.48732394366197185,
+        "averageDamageTaken": 0.11267605633802817,
+        "averageNetDamage": 0.37464788732394366,
+        "lethalMoves": 9,
+        "roundClosers": 21,
         "byModel": [
           {
-            "modelId": "expert",
-            "played": 228,
-            "winRate": 0.8421052631578947
-          },
-          {
-            "modelId": "champion",
-            "played": 193,
-            "winRate": 0.8756476683937824
-          },
-          {
             "modelId": "regular",
-            "played": 184,
-            "winRate": 0.7445652173913043
+            "played": 168,
+            "winRate": 0.44642857142857145
           },
           {
-            "modelId": "beginner",
-            "played": 17,
-            "winRate": 0.35294117647058826
+            "modelId": "expert",
+            "played": 68,
+            "winRate": 0.8529411764705882
           },
           {
             "modelId": "opportunist",
-            "played": 2,
-            "winRate": 1
+            "played": 66,
+            "winRate": 0.5757575757575758
+          },
+          {
+            "modelId": "champion",
+            "played": 33,
+            "winRate": 0.696969696969697
+          },
+          {
+            "modelId": "beginner",
+            "played": 20,
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 624,
-            "winRate": 0.8108974358974359
+            "played": 355,
+            "winRate": 0.5464788732394367
           }
         ],
         "status": "healthy",
@@ -12336,73 +8914,155 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "star-witch",
-        "name": "Sorciere d'etoiles",
-        "family": "arcane",
+        "cardId": "brass-rook",
+        "name": "Tour de laiton",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "attacker",
+          "automaton",
+          "boost-self",
+          "combo-1"
+        ],
+        "preferredPositions": [],
+        "offered": 1010,
+        "played": 331,
+        "ignored": 848,
+        "selectionRate": 0.32772277227722774,
+        "wins": 228,
+        "losses": 103,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6888217522658611,
+        "averageFlips": 0.36253776435045315,
+        "failedImpactRate": 0.6712328767123288,
+        "averageFlipMargin": 2.283333333333333,
+        "averageEffectAmount": 3.797583081570997,
+        "averageDamageDealt": 1.3262839879154078,
+        "averageDamageTaken": 0.2990936555891239,
+        "averageNetDamage": 1.0271903323262839,
+        "lethalMoves": 19,
+        "roundClosers": 53,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 154,
+            "winRate": 0.7922077922077922
+          },
+          {
+            "modelId": "expert",
+            "played": 66,
+            "winRate": 0.6515151515151515
+          },
+          {
+            "modelId": "opportunist",
+            "played": 55,
+            "winRate": 0.8363636363636363
+          },
+          {
+            "modelId": "champion",
+            "played": 37,
+            "winRate": 0.4594594594594595
+          },
+          {
+            "modelId": "beginner",
+            "played": 19,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 331,
+            "winRate": 0.6888217522658611
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "foxfire",
+        "name": "Requin runefer",
+        "family": "familiar",
         "rarity": "common",
         "role": "payoff",
         "sourceType": "draft",
         "sideTotal": 12,
-        "maxSide": 4,
+        "maxSide": 5,
         "minSide": 2,
         "effectKinds": [
-          "boost-self",
-          "draw-next-turn"
+          "gain-shield"
         ],
         "buildTags": [
-          "arcane",
-          "boost-self",
-          "combo-3",
-          "draw-next-turn",
+          "combo-2",
+          "familiar",
+          "flip-1",
+          "gain-shield",
           "payoff"
         ],
         "preferredPositions": [],
-        "offered": 1051,
-        "played": 584,
-        "ignored": 831,
-        "selectionRate": 0.5556612749762131,
-        "wins": 470,
-        "losses": 114,
+        "offered": 892,
+        "played": 327,
+        "ignored": 730,
+        "selectionRate": 0.3665919282511211,
+        "wins": 169,
+        "losses": 158,
         "draws": 0,
-        "winRateWhenPlayed": 0.8047945205479452,
-        "averageFlips": 0.3287671232876712,
-        "failedImpactRate": 0.4251497005988024,
-        "averageFlipMargin": 2.2552083333333335,
-        "averageEffectAmount": 2.934931506849315,
-        "averageDamageDealt": 0.5291095890410958,
-        "averageDamageTaken": 0.1934931506849315,
-        "averageNetDamage": 0.33561643835616434,
-        "lethalMoves": 8,
-        "roundClosers": 30,
+        "winRateWhenPlayed": 0.5168195718654435,
+        "averageFlips": 0.327217125382263,
+        "failedImpactRate": 0.629757785467128,
+        "averageFlipMargin": 2.0373831775700935,
+        "averageEffectAmount": 1.437308868501529,
+        "averageDamageDealt": 0.8685015290519877,
+        "averageDamageTaken": 0.3333333333333333,
+        "averageNetDamage": 0.5351681957186545,
+        "lethalMoves": 12,
+        "roundClosers": 37,
         "byModel": [
           {
+            "modelId": "regular",
+            "played": 161,
+            "winRate": 0.422360248447205
+          },
+          {
+            "modelId": "opportunist",
+            "played": 60,
+            "winRate": 0.6333333333333333
+          },
+          {
             "modelId": "expert",
-            "played": 213,
-            "winRate": 0.8356807511737089
+            "played": 57,
+            "winRate": 0.8070175438596491
           },
           {
             "modelId": "champion",
-            "played": 184,
-            "winRate": 0.875
-          },
-          {
-            "modelId": "regular",
-            "played": 169,
-            "winRate": 0.7396449704142012
+            "played": 28,
+            "winRate": 0.6071428571428571
           },
           {
             "modelId": "beginner",
-            "played": 18,
-            "winRate": 0.3333333333333333
+            "played": 21,
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 584,
-            "winRate": 0.8047945205479452
+            "played": 327,
+            "winRate": 0.5168195718654435
           }
         ],
         "status": "healthy",
@@ -12432,57 +9092,220 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 1525,
-        "played": 452,
-        "ignored": 1242,
-        "selectionRate": 0.2963934426229508,
-        "wins": 391,
-        "losses": 61,
+        "offered": 1290,
+        "played": 317,
+        "ignored": 1053,
+        "selectionRate": 0.24573643410852714,
+        "wins": 163,
+        "losses": 154,
         "draws": 0,
-        "winRateWhenPlayed": 0.8650442477876106,
-        "averageFlips": 0.23893805309734514,
-        "failedImpactRate": 0.6931818181818182,
-        "averageFlipMargin": 2.1666666666666665,
-        "averageEffectAmount": 0.7234513274336283,
-        "averageDamageDealt": 2.915929203539823,
-        "averageDamageTaken": 0.5973451327433629,
-        "averageNetDamage": 2.3185840707964602,
-        "lethalMoves": 48,
-        "roundClosers": 124,
+        "winRateWhenPlayed": 0.5141955835962145,
+        "averageFlips": 0.17665615141955837,
+        "failedImpactRate": 0.8101694915254237,
+        "averageFlipMargin": 1.6428571428571428,
+        "averageEffectAmount": 0.7791798107255521,
+        "averageDamageDealt": 1.391167192429022,
+        "averageDamageTaken": 0.8675078864353313,
+        "averageNetDamage": 0.5236593059936908,
+        "lethalMoves": 18,
+        "roundClosers": 81,
         "byModel": [
           {
-            "modelId": "expert",
-            "played": 171,
-            "winRate": 0.8947368421052632
+            "modelId": "regular",
+            "played": 150,
+            "winRate": 0.5466666666666666
           },
           {
-            "modelId": "regular",
-            "played": 144,
-            "winRate": 0.8263888888888888
+            "modelId": "expert",
+            "played": 68,
+            "winRate": 0.6323529411764706
+          },
+          {
+            "modelId": "opportunist",
+            "played": 48,
+            "winRate": 0.4583333333333333
           },
           {
             "modelId": "champion",
-            "played": 116,
-            "winRate": 0.9396551724137931
+            "played": 36,
+            "winRate": 0.4444444444444444
           },
           {
             "modelId": "beginner",
             "played": 15,
-            "winRate": 0.4
-          },
-          {
-            "modelId": "opportunist",
-            "played": 6,
-            "winRate": 0.6666666666666666
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 452,
-            "winRate": 0.8650442477876106
+            "played": 317,
+            "winRate": 0.5141955835962145
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "widow-knight",
+        "name": "Chevalier veuf",
+        "family": "revenant",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "deal-damage",
+          "gain-shield"
+        ],
+        "buildTags": [
+          "attacker",
+          "combo-2",
+          "deal-damage",
+          "flip-1",
+          "gain-shield",
+          "hybrid-demon",
+          "revenant"
+        ],
+        "preferredPositions": [],
+        "offered": 1121,
+        "played": 297,
+        "ignored": 974,
+        "selectionRate": 0.2649420160570919,
+        "wins": 111,
+        "losses": 186,
+        "draws": 0,
+        "winRateWhenPlayed": 0.37373737373737376,
+        "averageFlips": 0.2727272727272727,
+        "failedImpactRate": 0.7387096774193549,
+        "averageFlipMargin": 2.506172839506173,
+        "averageEffectAmount": 1.0808080808080809,
+        "averageDamageDealt": 1.3636363636363635,
+        "averageDamageTaken": 0.8585858585858586,
+        "averageNetDamage": 0.505050505050505,
+        "lethalMoves": 11,
+        "roundClosers": 66,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 113,
+            "winRate": 0.07964601769911504
+          },
+          {
+            "modelId": "expert",
+            "played": 80,
+            "winRate": 0.525
+          },
+          {
+            "modelId": "champion",
+            "played": 41,
+            "winRate": 0.7804878048780488
+          },
+          {
+            "modelId": "opportunist",
+            "played": 40,
+            "winRate": 0.7
+          },
+          {
+            "modelId": "beginner",
+            "played": 23,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 297,
+            "winRate": 0.37373737373737376
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "path-ranger",
+        "name": "Rodeuse du sentier",
+        "family": "human",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "attacker",
+          "boost-self",
+          "combo-2",
+          "edge",
+          "human"
+        ],
+        "preferredPositions": [
+          "edge"
+        ],
+        "offered": 1025,
+        "played": 296,
+        "ignored": 853,
+        "selectionRate": 0.288780487804878,
+        "wins": 158,
+        "losses": 138,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5337837837837838,
+        "averageFlips": 0.15878378378378377,
+        "failedImpactRate": 0.8049792531120332,
+        "averageFlipMargin": 1.8085106382978724,
+        "averageEffectAmount": 1.2060810810810811,
+        "averageDamageDealt": 1.1047297297297298,
+        "averageDamageTaken": 0.5641891891891891,
+        "averageNetDamage": 0.5405405405405407,
+        "lethalMoves": 11,
+        "roundClosers": 59,
+        "byModel": [
+          {
+            "modelId": "regular",
+            "played": 111,
+            "winRate": 0.40540540540540543
+          },
+          {
+            "modelId": "opportunist",
+            "played": 81,
+            "winRate": 0.7777777777777778
+          },
+          {
+            "modelId": "expert",
+            "played": 62,
+            "winRate": 0.6774193548387096
+          },
+          {
+            "modelId": "champion",
+            "played": 28,
+            "winRate": 0.2857142857142857
+          },
+          {
+            "modelId": "beginner",
+            "played": 14,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 296,
+            "winRate": 0.5337837837837838
           }
         ],
         "status": "healthy",
@@ -12515,57 +9338,57 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 200,
-        "played": 145,
-        "ignored": 152,
-        "selectionRate": 0.725,
-        "wins": 116,
-        "losses": 29,
+        "offered": 339,
+        "played": 226,
+        "ignored": 265,
+        "selectionRate": 0.6666666666666666,
+        "wins": 148,
+        "losses": 78,
         "draws": 0,
-        "winRateWhenPlayed": 0.8,
-        "averageFlips": 0.7655172413793103,
-        "failedImpactRate": 0.17164179104477612,
-        "averageFlipMargin": 2.1171171171171173,
-        "averageEffectAmount": 1.2206896551724138,
-        "averageDamageDealt": 1.5241379310344827,
-        "averageDamageTaken": 0.2482758620689655,
-        "averageNetDamage": 1.2758620689655171,
-        "lethalMoves": 10,
-        "roundClosers": 8,
+        "winRateWhenPlayed": 0.6548672566371682,
+        "averageFlips": 0.6991150442477876,
+        "failedImpactRate": 0.17277486910994763,
+        "averageFlipMargin": 1.9873417721518987,
+        "averageEffectAmount": 1.2831858407079646,
+        "averageDamageDealt": 0.995575221238938,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0.995575221238938,
+        "lethalMoves": 6,
+        "roundClosers": 2,
         "byModel": [
           {
-            "modelId": "opportunist",
-            "played": 110,
-            "winRate": 0.7727272727272727
-          },
-          {
-            "modelId": "beginner",
-            "played": 11,
-            "winRate": 0.7272727272727273
-          },
-          {
-            "modelId": "champion",
-            "played": 10,
-            "winRate": 0.9
-          },
-          {
             "modelId": "regular",
-            "played": 9,
-            "winRate": 1
+            "played": 93,
+            "winRate": 0.6451612903225806
           },
           {
             "modelId": "expert",
-            "played": 5,
-            "winRate": 1
+            "played": 46,
+            "winRate": 0.7391304347826086
+          },
+          {
+            "modelId": "opportunist",
+            "played": 45,
+            "winRate": 0.7555555555555555
+          },
+          {
+            "modelId": "champion",
+            "played": 25,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "beginner",
+            "played": 17,
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 145,
-            "winRate": 0.8
+            "played": 226,
+            "winRate": 0.6548672566371682
           }
         ],
         "status": "healthy",
@@ -12593,57 +9416,57 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "flip-1"
         ],
         "preferredPositions": [],
-        "offered": 267,
-        "played": 141,
-        "ignored": 204,
-        "selectionRate": 0.5280898876404494,
-        "wins": 111,
-        "losses": 30,
+        "offered": 454,
+        "played": 224,
+        "ignored": 340,
+        "selectionRate": 0.4933920704845815,
+        "wins": 142,
+        "losses": 82,
         "draws": 0,
-        "winRateWhenPlayed": 0.7872340425531915,
-        "averageFlips": 0.5531914893617021,
-        "failedImpactRate": 0.2909090909090909,
-        "averageFlipMargin": 2.1153846153846154,
-        "averageEffectAmount": 1.148936170212766,
-        "averageDamageDealt": 2.5886524822695036,
-        "averageDamageTaken": 0.46808510638297873,
-        "averageNetDamage": 2.120567375886525,
-        "lethalMoves": 14,
-        "roundClosers": 18,
+        "winRateWhenPlayed": 0.6339285714285714,
+        "averageFlips": 0.65625,
+        "failedImpactRate": 0.36363636363636365,
+        "averageFlipMargin": 2.0952380952380953,
+        "averageEffectAmount": 1.4821428571428572,
+        "averageDamageDealt": 1.7455357142857142,
+        "averageDamageTaken": 0.4017857142857143,
+        "averageNetDamage": 1.34375,
+        "lethalMoves": 18,
+        "roundClosers": 12,
         "byModel": [
           {
-            "modelId": "opportunist",
-            "played": 104,
-            "winRate": 0.7788461538461539
+            "modelId": "regular",
+            "played": 95,
+            "winRate": 0.5368421052631579
           },
           {
             "modelId": "expert",
-            "played": 14,
-            "winRate": 0.8571428571428571
+            "played": 47,
+            "winRate": 0.7872340425531915
           },
           {
-            "modelId": "beginner",
-            "played": 11,
-            "winRate": 0.7272727272727273
+            "modelId": "opportunist",
+            "played": 42,
+            "winRate": 0.7857142857142857
           },
           {
             "modelId": "champion",
-            "played": 7,
-            "winRate": 0.7142857142857143
+            "played": 24,
+            "winRate": 0.875
           },
           {
-            "modelId": "regular",
-            "played": 5,
-            "winRate": 1
+            "modelId": "beginner",
+            "played": 16,
+            "winRate": 0
           }
         ],
         "byScenario": [
           {
             "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
             "startingDeckCardCount": 12,
-            "played": 141,
-            "winRate": 0.7872340425531915
+            "played": 224,
+            "winRate": 0.6339285714285714
           }
         ],
         "status": "healthy",
@@ -12674,42 +9497,1889 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 196,
-        "played": 128,
-        "ignored": 157,
-        "selectionRate": 0.6530612244897959,
-        "wins": 95,
-        "losses": 33,
+        "offered": 381,
+        "played": 222,
+        "ignored": 313,
+        "selectionRate": 0.5826771653543307,
+        "wins": 146,
+        "losses": 76,
         "draws": 0,
-        "winRateWhenPlayed": 0.7421875,
-        "averageFlips": 0.875,
-        "failedImpactRate": 0.06666666666666667,
-        "averageFlipMargin": 2.607142857142857,
-        "averageEffectAmount": 1.1484375,
-        "averageDamageDealt": 1.34375,
-        "averageDamageTaken": 0.046875,
-        "averageNetDamage": 1.296875,
-        "lethalMoves": 6,
-        "roundClosers": 4,
+        "winRateWhenPlayed": 0.6576576576576577,
+        "averageFlips": 0.7702702702702703,
+        "failedImpactRate": 0.16585365853658537,
+        "averageFlipMargin": 1.976608187134503,
+        "averageEffectAmount": 1.054054054054054,
+        "averageDamageDealt": 1.4144144144144144,
+        "averageDamageTaken": 0.3063063063063063,
+        "averageNetDamage": 1.1081081081081081,
+        "lethalMoves": 10,
+        "roundClosers": 17,
         "byModel": [
           {
-            "modelId": "opportunist",
-            "played": 111,
-            "winRate": 0.7477477477477478
+            "modelId": "regular",
+            "played": 94,
+            "winRate": 0.5638297872340425
           },
           {
-            "modelId": "beginner",
-            "played": 11,
-            "winRate": 0.7272727272727273
+            "modelId": "expert",
+            "played": 50,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "opportunist",
+            "played": 37,
+            "winRate": 0.8108108108108109
           },
           {
             "modelId": "champion",
-            "played": 4,
-            "winRate": 0.5
+            "played": 26,
+            "winRate": 0.8846153846153846
+          },
+          {
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Depart actuel - famille 12 cartes",
+            "startingDeckCardCount": 12,
+            "played": 222,
+            "winRate": 0.6576576576576577
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      }
+    ],
+    "familyAnalytics": [
+      {
+        "id": "arcane",
+        "label": "arcane",
+        "offered": 3150,
+        "played": 1581,
+        "ignored": 2479,
+        "selectionRate": 0.5019047619047619,
+        "wins": 713,
+        "losses": 868,
+        "draws": 0,
+        "winRateWhenPlayed": 0.45098039215686275,
+        "averageFlips": 0.20999367488931056,
+        "averageDamageDealt": 0.36242884250474383,
+        "averageNetDamage": 0.14168247944339027,
+        "topCards": [
+          {
+            "cardId": "rune-adept",
+            "name": "Adepte sigillaire",
+            "played": 437,
+            "winRateWhenPlayed": 0.4645308924485126
+          },
+          {
+            "cardId": "wandering-glyph",
+            "name": "Glyphe errant",
+            "played": 424,
+            "winRateWhenPlayed": 0.41745283018867924
+          },
+          {
+            "cardId": "star-witch",
+            "name": "Sorciere d'etoiles",
+            "played": 403,
+            "winRateWhenPlayed": 0.4218362282878412
+          },
+          {
+            "cardId": "moon-scribe",
+            "name": "Scribe lunaire",
+            "played": 317,
+            "winRateWhenPlayed": 0.5141955835962145
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "human",
+        "label": "human",
+        "offered": 2863,
+        "played": 1472,
+        "ignored": 2274,
+        "selectionRate": 0.514146000698568,
+        "wins": 830,
+        "losses": 642,
+        "draws": 0,
+        "winRateWhenPlayed": 0.563858695652174,
+        "averageFlips": 0.25339673913043476,
+        "averageDamageDealt": 0.359375,
+        "averageNetDamage": 0.16508152173913043,
+        "topCards": [
+          {
+            "cardId": "rune-mage",
+            "name": "Mage des runes",
+            "played": 401,
+            "winRateWhenPlayed": 0.5660847880299252
+          },
+          {
+            "cardId": "quiet-monk",
+            "name": "Moine du seuil",
+            "played": 392,
+            "winRateWhenPlayed": 0.5586734693877551
+          },
+          {
+            "cardId": "field-knight",
+            "name": "Chevaliere des champs",
+            "played": 383,
+            "winRateWhenPlayed": 0.5900783289817232
+          },
+          {
+            "cardId": "path-ranger",
+            "name": "Rodeuse du sentier",
+            "played": 296,
+            "winRateWhenPlayed": 0.5337837837837838
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "automaton",
+        "label": "automaton",
+        "offered": 2642,
+        "played": 1453,
+        "ignored": 2064,
+        "selectionRate": 0.5499621498864496,
+        "wins": 997,
+        "losses": 456,
+        "draws": 0,
+        "winRateWhenPlayed": 0.686166551961459,
+        "averageFlips": 0.2759807295251204,
+        "averageDamageDealt": 0.49002064693737096,
+        "averageNetDamage": 0.38059187887130075,
+        "topCards": [
+          {
+            "cardId": "gear-monk",
+            "name": "Moine engrene",
+            "played": 386,
+            "winRateWhenPlayed": 0.7098445595854922
+          },
+          {
+            "cardId": "clock-sentinel",
+            "name": "Sentinelle d'horloge",
+            "played": 380,
+            "winRateWhenPlayed": 0.6921052631578948
+          },
+          {
+            "cardId": "tin-oracle",
+            "name": "Oracle de fer-blanc",
+            "played": 356,
+            "winRateWhenPlayed": 0.651685393258427
+          },
+          {
+            "cardId": "brass-rook",
+            "name": "Tour de laiton",
+            "played": 331,
+            "winRateWhenPlayed": 0.6888217522658611
+          }
+        ],
+        "status": "overperformer",
+        "notes": [
+          "La famille gagne trop souvent sur cet echantillon."
+        ]
+      },
+      {
+        "id": "familiar",
+        "label": "familiar",
+        "offered": 2674,
+        "played": 1449,
+        "ignored": 2076,
+        "selectionRate": 0.5418848167539267,
+        "wins": 795,
+        "losses": 654,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5486542443064182,
+        "averageFlips": 0.3077984817115252,
+        "averageDamageDealt": 0.3609385783298827,
+        "averageNetDamage": 0.24292615596963424,
+        "topCards": [
+          {
+            "cardId": "sapling",
+            "name": "Floramie toxique",
+            "played": 391,
+            "winRateWhenPlayed": 0.5498721227621484
+          },
+          {
+            "cardId": "heron",
+            "name": "Oiselle aubeplume",
+            "played": 376,
+            "winRateWhenPlayed": 0.5771276595744681
+          },
+          {
+            "cardId": "badger",
+            "name": "Poney runique",
+            "played": 355,
+            "winRateWhenPlayed": 0.5464788732394367
+          },
+          {
+            "cardId": "foxfire",
+            "name": "Requin runefer",
+            "played": 327,
+            "winRateWhenPlayed": 0.5168195718654435
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "revenant",
+        "label": "revenant",
+        "offered": 2783,
+        "played": 1405,
+        "ignored": 2193,
+        "selectionRate": 0.5048508803449515,
+        "wins": 530,
+        "losses": 875,
+        "draws": 0,
+        "winRateWhenPlayed": 0.37722419928825623,
+        "averageFlips": 0.2576512455516014,
+        "averageDamageDealt": 0.45266903914590745,
+        "averageNetDamage": 0.20142348754448397,
+        "topCards": [
+          {
+            "cardId": "grave-child",
+            "name": "Enfant des tombes",
+            "played": 371,
+            "winRateWhenPlayed": 0.40700808625336926
+          },
+          {
+            "cardId": "lantern-shade",
+            "name": "Ombre a lanterne",
+            "played": 371,
+            "winRateWhenPlayed": 0.353099730458221
+          },
+          {
+            "cardId": "moth-ghost",
+            "name": "Fantome phalene",
+            "played": 366,
+            "winRateWhenPlayed": 0.3743169398907104
+          },
+          {
+            "cardId": "widow-knight",
+            "name": "Chevalier veuf",
+            "played": 297,
+            "winRateWhenPlayed": 0.37373737373737376
+          }
+        ],
+        "status": "underperformer",
+        "notes": [
+          "La famille perd trop souvent sur cet echantillon."
+        ]
+      },
+      {
+        "id": "demon",
+        "label": "demon",
+        "offered": 1661,
+        "played": 863,
+        "ignored": 1310,
+        "selectionRate": 0.5195665261890428,
+        "wins": 571,
+        "losses": 292,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6616454229432214,
+        "averageFlips": 0.6987253765932793,
+        "averageDamageDealt": 1.5156431054461181,
+        "averageNetDamage": 1.1946697566628042,
+        "topCards": [
+          {
+            "cardId": "hornling",
+            "name": "Cornu farceur",
+            "played": 226,
+            "winRateWhenPlayed": 0.6548672566371682
+          },
+          {
+            "cardId": "ember-imp",
+            "name": "Diablotin braise",
+            "played": 224,
+            "winRateWhenPlayed": 0.6339285714285714
+          },
+          {
+            "cardId": "pact-sprite",
+            "name": "Lutin a pacte",
+            "played": 222,
+            "winRateWhenPlayed": 0.6576576576576577
+          },
+          {
+            "cardId": "cinder-grin",
+            "name": "Sourire de suie",
+            "played": 191,
+            "winRateWhenPlayed": 0.7068062827225131
+          }
+        ],
+        "status": "overperformer",
+        "notes": [
+          "La famille gagne trop souvent sur cet echantillon."
+        ]
+      }
+    ],
+    "roleAnalytics": [
+      {
+        "id": "connector",
+        "label": "connector",
+        "offered": 3151,
+        "played": 2193,
+        "ignored": 2388,
+        "selectionRate": 0.6959695334814344,
+        "wins": 1218,
+        "losses": 975,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5554035567715458,
+        "averageFlips": 0.35567715458276333,
+        "averageDamageDealt": 0.24851801185590516,
+        "averageNetDamage": 0.1887824897400821,
+        "topCards": [
+          {
+            "cardId": "rune-adept",
+            "name": "Adepte sigillaire",
+            "played": 437,
+            "winRateWhenPlayed": 0.4645308924485126
+          },
+          {
+            "cardId": "rune-mage",
+            "name": "Mage des runes",
+            "played": 401,
+            "winRateWhenPlayed": 0.5660847880299252
+          },
+          {
+            "cardId": "gear-monk",
+            "name": "Moine engrene",
+            "played": 386,
+            "winRateWhenPlayed": 0.7098445595854922
+          },
+          {
+            "cardId": "heron",
+            "name": "Oiselle aubeplume",
+            "played": 376,
+            "winRateWhenPlayed": 0.5771276595744681
+          },
+          {
+            "cardId": "grave-child",
+            "name": "Enfant des tombes",
+            "played": 371,
+            "winRateWhenPlayed": 0.40700808625336926
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "anchor",
+        "label": "anchor",
+        "offered": 2982,
+        "played": 2184,
+        "ignored": 2246,
+        "selectionRate": 0.7323943661971831,
+        "wins": 1153,
+        "losses": 1031,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5279304029304029,
+        "averageFlips": 0.30952380952380953,
+        "averageDamageDealt": 0.21794871794871795,
+        "averageNetDamage": 0.17261904761904762,
+        "topCards": [
+          {
+            "cardId": "wandering-glyph",
+            "name": "Glyphe errant",
+            "played": 424,
+            "winRateWhenPlayed": 0.41745283018867924
+          },
+          {
+            "cardId": "quiet-monk",
+            "name": "Moine du seuil",
+            "played": 392,
+            "winRateWhenPlayed": 0.5586734693877551
+          },
+          {
+            "cardId": "sapling",
+            "name": "Floramie toxique",
+            "played": 391,
+            "winRateWhenPlayed": 0.5498721227621484
+          },
+          {
+            "cardId": "clock-sentinel",
+            "name": "Sentinelle d'horloge",
+            "played": 380,
+            "winRateWhenPlayed": 0.6921052631578948
+          },
+          {
+            "cardId": "lantern-shade",
+            "name": "Ombre a lanterne",
+            "played": 371,
+            "winRateWhenPlayed": 0.353099730458221
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "payoff",
+        "label": "payoff",
+        "offered": 4061,
+        "played": 2026,
+        "ignored": 3216,
+        "selectionRate": 0.4988918985471559,
+        "wins": 1069,
+        "losses": 957,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5276406712734452,
+        "averageFlips": 0.2754195459032576,
+        "averageDamageDealt": 0.5350444225074038,
+        "averageNetDamage": 0.31836130306021726,
+        "topCards": [
+          {
+            "cardId": "star-witch",
+            "name": "Sorciere d'etoiles",
+            "played": 403,
+            "winRateWhenPlayed": 0.4218362282878412
+          },
+          {
+            "cardId": "field-knight",
+            "name": "Chevaliere des champs",
+            "played": 383,
+            "winRateWhenPlayed": 0.5900783289817232
+          },
+          {
+            "cardId": "moth-ghost",
+            "name": "Fantome phalene",
+            "played": 366,
+            "winRateWhenPlayed": 0.3743169398907104
+          },
+          {
+            "cardId": "tin-oracle",
+            "name": "Oracle de fer-blanc",
+            "played": 356,
+            "winRateWhenPlayed": 0.651685393258427
+          },
+          {
+            "cardId": "foxfire",
+            "name": "Requin runefer",
+            "played": 327,
+            "winRateWhenPlayed": 0.5168195718654435
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "attacker",
+        "label": "attacker",
+        "offered": 5579,
+        "played": 1820,
+        "ignored": 4546,
+        "selectionRate": 0.32622333751568383,
+        "wins": 996,
+        "losses": 824,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5472527472527473,
+        "averageFlips": 0.2763736263736264,
+        "averageDamageDealt": 1.1956043956043956,
+        "averageNetDamage": 0.6868131868131868,
+        "topCards": [
+          {
+            "cardId": "badger",
+            "name": "Poney runique",
+            "played": 355,
+            "winRateWhenPlayed": 0.5464788732394367
+          },
+          {
+            "cardId": "brass-rook",
+            "name": "Tour de laiton",
+            "played": 331,
+            "winRateWhenPlayed": 0.6888217522658611
+          },
+          {
+            "cardId": "moon-scribe",
+            "name": "Scribe lunaire",
+            "played": 317,
+            "winRateWhenPlayed": 0.5141955835962145
+          },
+          {
+            "cardId": "widow-knight",
+            "name": "Chevalier veuf",
+            "played": 297,
+            "winRateWhenPlayed": 0.37373737373737376
+          },
+          {
+            "cardId": "path-ranger",
+            "name": "Rodeuse du sentier",
+            "played": 296,
+            "winRateWhenPlayed": 0.5337837837837838
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      }
+    ],
+    "rarityAnalytics": [
+      {
+        "id": "common",
+        "label": "common",
+        "offered": 15773,
+        "played": 8223,
+        "ignored": 12396,
+        "selectionRate": 0.5213339250618145,
+        "wins": 4436,
+        "losses": 3787,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5394624832786088,
+        "averageFlips": 0.3060926669098869,
+        "averageDamageDealt": 0.5206129149945276,
+        "averageNetDamage": 0.3266447768454336,
+        "topCards": [
+          {
+            "cardId": "rune-adept",
+            "name": "Adepte sigillaire",
+            "played": 437,
+            "winRateWhenPlayed": 0.4645308924485126
+          },
+          {
+            "cardId": "wandering-glyph",
+            "name": "Glyphe errant",
+            "played": 424,
+            "winRateWhenPlayed": 0.41745283018867924
+          },
+          {
+            "cardId": "star-witch",
+            "name": "Sorciere d'etoiles",
+            "played": 403,
+            "winRateWhenPlayed": 0.4218362282878412
+          },
+          {
+            "cardId": "rune-mage",
+            "name": "Mage des runes",
+            "played": 401,
+            "winRateWhenPlayed": 0.5660847880299252
+          },
+          {
+            "cardId": "quiet-monk",
+            "name": "Moine du seuil",
+            "played": 392,
+            "winRateWhenPlayed": 0.5586734693877551
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      }
+    ],
+    "comboAnalytics": [
+      {
+        "id": "family-chain:arcane->arcane",
+        "kind": "family-chain",
+        "label": "arcane -> arcane",
+        "count": 446,
+        "wins": 188,
+        "losses": 258,
+        "draws": 0,
+        "winRate": 0.42152466367713004,
+        "averageFlips": 0.19730941704035873,
+        "averageDamageDealt": 0.7937219730941704,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:arcane+arcane",
+        "kind": "friendly-adjacent",
+        "label": "arcane allie + arcane",
+        "count": 407,
+        "wins": 204,
+        "losses": 203,
+        "draws": 0,
+        "winRate": 0.5012285012285013,
+        "averageFlips": 0.11547911547911548,
+        "averageDamageDealt": 1.4176904176904177,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "family-chain:human->human",
+        "kind": "family-chain",
+        "label": "human -> human",
+        "count": 402,
+        "wins": 206,
+        "losses": 196,
+        "draws": 0,
+        "winRate": 0.5124378109452736,
+        "averageFlips": 0.2512437810945274,
+        "averageDamageDealt": 0.6343283582089553,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "family-chain:revenant->revenant",
+        "kind": "family-chain",
+        "label": "revenant -> revenant",
+        "count": 399,
+        "wins": 132,
+        "losses": 267,
+        "draws": 0,
+        "winRate": 0.3308270676691729,
+        "averageFlips": 0.2531328320802005,
+        "averageDamageDealt": 0.9122807017543859,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "family-chain:automaton->automaton",
+        "kind": "family-chain",
+        "label": "automaton -> automaton",
+        "count": 392,
+        "wins": 265,
+        "losses": 127,
+        "draws": 0,
+        "winRate": 0.6760204081632653,
+        "averageFlips": 0.3163265306122449,
+        "averageDamageDealt": 0.8979591836734694,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "family-chain:familiar->familiar",
+        "kind": "family-chain",
+        "label": "familiar -> familiar",
+        "count": 367,
+        "wins": 190,
+        "losses": 177,
+        "draws": 0,
+        "winRate": 0.5177111716621253,
+        "averageFlips": 0.28610354223433243,
+        "averageDamageDealt": 0.9782016348773842,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:moth-ghost:boost-self",
+        "kind": "effect",
+        "label": "Fantome phalene -> boost-self",
+        "count": 339,
+        "wins": 122,
+        "losses": 217,
+        "draws": 0,
+        "winRate": 0.35988200589970504,
+        "averageFlips": 0.20943952802359883,
+        "averageDamageDealt": 0.31563421828908556,
+        "averageEffectAmount": 1.0530973451327434,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:star-witch:draw-next-turn",
+        "kind": "effect",
+        "label": "Sorciere d'etoiles -> draw-next-turn",
+        "count": 321,
+        "wins": 138,
+        "losses": 183,
+        "draws": 0,
+        "winRate": 0.42990654205607476,
+        "averageFlips": 0.20249221183800623,
+        "averageDamageDealt": 0.018691588785046728,
+        "averageEffectAmount": 1.0031152647975077,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:field-knight:gain-shield",
+        "kind": "effect",
+        "label": "Chevaliere des champs -> gain-shield",
+        "count": 320,
+        "wins": 184,
+        "losses": 136,
+        "draws": 0,
+        "winRate": 0.575,
+        "averageFlips": 0.290625,
+        "averageDamageDealt": 0.2375,
+        "averageEffectAmount": 1.671875,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:star-witch:boost-self",
+        "kind": "effect",
+        "label": "Sorciere d'etoiles -> boost-self",
+        "count": 320,
+        "wins": 137,
+        "losses": 183,
+        "draws": 0,
+        "winRate": 0.428125,
+        "averageFlips": 0.203125,
+        "averageDamageDealt": 0,
+        "averageEffectAmount": 1.290625,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:rune-mage:draw-next-turn",
+        "kind": "effect",
+        "label": "Mage des runes -> draw-next-turn",
+        "count": 313,
+        "wins": 173,
+        "losses": 140,
+        "draws": 0,
+        "winRate": 0.5527156549520766,
+        "averageFlips": 0.268370607028754,
+        "averageDamageDealt": 0.1182108626198083,
+        "averageEffectAmount": 1.2523961661341854,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:rune-mage:boost-self",
+        "kind": "effect",
+        "label": "Mage des runes -> boost-self",
+        "count": 309,
+        "wins": 172,
+        "losses": 137,
+        "draws": 0,
+        "winRate": 0.5566343042071198,
+        "averageFlips": 0.27184466019417475,
+        "averageDamageDealt": 0.11974110032362459,
+        "averageEffectAmount": 1.2427184466019416,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:moth-ghost:draw-next-turn",
+        "kind": "effect",
+        "label": "Fantome phalene -> draw-next-turn",
+        "count": 303,
+        "wins": 101,
+        "losses": 202,
+        "draws": 0,
+        "winRate": 0.3333333333333333,
+        "averageFlips": 0.20462046204620463,
+        "averageDamageDealt": 0.09570957095709572,
+        "averageEffectAmount": 1.0528052805280528,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:gear-monk:draw-next-turn",
+        "kind": "effect",
+        "label": "Moine engrene -> draw-next-turn",
+        "count": 302,
+        "wins": 213,
+        "losses": 89,
+        "draws": 0,
+        "winRate": 0.7052980132450332,
+        "averageFlips": 0.28807947019867547,
+        "averageDamageDealt": 0.17549668874172186,
+        "averageEffectAmount": 1.2781456953642385,
+        "notes": [
+          "Combo gagnant frequent."
+        ]
+      },
+      {
+        "id": "effect:quiet-monk:boost-self",
+        "kind": "effect",
+        "label": "Moine du seuil -> boost-self",
+        "count": 290,
+        "wins": 167,
+        "losses": 123,
+        "draws": 0,
+        "winRate": 0.5758620689655173,
+        "averageFlips": 0.25862068965517243,
+        "averageDamageDealt": 0.041379310344827586,
+        "averageEffectAmount": 1.210344827586207,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:automaton+automaton",
+        "kind": "friendly-adjacent",
+        "label": "automaton allie + automaton",
+        "count": 285,
+        "wins": 195,
+        "losses": 90,
+        "draws": 0,
+        "winRate": 0.6842105263157895,
+        "averageFlips": 0.28421052631578947,
+        "averageDamageDealt": 2.0280701754385966,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:revenant+revenant",
+        "kind": "friendly-adjacent",
+        "label": "revenant allie + revenant",
+        "count": 279,
+        "wins": 119,
+        "losses": 160,
+        "draws": 0,
+        "winRate": 0.4265232974910394,
+        "averageFlips": 0.1003584229390681,
+        "averageDamageDealt": 1.8387096774193548,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "effect:lantern-shade:gain-shield",
+        "kind": "effect",
+        "label": "Ombre a lanterne -> gain-shield",
+        "count": 268,
+        "wins": 95,
+        "losses": 173,
+        "draws": 0,
+        "winRate": 0.35447761194029853,
+        "averageFlips": 0.23507462686567165,
+        "averageDamageDealt": 0.13805970149253732,
+        "averageEffectAmount": 1.2761194029850746,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:human+human",
+        "kind": "friendly-adjacent",
+        "label": "human allie + human",
+        "count": 267,
+        "wins": 156,
+        "losses": 111,
+        "draws": 0,
+        "winRate": 0.5842696629213483,
+        "averageFlips": 0.15730337078651685,
+        "averageDamageDealt": 1.5131086142322097,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "effect:grave-child:draw-next-turn",
+        "kind": "effect",
+        "label": "Enfant des tombes -> draw-next-turn",
+        "count": 264,
+        "wins": 108,
+        "losses": 156,
+        "draws": 0,
+        "winRate": 0.4090909090909091,
+        "averageFlips": 0.24621212121212122,
+        "averageDamageDealt": 0.04924242424242424,
+        "averageEffectAmount": 1.2992424242424243,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:familiar+familiar",
+        "kind": "friendly-adjacent",
+        "label": "familiar allie + familiar",
+        "count": 250,
+        "wins": 159,
+        "losses": 91,
+        "draws": 0,
+        "winRate": 0.636,
+        "averageFlips": 0.188,
+        "averageDamageDealt": 2.012,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "effect:gear-monk:boost-self",
+        "kind": "effect",
+        "label": "Moine engrene -> boost-self",
+        "count": 240,
+        "wins": 173,
+        "losses": 67,
+        "draws": 0,
+        "winRate": 0.7208333333333333,
+        "averageFlips": 0.30416666666666664,
+        "averageDamageDealt": 0.1,
+        "averageEffectAmount": 1.4958333333333333,
+        "notes": [
+          "Combo gagnant frequent."
+        ]
+      },
+      {
+        "id": "effect:clock-sentinel:boost-self",
+        "kind": "effect",
+        "label": "Sentinelle d'horloge -> boost-self",
+        "count": 231,
+        "wins": 164,
+        "losses": 67,
+        "draws": 0,
+        "winRate": 0.70995670995671,
+        "averageFlips": 0.27705627705627706,
+        "averageDamageDealt": 0.4329004329004329,
+        "averageEffectAmount": 1.2467532467532467,
+        "notes": [
+          "Combo gagnant frequent."
+        ]
+      },
+      {
+        "id": "family-chain:demon->demon",
+        "kind": "family-chain",
+        "label": "demon -> demon",
+        "count": 216,
+        "wins": 142,
+        "losses": 74,
+        "draws": 0,
+        "winRate": 0.6574074074074074,
+        "averageFlips": 0.7314814814814815,
+        "averageDamageDealt": 2.314814814814815,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Produit beaucoup de flips.",
+          "Convertit bien en degats."
+        ]
+      }
+    ],
+    "balanceRecommendations": [
+      {
+        "target": "card",
+        "confidence": "high",
+        "sampleSize": 487,
+        "id": "card-cinder-grin-nerf",
+        "severity": "problem",
+        "action": "nerf",
+        "title": "Sourire de suie tire trop de valeur",
+        "detail": "191 plays, 71% win, 0.66 flips/play, net PV 1.36.",
+        "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
+      },
+      {
+        "target": "family",
+        "confidence": "high",
+        "sampleSize": 2642,
+        "id": "family-automaton-nerf",
+        "severity": "problem",
+        "action": "watch",
+        "title": "automaton domine l'echantillon",
+        "detail": "1453 plays, 69% win, net PV 0.38.",
+        "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
+      },
+      {
+        "target": "family",
+        "confidence": "high",
+        "sampleSize": 1661,
+        "id": "family-demon-nerf",
+        "severity": "problem",
+        "action": "watch",
+        "title": "demon domine l'echantillon",
+        "detail": "863 plays, 66% win, net PV 1.19.",
+        "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
+      },
+      {
+        "target": "family",
+        "confidence": "high",
+        "sampleSize": 2783,
+        "id": "family-revenant-buff",
+        "severity": "watch",
+        "action": "verify",
+        "title": "revenant manque d'attraction",
+        "detail": "2783 offres, 50% selection, 38% win.",
+        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
+      },
+      {
+        "id": "combo-friendly-adjacent:automaton+automaton",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 285,
+        "title": "automaton allie + automaton ressort comme combo",
+        "detail": "285 occurrences, 68% win, 0.28 flips, 2.03 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-friendly-adjacent:revenant+revenant",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 279,
+        "title": "revenant allie + revenant ressort comme combo",
+        "detail": "279 occurrences, 43% win, 0.10 flips, 1.84 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-friendly-adjacent:familiar+familiar",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 250,
+        "title": "familiar allie + familiar ressort comme combo",
+        "detail": "250 occurrences, 64% win, 0.19 flips, 2.01 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-effect:gear-monk:boost-self",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 240,
+        "title": "Moine engrene -> boost-self ressort comme combo",
+        "detail": "240 occurrences, 72% win, 0.30 flips, 0.10 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-family-chain:demon->demon",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 216,
+        "title": "demon -> demon ressort comme combo",
+        "detail": "216 occurrences, 66% win, 0.73 flips, 2.31 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      }
+    ]
+  },
+  "adventureDiagnostics": {
+    "baselineWinRate": 0.7641711229946524,
+    "cardAnalytics": [
+      {
+        "cardId": "reward-rare-05",
+        "name": "Fusion sylvestre",
+        "family": "revenant",
+        "rarity": "rare",
+        "sourceType": "fusion",
+        "sideTotal": 20,
+        "maxSide": 6,
+        "minSide": 4,
+        "effectKinds": [
+          "apply-poison",
+          "draw-next-turn"
+        ],
+        "buildTags": [],
+        "preferredPositions": [],
+        "offered": 55,
+        "played": 9,
+        "ignored": 49,
+        "selectionRate": 0.16363636363636364,
+        "wins": 9,
+        "losses": 0,
+        "draws": 0,
+        "winRateWhenPlayed": 1,
+        "averageFlips": 0.3333333333333333,
+        "failedImpactRate": 0.6666666666666666,
+        "averageFlipMargin": 2.3333333333333335,
+        "averageEffectAmount": 0.3333333333333333,
+        "averageDamageDealt": 3.111111111111111,
+        "averageDamageTaken": 0.8888888888888888,
+        "averageNetDamage": 2.2222222222222223,
+        "lethalMoves": 2,
+        "roundClosers": 3,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 5,
+            "winRate": 1
+          },
+          {
+            "modelId": "regular",
+            "played": 2,
+            "winRate": 1
+          },
+          {
+            "modelId": "expert",
+            "played": 1,
+            "winRate": 1
+          },
+          {
+            "modelId": "champion",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 9,
+            "winRate": 1
+          }
+        ],
+        "status": "overperformer",
+        "notes": [
+          "Surperforme en victoire et impact immediat face a une base de 76%."
+        ]
+      },
+      {
+        "cardId": "reward-uncommon-01",
+        "name": "Carte inhabituelle 01",
+        "family": "familiar",
+        "rarity": "uncommon",
+        "role": "engine",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 13,
+        "maxSide": 6,
+        "minSide": 2,
+        "effectKinds": [
+          "apply-poison"
+        ],
+        "buildTags": [
+          "apply-poison",
+          "combo-2",
+          "engine",
+          "familiar",
+          "uncommon"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 13,
+        "played": 7,
+        "ignored": 11,
+        "selectionRate": 0.5384615384615384,
+        "wins": 7,
+        "losses": 0,
+        "draws": 0,
+        "winRateWhenPlayed": 1,
+        "averageFlips": 0.8571428571428571,
+        "failedImpactRate": 0.25,
+        "averageFlipMargin": 3.3333333333333335,
+        "averageEffectAmount": 2.857142857142857,
+        "averageDamageDealt": 0,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0,
+        "lethalMoves": 0,
+        "roundClosers": 0,
+        "byModel": [
+          {
+            "modelId": "champion",
+            "played": 7,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 7,
+            "winRate": 1
+          }
+        ],
+        "status": "overperformer",
+        "notes": [
+          "Surperforme en victoire et impact immediat face a une base de 76%."
+        ]
+      },
+      {
+        "cardId": "reward-common-10",
+        "name": "Carte commune 10",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "stabilizer",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 11,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "automaton",
+          "common",
+          "corner",
+          "gain-shield",
+          "stabilizer"
+        ],
+        "preferredPositions": [
+          "corner"
+        ],
+        "offered": 14,
+        "played": 6,
+        "ignored": 12,
+        "selectionRate": 0.42857142857142855,
+        "wins": 6,
+        "losses": 0,
+        "draws": 0,
+        "winRateWhenPlayed": 1,
+        "averageFlips": 0.5,
+        "failedImpactRate": 0.4,
+        "averageFlipMargin": 1,
+        "averageEffectAmount": 1.8333333333333333,
+        "averageDamageDealt": 2,
+        "averageDamageTaken": 0.3333333333333333,
+        "averageNetDamage": 1.6666666666666667,
+        "lethalMoves": 1,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 5,
+            "winRate": 1
           },
           {
             "modelId": "regular",
             "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 6,
+            "winRate": 1
+          }
+        ],
+        "status": "overperformer",
+        "notes": [
+          "Surperforme en victoire et impact immediat face a une base de 76%."
+        ]
+      },
+      {
+        "cardId": "rune-mage",
+        "name": "Mage des runes",
+        "family": "human",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 11,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "boost-self",
+          "combo-2",
+          "connector",
+          "draw-next-turn",
+          "human"
+        ],
+        "preferredPositions": [],
+        "offered": 51,
+        "played": 30,
+        "ignored": 39,
+        "selectionRate": 0.5882352941176471,
+        "wins": 16,
+        "losses": 14,
+        "draws": 0,
+        "winRateWhenPlayed": 0.5333333333333333,
+        "averageFlips": 0.36666666666666664,
+        "failedImpactRate": 0.5925925925925926,
+        "averageFlipMargin": 1.5454545454545454,
+        "averageEffectAmount": 2.6,
+        "averageDamageDealt": 0.4666666666666667,
+        "averageDamageTaken": 0.6333333333333333,
+        "averageNetDamage": -0.16666666666666663,
+        "lethalMoves": 0,
+        "roundClosers": 4,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "expert",
+            "played": 11,
+            "winRate": 0.45454545454545453
+          },
+          {
+            "modelId": "opportunist",
+            "played": 4,
+            "winRate": 0.25
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 30,
+            "winRate": 0.5333333333333333
+          }
+        ],
+        "status": "underperformer",
+        "notes": [
+          "Perd trop souvent face a une base de 76%."
+        ]
+      },
+      {
+        "cardId": "wandering-glyph",
+        "name": "Glyphe errant",
+        "family": "arcane",
+        "rarity": "common",
+        "role": "anchor",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "anchor",
+          "arcane",
+          "center",
+          "combo-1",
+          "gain-shield"
+        ],
+        "preferredPositions": [
+          "center"
+        ],
+        "offered": 933,
+        "played": 701,
+        "ignored": 732,
+        "selectionRate": 0.7513397642015005,
+        "wins": 515,
+        "losses": 186,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7346647646219686,
+        "averageFlips": 0.2967189728958631,
+        "failedImpactRate": 0.4140845070422535,
+        "averageFlipMargin": 2.1201923076923075,
+        "averageEffectAmount": 3.559201141226819,
+        "averageDamageDealt": 0.21968616262482168,
+        "averageDamageTaken": 0.0898716119828816,
+        "averageNetDamage": 0.12981455064194009,
+        "lethalMoves": 7,
+        "roundClosers": 13,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 260,
+            "winRate": 0.8461538461538461
+          },
+          {
+            "modelId": "champion",
+            "played": 217,
+            "winRate": 0.7603686635944701
+          },
+          {
+            "modelId": "regular",
+            "played": 196,
+            "winRate": 0.6326530612244898
+          },
+          {
+            "modelId": "beginner",
+            "played": 20,
+            "winRate": 0.1
+          },
+          {
+            "modelId": "opportunist",
+            "played": 8,
+            "winRate": 0.5
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 701,
+            "winRate": 0.7346647646219686
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "rune-adept",
+        "name": "Adepte sigillaire",
+        "family": "arcane",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "adjacent-ally",
+          "arcane",
+          "connector",
+          "draw-next-turn"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 903,
+        "played": 648,
+        "ignored": 660,
+        "selectionRate": 0.717607973421927,
+        "wins": 492,
+        "losses": 156,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7592592592592593,
+        "averageFlips": 0.33487654320987653,
+        "failedImpactRate": 0.5022935779816514,
+        "averageFlipMargin": 2.5161290322580645,
+        "averageEffectAmount": 2.748456790123457,
+        "averageDamageDealt": 0.2052469135802469,
+        "averageDamageTaken": 0.07716049382716049,
+        "averageNetDamage": 0.12808641975308643,
+        "lethalMoves": 8,
+        "roundClosers": 14,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 259,
+            "winRate": 0.8494208494208494
+          },
+          {
+            "modelId": "champion",
+            "played": 203,
+            "winRate": 0.7980295566502463
+          },
+          {
+            "modelId": "regular",
+            "played": 169,
+            "winRate": 0.6390532544378699
+          },
+          {
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0
+          },
+          {
+            "modelId": "opportunist",
+            "played": 2,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 648,
+            "winRate": 0.7592592592592593
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "star-witch",
+        "name": "Sorciere d'etoiles",
+        "family": "arcane",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "arcane",
+          "boost-self",
+          "combo-3",
+          "draw-next-turn",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 1159,
+        "played": 586,
+        "ignored": 933,
+        "selectionRate": 0.5056082830025884,
+        "wins": 448,
+        "losses": 138,
+        "draws": 0,
+        "winRateWhenPlayed": 0.764505119453925,
+        "averageFlips": 0.31569965870307165,
+        "failedImpactRate": 0.4861111111111111,
+        "averageFlipMargin": 2.454054054054054,
+        "averageEffectAmount": 3.1587030716723548,
+        "averageDamageDealt": 0.5648464163822525,
+        "averageDamageTaken": 0.15187713310580206,
+        "averageNetDamage": 0.41296928327645044,
+        "lethalMoves": 17,
+        "roundClosers": 33,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 232,
+            "winRate": 0.8706896551724138
+          },
+          {
+            "modelId": "champion",
+            "played": 182,
+            "winRate": 0.7912087912087912
+          },
+          {
+            "modelId": "regular",
+            "played": 157,
+            "winRate": 0.6496815286624203
+          },
+          {
+            "modelId": "beginner",
+            "played": 14,
+            "winRate": 0
+          },
+          {
+            "modelId": "opportunist",
+            "played": 1,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 586,
+            "winRate": 0.764505119453925
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "moon-scribe",
+        "name": "Scribe lunaire",
+        "family": "arcane",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "adjacent-enemy",
+          "arcane",
+          "attacker",
+          "boost-self"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 1814,
+        "played": 531,
+        "ignored": 1490,
+        "selectionRate": 0.2927232635060639,
+        "wins": 428,
+        "losses": 103,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8060263653483992,
+        "averageFlips": 0.2693032015065913,
+        "failedImpactRate": 0.6442786069651741,
+        "averageFlipMargin": 2.132867132867133,
+        "averageEffectAmount": 0.647834274952919,
+        "averageDamageDealt": 2.9566854990583806,
+        "averageDamageTaken": 0.4708097928436911,
+        "averageNetDamage": 2.4858757062146895,
+        "lethalMoves": 57,
+        "roundClosers": 153,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 200,
+            "winRate": 0.9
+          },
+          {
+            "modelId": "champion",
+            "played": 171,
+            "winRate": 0.8128654970760234
+          },
+          {
+            "modelId": "regular",
+            "played": 133,
+            "winRate": 0.7744360902255639
+          },
+          {
+            "modelId": "beginner",
+            "played": 17,
+            "winRate": 0.11764705882352941
+          },
+          {
+            "modelId": "opportunist",
+            "played": 10,
+            "winRate": 0.4
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 531,
+            "winRate": 0.8060263653483992
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "ember-imp",
+        "name": "Diablotin braise",
+        "family": "demon",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "deal-damage"
+        ],
+        "buildTags": [
+          "attacker",
+          "deal-damage",
+          "demon",
+          "flip-1"
+        ],
+        "preferredPositions": [],
+        "offered": 296,
+        "played": 164,
+        "ignored": 214,
+        "selectionRate": 0.5540540540540541,
+        "wins": 130,
+        "losses": 34,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7926829268292683,
+        "averageFlips": 0.5487804878048781,
+        "failedImpactRate": 0.2682926829268293,
+        "averageFlipMargin": 2.3666666666666667,
+        "averageEffectAmount": 1.201219512195122,
+        "averageDamageDealt": 1.3841463414634145,
+        "averageDamageTaken": 0.31097560975609756,
+        "averageNetDamage": 1.073170731707317,
+        "lethalMoves": 8,
+        "roundClosers": 10,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 115,
+            "winRate": 0.7739130434782608
+          },
+          {
+            "modelId": "regular",
+            "played": 18,
+            "winRate": 0.7777777777777778
+          },
+          {
+            "modelId": "champion",
+            "played": 16,
+            "winRate": 0.8125
+          },
+          {
+            "modelId": "expert",
+            "played": 11,
+            "winRate": 1
+          },
+          {
+            "modelId": "beginner",
+            "played": 4,
+            "winRate": 0.75
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 164,
+            "winRate": 0.7926829268292683
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "hornling",
+        "name": "Cornu farceur",
+        "family": "demon",
+        "rarity": "common",
+        "role": "anchor",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "deal-damage"
+        ],
+        "buildTags": [
+          "adjacent-enemy",
+          "anchor",
+          "boost-self",
+          "deal-damage",
+          "demon",
+          "hybrid-revenant"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 185,
+        "played": 147,
+        "ignored": 140,
+        "selectionRate": 0.7945945945945946,
+        "wins": 108,
+        "losses": 39,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7346938775510204,
+        "averageFlips": 0.5782312925170068,
+        "failedImpactRate": 0.22727272727272727,
+        "averageFlipMargin": 1.8823529411764706,
+        "averageEffectAmount": 1.163265306122449,
+        "averageDamageDealt": 1.2244897959183674,
+        "averageDamageTaken": 0.29931972789115646,
+        "averageNetDamage": 0.9251700680272109,
+        "lethalMoves": 1,
+        "roundClosers": 6,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 105,
+            "winRate": 0.7333333333333333
+          },
+          {
+            "modelId": "expert",
+            "played": 17,
+            "winRate": 0.8235294117647058
+          },
+          {
+            "modelId": "champion",
+            "played": 12,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "regular",
+            "played": 10,
+            "winRate": 0.9
+          },
+          {
+            "modelId": "beginner",
+            "played": 3,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 147,
+            "winRate": 0.7346938775510204
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "pact-sprite",
+        "name": "Lutin a pacte",
+        "family": "demon",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 3,
+        "minSide": 3,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "adjacent-enemy",
+          "boost-self",
+          "combo-1",
+          "connector",
+          "demon"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 176,
+        "played": 122,
+        "ignored": 135,
+        "selectionRate": 0.6931818181818182,
+        "wins": 93,
+        "losses": 29,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7622950819672131,
+        "averageFlips": 0.8770491803278688,
+        "failedImpactRate": 0.10084033613445378,
+        "averageFlipMargin": 2.3738317757009346,
+        "averageEffectAmount": 1.3442622950819672,
+        "averageDamageDealt": 1.6475409836065573,
+        "averageDamageTaken": 0.5081967213114754,
+        "averageNetDamage": 1.139344262295082,
+        "lethalMoves": 2,
+        "roundClosers": 8,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 116,
+            "winRate": 0.7586206896551724
+          },
+          {
+            "modelId": "champion",
+            "played": 3,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "regular",
+            "played": 2,
             "winRate": 1
           },
           {
@@ -12723,8 +11393,77 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 128,
-            "winRate": 0.7421875
+            "played": 122,
+            "winRate": 0.7622950819672131
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "cinder-grin",
+        "name": "Sourire de suie",
+        "family": "demon",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 11,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "deal-damage"
+        ],
+        "buildTags": [
+          "combo-2",
+          "deal-damage",
+          "demon",
+          "flip-1",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 279,
+        "played": 89,
+        "ignored": 226,
+        "selectionRate": 0.31899641577060933,
+        "wins": 73,
+        "losses": 16,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8202247191011236,
+        "averageFlips": 0.47191011235955055,
+        "failedImpactRate": 0.4,
+        "averageFlipMargin": 2.7142857142857144,
+        "averageEffectAmount": 0.7865168539325843,
+        "averageDamageDealt": 6.415730337078652,
+        "averageDamageTaken": 1.3820224719101124,
+        "averageNetDamage": 5.033707865168539,
+        "lethalMoves": 23,
+        "roundClosers": 38,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 87,
+            "winRate": 0.8160919540229885
+          },
+          {
+            "modelId": "expert",
+            "played": 1,
+            "winRate": 1
+          },
+          {
+            "modelId": "champion",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 89,
+            "winRate": 0.8202247191011236
           }
         ],
         "status": "healthy",
@@ -12757,48 +11496,48 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 182,
-        "played": 108,
-        "ignored": 148,
-        "selectionRate": 0.5934065934065934,
-        "wins": 81,
-        "losses": 27,
+        "offered": 145,
+        "played": 87,
+        "ignored": 120,
+        "selectionRate": 0.6,
+        "wins": 63,
+        "losses": 24,
         "draws": 0,
-        "winRateWhenPlayed": 0.75,
-        "averageFlips": 0.39814814814814814,
-        "failedImpactRate": 0.4027777777777778,
-        "averageFlipMargin": 2.1627906976744184,
-        "averageEffectAmount": 1.8148148148148149,
-        "averageDamageDealt": 0.5370370370370371,
-        "averageDamageTaken": 0.2777777777777778,
-        "averageNetDamage": 0.2592592592592593,
-        "lethalMoves": 2,
-        "roundClosers": 7,
+        "winRateWhenPlayed": 0.7241379310344828,
+        "averageFlips": 0.41379310344827586,
+        "failedImpactRate": 0.4,
+        "averageFlipMargin": 2.5277777777777777,
+        "averageEffectAmount": 2.4022988505747125,
+        "averageDamageDealt": 0.40229885057471265,
+        "averageDamageTaken": 0.3103448275862069,
+        "averageNetDamage": 0.09195402298850575,
+        "lethalMoves": 1,
+        "roundClosers": 5,
         "byModel": [
           {
             "modelId": "champion",
-            "played": 43,
-            "winRate": 0.9069767441860465
-          },
-          {
-            "modelId": "beginner",
-            "played": 30,
-            "winRate": 0.5
+            "played": 29,
+            "winRate": 0.8620689655172413
           },
           {
             "modelId": "expert",
-            "played": 20,
-            "winRate": 0.75
+            "played": 28,
+            "winRate": 0.6428571428571429
           },
           {
             "modelId": "opportunist",
-            "played": 9,
-            "winRate": 0.7777777777777778
+            "played": 12,
+            "winRate": 0.75
+          },
+          {
+            "modelId": "beginner",
+            "played": 12,
+            "winRate": 0.5833333333333334
           },
           {
             "modelId": "regular",
             "played": 6,
-            "winRate": 0.8333333333333334
+            "winRate": 0.6666666666666666
           }
         ],
         "byScenario": [
@@ -12806,154 +11545,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 108,
-            "winRate": 0.75
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "cinder-grin",
-        "name": "Sourire de suie",
-        "family": "demon",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "draft",
-        "sideTotal": 11,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "combo-2",
-          "deal-damage",
-          "demon",
-          "flip-1",
-          "payoff"
-        ],
-        "preferredPositions": [],
-        "offered": 229,
-        "played": 73,
-        "ignored": 184,
-        "selectionRate": 0.31877729257641924,
-        "wins": 59,
-        "losses": 14,
-        "draws": 0,
-        "winRateWhenPlayed": 0.8082191780821918,
-        "averageFlips": 0.6575342465753424,
-        "failedImpactRate": 0.23809523809523808,
-        "averageFlipMargin": 2.5416666666666665,
-        "averageEffectAmount": 1.1369863013698631,
-        "averageDamageDealt": 5.534246575342466,
-        "averageDamageTaken": 0.726027397260274,
-        "averageNetDamage": 4.808219178082192,
-        "lethalMoves": 17,
-        "roundClosers": 23,
-        "byModel": [
-          {
-            "modelId": "opportunist",
-            "played": 64,
-            "winRate": 0.8125
-          },
-          {
-            "modelId": "beginner",
-            "played": 9,
-            "winRate": 0.7777777777777778
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 73,
-            "winRate": 0.8082191780821918
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "clock-sentinel",
-        "name": "Sentinelle d'horloge",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "anchor",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "gain-shield"
-        ],
-        "buildTags": [
-          "anchor",
-          "automaton",
-          "boost-self",
-          "corner",
-          "gain-shield"
-        ],
-        "preferredPositions": [
-          "corner"
-        ],
-        "offered": 105,
-        "played": 67,
-        "ignored": 73,
-        "selectionRate": 0.638095238095238,
-        "wins": 44,
-        "losses": 23,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6567164179104478,
-        "averageFlips": 0.3582089552238806,
-        "failedImpactRate": 0.5471698113207547,
-        "averageFlipMargin": 1.75,
-        "averageEffectAmount": 2.985074626865672,
-        "averageDamageDealt": 1.0149253731343284,
-        "averageDamageTaken": 0.34328358208955223,
-        "averageNetDamage": 0.6716417910447762,
-        "lethalMoves": 3,
-        "roundClosers": 6,
-        "byModel": [
-          {
-            "modelId": "beginner",
-            "played": 19,
-            "winRate": 0.5789473684210527
-          },
-          {
-            "modelId": "opportunist",
-            "played": 18,
-            "winRate": 0.7222222222222222
-          },
-          {
-            "modelId": "regular",
-            "played": 16,
-            "winRate": 0.5625
-          },
-          {
-            "modelId": "expert",
-            "played": 9,
-            "winRate": 0.7777777777777778
-          },
-          {
-            "modelId": "champion",
-            "played": 5,
-            "winRate": 0.8
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 67,
-            "winRate": 0.6567164179104478
+            "played": 87,
+            "winRate": 0.7241379310344828
           }
         ],
         "status": "healthy",
@@ -12985,47 +11578,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "revenant"
         ],
         "preferredPositions": [],
-        "offered": 238,
-        "played": 61,
-        "ignored": 206,
-        "selectionRate": 0.25630252100840334,
-        "wins": 50,
-        "losses": 11,
+        "offered": 182,
+        "played": 69,
+        "ignored": 151,
+        "selectionRate": 0.3791208791208791,
+        "wins": 54,
+        "losses": 15,
         "draws": 0,
-        "winRateWhenPlayed": 0.819672131147541,
-        "averageFlips": 0.21311475409836064,
-        "failedImpactRate": 0.6060606060606061,
-        "averageFlipMargin": 2.230769230769231,
-        "averageEffectAmount": 0.7377049180327869,
-        "averageDamageDealt": 2.1475409836065573,
-        "averageDamageTaken": 0.29508196721311475,
-        "averageNetDamage": 1.8524590163934427,
-        "lethalMoves": 7,
-        "roundClosers": 12,
+        "winRateWhenPlayed": 0.782608695652174,
+        "averageFlips": 0.37681159420289856,
+        "failedImpactRate": 0.46938775510204084,
+        "averageFlipMargin": 2.5384615384615383,
+        "averageEffectAmount": 1.0289855072463767,
+        "averageDamageDealt": 2.072463768115942,
+        "averageDamageTaken": 0.5072463768115942,
+        "averageNetDamage": 1.5652173913043477,
+        "lethalMoves": 6,
+        "roundClosers": 10,
         "byModel": [
           {
-            "modelId": "regular",
-            "played": 17,
-            "winRate": 0.9411764705882353
-          },
-          {
-            "modelId": "expert",
-            "played": 16,
-            "winRate": 0.75
-          },
-          {
             "modelId": "beginner",
-            "played": 14,
-            "winRate": 0.7142857142857143
+            "played": 29,
+            "winRate": 0.7586206896551724
           },
           {
             "modelId": "opportunist",
-            "played": 10,
-            "winRate": 0.9
+            "played": 15,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "expert",
+            "played": 9,
+            "winRate": 1
+          },
+          {
+            "modelId": "regular",
+            "played": 8,
+            "winRate": 0.875
           },
           {
             "modelId": "champion",
-            "played": 4,
+            "played": 8,
             "winRate": 0.75
           }
         ],
@@ -13034,8 +11627,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 61,
-            "winRate": 0.819672131147541
+            "played": 69,
+            "winRate": 0.782608695652174
           }
         ],
         "status": "healthy",
@@ -13044,68 +11637,65 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "badger",
-        "name": "Poney runique",
-        "family": "familiar",
+        "cardId": "clock-sentinel",
+        "name": "Sentinelle d'horloge",
+        "family": "automaton",
         "rarity": "common",
-        "role": "attacker",
+        "role": "anchor",
         "sourceType": "draft",
         "sideTotal": 12,
         "maxSide": 5,
         "minSide": 2,
         "effectKinds": [
+          "boost-self",
           "gain-shield"
         ],
         "buildTags": [
-          "attacker",
+          "anchor",
+          "automaton",
+          "boost-self",
           "corner",
-          "familiar",
           "gain-shield"
         ],
         "preferredPositions": [
           "corner"
         ],
-        "offered": 146,
-        "played": 61,
-        "ignored": 118,
-        "selectionRate": 0.4178082191780822,
-        "wins": 45,
-        "losses": 16,
+        "offered": 95,
+        "played": 66,
+        "ignored": 61,
+        "selectionRate": 0.6947368421052632,
+        "wins": 56,
+        "losses": 10,
         "draws": 0,
-        "winRateWhenPlayed": 0.7377049180327869,
-        "averageFlips": 0.22950819672131148,
-        "failedImpactRate": 0.5,
-        "averageFlipMargin": 2.7857142857142856,
-        "averageEffectAmount": 1.5737704918032787,
-        "averageDamageDealt": 2.262295081967213,
-        "averageDamageTaken": 0.6065573770491803,
-        "averageNetDamage": 1.6557377049180326,
-        "lethalMoves": 6,
-        "roundClosers": 12,
+        "winRateWhenPlayed": 0.8484848484848485,
+        "averageFlips": 0.42424242424242425,
+        "failedImpactRate": 0.391304347826087,
+        "averageFlipMargin": 2.2857142857142856,
+        "averageEffectAmount": 2.9393939393939394,
+        "averageDamageDealt": 1.4545454545454546,
+        "averageDamageTaken": 0.5606060606060606,
+        "averageNetDamage": 0.893939393939394,
+        "lethalMoves": 4,
+        "roundClosers": 8,
         "byModel": [
           {
-            "modelId": "beginner",
-            "played": 27,
-            "winRate": 0.4444444444444444
-          },
-          {
-            "modelId": "expert",
-            "played": 14,
-            "winRate": 1
-          },
-          {
             "modelId": "champion",
-            "played": 12,
-            "winRate": 1
+            "played": 23,
+            "winRate": 0.8695652173913043
           },
           {
             "modelId": "opportunist",
-            "played": 6,
-            "winRate": 0.8333333333333334
+            "played": 16,
+            "winRate": 0.875
           },
           {
-            "modelId": "regular",
-            "played": 2,
+            "modelId": "beginner",
+            "played": 15,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "expert",
+            "played": 12,
             "winRate": 1
           }
         ],
@@ -13114,8 +11704,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 61,
-            "winRate": 0.7377049180327869
+            "played": 66,
+            "winRate": 0.8484848484848485
           }
         ],
         "status": "healthy",
@@ -13145,47 +11735,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "behind"
         ],
-        "offered": 95,
-        "played": 57,
-        "ignored": 72,
-        "selectionRate": 0.6,
-        "wins": 42,
-        "losses": 15,
+        "offered": 144,
+        "played": 64,
+        "ignored": 108,
+        "selectionRate": 0.4444444444444444,
+        "wins": 46,
+        "losses": 18,
         "draws": 0,
-        "winRateWhenPlayed": 0.7368421052631579,
-        "averageFlips": 0.3684210526315789,
-        "failedImpactRate": 0.4473684210526316,
-        "averageFlipMargin": 2.142857142857143,
-        "averageEffectAmount": 1.7719298245614035,
-        "averageDamageDealt": 0.19298245614035087,
-        "averageDamageTaken": 0.21052631578947367,
-        "averageNetDamage": -0.017543859649122806,
+        "winRateWhenPlayed": 0.71875,
+        "averageFlips": 0.390625,
+        "failedImpactRate": 0.34210526315789475,
+        "averageFlipMargin": 2.44,
+        "averageEffectAmount": 1.515625,
+        "averageDamageDealt": 1.015625,
+        "averageDamageTaken": 0.234375,
+        "averageNetDamage": 0.78125,
         "lethalMoves": 1,
-        "roundClosers": 2,
+        "roundClosers": 5,
         "byModel": [
           {
-            "modelId": "expert",
-            "played": 19,
-            "winRate": 0.8421052631578947
-          },
-          {
             "modelId": "beginner",
-            "played": 14,
-            "winRate": 0.42857142857142855
-          },
-          {
-            "modelId": "regular",
-            "played": 11,
-            "winRate": 0.9090909090909091
-          },
-          {
-            "modelId": "opportunist",
-            "played": 7,
-            "winRate": 0.5714285714285714
+            "played": 25,
+            "winRate": 0.68
           },
           {
             "modelId": "champion",
-            "played": 6,
+            "played": 11,
+            "winRate": 0.45454545454545453
+          },
+          {
+            "modelId": "expert",
+            "played": 10,
+            "winRate": 1
+          },
+          {
+            "modelId": "opportunist",
+            "played": 10,
+            "winRate": 0.6
+          },
+          {
+            "modelId": "regular",
+            "played": 8,
             "winRate": 1
           }
         ],
@@ -13194,8 +11784,164 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 57,
-            "winRate": 0.7368421052631579
+            "played": 64,
+            "winRate": 0.71875
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "badger",
+        "name": "Poney runique",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "attacker",
+          "corner",
+          "familiar",
+          "gain-shield"
+        ],
+        "preferredPositions": [
+          "corner"
+        ],
+        "offered": 96,
+        "played": 53,
+        "ignored": 72,
+        "selectionRate": 0.5520833333333334,
+        "wins": 49,
+        "losses": 4,
+        "draws": 0,
+        "winRateWhenPlayed": 0.9245283018867925,
+        "averageFlips": 0.11320754716981132,
+        "failedImpactRate": 0.5,
+        "averageFlipMargin": 2.8333333333333335,
+        "averageEffectAmount": 1.679245283018868,
+        "averageDamageDealt": 0.4339622641509434,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0.4339622641509434,
+        "lethalMoves": 2,
+        "roundClosers": 2,
+        "byModel": [
+          {
+            "modelId": "champion",
+            "played": 17,
+            "winRate": 0.9411764705882353
+          },
+          {
+            "modelId": "expert",
+            "played": 15,
+            "winRate": 0.9333333333333333
+          },
+          {
+            "modelId": "beginner",
+            "played": 13,
+            "winRate": 0.8461538461538461
+          },
+          {
+            "modelId": "opportunist",
+            "played": 6,
+            "winRate": 1
+          },
+          {
+            "modelId": "regular",
+            "played": 2,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 53,
+            "winRate": 0.9245283018867925
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "grave-child",
+        "name": "Enfant des tombes",
+        "family": "revenant",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "behind-on-board",
+          "combo-2",
+          "connector",
+          "draw-next-turn",
+          "revenant"
+        ],
+        "preferredPositions": [
+          "behind"
+        ],
+        "offered": 85,
+        "played": 43,
+        "ignored": 56,
+        "selectionRate": 0.5058823529411764,
+        "wins": 33,
+        "losses": 10,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7674418604651163,
+        "averageFlips": 0.4186046511627907,
+        "failedImpactRate": 0.5135135135135135,
+        "averageFlipMargin": 2.888888888888889,
+        "averageEffectAmount": 1.627906976744186,
+        "averageDamageDealt": 1.069767441860465,
+        "averageDamageTaken": 0.37209302325581395,
+        "averageNetDamage": 0.6976744186046511,
+        "lethalMoves": 2,
+        "roundClosers": 4,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 25,
+            "winRate": 0.76
+          },
+          {
+            "modelId": "expert",
+            "played": 15,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "opportunist",
+            "played": 2,
+            "winRate": 0.5
+          },
+          {
+            "modelId": "regular",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 43,
+            "winRate": 0.7674418604651163
           }
         ],
         "status": "healthy",
@@ -13223,38 +11969,341 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
           "combo-1"
         ],
         "preferredPositions": [],
-        "offered": 108,
-        "played": 44,
-        "ignored": 81,
-        "selectionRate": 0.4074074074074074,
+        "offered": 89,
+        "played": 40,
+        "ignored": 66,
+        "selectionRate": 0.449438202247191,
         "wins": 36,
-        "losses": 8,
+        "losses": 4,
         "draws": 0,
-        "winRateWhenPlayed": 0.8181818181818182,
-        "averageFlips": 0.20454545454545456,
-        "failedImpactRate": 0.6086956521739131,
-        "averageFlipMargin": 3.5555555555555554,
-        "averageEffectAmount": 2.4545454545454546,
-        "averageDamageDealt": 0.22727272727272727,
-        "averageDamageTaken": 0.045454545454545456,
-        "averageNetDamage": 0.18181818181818182,
+        "winRateWhenPlayed": 0.9,
+        "averageFlips": 0.175,
+        "failedImpactRate": 0.5,
+        "averageFlipMargin": 1.8571428571428572,
+        "averageEffectAmount": 2.7,
+        "averageDamageDealt": 0.95,
+        "averageDamageTaken": 0.15,
+        "averageNetDamage": 0.7999999999999999,
         "lethalMoves": 0,
-        "roundClosers": 1,
+        "roundClosers": 3,
         "byModel": [
           {
             "modelId": "beginner",
-            "played": 23,
-            "winRate": 0.6521739130434783
+            "played": 14,
+            "winRate": 0.7142857142857143
+          },
+          {
+            "modelId": "champion",
+            "played": 11,
+            "winRate": 1
           },
           {
             "modelId": "expert",
-            "played": 13,
+            "played": 6,
+            "winRate": 1
+          },
+          {
+            "modelId": "opportunist",
+            "played": 5,
             "winRate": 1
           },
           {
             "modelId": "regular",
-            "played": 5,
+            "played": 4,
             "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 40,
+            "winRate": 0.9
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "moth-ghost",
+        "name": "Fantome phalene",
+        "family": "revenant",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "behind-on-board",
+          "boost-self",
+          "combo-2",
+          "draw-next-turn",
+          "payoff",
+          "revenant"
+        ],
+        "preferredPositions": [
+          "behind"
+        ],
+        "offered": 102,
+        "played": 37,
+        "ignored": 88,
+        "selectionRate": 0.3627450980392157,
+        "wins": 32,
+        "losses": 5,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8648648648648649,
+        "averageFlips": 0.43243243243243246,
+        "failedImpactRate": 0.5789473684210527,
+        "averageFlipMargin": 3.625,
+        "averageEffectAmount": 2.5675675675675675,
+        "averageDamageDealt": 0.972972972972973,
+        "averageDamageTaken": 0.32432432432432434,
+        "averageNetDamage": 0.6486486486486487,
+        "lethalMoves": 2,
+        "roundClosers": 3,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 27,
+            "winRate": 0.8148148148148148
+          },
+          {
+            "modelId": "expert",
+            "played": 10,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 37,
+            "winRate": 0.8648648648648649
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "path-ranger",
+        "name": "Rodeuse du sentier",
+        "family": "human",
+        "rarity": "common",
+        "role": "attacker",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "attacker",
+          "boost-self",
+          "combo-2",
+          "edge",
+          "human"
+        ],
+        "preferredPositions": [
+          "edge"
+        ],
+        "offered": 140,
+        "played": 34,
+        "ignored": 121,
+        "selectionRate": 0.24285714285714285,
+        "wins": 27,
+        "losses": 7,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7941176470588235,
+        "averageFlips": 0.20588235294117646,
+        "failedImpactRate": 0.6666666666666666,
+        "averageFlipMargin": 1,
+        "averageEffectAmount": 0.7941176470588235,
+        "averageDamageDealt": 2.764705882352941,
+        "averageDamageTaken": 0.6764705882352942,
+        "averageNetDamage": 2.0882352941176467,
+        "lethalMoves": 4,
+        "roundClosers": 8,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 15,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "beginner",
+            "played": 14,
+            "winRate": 0.7857142857142857
+          },
+          {
+            "modelId": "regular",
+            "played": 4,
+            "winRate": 1
+          },
+          {
+            "modelId": "opportunist",
+            "played": 1,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 34,
+            "winRate": 0.7941176470588235
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "quiet-monk",
+        "name": "Moine du seuil",
+        "family": "human",
+        "rarity": "common",
+        "role": "anchor",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "anchor",
+          "boost-self",
+          "combo-2",
+          "edge",
+          "human"
+        ],
+        "preferredPositions": [
+          "edge"
+        ],
+        "offered": 53,
+        "played": 33,
+        "ignored": 44,
+        "selectionRate": 0.6226415094339622,
+        "wins": 22,
+        "losses": 11,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6666666666666666,
+        "averageFlips": 0.30303030303030304,
+        "failedImpactRate": 0.6153846153846154,
+        "averageFlipMargin": 2.2,
+        "averageEffectAmount": 2.303030303030303,
+        "averageDamageDealt": 0.696969696969697,
+        "averageDamageTaken": 0.42424242424242425,
+        "averageNetDamage": 0.27272727272727276,
+        "lethalMoves": 1,
+        "roundClosers": 2,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 20,
+            "winRate": 0.65
+          },
+          {
+            "modelId": "expert",
+            "played": 9,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "opportunist",
+            "played": 2,
+            "winRate": 1
+          },
+          {
+            "modelId": "regular",
+            "played": 2,
+            "winRate": 0.5
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 33,
+            "winRate": 0.6666666666666666
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "reward-uncommon-02",
+        "name": "Carte inhabituelle 02",
+        "family": "demon",
+        "rarity": "uncommon",
+        "role": "attacker",
+        "sourceType": "reward",
+        "sideTotal": 13,
+        "maxSide": 6,
+        "minSide": 2,
+        "effectKinds": [
+          "deal-damage"
+        ],
+        "buildTags": [
+          "adjacent-enemy",
+          "attacker",
+          "combo-2",
+          "deal-damage",
+          "demon",
+          "hybrid-arcane",
+          "uncommon"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 66,
+        "played": 31,
+        "ignored": 51,
+        "selectionRate": 0.4696969696969697,
+        "wins": 19,
+        "losses": 12,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6129032258064516,
+        "averageFlips": 0.25806451612903225,
+        "failedImpactRate": 0.6923076923076923,
+        "averageFlipMargin": 1.875,
+        "averageEffectAmount": 1.032258064516129,
+        "averageDamageDealt": 1.8064516129032258,
+        "averageDamageTaken": 0.6774193548387096,
+        "averageNetDamage": 1.129032258064516,
+        "lethalMoves": 2,
+        "roundClosers": 4,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 15,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "regular",
+            "played": 8,
+            "winRate": 0.25
+          },
+          {
+            "modelId": "expert",
+            "played": 5,
+            "winRate": 0.4
           },
           {
             "modelId": "champion",
@@ -13267,8 +12316,140 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 44,
-            "winRate": 0.8181818181818182
+            "played": 31,
+            "winRate": 0.6129032258064516
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "heron",
+        "name": "Oiselle aubeplume",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "combo-2",
+          "connector",
+          "draw-next-turn",
+          "familiar",
+          "flip-1"
+        ],
+        "preferredPositions": [],
+        "offered": 43,
+        "played": 19,
+        "ignored": 29,
+        "selectionRate": 0.4418604651162791,
+        "wins": 13,
+        "losses": 6,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6842105263157895,
+        "averageFlips": 0.3157894736842105,
+        "failedImpactRate": 0.5714285714285714,
+        "averageFlipMargin": 1.8333333333333333,
+        "averageEffectAmount": 1,
+        "averageDamageDealt": 0.3157894736842105,
+        "averageDamageTaken": 0.2631578947368421,
+        "averageNetDamage": 0.05263157894736842,
+        "lethalMoves": 0,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 9,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "champion",
+            "played": 5,
+            "winRate": 0.8
+          },
+          {
+            "modelId": "expert",
+            "played": 5,
+            "winRate": 0.6
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 19,
+            "winRate": 0.6842105263157895
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "field-knight",
+        "name": "Chevaliere des champs",
+        "family": "human",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "combo-2",
+          "gain-shield",
+          "human",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 45,
+        "played": 17,
+        "ignored": 34,
+        "selectionRate": 0.37777777777777777,
+        "wins": 12,
+        "losses": 5,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7058823529411765,
+        "averageFlips": 0.11764705882352941,
+        "failedImpactRate": 0.8,
+        "averageFlipMargin": 2,
+        "averageEffectAmount": 2,
+        "averageDamageDealt": 1.5294117647058822,
+        "averageDamageTaken": 0.29411764705882354,
+        "averageNetDamage": 1.2352941176470587,
+        "lethalMoves": 1,
+        "roundClosers": 4,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 16,
+            "winRate": 0.75
+          },
+          {
+            "modelId": "opportunist",
+            "played": 1,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 17,
+            "winRate": 0.7058823529411765
           }
         ],
         "status": "healthy",
@@ -13278,12 +12459,12 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       },
       {
         "cardId": "reward-uncommon-04",
-        "name": "Carte inhabituelle 04 +",
+        "name": "Carte inhabituelle 04",
         "family": "automaton",
         "rarity": "uncommon",
         "role": "payoff",
-        "sourceType": "upgrade",
-        "sideTotal": 14,
+        "sourceType": "reward",
+        "sideTotal": 13,
         "maxSide": 6,
         "minSide": 2,
         "effectKinds": [
@@ -13303,43 +12484,33 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 75,
-        "played": 40,
-        "ignored": 61,
+        "offered": 30,
+        "played": 16,
+        "ignored": 23,
         "selectionRate": 0.5333333333333333,
-        "wins": 35,
-        "losses": 5,
+        "wins": 14,
+        "losses": 2,
         "draws": 0,
         "winRateWhenPlayed": 0.875,
-        "averageFlips": 0.275,
-        "failedImpactRate": 0.56,
-        "averageFlipMargin": 3.090909090909091,
-        "averageEffectAmount": 1.9,
-        "averageDamageDealt": 0.925,
-        "averageDamageTaken": 0.25,
-        "averageNetDamage": 0.675,
-        "lethalMoves": 1,
-        "roundClosers": 3,
+        "averageFlips": 0.3125,
+        "failedImpactRate": 0.4444444444444444,
+        "averageFlipMargin": 1.2,
+        "averageEffectAmount": 2.9375,
+        "averageDamageDealt": 0,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0,
+        "lethalMoves": 0,
+        "roundClosers": 0,
         "byModel": [
           {
-            "modelId": "expert",
-            "played": 15,
-            "winRate": 0.8666666666666667
-          },
-          {
             "modelId": "champion",
-            "played": 13,
+            "played": 9,
+            "winRate": 0.7777777777777778
+          },
+          {
+            "modelId": "expert",
+            "played": 7,
             "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 10,
-            "winRate": 0.8
-          },
-          {
-            "modelId": "opportunist",
-            "played": 2,
-            "winRate": 0.5
           }
         ],
         "byScenario": [
@@ -13347,8 +12518,335 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 40,
+            "played": 16,
             "winRate": 0.875
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "gear-monk",
+        "name": "Moine engrene",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "automaton",
+          "boost-self",
+          "combo-2",
+          "connector",
+          "draw-next-turn"
+        ],
+        "preferredPositions": [],
+        "offered": 44,
+        "played": 13,
+        "ignored": 39,
+        "selectionRate": 0.29545454545454547,
+        "wins": 9,
+        "losses": 4,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6923076923076923,
+        "averageFlips": 0.6923076923076923,
+        "failedImpactRate": 0.4,
+        "averageFlipMargin": 2.6666666666666665,
+        "averageEffectAmount": 3.8461538461538463,
+        "averageDamageDealt": 0,
+        "averageDamageTaken": 1,
+        "averageNetDamage": -1,
+        "lethalMoves": 0,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 12,
+            "winRate": 0.6666666666666666
+          },
+          {
+            "modelId": "opportunist",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 13,
+            "winRate": 0.6923076923076923
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "tin-oracle",
+        "name": "Oracle de fer-blanc",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 2,
+        "effectKinds": [
+          "boost-self",
+          "gain-mana-next-turn"
+        ],
+        "buildTags": [
+          "automaton",
+          "boost-self",
+          "combo-1",
+          "combo-2",
+          "corner",
+          "gain-mana-next-turn",
+          "payoff"
+        ],
+        "preferredPositions": [
+          "corner"
+        ],
+        "offered": 39,
+        "played": 13,
+        "ignored": 33,
+        "selectionRate": 0.3333333333333333,
+        "wins": 8,
+        "losses": 5,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6153846153846154,
+        "averageFlips": 0.23076923076923078,
+        "failedImpactRate": 0.7,
+        "averageFlipMargin": 4.333333333333333,
+        "averageEffectAmount": 4.6923076923076925,
+        "averageDamageDealt": 1.7692307692307692,
+        "averageDamageTaken": 0.7692307692307693,
+        "averageNetDamage": 0.9999999999999999,
+        "lethalMoves": 0,
+        "roundClosers": 2,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 12,
+            "winRate": 0.5833333333333334
+          },
+          {
+            "modelId": "opportunist",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 13,
+            "winRate": 0.6153846153846154
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "reward-common-04",
+        "name": "Carte commune 04",
+        "family": "automaton",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "automaton",
+          "common",
+          "corner",
+          "gain-shield",
+          "payoff"
+        ],
+        "preferredPositions": [
+          "corner"
+        ],
+        "offered": 22,
+        "played": 10,
+        "ignored": 19,
+        "selectionRate": 0.45454545454545453,
+        "wins": 7,
+        "losses": 3,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7,
+        "averageFlips": 0.2,
+        "failedImpactRate": 0.6666666666666666,
+        "averageFlipMargin": 1,
+        "averageEffectAmount": 2.1,
+        "averageDamageDealt": 0.8,
+        "averageDamageTaken": 1,
+        "averageNetDamage": -0.19999999999999996,
+        "lethalMoves": 1,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "opportunist",
+            "played": 5,
+            "winRate": 1
+          },
+          {
+            "modelId": "expert",
+            "played": 5,
+            "winRate": 0.4
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 10,
+            "winRate": 0.7
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "reward-uncommon-06",
+        "name": "Carte inhabituelle 06",
+        "family": "arcane",
+        "rarity": "uncommon",
+        "role": "connector",
+        "sourceType": "reward",
+        "sideTotal": 13,
+        "maxSide": 5,
+        "minSide": 1,
+        "effectKinds": [
+          "boost-self"
+        ],
+        "buildTags": [
+          "arcane",
+          "boost-self",
+          "center",
+          "combo-2",
+          "connector",
+          "hybrid-familiar",
+          "uncommon"
+        ],
+        "preferredPositions": [
+          "center"
+        ],
+        "offered": 28,
+        "played": 9,
+        "ignored": 24,
+        "selectionRate": 0.32142857142857145,
+        "wins": 7,
+        "losses": 2,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7777777777777778,
+        "averageFlips": 0.3333333333333333,
+        "failedImpactRate": 0.7272727272727273,
+        "averageFlipMargin": 3,
+        "averageEffectAmount": 2.111111111111111,
+        "averageDamageDealt": 0.6666666666666666,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0.6666666666666666,
+        "lethalMoves": 0,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "champion",
+            "played": 7,
+            "winRate": 1
+          },
+          {
+            "modelId": "expert",
+            "played": 2,
+            "winRate": 0
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 9,
+            "winRate": 0.7777777777777778
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "foxfire",
+        "name": "Requin runefer",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "draft",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "gain-shield"
+        ],
+        "buildTags": [
+          "combo-2",
+          "familiar",
+          "flip-1",
+          "gain-shield",
+          "payoff"
+        ],
+        "preferredPositions": [],
+        "offered": 22,
+        "played": 8,
+        "ignored": 17,
+        "selectionRate": 0.36363636363636365,
+        "wins": 6,
+        "losses": 2,
+        "draws": 0,
+        "winRateWhenPlayed": 0.75,
+        "averageFlips": 0.25,
+        "failedImpactRate": 0.6,
+        "averageFlipMargin": 1.5,
+        "averageEffectAmount": 0.375,
+        "averageDamageDealt": 1.5,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 1.5,
+        "lethalMoves": 0,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "beginner",
+            "played": 8,
+            "winRate": 0.75
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 8,
+            "winRate": 0.75
           }
         ],
         "status": "healthy",
@@ -13381,374 +12879,31 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "adjacent"
         ],
-        "offered": 53,
-        "played": 28,
-        "ignored": 40,
-        "selectionRate": 0.5283018867924528,
-        "wins": 23,
-        "losses": 5,
-        "draws": 0,
-        "winRateWhenPlayed": 0.8214285714285714,
-        "averageFlips": 0.35714285714285715,
-        "failedImpactRate": 0.5833333333333334,
-        "averageFlipMargin": 1,
-        "averageEffectAmount": 0.8214285714285714,
-        "averageDamageDealt": 1.3928571428571428,
-        "averageDamageTaken": 0.4642857142857143,
-        "averageNetDamage": 0.9285714285714285,
-        "lethalMoves": 3,
-        "roundClosers": 3,
-        "byModel": [
-          {
-            "modelId": "opportunist",
-            "played": 10,
-            "winRate": 0.8
-          },
-          {
-            "modelId": "champion",
-            "played": 9,
-            "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 9,
-            "winRate": 0.6666666666666666
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 28,
-            "winRate": 0.8214285714285714
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "gear-monk",
-        "name": "Moine engrene",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "automaton",
-          "boost-self",
-          "combo-2",
-          "connector",
-          "draw-next-turn"
-        ],
-        "preferredPositions": [],
-        "offered": 41,
-        "played": 19,
-        "ignored": 31,
-        "selectionRate": 0.4634146341463415,
-        "wins": 14,
-        "losses": 5,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7368421052631579,
-        "averageFlips": 0.15789473684210525,
-        "failedImpactRate": 0.5714285714285714,
-        "averageFlipMargin": 1.3333333333333333,
-        "averageEffectAmount": 3.8421052631578947,
-        "averageDamageDealt": 0.47368421052631576,
-        "averageDamageTaken": 0.10526315789473684,
-        "averageNetDamage": 0.3684210526315789,
-        "lethalMoves": 0,
-        "roundClosers": 1,
-        "byModel": [
-          {
-            "modelId": "beginner",
-            "played": 14,
-            "winRate": 0.6428571428571429
-          },
-          {
-            "modelId": "opportunist",
-            "played": 5,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 19,
-            "winRate": 0.7368421052631579
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "quiet-monk",
-        "name": "Moine du seuil",
-        "family": "human",
-        "rarity": "common",
-        "role": "anchor",
-        "sourceType": "draft",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "anchor",
-          "boost-self",
-          "combo-2",
-          "edge",
-          "human"
-        ],
-        "preferredPositions": [
-          "edge"
-        ],
-        "offered": 33,
-        "played": 16,
-        "ignored": 27,
-        "selectionRate": 0.48484848484848486,
-        "wins": 13,
-        "losses": 3,
-        "draws": 0,
-        "winRateWhenPlayed": 0.8125,
-        "averageFlips": 0.5625,
-        "failedImpactRate": 0.3076923076923077,
-        "averageFlipMargin": 2.4444444444444446,
-        "averageEffectAmount": 1.375,
-        "averageDamageDealt": 1.1875,
-        "averageDamageTaken": 0.0625,
-        "averageNetDamage": 1.125,
-        "lethalMoves": 1,
-        "roundClosers": 1,
-        "byModel": [
-          {
-            "modelId": "champion",
-            "played": 6,
-            "winRate": 1
-          },
-          {
-            "modelId": "opportunist",
-            "played": 6,
-            "winRate": 0.6666666666666666
-          },
-          {
-            "modelId": "expert",
-            "played": 3,
-            "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 1,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 16,
-            "winRate": 0.8125
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "reward-common-10",
-        "name": "Carte commune 10",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "stabilizer",
-        "sourceType": "enemy-upgrade",
-        "sideTotal": 11,
-        "maxSide": 5,
-        "minSide": 1,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "automaton",
-          "common",
-          "corner",
-          "gain-shield",
-          "stabilizer"
-        ],
-        "preferredPositions": [
-          "corner"
-        ],
-        "offered": 15,
-        "played": 11,
-        "ignored": 12,
-        "selectionRate": 0.7333333333333333,
-        "wins": 9,
-        "losses": 2,
-        "draws": 0,
-        "winRateWhenPlayed": 0.8181818181818182,
-        "averageFlips": 0,
-        "failedImpactRate": 1,
-        "averageFlipMargin": 0,
-        "averageEffectAmount": 3,
-        "averageDamageDealt": 0.7272727272727273,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0.7272727272727273,
-        "lethalMoves": 1,
-        "roundClosers": 1,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 11,
-            "winRate": 0.8181818181818182
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 11,
-            "winRate": 0.8181818181818182
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "reward-common-04",
-        "name": "Carte commune 04",
-        "family": "automaton",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "enemy-upgrade",
-        "sideTotal": 12,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "gain-shield"
-        ],
-        "buildTags": [
-          "automaton",
-          "common",
-          "corner",
-          "gain-shield",
-          "payoff"
-        ],
-        "preferredPositions": [
-          "corner"
-        ],
-        "offered": 13,
-        "played": 8,
-        "ignored": 9,
-        "selectionRate": 0.6153846153846154,
-        "wins": 8,
-        "losses": 0,
-        "draws": 0,
-        "winRateWhenPlayed": 1,
-        "averageFlips": 0.125,
-        "failedImpactRate": 0.6666666666666666,
-        "averageFlipMargin": 1,
-        "averageEffectAmount": 3.125,
-        "averageDamageDealt": 0.375,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0.375,
-        "lethalMoves": 0,
-        "roundClosers": 0,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 7,
-            "winRate": 1
-          },
-          {
-            "modelId": "regular",
-            "played": 1,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 8,
-            "winRate": 1
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "reward-common-08",
-        "name": "Carte commune 08",
-        "family": "demon",
-        "rarity": "common",
-        "role": "payoff",
-        "sourceType": "reward",
-        "sideTotal": 12,
-        "maxSide": 4,
-        "minSide": 1,
-        "effectKinds": [
-          "deal-damage"
-        ],
-        "buildTags": [
-          "common",
-          "deal-damage",
-          "demon",
-          "payoff"
-        ],
-        "preferredPositions": [
-          "adjacent"
-        ],
-        "offered": 32,
+        "offered": 11,
         "played": 7,
-        "ignored": 29,
-        "selectionRate": 0.21875,
+        "ignored": 9,
+        "selectionRate": 0.6363636363636364,
         "wins": 6,
         "losses": 1,
         "draws": 0,
         "winRateWhenPlayed": 0.8571428571428571,
-        "averageFlips": 0.5714285714285714,
-        "failedImpactRate": 0.6363636363636364,
-        "averageFlipMargin": 0.75,
-        "averageEffectAmount": 0.42857142857142855,
-        "averageDamageDealt": 2.857142857142857,
-        "averageDamageTaken": 0.8571428571428571,
-        "averageNetDamage": 2,
-        "lethalMoves": 1,
-        "roundClosers": 2,
+        "averageFlips": 0.42857142857142855,
+        "failedImpactRate": 0.7,
+        "averageFlipMargin": 2.3333333333333335,
+        "averageEffectAmount": 0.7142857142857143,
+        "averageDamageDealt": 1.7142857142857142,
+        "averageDamageTaken": 0.14285714285714285,
+        "averageNetDamage": 1.5714285714285714,
+        "lethalMoves": 0,
+        "roundClosers": 1,
         "byModel": [
           {
-            "modelId": "champion",
-            "played": 4,
-            "winRate": 1
-          },
-          {
             "modelId": "expert",
-            "played": 2,
+            "played": 6,
             "winRate": 1
           },
           {
-            "modelId": "beginner",
+            "modelId": "champion",
             "played": 1,
             "winRate": 0
           }
@@ -13768,209 +12923,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "rune-mage",
-        "name": "Mage des runes",
-        "family": "human",
-        "rarity": "common",
-        "role": "connector",
-        "sourceType": "draft",
-        "sideTotal": 11,
-        "maxSide": 4,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self",
-          "draw-next-turn"
-        ],
-        "buildTags": [
-          "boost-self",
-          "combo-2",
-          "connector",
-          "draw-next-turn",
-          "human"
-        ],
-        "preferredPositions": [],
-        "offered": 14,
-        "played": 7,
-        "ignored": 12,
-        "selectionRate": 0.5,
-        "wins": 5,
-        "losses": 2,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7142857142857143,
-        "averageFlips": 0.2857142857142857,
-        "failedImpactRate": 0.6,
-        "averageFlipMargin": 1.5,
-        "averageEffectAmount": 0.5714285714285714,
-        "averageDamageDealt": 0.2857142857142857,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0.2857142857142857,
-        "lethalMoves": 0,
-        "roundClosers": 0,
-        "byModel": [
-          {
-            "modelId": "opportunist",
-            "played": 4,
-            "winRate": 0.75
-          },
-          {
-            "modelId": "expert",
-            "played": 2,
-            "winRate": 1
-          },
-          {
-            "modelId": "beginner",
-            "played": 1,
-            "winRate": 0
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 7,
-            "winRate": 0.7142857142857143
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "reward-uncommon-12",
-        "name": "Carte inhabituelle 12",
-        "family": "arcane",
-        "rarity": "uncommon",
-        "role": "payoff",
-        "sourceType": "reward",
-        "sideTotal": 13,
-        "maxSide": 5,
-        "minSide": 2,
-        "effectKinds": [
-          "boost-self"
-        ],
-        "buildTags": [
-          "arcane",
-          "boost-self",
-          "center",
-          "combo-2",
-          "hybrid-familiar",
-          "payoff",
-          "uncommon"
-        ],
-        "preferredPositions": [
-          "center"
-        ],
-        "offered": 20,
-        "played": 5,
-        "ignored": 18,
-        "selectionRate": 0.25,
-        "wins": 3,
-        "losses": 2,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0,
-        "failedImpactRate": 1,
-        "averageFlipMargin": 0,
-        "averageEffectAmount": 4.6,
-        "averageDamageDealt": 0,
-        "averageDamageTaken": 0,
-        "averageNetDamage": 0,
-        "lethalMoves": 0,
-        "roundClosers": 0,
-        "byModel": [
-          {
-            "modelId": "expert",
-            "played": 5,
-            "winRate": 0.6
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 5,
-            "winRate": 0.6
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "cardId": "reward-rare-05",
-        "name": "Fusion sylvestre",
-        "family": "revenant",
-        "rarity": "rare",
-        "sourceType": "fusion",
-        "sideTotal": 21,
-        "maxSide": 6,
-        "minSide": 5,
-        "effectKinds": [
-          "apply-poison",
-          "draw-next-turn"
-        ],
-        "buildTags": [],
-        "preferredPositions": [],
-        "offered": 24,
-        "played": 5,
-        "ignored": 23,
-        "selectionRate": 0.20833333333333334,
-        "wins": 3,
-        "losses": 2,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0.4,
-        "failedImpactRate": 0.5,
-        "averageFlipMargin": 1.5,
-        "averageEffectAmount": 0.2,
-        "averageDamageDealt": 4.6,
-        "averageDamageTaken": 1,
-        "averageNetDamage": 3.5999999999999996,
-        "lethalMoves": 1,
-        "roundClosers": 2,
-        "byModel": [
-          {
-            "modelId": "champion",
-            "played": 2,
-            "winRate": 1
-          },
-          {
-            "modelId": "expert",
-            "played": 2,
-            "winRate": 0
-          },
-          {
-            "modelId": "regular",
-            "played": 1,
-            "winRate": 1
-          }
-        ],
-        "byScenario": [
-          {
-            "scenarioId": "current-family-start",
-            "scenarioLabel": "Combats de run complet apres deckbuilding",
-            "startingDeckCardCount": 12,
-            "played": 5,
-            "winRate": 0.6
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
         "cardId": "reward-rare-04",
-        "name": "Carte rare 04 +",
+        "name": "Carte rare 04",
         "family": "automaton",
         "rarity": "rare",
         "role": "finisher",
-        "sourceType": "upgrade",
-        "sideTotal": 15,
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 14,
         "maxSide": 6,
         "minSide": 2,
         "effectKinds": [
@@ -13990,28 +12949,163 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "preferredPositions": [
           "corner"
         ],
-        "offered": 17,
-        "played": 4,
+        "offered": 19,
+        "played": 6,
         "ignored": 15,
-        "selectionRate": 0.23529411764705882,
+        "selectionRate": 0.3157894736842105,
+        "wins": 5,
+        "losses": 1,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8333333333333334,
+        "averageFlips": 0,
+        "failedImpactRate": 1,
+        "averageFlipMargin": 0,
+        "averageEffectAmount": 1,
+        "averageDamageDealt": 1.3333333333333333,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 1.3333333333333333,
+        "lethalMoves": 1,
+        "roundClosers": 1,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 6,
+            "winRate": 0.8333333333333334
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 6,
+            "winRate": 0.8333333333333334
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "reward-common-09",
+        "name": "Carte commune 09",
+        "family": "human",
+        "rarity": "common",
+        "role": "connector",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 1,
+        "effectKinds": [
+          "draw-next-turn"
+        ],
+        "buildTags": [
+          "common",
+          "connector",
+          "draw-next-turn",
+          "human"
+        ],
+        "preferredPositions": [
+          "line"
+        ],
+        "offered": 8,
+        "played": 5,
+        "ignored": 7,
+        "selectionRate": 0.625,
+        "wins": 4,
+        "losses": 1,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8,
+        "averageFlips": 0.6,
+        "failedImpactRate": 0.5,
+        "averageFlipMargin": 2,
+        "averageEffectAmount": 2.4,
+        "averageDamageDealt": 0.4,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0.4,
+        "lethalMoves": 0,
+        "roundClosers": 0,
+        "byModel": [
+          {
+            "modelId": "expert",
+            "played": 2,
+            "winRate": 1
+          },
+          {
+            "modelId": "opportunist",
+            "played": 2,
+            "winRate": 0.5
+          },
+          {
+            "modelId": "champion",
+            "played": 1,
+            "winRate": 1
+          }
+        ],
+        "byScenario": [
+          {
+            "scenarioId": "current-family-start",
+            "scenarioLabel": "Combats de run complet apres deckbuilding",
+            "startingDeckCardCount": 12,
+            "played": 5,
+            "winRate": 0.8
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "cardId": "reward-common-01",
+        "name": "Carte commune 01",
+        "family": "familiar",
+        "rarity": "common",
+        "role": "engine",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 12,
+        "maxSide": 5,
+        "minSide": 2,
+        "effectKinds": [
+          "apply-poison"
+        ],
+        "buildTags": [
+          "apply-poison",
+          "common",
+          "engine",
+          "familiar"
+        ],
+        "preferredPositions": [
+          "adjacent"
+        ],
+        "offered": 4,
+        "played": 4,
+        "ignored": 3,
+        "selectionRate": 1,
         "wins": 3,
         "losses": 1,
         "draws": 0,
         "winRateWhenPlayed": 0.75,
-        "averageFlips": 0.25,
-        "failedImpactRate": 0.75,
-        "averageFlipMargin": 7,
-        "averageEffectAmount": 1,
-        "averageDamageDealt": 0.5,
-        "averageDamageTaken": 2.5,
-        "averageNetDamage": -2,
-        "lethalMoves": 0,
+        "averageFlips": 0.75,
+        "failedImpactRate": 0.25,
+        "averageFlipMargin": 3,
+        "averageEffectAmount": 2.75,
+        "averageDamageDealt": 4,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 4,
+        "lethalMoves": 1,
         "roundClosers": 1,
         "byModel": [
           {
-            "modelId": "regular",
-            "played": 4,
-            "winRate": 0.75
+            "modelId": "expert",
+            "played": 2,
+            "winRate": 1
+          },
+          {
+            "modelId": "champion",
+            "played": 2,
+            "winRate": 0.5
           }
         ],
         "byScenario": [
@@ -14029,59 +13123,54 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "cardId": "reward-uncommon-10",
-        "name": "Carte inhabituelle 10",
-        "family": "automaton",
-        "rarity": "uncommon",
-        "role": "stabilizer",
-        "sourceType": "reward",
-        "sideTotal": 13,
-        "maxSide": 5,
-        "minSide": 2,
+        "cardId": "reward-common-08",
+        "name": "Carte commune 08",
+        "family": "demon",
+        "rarity": "common",
+        "role": "payoff",
+        "sourceType": "enemy-upgrade",
+        "sideTotal": 12,
+        "maxSide": 4,
+        "minSide": 1,
         "effectKinds": [
-          "gain-mana-next-turn",
-          "gain-shield"
+          "deal-damage"
         ],
         "buildTags": [
-          "automaton",
-          "combo-2",
-          "corner",
-          "gain-mana-next-turn",
-          "gain-shield",
-          "hybrid-arcane",
-          "stabilizer",
-          "uncommon"
+          "common",
+          "deal-damage",
+          "demon",
+          "payoff"
         ],
         "preferredPositions": [
-          "corner"
+          "adjacent"
         ],
-        "offered": 6,
-        "played": 4,
-        "ignored": 4,
-        "selectionRate": 0.6666666666666666,
-        "wins": 0,
-        "losses": 4,
+        "offered": 9,
+        "played": 3,
+        "ignored": 8,
+        "selectionRate": 0.3333333333333333,
+        "wins": 1,
+        "losses": 2,
         "draws": 0,
-        "winRateWhenPlayed": 0,
-        "averageFlips": 0,
-        "failedImpactRate": 1,
-        "averageFlipMargin": 0,
-        "averageEffectAmount": 0.75,
-        "averageDamageDealt": 1,
-        "averageDamageTaken": 2.75,
-        "averageNetDamage": -1.75,
+        "winRateWhenPlayed": 0.3333333333333333,
+        "averageFlips": 0.3333333333333333,
+        "failedImpactRate": 0.75,
+        "averageFlipMargin": 1,
+        "averageEffectAmount": 0.3333333333333333,
+        "averageDamageDealt": 0,
+        "averageDamageTaken": 0,
+        "averageNetDamage": 0,
         "lethalMoves": 0,
-        "roundClosers": 1,
+        "roundClosers": 0,
         "byModel": [
           {
-            "modelId": "regular",
+            "modelId": "expert",
             "played": 2,
             "winRate": 0
           },
           {
             "modelId": "champion",
-            "played": 2,
-            "winRate": 0
+            "played": 1,
+            "winRate": 1
           }
         ],
         "byScenario": [
@@ -14089,8 +13178,8 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "scenarioId": "current-family-start",
             "scenarioLabel": "Combats de run complet apres deckbuilding",
             "startingDeckCardCount": 12,
-            "played": 4,
-            "winRate": 0
+            "played": 3,
+            "winRate": 0.3333333333333333
           }
         ],
         "status": "healthy",
@@ -14103,47 +13192,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "arcane",
         "label": "arcane",
-        "offered": 4491,
-        "played": 2373,
-        "ignored": 3522,
-        "selectionRate": 0.5283901135604543,
-        "wins": 1934,
-        "losses": 439,
+        "offered": 4852,
+        "played": 2479,
+        "ignored": 3853,
+        "selectionRate": 0.5109233305853257,
+        "wins": 1890,
+        "losses": 589,
         "draws": 0,
-        "winRateWhenPlayed": 0.8150021070375053,
-        "averageFlips": 0.31774125579435314,
-        "averageDamageDealt": 0.9039190897597977,
-        "averageNetDamage": 0.6641382216603455,
+        "winRateWhenPlayed": 0.7624041952400161,
+        "averageFlips": 0.30496167809600644,
+        "averageDamageDealt": 0.8870512303348125,
+        "averageNetDamage": 0.6990722065348931,
         "topCards": [
           {
             "cardId": "wandering-glyph",
             "name": "Glyphe errant",
-            "played": 685,
-            "winRateWhenPlayed": 0.8043795620437956
+            "played": 701,
+            "winRateWhenPlayed": 0.7346647646219686
           },
           {
             "cardId": "rune-adept",
             "name": "Adepte sigillaire",
-            "played": 624,
-            "winRateWhenPlayed": 0.8108974358974359
+            "played": 648,
+            "winRateWhenPlayed": 0.7592592592592593
           },
           {
             "cardId": "star-witch",
             "name": "Sorciere d'etoiles",
-            "played": 584,
-            "winRateWhenPlayed": 0.8047945205479452
+            "played": 586,
+            "winRateWhenPlayed": 0.764505119453925
           },
           {
             "cardId": "moon-scribe",
             "name": "Scribe lunaire",
-            "played": 452,
-            "winRateWhenPlayed": 0.8650442477876106
+            "played": 531,
+            "winRateWhenPlayed": 0.8060263653483992
           },
           {
             "cardId": "reward-uncommon-06",
             "name": "Carte inhabituelle 06",
-            "played": 23,
-            "winRateWhenPlayed": 0.5652173913043478
+            "played": 9,
+            "winRateWhenPlayed": 0.7777777777777778
           }
         ],
         "status": "healthy",
@@ -14154,149 +13243,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "demon",
         "label": "demon",
-        "offered": 1039,
-        "played": 549,
-        "ignored": 817,
-        "selectionRate": 0.5283926852743022,
-        "wins": 429,
-        "losses": 120,
+        "offered": 1030,
+        "played": 564,
+        "ignored": 790,
+        "selectionRate": 0.5475728155339806,
+        "wins": 431,
+        "losses": 133,
         "draws": 0,
-        "winRateWhenPlayed": 0.7814207650273224,
-        "averageFlips": 0.6848816029143898,
-        "averageDamageDealt": 2.3060109289617485,
-        "averageNetDamage": 1.9453551912568305,
+        "winRateWhenPlayed": 0.7641843971631206,
+        "averageFlips": 0.5957446808510638,
+        "averageDamageDealt": 2.2127659574468086,
+        "averageNetDamage": 1.6773049645390072,
         "topCards": [
-          {
-            "cardId": "hornling",
-            "name": "Cornu farceur",
-            "played": 145,
-            "winRateWhenPlayed": 0.8
-          },
           {
             "cardId": "ember-imp",
             "name": "Diablotin braise",
-            "played": 141,
-            "winRateWhenPlayed": 0.7872340425531915
+            "played": 164,
+            "winRateWhenPlayed": 0.7926829268292683
+          },
+          {
+            "cardId": "hornling",
+            "name": "Cornu farceur",
+            "played": 147,
+            "winRateWhenPlayed": 0.7346938775510204
           },
           {
             "cardId": "pact-sprite",
             "name": "Lutin a pacte",
-            "played": 128,
-            "winRateWhenPlayed": 0.7421875
+            "played": 122,
+            "winRateWhenPlayed": 0.7622950819672131
           },
           {
             "cardId": "cinder-grin",
             "name": "Sourire de suie",
-            "played": 73,
-            "winRateWhenPlayed": 0.8082191780821918
+            "played": 89,
+            "winRateWhenPlayed": 0.8202247191011236
           },
           {
-            "cardId": "reward-uncommon-08",
-            "name": "Carte inhabituelle 08",
-            "played": 28,
-            "winRateWhenPlayed": 0.8214285714285714
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "familiar",
-        "label": "familiar",
-        "offered": 499,
-        "played": 238,
-        "ignored": 399,
-        "selectionRate": 0.47695390781563124,
-        "wins": 161,
-        "losses": 77,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6764705882352942,
-        "averageFlips": 0.3067226890756303,
-        "averageDamageDealt": 1.0420168067226891,
-        "averageNetDamage": 0.6974789915966387,
-        "topCards": [
-          {
-            "cardId": "sapling",
-            "name": "Floramie toxique",
-            "played": 108,
-            "winRateWhenPlayed": 0.75
-          },
-          {
-            "cardId": "badger",
-            "name": "Poney runique",
-            "played": 61,
-            "winRateWhenPlayed": 0.7377049180327869
-          },
-          {
-            "cardId": "heron",
-            "name": "Oiselle aubeplume",
-            "played": 35,
-            "winRateWhenPlayed": 0.5428571428571428
-          },
-          {
-            "cardId": "foxfire",
-            "name": "Requin runefer",
-            "played": 29,
-            "winRateWhenPlayed": 0.4827586206896552
-          },
-          {
-            "cardId": "reward-uncommon-01",
-            "name": "Carte inhabituelle 01",
-            "played": 3,
-            "winRateWhenPlayed": 0.3333333333333333
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "automaton",
-        "label": "automaton",
-        "offered": 420,
-        "played": 213,
-        "ignored": 318,
-        "selectionRate": 0.5071428571428571,
-        "wins": 158,
-        "losses": 55,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7417840375586855,
-        "averageFlips": 0.24882629107981222,
-        "averageDamageDealt": 0.7276995305164319,
-        "averageNetDamage": 0.43661971830985913,
-        "topCards": [
-          {
-            "cardId": "clock-sentinel",
-            "name": "Sentinelle d'horloge",
-            "played": 67,
-            "winRateWhenPlayed": 0.6567164179104478
-          },
-          {
-            "cardId": "brass-rook",
-            "name": "Tour de laiton",
-            "played": 44,
-            "winRateWhenPlayed": 0.8181818181818182
-          },
-          {
-            "cardId": "reward-uncommon-04",
-            "name": "Carte inhabituelle 04 +",
-            "played": 40,
-            "winRateWhenPlayed": 0.875
-          },
-          {
-            "cardId": "gear-monk",
-            "name": "Moine engrene",
-            "played": 19,
-            "winRateWhenPlayed": 0.7368421052631579
-          },
-          {
-            "cardId": "tin-oracle",
-            "name": "Oracle de fer-blanc",
-            "played": 16,
-            "winRateWhenPlayed": 0.5625
+            "cardId": "reward-uncommon-02",
+            "name": "Carte inhabituelle 02",
+            "played": 31,
+            "winRateWhenPlayed": 0.6129032258064516
           }
         ],
         "status": "healthy",
@@ -14307,47 +13294,149 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "revenant",
         "label": "revenant",
-        "offered": 471,
-        "played": 173,
-        "ignored": 389,
-        "selectionRate": 0.3673036093418259,
-        "wins": 125,
-        "losses": 48,
+        "offered": 571,
+        "played": 224,
+        "ignored": 455,
+        "selectionRate": 0.3922942206654991,
+        "wins": 174,
+        "losses": 50,
         "draws": 0,
-        "winRateWhenPlayed": 0.7225433526011561,
-        "averageFlips": 0.3063583815028902,
-        "averageDamageDealt": 1.2658959537572254,
-        "averageNetDamage": 0.815028901734104,
+        "winRateWhenPlayed": 0.7767857142857143,
+        "averageFlips": 0.39732142857142855,
+        "averageDamageDealt": 1.4196428571428572,
+        "averageNetDamage": 1.0357142857142858,
         "topCards": [
           {
             "cardId": "widow-knight",
             "name": "Chevalier veuf",
-            "played": 61,
-            "winRateWhenPlayed": 0.819672131147541
+            "played": 69,
+            "winRateWhenPlayed": 0.782608695652174
           },
           {
             "cardId": "lantern-shade",
             "name": "Ombre a lanterne",
-            "played": 57,
-            "winRateWhenPlayed": 0.7368421052631579
+            "played": 64,
+            "winRateWhenPlayed": 0.71875
           },
           {
             "cardId": "grave-child",
             "name": "Enfant des tombes",
-            "played": 28,
-            "winRateWhenPlayed": 0.6071428571428571
+            "played": 43,
+            "winRateWhenPlayed": 0.7674418604651163
           },
           {
             "cardId": "moth-ghost",
             "name": "Fantome phalene",
-            "played": 19,
-            "winRateWhenPlayed": 0.5789473684210527
+            "played": 37,
+            "winRateWhenPlayed": 0.8648648648648649
           },
           {
             "cardId": "reward-rare-05",
             "name": "Fusion sylvestre",
-            "played": 5,
-            "winRateWhenPlayed": 0.6
+            "played": 9,
+            "winRateWhenPlayed": 1
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "familiar",
+        "label": "familiar",
+        "offered": 330,
+        "played": 180,
+        "ignored": 258,
+        "selectionRate": 0.5454545454545454,
+        "wins": 141,
+        "losses": 39,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7833333333333333,
+        "averageFlips": 0.3277777777777778,
+        "averageDamageDealt": 0.5111111111111111,
+        "averageNetDamage": 0.33333333333333326,
+        "topCards": [
+          {
+            "cardId": "sapling",
+            "name": "Floramie toxique",
+            "played": 87,
+            "winRateWhenPlayed": 0.7241379310344828
+          },
+          {
+            "cardId": "badger",
+            "name": "Poney runique",
+            "played": 53,
+            "winRateWhenPlayed": 0.9245283018867925
+          },
+          {
+            "cardId": "heron",
+            "name": "Oiselle aubeplume",
+            "played": 19,
+            "winRateWhenPlayed": 0.6842105263157895
+          },
+          {
+            "cardId": "foxfire",
+            "name": "Requin runefer",
+            "played": 8,
+            "winRateWhenPlayed": 0.75
+          },
+          {
+            "cardId": "reward-uncommon-01",
+            "name": "Carte inhabituelle 01",
+            "played": 7,
+            "winRateWhenPlayed": 1
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "automaton",
+        "label": "automaton",
+        "offered": 353,
+        "played": 171,
+        "ignored": 268,
+        "selectionRate": 0.48441926345609065,
+        "wins": 141,
+        "losses": 30,
+        "draws": 0,
+        "winRateWhenPlayed": 0.8245614035087719,
+        "averageFlips": 0.3333333333333333,
+        "averageDamageDealt": 1.0818713450292399,
+        "averageNetDamage": 0.6257309941520469,
+        "topCards": [
+          {
+            "cardId": "clock-sentinel",
+            "name": "Sentinelle d'horloge",
+            "played": 66,
+            "winRateWhenPlayed": 0.8484848484848485
+          },
+          {
+            "cardId": "brass-rook",
+            "name": "Tour de laiton",
+            "played": 40,
+            "winRateWhenPlayed": 0.9
+          },
+          {
+            "cardId": "reward-uncommon-04",
+            "name": "Carte inhabituelle 04",
+            "played": 16,
+            "winRateWhenPlayed": 0.875
+          },
+          {
+            "cardId": "gear-monk",
+            "name": "Moine engrene",
+            "played": 13,
+            "winRateWhenPlayed": 0.6923076923076923
+          },
+          {
+            "cardId": "tin-oracle",
+            "name": "Oracle de fer-blanc",
+            "played": 13,
+            "winRateWhenPlayed": 0.6153846153846154
           }
         ],
         "status": "healthy",
@@ -14358,52 +13447,52 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "human",
         "label": "human",
-        "offered": 163,
-        "played": 55,
-        "ignored": 137,
-        "selectionRate": 0.3374233128834356,
-        "wins": 36,
-        "losses": 19,
+        "offered": 310,
+        "played": 122,
+        "ignored": 257,
+        "selectionRate": 0.3935483870967742,
+        "wins": 81,
+        "losses": 41,
         "draws": 0,
-        "winRateWhenPlayed": 0.6545454545454545,
-        "averageFlips": 0.32727272727272727,
-        "averageDamageDealt": 1.709090909090909,
-        "averageNetDamage": 1.6545454545454545,
+        "winRateWhenPlayed": 0.6639344262295082,
+        "averageFlips": 0.2786885245901639,
+        "averageDamageDealt": 1.3852459016393444,
+        "averageNetDamage": 0.8606557377049181,
         "topCards": [
           {
             "cardId": "path-ranger",
             "name": "Rodeuse du sentier",
-            "played": 28,
-            "winRateWhenPlayed": 0.5357142857142857
+            "played": 34,
+            "winRateWhenPlayed": 0.7941176470588235
           },
           {
             "cardId": "quiet-monk",
             "name": "Moine du seuil",
-            "played": 16,
-            "winRateWhenPlayed": 0.8125
+            "played": 33,
+            "winRateWhenPlayed": 0.6666666666666666
           },
           {
             "cardId": "rune-mage",
             "name": "Mage des runes",
-            "played": 7,
-            "winRateWhenPlayed": 0.7142857142857143
+            "played": 30,
+            "winRateWhenPlayed": 0.5333333333333333
           },
           {
             "cardId": "field-knight",
             "name": "Chevaliere des champs",
-            "played": 2,
-            "winRateWhenPlayed": 1
+            "played": 17,
+            "winRateWhenPlayed": 0.7058823529411765
           },
           {
             "cardId": "reward-common-09",
             "name": "Carte commune 09",
-            "played": 1,
-            "winRateWhenPlayed": 1
+            "played": 5,
+            "winRateWhenPlayed": 0.8
           }
         ],
-        "status": "underperformer",
+        "status": "healthy",
         "notes": [
-          "La famille perd trop souvent sur cet echantillon."
+          "Pas de derive forte sur cet echantillon."
         ]
       }
     ],
@@ -14411,47 +13500,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "anchor",
         "label": "anchor",
-        "offered": 1541,
-        "played": 1069,
-        "ignored": 1183,
-        "selectionRate": 0.6937053861129137,
-        "wins": 843,
-        "losses": 226,
+        "offered": 1550,
+        "played": 1094,
+        "ignored": 1201,
+        "selectionRate": 0.7058064516129032,
+        "wins": 810,
+        "losses": 284,
         "draws": 0,
-        "winRateWhenPlayed": 0.7885874649204865,
-        "averageFlips": 0.3900841908325538,
-        "averageDamageDealt": 0.5668849391955099,
-        "averageNetDamage": 0.420954162768943,
+        "winRateWhenPlayed": 0.7404021937842779,
+        "averageFlips": 0.35648994515539306,
+        "averageDamageDealt": 0.5054844606946983,
+        "averageNetDamage": 0.32266910420475314,
         "topCards": [
           {
             "cardId": "wandering-glyph",
             "name": "Glyphe errant",
-            "played": 677,
-            "winRateWhenPlayed": 0.8079763663220089
+            "played": 698,
+            "winRateWhenPlayed": 0.7378223495702005
           },
           {
             "cardId": "hornling",
             "name": "Cornu farceur",
-            "played": 145,
-            "winRateWhenPlayed": 0.8
+            "played": 147,
+            "winRateWhenPlayed": 0.7346938775510204
           },
           {
             "cardId": "sapling",
             "name": "Floramie toxique",
-            "played": 107,
-            "winRateWhenPlayed": 0.7570093457943925
+            "played": 87,
+            "winRateWhenPlayed": 0.7241379310344828
           },
           {
             "cardId": "clock-sentinel",
             "name": "Sentinelle d'horloge",
-            "played": 67,
-            "winRateWhenPlayed": 0.6567164179104478
+            "played": 66,
+            "winRateWhenPlayed": 0.8484848484848485
           },
           {
             "cardId": "lantern-shade",
             "name": "Ombre a lanterne",
-            "played": 57,
-            "winRateWhenPlayed": 0.7368421052631579
+            "played": 63,
+            "winRateWhenPlayed": 0.7301587301587301
           }
         ],
         "status": "healthy",
@@ -14462,98 +13551,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "connector",
         "label": "connector",
-        "offered": 1331,
-        "played": 865,
-        "ignored": 1001,
-        "selectionRate": 0.6498873027798647,
-        "wins": 670,
-        "losses": 195,
+        "offered": 1344,
+        "played": 892,
+        "ignored": 994,
+        "selectionRate": 0.6636904761904762,
+        "wins": 667,
+        "losses": 225,
         "draws": 0,
-        "winRateWhenPlayed": 0.7745664739884393,
-        "averageFlips": 0.44046242774566474,
-        "averageDamageDealt": 0.6057803468208093,
-        "averageNetDamage": 0.446242774566474,
+        "winRateWhenPlayed": 0.7477578475336323,
+        "averageFlips": 0.4204035874439462,
+        "averageDamageDealt": 0.46860986547085204,
+        "averageNetDamage": 0.28026905829596416,
         "topCards": [
           {
             "cardId": "rune-adept",
             "name": "Adepte sigillaire",
-            "played": 624,
-            "winRateWhenPlayed": 0.8108974358974359
+            "played": 648,
+            "winRateWhenPlayed": 0.7592592592592593
           },
           {
             "cardId": "pact-sprite",
             "name": "Lutin a pacte",
-            "played": 128,
-            "winRateWhenPlayed": 0.7421875
-          },
-          {
-            "cardId": "heron",
-            "name": "Oiselle aubeplume",
-            "played": 35,
-            "winRateWhenPlayed": 0.5428571428571428
+            "played": 122,
+            "winRateWhenPlayed": 0.7622950819672131
           },
           {
             "cardId": "grave-child",
             "name": "Enfant des tombes",
-            "played": 28,
-            "winRateWhenPlayed": 0.6071428571428571
+            "played": 43,
+            "winRateWhenPlayed": 0.7674418604651163
           },
           {
-            "cardId": "reward-uncommon-06",
-            "name": "Carte inhabituelle 06",
-            "played": 23,
-            "winRateWhenPlayed": 0.5652173913043478
-          }
-        ],
-        "status": "healthy",
-        "notes": [
-          "Pas de derive forte sur cet echantillon."
-        ]
-      },
-      {
-        "id": "payoff",
-        "label": "payoff",
-        "offered": 1621,
-        "played": 801,
-        "ignored": 1289,
-        "selectionRate": 0.49413942011104256,
-        "wins": 634,
-        "losses": 167,
-        "draws": 0,
-        "winRateWhenPlayed": 0.7915106117353309,
-        "averageFlips": 0.3470661672908864,
-        "averageDamageDealt": 1.0674157303370786,
-        "averageNetDamage": 0.776529338327091,
-        "topCards": [
-          {
-            "cardId": "star-witch",
-            "name": "Sorciere d'etoiles",
-            "played": 574,
-            "winRateWhenPlayed": 0.8083623693379791
+            "cardId": "rune-mage",
+            "name": "Mage des runes",
+            "played": 30,
+            "winRateWhenPlayed": 0.5333333333333333
           },
           {
-            "cardId": "cinder-grin",
-            "name": "Sourire de suie",
-            "played": 73,
-            "winRateWhenPlayed": 0.8082191780821918
-          },
-          {
-            "cardId": "reward-uncommon-04",
-            "name": "Carte inhabituelle 04 +",
-            "played": 40,
-            "winRateWhenPlayed": 0.875
-          },
-          {
-            "cardId": "foxfire",
-            "name": "Requin runefer",
-            "played": 29,
-            "winRateWhenPlayed": 0.4827586206896552
-          },
-          {
-            "cardId": "reward-uncommon-08",
-            "name": "Carte inhabituelle 08",
-            "played": 28,
-            "winRateWhenPlayed": 0.8214285714285714
+            "cardId": "heron",
+            "name": "Oiselle aubeplume",
+            "played": 19,
+            "winRateWhenPlayed": 0.6842105263157895
           }
         ],
         "status": "healthy",
@@ -14564,47 +13602,98 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "attacker",
         "label": "attacker",
-        "offered": 2162,
-        "played": 743,
-        "ignored": 1745,
-        "selectionRate": 0.34366327474560593,
-        "wins": 614,
-        "losses": 129,
+        "offered": 2445,
+        "played": 845,
+        "ignored": 1981,
+        "selectionRate": 0.3456032719836401,
+        "wins": 691,
+        "losses": 154,
         "draws": 0,
-        "winRateWhenPlayed": 0.8263795423956931,
-        "averageFlips": 0.29475100942126514,
-        "averageDamageDealt": 2.388963660834455,
-        "averageNetDamage": 2.0336473755047106,
+        "winRateWhenPlayed": 0.8177514792899409,
+        "averageFlips": 0.31005917159763313,
+        "averageDamageDealt": 2.3455621301775147,
+        "averageNetDamage": 1.9372781065088756,
         "topCards": [
           {
             "cardId": "moon-scribe",
             "name": "Scribe lunaire",
-            "played": 394,
-            "winRateWhenPlayed": 0.8756345177664975
+            "played": 460,
+            "winRateWhenPlayed": 0.8239130434782609
           },
           {
             "cardId": "ember-imp",
             "name": "Diablotin braise",
-            "played": 128,
-            "winRateWhenPlayed": 0.8125
+            "played": 158,
+            "winRateWhenPlayed": 0.8037974683544303
           },
           {
             "cardId": "widow-knight",
             "name": "Chevalier veuf",
-            "played": 61,
-            "winRateWhenPlayed": 0.819672131147541
+            "played": 69,
+            "winRateWhenPlayed": 0.782608695652174
           },
           {
             "cardId": "badger",
             "name": "Poney runique",
-            "played": 61,
-            "winRateWhenPlayed": 0.7377049180327869
+            "played": 53,
+            "winRateWhenPlayed": 0.9245283018867925
           },
           {
             "cardId": "brass-rook",
             "name": "Tour de laiton",
-            "played": 44,
-            "winRateWhenPlayed": 0.8181818181818182
+            "played": 40,
+            "winRateWhenPlayed": 0.9
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "payoff",
+        "label": "payoff",
+        "offered": 1716,
+        "played": 787,
+        "ignored": 1389,
+        "selectionRate": 0.4586247086247086,
+        "wins": 607,
+        "losses": 180,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7712833545108005,
+        "averageFlips": 0.33163913595933925,
+        "averageDamageDealt": 1.301143583227446,
+        "averageNetDamage": 0.9656925031766201,
+        "topCards": [
+          {
+            "cardId": "star-witch",
+            "name": "Sorciere d'etoiles",
+            "played": 584,
+            "winRateWhenPlayed": 0.7671232876712328
+          },
+          {
+            "cardId": "cinder-grin",
+            "name": "Sourire de suie",
+            "played": 89,
+            "winRateWhenPlayed": 0.8202247191011236
+          },
+          {
+            "cardId": "moth-ghost",
+            "name": "Fantome phalene",
+            "played": 37,
+            "winRateWhenPlayed": 0.8648648648648649
+          },
+          {
+            "cardId": "field-knight",
+            "name": "Chevaliere des champs",
+            "played": 17,
+            "winRateWhenPlayed": 0.7058823529411765
+          },
+          {
+            "cardId": "reward-uncommon-04",
+            "name": "Carte inhabituelle 04",
+            "played": 16,
+            "winRateWhenPlayed": 0.875
           }
         ],
         "status": "healthy",
@@ -14615,47 +13704,137 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "sans-role",
         "label": "sans role",
-        "offered": 345,
-        "played": 95,
-        "ignored": 292,
-        "selectionRate": 0.2753623188405797,
-        "wins": 66,
-        "losses": 29,
+        "offered": 314,
+        "played": 92,
+        "ignored": 251,
+        "selectionRate": 0.2929936305732484,
+        "wins": 61,
+        "losses": 31,
         "draws": 0,
-        "winRateWhenPlayed": 0.6947368421052632,
-        "averageFlips": 0.3157894736842105,
-        "averageDamageDealt": 3.526315789473684,
-        "averageNetDamage": 1.7368421052631577,
+        "winRateWhenPlayed": 0.6630434782608695,
+        "averageFlips": 0.32608695652173914,
+        "averageDamageDealt": 2.141304347826087,
+        "averageNetDamage": 1.608695652173913,
         "topCards": [
           {
             "cardId": "moon-scribe",
             "name": "Fusion sylvestre",
-            "played": 58,
-            "winRateWhenPlayed": 0.7931034482758621
-          },
-          {
-            "cardId": "ember-imp",
-            "name": "Fusion sylvestre",
-            "played": 13,
-            "winRateWhenPlayed": 0.5384615384615384
-          },
-          {
-            "cardId": "star-witch",
-            "name": "Fusion sylvestre",
-            "played": 10,
-            "winRateWhenPlayed": 0.6
-          },
-          {
-            "cardId": "wandering-glyph",
-            "name": "Fusion sylvestre",
-            "played": 8,
-            "winRateWhenPlayed": 0.5
+            "played": 71,
+            "winRateWhenPlayed": 0.6901408450704225
           },
           {
             "cardId": "reward-rare-05",
             "name": "Fusion sylvestre",
-            "played": 5,
-            "winRateWhenPlayed": 0.6
+            "played": 9,
+            "winRateWhenPlayed": 1
+          },
+          {
+            "cardId": "ember-imp",
+            "name": "Fusion sylvestre",
+            "played": 6,
+            "winRateWhenPlayed": 0.5
+          },
+          {
+            "cardId": "wandering-glyph",
+            "name": "Fusion sylvestre",
+            "played": 3,
+            "winRateWhenPlayed": 0
+          },
+          {
+            "cardId": "star-witch",
+            "name": "Fusion sylvestre",
+            "played": 2,
+            "winRateWhenPlayed": 0
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "engine",
+        "label": "engine",
+        "offered": 21,
+        "played": 14,
+        "ignored": 18,
+        "selectionRate": 0.6666666666666666,
+        "wins": 10,
+        "losses": 4,
+        "draws": 0,
+        "winRateWhenPlayed": 0.7142857142857143,
+        "averageFlips": 0.7142857142857143,
+        "averageDamageDealt": 1.1428571428571428,
+        "averageNetDamage": 1.1428571428571428,
+        "topCards": [
+          {
+            "cardId": "reward-uncommon-01",
+            "name": "Carte inhabituelle 01",
+            "played": 7,
+            "winRateWhenPlayed": 1
+          },
+          {
+            "cardId": "reward-common-01",
+            "name": "Carte commune 01",
+            "played": 4,
+            "winRateWhenPlayed": 0.75
+          },
+          {
+            "cardId": "reward-uncommon-05",
+            "name": "Carte inhabituelle 05",
+            "played": 2,
+            "winRateWhenPlayed": 0
+          },
+          {
+            "cardId": "reward-uncommon-07",
+            "name": "Carte inhabituelle 07",
+            "played": 1,
+            "winRateWhenPlayed": 0
+          }
+        ],
+        "status": "healthy",
+        "notes": [
+          "Pas de derive forte sur cet echantillon."
+        ]
+      },
+      {
+        "id": "finisher",
+        "label": "finisher",
+        "offered": 41,
+        "played": 9,
+        "ignored": 35,
+        "selectionRate": 0.21951219512195122,
+        "wins": 6,
+        "losses": 3,
+        "draws": 0,
+        "winRateWhenPlayed": 0.6666666666666666,
+        "averageFlips": 0,
+        "averageDamageDealt": 1,
+        "averageNetDamage": 1,
+        "topCards": [
+          {
+            "cardId": "reward-rare-04",
+            "name": "Carte rare 04",
+            "played": 6,
+            "winRateWhenPlayed": 0.8333333333333334
+          },
+          {
+            "cardId": "reward-rare-02",
+            "name": "Carte rare 02",
+            "played": 1,
+            "winRateWhenPlayed": 1
+          },
+          {
+            "cardId": "reward-rare-01",
+            "name": "Carte rare 01",
+            "played": 1,
+            "winRateWhenPlayed": 0
+          },
+          {
+            "cardId": "reward-rare-06",
+            "name": "Carte rare 06",
+            "played": 1,
+            "winRateWhenPlayed": 0
           }
         ],
         "status": "healthy",
@@ -14666,112 +13845,34 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "stabilizer",
         "label": "stabilizer",
-        "offered": 21,
-        "played": 15,
-        "ignored": 16,
-        "selectionRate": 0.7142857142857143,
-        "wins": 9,
-        "losses": 6,
+        "offered": 15,
+        "played": 7,
+        "ignored": 12,
+        "selectionRate": 0.4666666666666667,
+        "wins": 6,
+        "losses": 1,
         "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0,
-        "averageDamageDealt": 0.8,
-        "averageNetDamage": 0.06666666666666676,
+        "winRateWhenPlayed": 0.8571428571428571,
+        "averageFlips": 0.42857142857142855,
+        "averageDamageDealt": 1.7142857142857142,
+        "averageNetDamage": 1.4285714285714284,
         "topCards": [
           {
             "cardId": "reward-common-10",
             "name": "Carte commune 10",
-            "played": 11,
-            "winRateWhenPlayed": 0.8181818181818182
+            "played": 6,
+            "winRateWhenPlayed": 1
           },
           {
             "cardId": "reward-uncommon-10",
             "name": "Carte inhabituelle 10",
-            "played": 4,
-            "winRateWhenPlayed": 0
-          }
-        ],
-        "status": "underperformer",
-        "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "id": "engine",
-        "label": "engine",
-        "offered": 20,
-        "played": 8,
-        "ignored": 16,
-        "selectionRate": 0.4,
-        "wins": 4,
-        "losses": 4,
-        "draws": 0,
-        "winRateWhenPlayed": 0.5,
-        "averageFlips": 0.125,
-        "averageDamageDealt": 2.25,
-        "averageNetDamage": 1,
-        "topCards": [
-          {
-            "cardId": "reward-uncommon-05",
-            "name": "Carte inhabituelle 05",
-            "played": 3,
-            "winRateWhenPlayed": 0.6666666666666666
-          },
-          {
-            "cardId": "reward-uncommon-01",
-            "name": "Carte inhabituelle 01",
-            "played": 3,
-            "winRateWhenPlayed": 0.3333333333333333
-          },
-          {
-            "cardId": "reward-common-01",
-            "name": "Carte commune 01",
-            "played": 1,
-            "winRateWhenPlayed": 1
-          },
-          {
-            "cardId": "reward-common-07",
-            "name": "Carte commune 07",
             "played": 1,
             "winRateWhenPlayed": 0
           }
         ],
-        "status": "underperformer",
+        "status": "healthy",
         "notes": [
-          "Perd trop souvent face a une base de 79%."
-        ]
-      },
-      {
-        "id": "finisher",
-        "label": "finisher",
-        "offered": 42,
-        "played": 5,
-        "ignored": 40,
-        "selectionRate": 0.11904761904761904,
-        "wins": 3,
-        "losses": 2,
-        "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0.2,
-        "averageDamageDealt": 0.4,
-        "averageNetDamage": -1.6,
-        "topCards": [
-          {
-            "cardId": "reward-rare-04",
-            "name": "Carte rare 04",
-            "played": 4,
-            "winRateWhenPlayed": 0.75
-          },
-          {
-            "cardId": "reward-rare-03",
-            "name": "Carte rare 03",
-            "played": 1,
-            "winRateWhenPlayed": 0
-          }
-        ],
-        "status": "ignored",
-        "notes": [
-          "Souvent propose, rarement choisi."
+          "Pas de derive forte sur cet echantillon."
         ]
       }
     ],
@@ -14779,47 +13880,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "common",
         "label": "common",
-        "offered": 6713,
-        "played": 3465,
-        "ignored": 5268,
-        "selectionRate": 0.516162669447341,
-        "wins": 2748,
-        "losses": 717,
+        "offered": 7182,
+        "played": 3642,
+        "ignored": 5662,
+        "selectionRate": 0.5071010860484545,
+        "wins": 2790,
+        "losses": 852,
         "draws": 0,
-        "winRateWhenPlayed": 0.793073593073593,
-        "averageFlips": 0.37142857142857144,
-        "averageDamageDealt": 1.135064935064935,
-        "averageNetDamage": 0.8764790764790765,
+        "winRateWhenPlayed": 0.7660626029654036,
+        "averageFlips": 0.35722130697419,
+        "averageDamageDealt": 1.1216364634816036,
+        "averageNetDamage": 0.8522789676002198,
         "topCards": [
           {
             "cardId": "wandering-glyph",
             "name": "Glyphe errant",
-            "played": 685,
-            "winRateWhenPlayed": 0.8043795620437956
+            "played": 701,
+            "winRateWhenPlayed": 0.7346647646219686
           },
           {
             "cardId": "rune-adept",
             "name": "Adepte sigillaire",
-            "played": 624,
-            "winRateWhenPlayed": 0.8108974358974359
+            "played": 648,
+            "winRateWhenPlayed": 0.7592592592592593
           },
           {
             "cardId": "star-witch",
             "name": "Sorciere d'etoiles",
-            "played": 584,
-            "winRateWhenPlayed": 0.8047945205479452
+            "played": 586,
+            "winRateWhenPlayed": 0.764505119453925
           },
           {
             "cardId": "moon-scribe",
             "name": "Scribe lunaire",
-            "played": 452,
-            "winRateWhenPlayed": 0.8650442477876106
+            "played": 531,
+            "winRateWhenPlayed": 0.8060263653483992
           },
           {
-            "cardId": "hornling",
-            "name": "Cornu farceur",
-            "played": 145,
-            "winRateWhenPlayed": 0.8
+            "cardId": "ember-imp",
+            "name": "Diablotin braise",
+            "played": 164,
+            "winRateWhenPlayed": 0.7926829268292683
           }
         ],
         "status": "healthy",
@@ -14830,47 +13931,47 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "uncommon",
         "label": "uncommon",
-        "offered": 304,
-        "played": 126,
-        "ignored": 251,
-        "selectionRate": 0.4144736842105263,
-        "wins": 89,
-        "losses": 37,
+        "offered": 173,
+        "played": 80,
+        "ignored": 140,
+        "selectionRate": 0.4624277456647399,
+        "wins": 53,
+        "losses": 27,
         "draws": 0,
-        "winRateWhenPlayed": 0.7063492063492064,
-        "averageFlips": 0.29365079365079366,
-        "averageDamageDealt": 1.3412698412698412,
-        "averageNetDamage": 0.6984126984126983,
+        "winRateWhenPlayed": 0.6625,
+        "averageFlips": 0.3375,
+        "averageDamageDealt": 1.1125,
+        "averageNetDamage": 0.625,
         "topCards": [
           {
-            "cardId": "reward-uncommon-04",
-            "name": "Carte inhabituelle 04 +",
-            "played": 40,
-            "winRateWhenPlayed": 0.875
+            "cardId": "reward-uncommon-02",
+            "name": "Carte inhabituelle 02",
+            "played": 31,
+            "winRateWhenPlayed": 0.6129032258064516
           },
           {
-            "cardId": "reward-uncommon-08",
-            "name": "Carte inhabituelle 08",
-            "played": 28,
-            "winRateWhenPlayed": 0.8214285714285714
+            "cardId": "reward-uncommon-04",
+            "name": "Carte inhabituelle 04",
+            "played": 16,
+            "winRateWhenPlayed": 0.875
           },
           {
             "cardId": "reward-uncommon-06",
             "name": "Carte inhabituelle 06",
-            "played": 23,
-            "winRateWhenPlayed": 0.5652173913043478
+            "played": 9,
+            "winRateWhenPlayed": 0.7777777777777778
           },
           {
-            "cardId": "reward-uncommon-02",
-            "name": "Carte inhabituelle 02",
-            "played": 20,
-            "winRateWhenPlayed": 0.6
+            "cardId": "reward-uncommon-01",
+            "name": "Carte inhabituelle 01",
+            "played": 7,
+            "winRateWhenPlayed": 1
           },
           {
-            "cardId": "reward-uncommon-12",
-            "name": "Carte inhabituelle 12",
-            "played": 5,
-            "winRateWhenPlayed": 0.6
+            "cardId": "reward-uncommon-08",
+            "name": "Carte inhabituelle 08",
+            "played": 7,
+            "winRateWhenPlayed": 0.8571428571428571
           }
         ],
         "status": "healthy",
@@ -14881,40 +13982,52 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "id": "rare",
         "label": "rare",
-        "offered": 66,
-        "played": 10,
-        "ignored": 63,
-        "selectionRate": 0.15151515151515152,
-        "wins": 6,
-        "losses": 4,
+        "offered": 91,
+        "played": 18,
+        "ignored": 79,
+        "selectionRate": 0.1978021978021978,
+        "wins": 15,
+        "losses": 3,
         "draws": 0,
-        "winRateWhenPlayed": 0.6,
-        "averageFlips": 0.3,
-        "averageDamageDealt": 2.5,
-        "averageNetDamage": 1,
+        "winRateWhenPlayed": 0.8333333333333334,
+        "averageFlips": 0.16666666666666666,
+        "averageDamageDealt": 2.0555555555555554,
+        "averageNetDamage": 1.611111111111111,
         "topCards": [
           {
             "cardId": "reward-rare-05",
             "name": "Fusion sylvestre",
-            "played": 5,
-            "winRateWhenPlayed": 0.6
+            "played": 9,
+            "winRateWhenPlayed": 1
           },
           {
             "cardId": "reward-rare-04",
             "name": "Carte rare 04",
-            "played": 4,
-            "winRateWhenPlayed": 0.75
+            "played": 6,
+            "winRateWhenPlayed": 0.8333333333333334
           },
           {
-            "cardId": "reward-rare-03",
-            "name": "Carte rare 03",
+            "cardId": "reward-rare-02",
+            "name": "Carte rare 02",
+            "played": 1,
+            "winRateWhenPlayed": 1
+          },
+          {
+            "cardId": "reward-rare-01",
+            "name": "Carte rare 01",
+            "played": 1,
+            "winRateWhenPlayed": 0
+          },
+          {
+            "cardId": "reward-rare-06",
+            "name": "Carte rare 06",
             "played": 1,
             "winRateWhenPlayed": 0
           }
         ],
-        "status": "ignored",
+        "status": "healthy",
         "notes": [
-          "Souvent propose, rarement choisi."
+          "Pas de derive forte sur cet echantillon."
         ]
       }
     ],
@@ -14923,13 +14036,13 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:arcane->arcane",
         "kind": "family-chain",
         "label": "arcane -> arcane",
-        "count": 659,
-        "wins": 535,
-        "losses": 124,
+        "count": 660,
+        "wins": 505,
+        "losses": 155,
         "draws": 0,
-        "winRate": 0.8118361153262519,
-        "averageFlips": 0.34294385432473445,
-        "averageDamageDealt": 2.009104704097117,
+        "winRate": 0.7651515151515151,
+        "averageFlips": 0.346969696969697,
+        "averageDamageDealt": 1.8257575757575757,
         "averageEffectAmount": 0,
         "notes": [
           "Convertit bien en degats."
@@ -14939,46 +14052,46 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "friendly-adjacent:arcane+arcane",
         "kind": "friendly-adjacent",
         "label": "arcane allie + arcane",
-        "count": 558,
-        "wins": 471,
-        "losses": 87,
+        "count": 591,
+        "wins": 473,
+        "losses": 118,
         "draws": 0,
-        "winRate": 0.8440860215053764,
-        "averageFlips": 0.24193548387096775,
-        "averageDamageDealt": 3.8010752688172045,
+        "winRate": 0.8003384094754653,
+        "averageFlips": 0.21996615905245348,
+        "averageDamageDealt": 3.5549915397631136,
         "averageEffectAmount": 0,
         "notes": [
           "Convertit bien en degats."
         ]
       },
       {
-        "id": "effect:star-witch:boost-self",
+        "id": "effect:star-witch:draw-next-turn",
         "kind": "effect",
-        "label": "Sorciere d'etoiles -> boost-self",
-        "count": 408,
-        "wins": 334,
-        "losses": 74,
+        "label": "Sorciere d'etoiles -> draw-next-turn",
+        "count": 437,
+        "wins": 331,
+        "losses": 106,
         "draws": 0,
-        "winRate": 0.8186274509803921,
-        "averageFlips": 0.3700980392156863,
-        "averageDamageDealt": 0.18872549019607843,
-        "averageEffectAmount": 1.3406862745098038,
+        "winRate": 0.7574370709382151,
+        "averageFlips": 0.3295194508009153,
+        "averageDamageDealt": 0.07093821510297482,
+        "averageEffectAmount": 1.0068649885583525,
         "notes": [
           "Signal descriptif a confirmer."
         ]
       },
       {
-        "id": "effect:star-witch:draw-next-turn",
+        "id": "effect:star-witch:boost-self",
         "kind": "effect",
-        "label": "Sorciere d'etoiles -> draw-next-turn",
-        "count": 406,
-        "wins": 334,
-        "losses": 72,
+        "label": "Sorciere d'etoiles -> boost-self",
+        "count": 436,
+        "wins": 330,
+        "losses": 106,
         "draws": 0,
-        "winRate": 0.8226600985221675,
-        "averageFlips": 0.3694581280788177,
-        "averageDamageDealt": 0.1896551724137931,
-        "averageEffectAmount": 1.019704433497537,
+        "winRate": 0.7568807339449541,
+        "averageFlips": 0.3256880733944954,
+        "averageDamageDealt": 0.07110091743119266,
+        "averageEffectAmount": 1.2844036697247707,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -14987,14 +14100,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:rune-adept:draw-next-turn",
         "kind": "effect",
         "label": "Adepte sigillaire -> draw-next-turn",
-        "count": 246,
-        "wins": 193,
-        "losses": 53,
+        "count": 254,
+        "wins": 194,
+        "losses": 60,
         "draws": 0,
-        "winRate": 0.7845528455284553,
-        "averageFlips": 0.3699186991869919,
-        "averageDamageDealt": 0.6991869918699187,
-        "averageEffectAmount": 1.2926829268292683,
+        "winRate": 0.7637795275590551,
+        "averageFlips": 0.3188976377952756,
+        "averageDamageDealt": 0.38976377952755903,
+        "averageEffectAmount": 1.2755905511811023,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -15003,14 +14116,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:wandering-glyph:gain-shield",
         "kind": "effect",
         "label": "Glyphe errant -> gain-shield",
-        "count": 145,
-        "wins": 117,
-        "losses": 28,
+        "count": 172,
+        "wins": 127,
+        "losses": 45,
         "draws": 0,
-        "winRate": 0.8068965517241379,
-        "averageFlips": 0.07586206896551724,
-        "averageDamageDealt": 0,
-        "averageEffectAmount": 4.6,
+        "winRate": 0.7383720930232558,
+        "averageFlips": 0.046511627906976744,
+        "averageDamageDealt": 0.09302325581395349,
+        "averageEffectAmount": 4.622093023255814,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -15019,65 +14132,32 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "family-chain:demon->demon",
         "kind": "family-chain",
         "label": "demon -> demon",
-        "count": 119,
-        "wins": 96,
-        "losses": 23,
+        "count": 128,
+        "wins": 104,
+        "losses": 24,
         "draws": 0,
-        "winRate": 0.8067226890756303,
-        "averageFlips": 0.7647058823529411,
-        "averageDamageDealt": 4.016806722689076,
+        "winRate": 0.8125,
+        "averageFlips": 0.71875,
+        "averageDamageDealt": 3.796875,
         "averageEffectAmount": 0,
         "notes": [
           "Produit beaucoup de flips.",
           "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "stack-hybrid:arcane+automaton",
-        "kind": "stack-hybrid",
-        "label": "arcane + automaton dans la pile",
-        "count": 104,
-        "wins": 80,
-        "losses": 24,
-        "draws": 0,
-        "winRate": 0.7692307692307693,
-        "averageFlips": 0.2403846153846154,
-        "averageDamageDealt": 0.6442307692307693,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
         ]
       },
       {
         "id": "effect:moon-scribe:boost-self",
         "kind": "effect",
         "label": "Scribe lunaire -> boost-self",
-        "count": 102,
-        "wins": 84,
-        "losses": 18,
+        "count": 104,
+        "wins": 83,
+        "losses": 21,
         "draws": 0,
-        "winRate": 0.8235294117647058,
-        "averageFlips": 0.08823529411764706,
-        "averageDamageDealt": 5.852941176470588,
-        "averageEffectAmount": 1.1372549019607843,
+        "winRate": 0.7980769230769231,
+        "averageFlips": 0.07692307692307693,
+        "averageDamageDealt": 5.701923076923077,
+        "averageEffectAmount": 1.1346153846153846,
         "notes": [
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "effect:hornling:deal-damage",
-        "kind": "effect",
-        "label": "Cornu farceur -> deal-damage",
-        "count": 88,
-        "wins": 70,
-        "losses": 18,
-        "draws": 0,
-        "winRate": 0.7954545454545454,
-        "averageFlips": 0.9431818181818182,
-        "averageDamageDealt": 2.034090909090909,
-        "averageEffectAmount": 0.48863636363636365,
-        "notes": [
-          "Produit beaucoup de flips.",
           "Convertit bien en degats."
         ]
       },
@@ -15085,61 +14165,175 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "stack-hybrid:arcane+demon",
         "kind": "stack-hybrid",
         "label": "arcane + demon dans la pile",
-        "count": 82,
-        "wins": 65,
-        "losses": 17,
+        "count": 92,
+        "wins": 66,
+        "losses": 26,
         "draws": 0,
-        "winRate": 0.7926829268292683,
-        "averageFlips": 0.35365853658536583,
-        "averageDamageDealt": 1.4390243902439024,
+        "winRate": 0.717391304347826,
+        "averageFlips": 0.2608695652173913,
+        "averageDamageDealt": 0.967391304347826,
         "averageEffectAmount": 0,
         "notes": [
           "Signal descriptif a confirmer."
         ]
       },
       {
-        "id": "stack-hybrid:arcane+familiar",
-        "kind": "stack-hybrid",
-        "label": "arcane + familiar dans la pile",
-        "count": 71,
-        "wins": 61,
-        "losses": 10,
+        "id": "effect:hornling:deal-damage",
+        "kind": "effect",
+        "label": "Cornu farceur -> deal-damage",
+        "count": 78,
+        "wins": 53,
+        "losses": 25,
         "draws": 0,
-        "winRate": 0.8591549295774648,
-        "averageFlips": 0.352112676056338,
-        "averageDamageDealt": 0.8591549295774648,
-        "averageEffectAmount": 0,
+        "winRate": 0.6794871794871795,
+        "averageFlips": 0.8461538461538461,
+        "averageDamageDealt": 1.6025641025641026,
+        "averageEffectAmount": 0.5641025641025641,
         "notes": [
-          "Signal descriptif a confirmer."
+          "Produit beaucoup de flips.",
+          "Convertit bien en degats."
         ]
       },
       {
         "id": "effect:ember-imp:deal-damage",
         "kind": "effect",
         "label": "Diablotin braise -> deal-damage",
-        "count": 65,
-        "wins": 51,
+        "count": 75,
+        "wins": 59,
+        "losses": 16,
+        "draws": 0,
+        "winRate": 0.7866666666666666,
+        "averageFlips": 1.08,
+        "averageDamageDealt": 2.2533333333333334,
+        "averageEffectAmount": 1.4533333333333334,
+        "notes": [
+          "Produit beaucoup de flips.",
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "stack-hybrid:arcane+familiar",
+        "kind": "stack-hybrid",
+        "label": "arcane + familiar dans la pile",
+        "count": 69,
+        "wins": 55,
         "losses": 14,
         "draws": 0,
-        "winRate": 0.7846153846153846,
-        "averageFlips": 1.123076923076923,
-        "averageDamageDealt": 1.476923076923077,
-        "averageEffectAmount": 1.1692307692307693,
+        "winRate": 0.7971014492753623,
+        "averageFlips": 0.21739130434782608,
+        "averageDamageDealt": 0.7101449275362319,
+        "averageEffectAmount": 0,
         "notes": [
-          "Produit beaucoup de flips."
+          "Signal descriptif a confirmer."
         ]
       },
       {
         "id": "friendly-adjacent:demon+demon",
         "kind": "friendly-adjacent",
         "label": "demon allie + demon",
-        "count": 60,
+        "count": 65,
         "wins": 56,
+        "losses": 9,
+        "draws": 0,
+        "winRate": 0.8615384615384616,
+        "averageFlips": 0.36923076923076925,
+        "averageDamageDealt": 7.676923076923077,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "stack-hybrid:arcane+automaton",
+        "kind": "stack-hybrid",
+        "label": "arcane + automaton dans la pile",
+        "count": 65,
+        "wins": 56,
+        "losses": 9,
+        "draws": 0,
+        "winRate": 0.8615384615384616,
+        "averageFlips": 0.26153846153846155,
+        "averageDamageDealt": 0.46153846153846156,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "effect:clock-sentinel:boost-self",
+        "kind": "effect",
+        "label": "Sentinelle d'horloge -> boost-self",
+        "count": 61,
+        "wins": 51,
+        "losses": 10,
+        "draws": 0,
+        "winRate": 0.8360655737704918,
+        "averageFlips": 0.4262295081967213,
+        "averageDamageDealt": 1.5737704918032787,
+        "averageEffectAmount": 1.0163934426229508,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "family-chain:revenant->revenant",
+        "kind": "family-chain",
+        "label": "revenant -> revenant",
+        "count": 55,
+        "wins": 45,
+        "losses": 10,
+        "draws": 0,
+        "winRate": 0.8181818181818182,
+        "averageFlips": 0.36363636363636365,
+        "averageDamageDealt": 1.9272727272727272,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "stack-hybrid:arcane+revenant",
+        "kind": "stack-hybrid",
+        "label": "arcane + revenant dans la pile",
+        "count": 49,
+        "wins": 42,
+        "losses": 7,
+        "draws": 0,
+        "winRate": 0.8571428571428571,
+        "averageFlips": 0.2857142857142857,
+        "averageDamageDealt": 1.4081632653061225,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "family-chain:arcane->demon",
+        "kind": "family-chain",
+        "label": "arcane -> demon",
+        "count": 43,
+        "wins": 27,
+        "losses": 16,
+        "draws": 0,
+        "winRate": 0.627906976744186,
+        "averageFlips": 0.3488372093023256,
+        "averageDamageDealt": 1.3488372093023255,
+        "averageEffectAmount": 0,
+        "notes": [
+          "Signal descriptif a confirmer."
+        ]
+      },
+      {
+        "id": "friendly-adjacent:revenant+revenant",
+        "kind": "friendly-adjacent",
+        "label": "revenant allie + revenant",
+        "count": 39,
+        "wins": 35,
         "losses": 4,
         "draws": 0,
-        "winRate": 0.9333333333333333,
-        "averageFlips": 0.4166666666666667,
-        "averageDamageDealt": 9.483333333333333,
+        "winRate": 0.8974358974358975,
+        "averageFlips": 0.358974358974359,
+        "averageDamageDealt": 4.743589743589744,
         "averageEffectAmount": 0,
         "notes": [
           "Combo gagnant frequent.",
@@ -15147,49 +14341,49 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         ]
       },
       {
-        "id": "effect:clock-sentinel:boost-self",
-        "kind": "effect",
-        "label": "Sentinelle d'horloge -> boost-self",
-        "count": 58,
-        "wins": 36,
-        "losses": 22,
-        "draws": 0,
-        "winRate": 0.6206896551724138,
-        "averageFlips": 0.39655172413793105,
-        "averageDamageDealt": 1.1551724137931034,
-        "averageEffectAmount": 1.0344827586206897,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "stack-hybrid:arcane+revenant",
-        "kind": "stack-hybrid",
-        "label": "arcane + revenant dans la pile",
-        "count": 51,
-        "wins": 45,
-        "losses": 6,
-        "draws": 0,
-        "winRate": 0.8823529411764706,
-        "averageFlips": 0.27450980392156865,
-        "averageDamageDealt": 0.8627450980392157,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "family-chain:familiar->familiar",
+        "id": "family-chain:demon->arcane",
         "kind": "family-chain",
-        "label": "familiar -> familiar",
-        "count": 46,
-        "wins": 28,
-        "losses": 18,
+        "label": "demon -> arcane",
+        "count": 38,
+        "wins": 27,
+        "losses": 11,
         "draws": 0,
-        "winRate": 0.6086956521739131,
-        "averageFlips": 0.21739130434782608,
-        "averageDamageDealt": 1.434782608695652,
+        "winRate": 0.7105263157894737,
+        "averageFlips": 0.42105263157894735,
+        "averageDamageDealt": 2.473684210526316,
         "averageEffectAmount": 0,
+        "notes": [
+          "Convertit bien en degats."
+        ]
+      },
+      {
+        "id": "effect:brass-rook:boost-self",
+        "kind": "effect",
+        "label": "Tour de laiton -> boost-self",
+        "count": 35,
+        "wins": 32,
+        "losses": 3,
+        "draws": 0,
+        "winRate": 0.9142857142857143,
+        "averageFlips": 0.14285714285714285,
+        "averageDamageDealt": 0.8,
+        "averageEffectAmount": 1.5142857142857142,
+        "notes": [
+          "Combo gagnant frequent."
+        ]
+      },
+      {
+        "id": "effect:lantern-shade:gain-shield",
+        "kind": "effect",
+        "label": "Ombre a lanterne -> gain-shield",
+        "count": 35,
+        "wins": 21,
+        "losses": 14,
+        "draws": 0,
+        "winRate": 0.6,
+        "averageFlips": 0.42857142857142855,
+        "averageDamageDealt": 1.0285714285714285,
+        "averageEffectAmount": 1.2,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -15198,14 +14392,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "effect:cinder-grin:deal-damage",
         "kind": "effect",
         "label": "Sourire de suie -> deal-damage",
-        "count": 42,
-        "wins": 31,
-        "losses": 11,
+        "count": 34,
+        "wins": 26,
+        "losses": 8,
         "draws": 0,
-        "winRate": 0.7380952380952381,
-        "averageFlips": 1.0952380952380953,
-        "averageDamageDealt": 2.6666666666666665,
-        "averageEffectAmount": 1.0952380952380953,
+        "winRate": 0.7647058823529411,
+        "averageFlips": 1.088235294117647,
+        "averageDamageDealt": 3.088235294117647,
+        "averageEffectAmount": 1.0588235294117647,
         "notes": [
           "Produit beaucoup de flips.",
           "Convertit bien en degats."
@@ -15215,95 +14409,14 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "id": "friendly-adjacent:arcane+demon",
         "kind": "friendly-adjacent",
         "label": "arcane allie + demon",
-        "count": 40,
-        "wins": 36,
-        "losses": 4,
-        "draws": 0,
-        "winRate": 0.9,
-        "averageFlips": 0.225,
-        "averageDamageDealt": 7.85,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:familiar+familiar",
-        "kind": "friendly-adjacent",
-        "label": "familiar allie + familiar",
-        "count": 40,
-        "wins": 31,
+        "count": 34,
+        "wins": 25,
         "losses": 9,
         "draws": 0,
-        "winRate": 0.775,
-        "averageFlips": 0.225,
-        "averageDamageDealt": 4,
+        "winRate": 0.7352941176470589,
+        "averageFlips": 0.29411764705882354,
+        "averageDamageDealt": 1.0294117647058822,
         "averageEffectAmount": 0,
-        "notes": [
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "friendly-adjacent:automaton+arcane",
-        "kind": "friendly-adjacent",
-        "label": "automaton allie + arcane",
-        "count": 38,
-        "wins": 36,
-        "losses": 2,
-        "draws": 0,
-        "winRate": 0.9473684210526315,
-        "averageFlips": 0.13157894736842105,
-        "averageDamageDealt": 2.8947368421052633,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Combo gagnant frequent.",
-          "Convertit bien en degats."
-        ]
-      },
-      {
-        "id": "family-chain:automaton->arcane",
-        "kind": "family-chain",
-        "label": "automaton -> arcane",
-        "count": 38,
-        "wins": 33,
-        "losses": 5,
-        "draws": 0,
-        "winRate": 0.868421052631579,
-        "averageFlips": 0.47368421052631576,
-        "averageDamageDealt": 0.9210526315789473,
-        "averageEffectAmount": 0,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:brass-rook:boost-self",
-        "kind": "effect",
-        "label": "Tour de laiton -> boost-self",
-        "count": 37,
-        "wins": 30,
-        "losses": 7,
-        "draws": 0,
-        "winRate": 0.8108108108108109,
-        "averageFlips": 0.1891891891891892,
-        "averageDamageDealt": 0.2702702702702703,
-        "averageEffectAmount": 1.5945945945945945,
-        "notes": [
-          "Signal descriptif a confirmer."
-        ]
-      },
-      {
-        "id": "effect:reward-uncommon-04:gain-mana-next-turn",
-        "kind": "effect",
-        "label": "Carte inhabituelle 04 -> gain-mana-next-turn",
-        "count": 36,
-        "wins": 32,
-        "losses": 4,
-        "draws": 0,
-        "winRate": 0.8888888888888888,
-        "averageFlips": 0.3055555555555556,
-        "averageDamageDealt": 0.6388888888888888,
-        "averageEffectAmount": 1,
         "notes": [
           "Signal descriptif a confirmer."
         ]
@@ -15313,90 +14426,24 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
       {
         "target": "card",
         "confidence": "high",
-        "sampleSize": 100,
-        "id": "card-path-ranger-buff",
+        "sampleSize": 51,
+        "id": "card-rune-mage-buff",
         "severity": "problem",
         "action": "buff",
-        "title": "Rodeuse du sentier sous-performe",
-        "detail": "28 plays, 54% win, net PV 1.89.",
+        "title": "Mage des runes sous-performe",
+        "detail": "30 plays, 53% win, net PV -0.17.",
         "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
       },
       {
         "target": "card",
         "confidence": "high",
-        "sampleSize": 93,
-        "id": "card-reward-uncommon-06-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Carte inhabituelle 06 sous-performe",
-        "detail": "23 plays, 57% win, net PV 0.57.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 78,
-        "id": "card-heron-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Oiselle aubeplume sous-performe",
-        "detail": "35 plays, 54% win, net PV 0.69.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 65,
-        "id": "card-foxfire-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Requin runefer sous-performe",
-        "detail": "29 plays, 48% win, net PV 0.31.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 54,
-        "id": "card-moth-ghost-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Fantome phalene sous-performe",
-        "detail": "19 plays, 58% win, net PV -1.00.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 52,
-        "id": "card-grave-child-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Enfant des tombes sous-performe",
-        "detail": "28 plays, 61% win, net PV 0.93.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 44,
-        "id": "card-reward-uncommon-02-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Carte inhabituelle 02 sous-performe",
-        "detail": "20 plays, 60% win, net PV 1.05.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-      },
-      {
-        "target": "card",
-        "confidence": "high",
-        "sampleSize": 40,
-        "id": "card-tin-oracle-buff",
-        "severity": "problem",
-        "action": "buff",
-        "title": "Oracle de fer-blanc sous-performe",
-        "detail": "16 plays, 56% win, net PV 0.63.",
-        "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
+        "sampleSize": 55,
+        "id": "card-reward-rare-05-nerf",
+        "severity": "watch",
+        "action": "nerf",
+        "title": "Fusion sylvestre tire trop de valeur",
+        "detail": "9 plays, 100% win, 0.33 flips/play, net PV 2.22.",
+        "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
       },
       {
         "id": "combo-family-chain:arcane->arcane",
@@ -15404,9 +14451,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 659,
+        "sampleSize": 660,
         "title": "arcane -> arcane ressort comme combo",
-        "detail": "659 occurrences, 81% win, 0.34 flips, 2.01 degats.",
+        "detail": "660 occurrences, 77% win, 0.35 flips, 1.83 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       },
       {
@@ -15415,21 +14462,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 558,
+        "sampleSize": 591,
         "title": "arcane allie + arcane ressort comme combo",
-        "detail": "558 occurrences, 84% win, 0.24 flips, 3.80 degats.",
+        "detail": "591 occurrences, 80% win, 0.22 flips, 3.55 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "target": "family",
-        "confidence": "high",
-        "sampleSize": 163,
-        "id": "family-human-buff",
-        "severity": "watch",
-        "action": "verify",
-        "title": "human manque d'attraction",
-        "detail": "163 offres, 34% selection, 65% win.",
-        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
       },
       {
         "id": "combo-family-chain:demon->demon",
@@ -15437,9 +14473,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 119,
+        "sampleSize": 128,
         "title": "demon -> demon ressort comme combo",
-        "detail": "119 occurrences, 81% win, 0.76 flips, 4.02 degats.",
+        "detail": "128 occurrences, 81% win, 0.72 flips, 3.80 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       },
       {
@@ -15448,9 +14484,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 102,
+        "sampleSize": 104,
         "title": "Scribe lunaire -> boost-self ressort comme combo",
-        "detail": "102 occurrences, 82% win, 0.09 flips, 5.85 degats.",
+        "detail": "104 occurrences, 80% win, 0.08 flips, 5.70 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       },
       {
@@ -15459,21 +14495,10 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 88,
+        "sampleSize": 78,
         "title": "Cornu farceur -> deal-damage ressort comme combo",
-        "detail": "88 occurrences, 80% win, 0.94 flips, 2.03 degats.",
+        "detail": "78 occurrences, 68% win, 0.85 flips, 1.60 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
-      },
-      {
-        "target": "rarity",
-        "confidence": "high",
-        "sampleSize": 66,
-        "id": "rarity-rare-buff",
-        "severity": "watch",
-        "action": "verify",
-        "title": "rare manque d'attraction",
-        "detail": "66 offres, 15% selection, 60% win.",
-        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
       },
       {
         "id": "combo-effect:ember-imp:deal-damage",
@@ -15481,9 +14506,9 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 65,
+        "sampleSize": 75,
         "title": "Diablotin braise -> deal-damage ressort comme combo",
-        "detail": "65 occurrences, 78% win, 1.12 flips, 1.48 degats.",
+        "detail": "75 occurrences, 79% win, 1.08 flips, 2.25 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       },
       {
@@ -15492,175 +14517,158 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "target": "combo",
         "action": "verify",
         "confidence": "high",
-        "sampleSize": 60,
+        "sampleSize": 65,
         "title": "demon allie + demon ressort comme combo",
-        "detail": "60 occurrences, 93% win, 0.42 flips, 9.48 degats.",
+        "detail": "65 occurrences, 86% win, 0.37 flips, 7.68 degats.",
         "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
       },
       {
-        "target": "role",
-        "confidence": "high",
-        "sampleSize": 42,
-        "id": "role-finisher-buff",
+        "id": "combo-family-chain:revenant->revenant",
         "severity": "watch",
+        "target": "combo",
         "action": "verify",
-        "title": "finisher manque d'attraction",
-        "detail": "42 offres, 12% selection, 60% win.",
-        "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
+        "confidence": "high",
+        "sampleSize": 55,
+        "title": "revenant -> revenant ressort comme combo",
+        "detail": "55 occurrences, 82% win, 0.36 flips, 1.93 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-friendly-adjacent:revenant+revenant",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 39,
+        "title": "revenant allie + revenant ressort comme combo",
+        "detail": "39 occurrences, 90% win, 0.36 flips, 4.74 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-family-chain:demon->arcane",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 38,
+        "title": "demon -> arcane ressort comme combo",
+        "detail": "38 occurrences, 71% win, 0.42 flips, 2.47 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-effect:brass-rook:boost-self",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 35,
+        "title": "Tour de laiton -> boost-self ressort comme combo",
+        "detail": "35 occurrences, 91% win, 0.14 flips, 0.80 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "id": "combo-effect:cinder-grin:deal-damage",
+        "severity": "watch",
+        "target": "combo",
+        "action": "verify",
+        "confidence": "high",
+        "sampleSize": 34,
+        "title": "Sourire de suie -> deal-damage ressort comme combo",
+        "detail": "34 occurrences, 76% win, 1.09 flips, 3.09 degats.",
+        "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+      },
+      {
+        "target": "card",
+        "confidence": "medium",
+        "sampleSize": 14,
+        "id": "card-reward-common-10-nerf",
+        "severity": "watch",
+        "action": "nerf",
+        "title": "Carte commune 10 tire trop de valeur",
+        "detail": "6 plays, 100% win, 0.50 flips/play, net PV 1.67.",
+        "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
+      },
+      {
+        "target": "card",
+        "confidence": "medium",
+        "sampleSize": 13,
+        "id": "card-reward-uncommon-01-nerf",
+        "severity": "watch",
+        "action": "nerf",
+        "title": "Carte inhabituelle 01 tire trop de valeur",
+        "detail": "7 plays, 100% win, 0.86 flips/play, net PV 0.00.",
+        "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
       }
     ]
   },
   "insights": [
     {
-      "id": "diagnostic-card-hornling-nerf",
+      "id": "diagnostic-card-cinder-grin-nerf",
       "severity": "problem",
-      "title": "Cornu farceur tire trop de valeur",
-      "detail": "233 plays, 69% win, 0.78 flips/play, net PV 0.94. Confiance high, echantillon 312.",
+      "title": "Sourire de suie tire trop de valeur",
+      "detail": "191 plays, 71% win, 0.66 flips/play, net PV 1.36. Confiance high, echantillon 487.",
       "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
-    },
-    {
-      "id": "diagnostic-card-widow-knight-buff",
-      "severity": "problem",
-      "title": "Chevalier veuf sous-performe",
-      "detail": "279 plays, 33% win, net PV 0.37. Confiance high, echantillon 1021.",
-      "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
     },
     {
       "id": "diagnostic-family-automaton-nerf",
       "severity": "problem",
       "title": "automaton domine l'echantillon",
-      "detail": "1496 plays, 77% win, net PV 0.40. Confiance high, echantillon 2680.",
+      "detail": "1453 plays, 69% win, net PV 0.38. Confiance high, echantillon 2642.",
       "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
     },
     {
       "id": "diagnostic-family-demon-nerf",
       "severity": "problem",
       "title": "demon domine l'echantillon",
-      "detail": "859 plays, 65% win, net PV 1.00. Confiance high, echantillon 1656.",
+      "detail": "863 plays, 66% win, net PV 1.19. Confiance high, echantillon 1661.",
       "recommendation": "Comparer ses meilleures cartes avant de nerfer toute la famille ou tout le role."
     },
     {
-      "id": "diagnostic-adventure-card-path-ranger-buff",
+      "id": "diagnostic-adventure-card-rune-mage-buff",
       "severity": "problem",
-      "title": "Run complet: Rodeuse du sentier sous-performe",
-      "detail": "28 plays, 54% win, net PV 1.89. Confiance high, echantillon 100.",
-      "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-    },
-    {
-      "id": "diagnostic-adventure-card-reward-uncommon-06-buff",
-      "severity": "problem",
-      "title": "Run complet: Carte inhabituelle 06 sous-performe",
-      "detail": "23 plays, 57% win, net PV 0.57. Confiance high, echantillon 93.",
-      "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
-    },
-    {
-      "id": "diagnostic-adventure-card-heron-buff",
-      "severity": "problem",
-      "title": "Run complet: Oiselle aubeplume sous-performe",
-      "detail": "35 plays, 54% win, net PV 0.69. Confiance high, echantillon 78.",
+      "title": "Run complet: Mage des runes sous-performe",
+      "detail": "30 plays, 53% win, net PV -0.17. Confiance high, echantillon 51.",
       "recommendation": "Ajouter une compensation: une face defensive, un effet conditionnel, ou une synergie famille plus nette."
     },
     {
       "id": "scenario-current-family-start-watch",
       "severity": "watch",
       "title": "Depart actuel - famille 12 cartes a un signal a surveiller",
-      "detail": "Avantage premier joueur a confirmer (33%).",
+      "detail": "Avantage premier joueur a confirmer (33%). Peu de flips par tour (0.20).",
       "recommendation": "Relancer le rapport avec un echantillon plus grand avant de changer les cartes."
     },
     {
-      "id": "adventure-boss-reach-expert",
+      "id": "diagnostic-family-revenant-buff",
       "severity": "watch",
-      "title": "Expert atteint peu le boss en run complet",
-      "detail": "Expert atteint le boss dans 37.5% des runs complets, avec 81.3% de combats gagnes.",
+      "title": "revenant manque d'attraction",
+      "detail": "2783 offres, 50% selection, 38% win. Confiance high, echantillon 2783.",
+      "recommendation": "Regarder les cartes les plus joueuses du groupe et isoler le maillon faible."
+    },
+    {
+      "id": "diagnostic-adventure-card-reward-rare-05-nerf",
+      "severity": "watch",
+      "title": "Run complet: Fusion sylvestre tire trop de valeur",
+      "detail": "9 plays, 100% win, 0.33 flips/play, net PV 2.22. Confiance high, echantillon 55.",
+      "recommendation": "Baisser une face cle, reduire le scaling d'effet, ou limiter ses positions preferees."
+    },
+    {
+      "id": "diagnostic-adventure-combo-family-chain:arcane->arcane",
+      "severity": "watch",
+      "title": "Run complet: arcane -> arcane ressort comme combo",
+      "detail": "660 occurrences, 77% win, 0.35 flips, 1.83 degats. Confiance high, echantillon 660.",
+      "recommendation": "Tester manuellement ce pattern: s'il est trop facile, augmenter sa condition ou baisser son payoff."
+    },
+    {
+      "id": "adventure-boss-reach-champion",
+      "severity": "watch",
+      "title": "Champion atteint peu le boss en run complet",
+      "detail": "Champion atteint le boss dans 37.5% des runs complets, avec 75.9% de combats gagnes.",
       "recommendation": "Comparer les chemins, recompenses et sites pris avant de toucher aux cartes de depart."
     }
   ],
   "trend": {
     "windowSize": 12,
     "snapshots": [
-      {
-        "reportId": "ai-lab-20260608-111116",
-        "generatedAt": "2026-06-08T11:11:16.712Z",
-        "rulesetVersion": "v8-2026-06-07-poison-mana-counterplay",
-        "startingPlayerWinRate": 0.5833333333333334,
-        "deckStatus": "watch",
-        "higherModelWinRates": {
-          "beginner-vs-opportunist": 0.9166666666666666,
-          "opportunist-vs-regular": 0.6666666666666666,
-          "regular-vs-expert": 0.9166666666666666,
-          "expert-vs-champion": 0.5
-        },
-        "familyWinRates": {
-          "arcane": 0.5709779179810726,
-          "human": 0.4422809457579972,
-          "automaton": 0.7452896022330775,
-          "familiar": 0.5918518518518519,
-          "revenant": 0.26860119047619047,
-          "demon": 0.6778350515463918
-        },
-        "starterFamilyMatchupWinRates": {
-          "arcane-vs-revenant": 1,
-          "automaton-vs-revenant": 1,
-          "demon-vs-human": 1,
-          "arcane-vs-familiar": 0.25,
-          "automaton-vs-familiar": 0.75,
-          "automaton-vs-human": 0.75,
-          "demon-vs-familiar": 0.75,
-          "demon-vs-revenant": 0.75,
-          "arcane-vs-demon": 0.375,
-          "familiar-vs-revenant": 0.625,
-          "arcane-vs-automaton": 0.5,
-          "arcane-vs-human": 0.5,
-          "automaton-vs-demon": 0.5,
-          "familiar-vs-human": 0.5,
-          "human-vs-revenant": 0.5
-        },
-        "adventureBossReachRates": {
-          "beginner": 0.125,
-          "opportunist": 0.375,
-          "regular": 0.625,
-          "expert": 0.5,
-          "champion": 0.5
-        },
-        "cardSignals": [
-          {
-            "cardId": "brass-rook",
-            "name": "Tour de laiton",
-            "status": "overperformer",
-            "winRateWhenPlayed": 0.7142857142857143
-          },
-          {
-            "cardId": "hornling",
-            "name": "Cornu farceur",
-            "status": "overperformer",
-            "winRateWhenPlayed": 0.7019230769230769
-          },
-          {
-            "cardId": "grave-child",
-            "name": "Enfant des tombes",
-            "status": "underperformer",
-            "winRateWhenPlayed": 0.27624309392265195
-          },
-          {
-            "cardId": "lantern-shade",
-            "name": "Ombre a lanterne",
-            "status": "underperformer",
-            "winRateWhenPlayed": 0.27019498607242337
-          },
-          {
-            "cardId": "moth-ghost",
-            "name": "Fantome phalene",
-            "status": "underperformer",
-            "winRateWhenPlayed": 0.2655367231638418
-          },
-          {
-            "cardId": "widow-knight",
-            "name": "Chevalier veuf",
-            "status": "underperformer",
-            "winRateWhenPlayed": 0.26022304832713755
-          }
-        ]
-      },
       {
         "reportId": "ai-lab-20260608-153417",
         "generatedAt": "2026-06-08T15:34:17.809Z",
@@ -16287,6 +15295,59 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
             "winRateWhenPlayed": 0.32616487455197135
           }
         ]
+      },
+      {
+        "reportId": "ai-lab-20260611-061834",
+        "generatedAt": "2026-06-11T06:18:34.140Z",
+        "rulesetVersion": "v8-2026-06-07-poison-mana-counterplay",
+        "startingPlayerWinRate": 0.3333333333333333,
+        "deckStatus": "watch",
+        "higherModelWinRates": {
+          "beginner-vs-opportunist": 1,
+          "opportunist-vs-regular": 0.5833333333333334,
+          "regular-vs-expert": 0.75,
+          "expert-vs-champion": 0.5
+        },
+        "familyWinRates": {
+          "arcane": 0.45098039215686275,
+          "human": 0.563858695652174,
+          "automaton": 0.686166551961459,
+          "familiar": 0.5486542443064182,
+          "revenant": 0.37722419928825623,
+          "demon": 0.6616454229432214
+        },
+        "starterFamilyMatchupWinRates": {
+          "automaton-vs-human": 1,
+          "demon-vs-human": 1,
+          "arcane-vs-human": 0.125,
+          "automaton-vs-familiar": 0.875,
+          "arcane-vs-familiar": 0.25,
+          "arcane-vs-revenant": 0.75,
+          "demon-vs-familiar": 0.75,
+          "demon-vs-revenant": 0.75,
+          "human-vs-revenant": 0.75,
+          "arcane-vs-demon": 0.375,
+          "familiar-vs-revenant": 0.625,
+          "arcane-vs-automaton": 0.5,
+          "automaton-vs-demon": 0.5,
+          "automaton-vs-revenant": 0.5,
+          "familiar-vs-human": 0.5
+        },
+        "adventureBossReachRates": {
+          "beginner": 0,
+          "opportunist": 0.125,
+          "regular": 0.25,
+          "expert": 0.625,
+          "champion": 0.375
+        },
+        "cardSignals": [
+          {
+            "cardId": "cinder-grin",
+            "name": "Sourire de suie",
+            "status": "overperformer",
+            "winRateWhenPlayed": 0.7068062827225131
+          }
+        ]
       }
     ],
     "signals": [
@@ -16295,66 +15356,66 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "kind": "family",
         "severity": "problem",
         "title": "revenant reste trop faible",
-        "detail": "37% de victoire moyenne quand ses cartes sont jouees sur 12 rapports.",
+        "detail": "38% de victoire moyenne quand ses cartes sont jouees sur 12 rapports.",
         "recommendation": "Corriger d'abord les cartes recurrentes de cette famille, puis relancer les rapports avant une refonte globale.",
         "reports": 12,
         "occurrences": 11,
-        "averageRate": 0.37214844931856134
-      },
-      {
-        "id": "trend-starter-matchup-automaton-vs-revenant",
-        "kind": "family",
-        "severity": "problem",
-        "title": "automaton vs revenant reste desequilibre",
-        "detail": "La famille de gauche gagne 79% en moyenne sur 12 rapports.",
-        "recommendation": "Ajuster les cartes qui expliquent ce matchup, puis verifier les autres duels avant un changement global.",
-        "reports": 12,
-        "occurrences": 11,
-        "averageRate": 0.7916666666666666
+        "averageRate": 0.38120036671956686
       },
       {
         "id": "trend-starter-matchup-automaton-vs-familiar",
         "kind": "family",
         "severity": "problem",
         "title": "automaton vs familiar reste desequilibre",
-        "detail": "La famille de gauche gagne 88% en moyenne sur 12 rapports.",
+        "detail": "La famille de gauche gagne 89% en moyenne sur 12 rapports.",
         "recommendation": "Ajuster les cartes qui expliquent ce matchup, puis verifier les autres duels avant un changement global.",
         "reports": 12,
         "occurrences": 11,
-        "averageRate": 0.875
+        "averageRate": 0.8854166666666666
       },
       {
         "id": "trend-family-automaton",
         "kind": "family",
         "severity": "problem",
         "title": "automaton reste trop forte",
-        "detail": "75% de victoire moyenne quand ses cartes sont jouees sur 12 rapports.",
+        "detail": "74% de victoire moyenne quand ses cartes sont jouees sur 12 rapports.",
         "recommendation": "Corriger d'abord les cartes recurrentes de cette famille, puis relancer les rapports avant une refonte globale.",
         "reports": 12,
         "occurrences": 10,
-        "averageRate": 0.7486016832092087
+        "averageRate": 0.7436747623532405
+      },
+      {
+        "id": "trend-starter-matchup-automaton-vs-revenant",
+        "kind": "family",
+        "severity": "problem",
+        "title": "automaton vs revenant reste desequilibre",
+        "detail": "La famille de gauche gagne 75% en moyenne sur 12 rapports.",
+        "recommendation": "Ajuster les cartes qui expliquent ce matchup, puis verifier les autres duels avant un changement global.",
+        "reports": 12,
+        "occurrences": 10,
+        "averageRate": 0.75
       },
       {
         "id": "trend-starter-matchup-automaton-vs-human",
         "kind": "family",
         "severity": "problem",
         "title": "automaton vs human reste desequilibre",
-        "detail": "La famille de gauche gagne 83% en moyenne sur 12 rapports.",
+        "detail": "La famille de gauche gagne 85% en moyenne sur 12 rapports.",
         "recommendation": "Ajuster les cartes qui expliquent ce matchup, puis verifier les autres duels avant un changement global.",
         "reports": 12,
         "occurrences": 10,
-        "averageRate": 0.8333333333333334
+        "averageRate": 0.8541666666666666
       },
       {
         "id": "trend-starter-matchup-arcane-vs-revenant",
         "kind": "family",
         "severity": "problem",
         "title": "arcane vs revenant reste desequilibre",
-        "detail": "La famille de gauche gagne 75% en moyenne sur 12 rapports.",
+        "detail": "La famille de gauche gagne 73% en moyenne sur 12 rapports.",
         "recommendation": "Ajuster les cartes qui expliquent ce matchup, puis verifier les autres duels avant un changement global.",
         "reports": 12,
         "occurrences": 9,
-        "averageRate": 0.75
+        "averageRate": 0.7291666666666666
       },
       {
         "id": "trend-starter-matchup-demon-vs-familiar",
@@ -16399,17 +15460,6 @@ export const LATEST_AI_LAB_REPORT: AiLabReport = {
         "reports": 12,
         "occurrences": 7,
         "averageRate": 0.6770833333333334
-      },
-      {
-        "id": "trend-card-widow-knight",
-        "kind": "card",
-        "severity": "watch",
-        "title": "Chevalier veuf reste trop faible",
-        "detail": "Signal present dans 6/12 rapports, avec 30% de victoire moyenne.",
-        "recommendation": "Faire un ajustement cible et mesurer sa disparition sur plusieurs rapports.",
-        "reports": 12,
-        "occurrences": 6,
-        "averageRate": 0.2983909929330621
       }
     ]
   }
