@@ -11,8 +11,8 @@ export interface TrainedBotProfile {
 }
 
 export const TRAINED_BOT_PROFILE: TrainedBotProfile = {
-  name: "trained-bot-20260629-230225",
-  trainedAt: "2026-06-29T23:02:25.705Z",
+  name: "trained-bot-20260630-043528",
+  trainedAt: "2026-06-30T04:35:28.638Z",
   iterations: 3,
   matchesPerOpponent: 4,
   searchDepth: 3,
